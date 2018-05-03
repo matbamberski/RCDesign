@@ -23,6 +23,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
@@ -100,6 +102,56 @@ public class ReinforcementDesignController {
 	private Label tWLabel;
 	@FXML
 	private Label tWLowerLabel;
+	
+	
+	/// Kombinacje obciazen do slupow
+	@FXML
+	private HBox columsCasesHBox;
+	
+	@FXML
+	private VBox firstColumnVBox;
+	@FXML
+	private Label emptyLabel;
+	@FXML
+	private Label mLabel;
+	@FXML
+	private Label nLabel;
+	
+	@FXML
+	private VBox mMaxColumnVBox;
+	@FXML
+	private Label mMaxLabel;
+	@FXML
+	private TextField momentMmax;
+	@FXML
+	private TextField normalnaMmax;
+	
+	@FXML
+	private VBox mMinColumnVBox;
+	@FXML
+	private Label mMinLabel;
+	@FXML
+	private TextField momentMmin;
+	@FXML
+	private TextField normalnaMmin;
+	
+	@FXML
+	private VBox nMaxColumnVBox;
+	@FXML
+	private Label nMaxLabel;
+	@FXML
+	private TextField momentNmax;
+	@FXML
+	private TextField normalnaNmax;
+	
+	@FXML
+	private VBox nMinColumnVBox;
+	@FXML
+	private Label nMinLabel;
+	@FXML
+	private TextField momentNmin;
+	@FXML
+	private TextField normalnaNmin;
 
 	// ** RESULTS ULS
 
@@ -334,6 +386,8 @@ public class ReinforcementDesignController {
 
 	@FXML
 	private Label lowerTitle;
+	
+	
 	// additional variables
 
 	@FXML
@@ -448,7 +502,7 @@ public class ReinforcementDesignController {
 		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField, dimensionsOfCrossSectionOfConcrete);
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField, tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-				dimensionsOfCrossSectionOfConcrete);
+				dimensionsOfCrossSectionOfConcrete, columsCasesHBox);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
@@ -457,6 +511,20 @@ public class ReinforcementDesignController {
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		
+		///Metoda sprawdza poprawosc wprowadzonych danych i wpisuje w pola sily
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentMmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentMmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentNmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentNmin);
+		
+		
+		/////////
+		
 		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
 
@@ -549,6 +617,16 @@ public class ReinforcementDesignController {
 		// bindBidirectionalCrossSectionTypeCBs();
 		bindBidirectionalConcreteCBs();
 		bindBidirectionalPdfName();
+		
+		bindBidirectionalarMomentMmax();
+		bindBidirectionalarMomentMmin();
+		bindBidirectionalarMomentNmax();
+		bindBidirectionalarMomentNmin();
+		
+		bindBidirectionalarNormalnaMmax();
+		bindBidirectionalarNormalnaMmin();
+		bindBidirectionalarNormalnaNmax();
+		bindBidirectionalarNormalnaNmin();
 
 	}
 
@@ -671,6 +749,34 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalarfYkTFs() {
 		fYkTextField.textProperty().bindBidirectional(diagnosis.getfYkTextField().textProperty());
 	}
+	
+	private void bindBidirectionalarMomentMmax() {
+		momentMmax.textProperty().bindBidirectional(diagnosis.getMomentMmax().textProperty());
+	}
+	private void bindBidirectionalarMomentMmin() {
+		momentMmin.textProperty().bindBidirectional(diagnosis.getMomentMmin().textProperty());
+	}
+	private void bindBidirectionalarMomentNmax() {
+		momentNmax.textProperty().bindBidirectional(diagnosis.getMomentNmax().textProperty());
+	}
+	private void bindBidirectionalarMomentNmin() {
+		momentNmin.textProperty().bindBidirectional(diagnosis.getMomentNmin().textProperty());
+	}
+	
+	private void bindBidirectionalarNormalnaNmin() {
+		normalnaNmin.textProperty().bindBidirectional(diagnosis.getNormalnaNmin().textProperty());
+	}
+	private void bindBidirectionalarNormalnaNmax() {
+		normalnaNmax.textProperty().bindBidirectional(diagnosis.getNormalnaNmax().textProperty());
+	}
+	private void bindBidirectionalarNormalnaMmax() {
+		normalnaMmax.textProperty().bindBidirectional(diagnosis.getNormalnaMmax().textProperty());
+	}
+	private void bindBidirectionalarNormalnaMmin() {
+		normalnaMmin.textProperty().bindBidirectional(diagnosis.getNormalnaMmin().textProperty());
+	}
+	
+	
 
 	private void bindBidirectionalCrossSectionTypeCBs() {
 		crossSectionTypeChoiceBox.selectionModelProperty().bindBidirectional(diagnosis.getCrossSectionTypeChoiceBox().selectionModelProperty());

@@ -136,7 +136,7 @@ public class UnsymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObci
 		}
 	}
 
-	public void fullUnsymmetricalTebsilingBeamReinforcement(Concrete concrete, Steel steel, double mEd, double nEd, double d, double a1, double a2, double b, double h) {
+	public void fullUnsymmetricalTensilingBeamReinforcement(Concrete concrete, Steel steel, double mEd, double nEd, double d, double a1, double a2, double b, double h) {
 		System.out.println("\n \n niesymetryczne rozciaganie \n \n ");
 		mEd = ifMedIsLessThenZeroReturnAbsAndSetBoolean(mEd);
 		nEd = checkIfNedIsCloseToZeroAndReplaceItWithHalfPercentOfMed(nEd, mEd);

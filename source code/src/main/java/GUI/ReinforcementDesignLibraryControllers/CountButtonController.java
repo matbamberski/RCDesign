@@ -16,6 +16,7 @@ import materials.Steel;
 import util.ResultsToPDF;
 
 public class CountButtonController {
+	
 
 	public static void addPropertiesToButton(Button button, RequiredReinforcement requiredReinforcement, 
 			Concrete concrete, Steel steel, InternalForces internalForces,

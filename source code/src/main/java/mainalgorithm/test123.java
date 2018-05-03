@@ -59,7 +59,7 @@ public class test123 {
 						d, b, h);
 
 				UnsymmetricalTensilingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalTensilingBeamReinforcement();
-				beamUnsymmetricalReinforcement.fullUnsymmetricalTebsilingBeamReinforcement(concrete, steel, mEd, nEd, d,
+				beamUnsymmetricalReinforcement.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, d,
 						a1, a2, b, h);
 			}
 		}

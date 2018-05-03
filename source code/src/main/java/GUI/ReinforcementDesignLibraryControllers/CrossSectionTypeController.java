@@ -6,38 +6,45 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import util.InputValidation;
 import util.StringToDouble;
 
 public class CrossSectionTypeController {
 
-	public static void addPorpertiesToCrossSectionTypeChoiceBox(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel,
-			Label tWLowerLabel, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	public static void addPorpertiesToCrossSectionTypeChoiceBox(ChoiceBox<String> crossSectionTypeChoiceBox,
+			TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination) {
 		initializeChoiceBox(crossSectionTypeChoiceBox);
-		addListenerToChoiceBox(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete);
+		addListenerToChoiceBox(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
+				dimensionsOfCrossSectionOfConcrete, hBoxCombination);
 		setCrossSectionTypeCBInitialValue(crossSectionTypeChoiceBox);
 	}
 
-	public static void addPropertiesToBTextField(TextField b, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	public static void addPropertiesToBTextField(TextField b,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToBTextField(b, dimensionsOfCrossSectionOfConcrete);
 		addFocusListenerToBTextField(b);
 		setBInitialValue(b);
 	}
 
-	public static void addPropertiesToHTextField(TextField h, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	public static void addPropertiesToHTextField(TextField h,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToHTextField(h, dimensionsOfCrossSectionOfConcrete);
 		addFocusListenerToHTextField(h);
 		setH(h);
 	}
 
-	public static void addPropertiesToBEffTextField(TextField bEff, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	public static void addPropertiesToBEffTextField(TextField bEff,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToBEffTextField(bEff, dimensionsOfCrossSectionOfConcrete);
 		addFocusListenerToBEffTextField(bEff);
 		setBEffInitialValue(bEff);
 	}
 
-	public static void addPropertiesToTWTextField(TextField tW, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	public static void addPropertiesToTWTextField(TextField tW,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToTWTextField(tW, dimensionsOfCrossSectionOfConcrete);
 		addFocusListenerToTwTextField(tW);
 		setTWInitialValue(tW);
@@ -51,20 +58,23 @@ public class CrossSectionTypeController {
 	}
 
 	private static void initializeChoiceBox(ChoiceBox<String> cb) {
-		cb.setItems((FXCollections.observableArrayList("Przekrój prostok¹tny", "Przekrój teowy")));
+		cb.setItems((FXCollections.observableArrayList("Przekrój prostok¹tny", "Przekrój teowy", "S³up")));
 	}
 
-	private static void addListenerToChoiceBox(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
-			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	private static void addListenerToChoiceBox(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff,
+			TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination) {
 		crossSectionTypeChoiceBox.getSelectionModel().selectedIndexProperty()
-				.addListener(new ChoiceBoxListener(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete));
+				.addListener(new ChoiceBoxListener(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel,
+						tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete, hBoxCombination));
 	}
 
 	// b text fiedl
 
 	private static boolean isBTextFieldInputCorrect;
 
-	private static void addListenerToBTextField(TextField b, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	private static void addListenerToBTextField(TextField b,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		b.textProperty().addListener(new BTextFieldListener(dimensionsOfCrossSectionOfConcrete));
 	}
 
@@ -118,7 +128,8 @@ public class CrossSectionTypeController {
 	// h text field
 	private static boolean isHTextFieldInputCorrect;
 
-	private static void addListenerToHTextField(TextField h, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	private static void addListenerToHTextField(TextField h,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		h.textProperty().addListener(new HTextFieldListener(dimensionsOfCrossSectionOfConcrete));
 	}
 
@@ -173,7 +184,8 @@ public class CrossSectionTypeController {
 	// beff text field
 	private static boolean isBEffTextFieldInputCorrect;
 
-	private static void addListenerToBEffTextField(TextField bEff, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	private static void addListenerToBEffTextField(TextField bEff,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		bEff.textProperty().addListener(new BEffTextFieldListener(dimensionsOfCrossSectionOfConcrete));
 	}
 
@@ -230,7 +242,8 @@ public class CrossSectionTypeController {
 
 	private static boolean isTwTextFieldInputCorrect;
 
-	private static void addListenerToTWTextField(TextField tW, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+	private static void addListenerToTWTextField(TextField tW,
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		tW.textProperty().addListener(new TWTextFieldListener(dimensionsOfCrossSectionOfConcrete));
 	}
 
@@ -370,59 +383,94 @@ public class CrossSectionTypeController {
 		private Label bEffLowerLabel;
 		private Label tWLabel;
 		private Label tWLowerLabel;
+		private HBox hBoxCombination;
 		private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete;
 
-		protected ChoiceBoxListener(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
-				DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+		protected ChoiceBoxListener(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff, TextField tW,
+				Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
+				DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination) {
 			this.bEff = bEff;
 			this.tW = tW;
 			this.bEffLabel = bEffLabel;
 			this.bEffLowerLabel = bEffLowerLabel;
 			this.tWLabel = tWLabel;
 			this.tWLowerLabel = tWLowerLabel;
+			this.hBoxCombination = hBoxCombination;
 			this.dimensionsOfCrossSectionOfConcrete = dimensionsOfCrossSectionOfConcrete;
 
 		}
 
 		@Override
 		public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number newValue) {
-			setTCrossSectionTextFields(bEff, tW, newValue.intValue(), bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel);
+			setTCrossSectionTextFields(bEff, tW, newValue.intValue(), bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
+					hBoxCombination);
+			/// arg0 - informacje co to itp System.out.println(arg0);
+			/// arg1 poprzedni wybor System.out.println(arg1);
+			/// newValue - nowy wybor System.out.println(newValue);
 		}
 
-		private void setTCrossSectionTextFields(TextField bEff, TextField tW, int choice, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel) {
+		private void setTCrossSectionTextFields(TextField bEff, TextField tW, int choice, Label bEffLabel,
+				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination) {
 			if (choice == 0) {
-				setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel);
+				setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
+						hBoxCombination);
 				setBeamToRectangular(dimensionsOfCrossSectionOfConcrete);
-			} else {
-				setTCrossSectionTextFieldsVisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel);
+			} else if (choice == 1) {
+				setTCrossSectionTextFieldsVisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
+						hBoxCombination);
 				setBeamToTrapeze(dimensionsOfCrossSectionOfConcrete);
+			} else {
+				setColumnCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, hBoxCombination);
+				setColumn(dimensionsOfCrossSectionOfConcrete);
 			}
+		}
+
+		private void setColumn(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+			dimensionsOfCrossSectionOfConcrete.setIsColumn(true);
+			dimensionsOfCrossSectionOfConcrete.setisBeamRectangular(false);
 		}
 
 		private void setBeamToRectangular(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 			dimensionsOfCrossSectionOfConcrete.setisBeamRectangular(true);
+			dimensionsOfCrossSectionOfConcrete.setIsColumn(false);
 		}
 
 		private void setBeamToTrapeze(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 			dimensionsOfCrossSectionOfConcrete.setisBeamRectangular(false);
+			dimensionsOfCrossSectionOfConcrete.setIsColumn(false);
 		}
 
-		private void setTCrossSectionTextFieldsVisible(TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel) {
+		private void setTCrossSectionTextFieldsVisible(TextField bEff, TextField tW, Label bEffLabel,
+				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination) {
 			bEff.setVisible(true);
 			tW.setVisible(true);
 			bEffLabel.setVisible(true);
 			bEffLowerLabel.setVisible(true);
 			tWLabel.setVisible(true);
 			tWLowerLabel.setVisible(true);
+			hBoxCombination.setVisible(false);
 		}
 
-		private void setTCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel, Label tWLabel, Label bEffLowerLabel, Label tWLowerLabel) {
+		private void setTCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel, Label tWLabel,
+				Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination) {
 			bEff.setVisible(false);
 			tW.setVisible(false);
 			bEffLabel.setVisible(false);
 			bEffLowerLabel.setVisible(false);
 			tWLabel.setVisible(false);
 			tWLowerLabel.setVisible(false);
+			hBoxCombination.setVisible(false);
+		}
+
+		private void setColumnCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel,
+				Label tWLabel, Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination) {
+			bEff.setVisible(false);
+			tW.setVisible(false);
+			bEffLabel.setVisible(false);
+			bEffLowerLabel.setVisible(false);
+			tWLabel.setVisible(false);
+			tWLowerLabel.setVisible(false);
+			hBoxCombination.setVisible(true);
 		}
 	}
 

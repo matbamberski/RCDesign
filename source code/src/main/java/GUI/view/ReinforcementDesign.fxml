@@ -8,7 +8,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Line?>
@@ -28,7 +30,7 @@
       </GridPane>
       <ChoiceBox fx:id="concreteChoiceBox" layoutX="391.0" layoutY="250.0" prefHeight="21.0" prefWidth="74.0" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="65.0" />
       <ChoiceBox fx:id="crossSectionTypeChoiceBox" layoutX="300.0" layoutY="291.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="320.0" />
-      <Button fx:id="countButton" layoutX="60.0" layoutY="625.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="220.0" text="Licz" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="60.0" />
+      <Button fx:id="countButton" layoutX="739.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Licz" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="739.0" />
       <GridPane layoutX="13.0" layoutY="8.0" maxHeight="594.0" maxWidth="-Infinity" prefHeight="600.0" prefWidth="341.0" styleClass="paneColor" stylesheets="@DarkStyle.css" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="10.0">
          <children>
             <Label fx:id="gridLabel12" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -131,7 +133,7 @@
             <Insets left="10.0" />
          </padding>
       </GridPane>
-      <Button fx:id="switchScenesButton" layoutX="545.0" layoutY="625.0" mnemonicParsing="false" onAction="#switchToDiagnosisScene" prefHeight="26.0" prefWidth="220.0" text="Zmień na panel diagnostyczny" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="620.0" />
+      <Button fx:id="switchScenesButton" layoutX="578.0" layoutY="611.0" mnemonicParsing="false" onAction="#switchToDiagnosisScene" prefHeight="26.0" prefWidth="135.0" text="Panel diagnostyczny" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="578.0" />
       <Label layoutX="512.0" layoutY="16.0" prefHeight="16.0" prefWidth="47.0" text="STAL" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
       <Label layoutX="704.0" layoutY="10.0" text="BETON" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="45.0" />
       <Label layoutX="500.0" layoutY="96.0" prefHeight="16.0" prefWidth="139.0" text="Zbrojenie podłużne" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="95.0" />
@@ -317,7 +319,7 @@
       </Label>
       <TextField fx:id="fYkTextField" layoutX="88.0" layoutY="30.0" maxWidth="35.0" minWidth="16.0" prefHeight="26.0" prefWidth="35.0" text="100" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="65.0" />
       <Label fx:id="fYkLabel" layoutX="13.0" layoutY="33.0" text="f    [MPa]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
-      <Button fx:id="saveToPdfButton" layoutX="431.0" layoutY="613.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="220.0" text="Zapisz wyniki " AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="380.0" />
+      <Button fx:id="saveToPdfButton" layoutX="450.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Zapisz wyniki " AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="450.0" />
       <Line fx:id="leftSGNNequal0Line" endX="-20.0" layoutX="431.0" layoutY="24.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="25.0" />
       <Line fx:id="rightSGNNequal0Line" endX="-20.0" layoutX="730.0" layoutY="506.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="25.0" />
       <Line fx:id="leftZbrojeniePodluzneNequal0Line" endX="15.0" layoutX="441.0" layoutY="34.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="55.0">
@@ -369,5 +371,44 @@
       <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="490.0" layoutY="596.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="335.0" />
       <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="748.0" layoutY="597.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="335.0" />
       <TextField fx:id="s2TextField" layoutX="270.0" layoutY="291.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="285.0" />
+      <HBox fx:id="columsCasesHBox" layoutX="9.0" layoutY="600.0" maxHeight="100.0" maxWidth="300.0" prefHeight="75.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="600.0">
+         <children>
+            <VBox fx:id="firstColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="emptyLabel" />
+                  <Label fx:id="mLabel" prefHeight="25.0" text="M[kNm]" />
+                  <Label fx:id="nLabel" prefHeight="25.0" text="N[kNm]" />
+               </children>
+            </VBox>
+            <VBox fx:id="mMaxColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="mMaxLabel" text="Mmax" />
+                  <TextField fx:id="momentMmax" />
+                  <TextField fx:id="normalnaMmax" />
+               </children>
+            </VBox>
+            <VBox fx:id="mMinColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="mMinLabel" text="Mmin" />
+                  <TextField fx:id="momentMmin" />
+                  <TextField fx:id="normalnaMmin" />
+               </children>
+            </VBox>
+            <VBox fx:id="nMaxColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="nMaxLabel" text="Nmax" />
+                  <TextField fx:id="momentNmax" />
+                  <TextField fx:id="normalnaNmax" />
+               </children>
+            </VBox>
+            <VBox fx:id="nMinColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="nMinLabel" text="Nmin" />
+                  <TextField fx:id="momentNmin" />
+                  <TextField fx:id="normalnaNmin" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

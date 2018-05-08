@@ -24,6 +24,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
@@ -418,6 +420,56 @@ public class ReinforcementDiagnosisController {
 	private TextField thetaTextField;
 	@FXML
 	private TextField alfaTextField;
+
+	/// Kombinacje obciazen do slupow
+	@FXML
+	private HBox columsCasesHBox;
+
+	@FXML
+	private VBox firstColumnVBox;
+	@FXML
+	private Label emptyLabel;
+	@FXML
+	private Label mLabel;
+	@FXML
+	private Label nLabel;
+
+	@FXML
+	private VBox mMaxColumnVBox;
+	@FXML
+	private Label mMaxLabel;
+	@FXML
+	private TextField momentMmax;
+	@FXML
+	private TextField normalnaMmax;
+
+	@FXML
+	private VBox mMinColumnVBox;
+	@FXML
+	private Label mMinLabel;
+	@FXML
+	private TextField momentMmin;
+	@FXML
+	private TextField normalnaMmin;
+
+	@FXML
+	private VBox nMaxColumnVBox;
+	@FXML
+	private Label nMaxLabel;
+	@FXML
+	private TextField momentNmax;
+	@FXML
+	private TextField normalnaNmax;
+
+	@FXML
+	private VBox nMinColumnVBox;
+	@FXML
+	private Label nMinLabel;
+	@FXML
+	private TextField momentNmin;
+	@FXML
+	private TextField normalnaNmin;
+
 	// steel parameters
 	@FXML
 	private Label fYkLabel;
@@ -474,20 +526,36 @@ public class ReinforcementDiagnosisController {
 		ConcreteChoiceBoxController.addPropertiesToConcreteChoiceBox(concrete, concreteChoiceBox);
 		SteelParametersController.addPropertiesToFYkTF(steel, fYkTextField);
 
-		ADistanceTextFieldsController.addPropertiesToA1TextField(a1DimensionTextField, dimensionsOfCrossSectionOfConcrete);
-		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField, dimensionsOfCrossSectionOfConcrete);
-		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField, tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel,
+		ADistanceTextFieldsController.addPropertiesToA1TextField(a1DimensionTextField,
 				dimensionsOfCrossSectionOfConcrete);
+		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField,
+				dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
+				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete, columsCasesHBox);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
+		
+		///Metoda sprawdza poprawosc wprowadzonych danych
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentMmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentMmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentNmax);
+		InternalForcesController.addPropertiesToTextField(internalForces, momentNmin);
+		////////
 
-		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
+		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
+				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
-		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
-		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
+		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField,
+				mEdCharCalkTextField, mEdCharDlugTextField);
+		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField,
+				mEdCharCalkTextField, mEdCharDlugTextField);
 
 		UsersDesignedReinforcementController.addPropertiesToDesignedAs1TF(reinforcement, aS1TextField);
 		UsersDesignedReinforcementController.addPropertiesToDesignedAs2TF(reinforcement, aS2TextField);
@@ -508,26 +576,38 @@ public class ReinforcementDiagnosisController {
 		AdditionalVariablesController.addPropertiesToT0TF(concrete, t0TextField);
 		AdditionalVariablesController.addPropertiesToTypeOfLoad(internalForces, typeOfLoadChoiceBox);
 
-		NumberOfRodsController.addPropertiesToAs1SymmetricalNumberOfRodsTF(aS1SymmetricalNumberOfRodsTextField, reinforcement);
-		NumberOfRodsController.addPropertiesToAs2SymmetricalNumberOfRodsTF(aS2SymmetricalNumberOfRodsTextField, reinforcement);
+		NumberOfRodsController.addPropertiesToAs1SymmetricalNumberOfRodsTF(aS1SymmetricalNumberOfRodsTextField,
+				reinforcement);
+		NumberOfRodsController.addPropertiesToAs2SymmetricalNumberOfRodsTF(aS2SymmetricalNumberOfRodsTextField,
+				reinforcement);
 
-		resultsPaneControllerDiagnosis = new ResultsPaneControllerDiagnosis(reinforcement, internalForces, sls, gridLabel00, gridLabel01, gridLabel02, gridLabel03, gridLabel04, gridLabel05,
-				gridLabel06, gridLabel07, gridLabel08, gridLabel09, gridLabel010, gridLabel011, gridLabel012, gridLabel013, gridLabel014, gridLabel015, gridLabel016, gridLabel017, gridLabel018,
-				gridLabel019, gridLabel020, gridLabel10, gridLabel11, gridLabel12, gridLabel13, gridLabel14, gridLabel15, gridLabel16, gridLabel17, gridLabel18, gridLabel19, gridLabel110,
-				gridLabel111, gridLabel112, gridLabel113, gridLabel114, gridLabel115, gridLabel116, gridLabel117, gridLabel118, gridLabel119, gridLabel120, gridLabel20, gridLabel21, gridLabel22,
-				gridLabel23, gridLabel24, gridLabel25, gridLabel26, gridLabel27, gridLabel28, gridLabel29, gridLabel210, gridLabel211, gridLabel212, gridLabel213, gridLabel214, gridLabel215,
-				gridLabel216, gridLabel217, gridLabel218, gridLabel219, gridLabel220, gridLabel30, gridLabel31, gridLabel32, gridLabel33, gridLabel34, gridLabel35, gridLabel36, gridLabel37,
-				gridLabel38, gridLabel39, gridLabel310, gridLabel311, gridLabel312, gridLabel313, gridLabel314, gridLabel315, gridLabel316, gridLabel317, gridLabel318, gridLabel319, gridLabel320,
-				diagnosisMainAlgorithm, stanGranicznyNosnosciNequal0Label, leftSGNNequal0Line, rightSGNNequal0Line, zbrojeniePodluzneNequal0Label, leftZbrojeniePodluzneNequal0Line,
-				rightZbrojeniePodluzneNequal0Line, zbrojeniePoprzeczneNequal0Label, leftZbrojeniePoprzeczneNequal0Line, rightZbrojeniePoprzeczneNequal0Line, stanGranicznyUzytkowalnosciNequal0Label1,
-				leftSGUNequal0Line1, rightSGUNequal0Line1, stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
+		resultsPaneControllerDiagnosis = new ResultsPaneControllerDiagnosis(reinforcement, internalForces, sls,
+				gridLabel00, gridLabel01, gridLabel02, gridLabel03, gridLabel04, gridLabel05, gridLabel06, gridLabel07,
+				gridLabel08, gridLabel09, gridLabel010, gridLabel011, gridLabel012, gridLabel013, gridLabel014,
+				gridLabel015, gridLabel016, gridLabel017, gridLabel018, gridLabel019, gridLabel020, gridLabel10,
+				gridLabel11, gridLabel12, gridLabel13, gridLabel14, gridLabel15, gridLabel16, gridLabel17, gridLabel18,
+				gridLabel19, gridLabel110, gridLabel111, gridLabel112, gridLabel113, gridLabel114, gridLabel115,
+				gridLabel116, gridLabel117, gridLabel118, gridLabel119, gridLabel120, gridLabel20, gridLabel21,
+				gridLabel22, gridLabel23, gridLabel24, gridLabel25, gridLabel26, gridLabel27, gridLabel28, gridLabel29,
+				gridLabel210, gridLabel211, gridLabel212, gridLabel213, gridLabel214, gridLabel215, gridLabel216,
+				gridLabel217, gridLabel218, gridLabel219, gridLabel220, gridLabel30, gridLabel31, gridLabel32,
+				gridLabel33, gridLabel34, gridLabel35, gridLabel36, gridLabel37, gridLabel38, gridLabel39, gridLabel310,
+				gridLabel311, gridLabel312, gridLabel313, gridLabel314, gridLabel315, gridLabel316, gridLabel317,
+				gridLabel318, gridLabel319, gridLabel320, diagnosisMainAlgorithm, stanGranicznyNosnosciNequal0Label,
+				leftSGNNequal0Line, rightSGNNequal0Line, zbrojeniePodluzneNequal0Label,
+				leftZbrojeniePodluzneNequal0Line, rightZbrojeniePodluzneNequal0Line, zbrojeniePoprzeczneNequal0Label,
+				leftZbrojeniePoprzeczneNequal0Line, rightZbrojeniePoprzeczneNequal0Line,
+				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1,
+				stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
 
-				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line, rightZbrojeniePoprzeczneNNotequal0Line);
-		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
+				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
+				rightZbrojeniePoprzeczneNNotequal0Line);
+		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
+				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
 				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm);
 
-		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls,
-				diagnosisMainAlgorithm);
+		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
+				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
 
 	}
 
@@ -692,5 +772,39 @@ public class ReinforcementDiagnosisController {
 	public TextField getPdfNameTF() {
 		return pdfName;
 	}
+
+	public TextField getMomentMmax() {
+		return momentMmax;
+	}
+
+	public TextField getNormalnaMmax() {
+		return normalnaMmax;
+	}
+
+	public TextField getMomentMmin() {
+		return momentMmin;
+	}
+
+	public TextField getNormalnaMmin() {
+		return normalnaMmin;
+	}
+
+	public TextField getMomentNmax() {
+		return momentNmax;
+	}
+
+	public TextField getNormalnaNmax() {
+		return normalnaNmax;
+	}
+
+	public TextField getMomentNmin() {
+		return momentNmin;
+	}
+
+	public TextField getNormalnaNmin() {
+		return normalnaNmin;
+	}
+	
+	
 
 }

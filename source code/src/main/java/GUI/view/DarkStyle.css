@@ -1,11 +1,7 @@
 .background{
-    -fx-background-color: #d1d1d1;
+    -fx-background-color: #91bfa0;
 }
 
 .backgroundDesign{
-	-fx-background-color: #e8eaed;
-}
-
-.paneColor{
-	-fx-background-color: #91bfa0;
+	-fx-background-color: #6897bb;
 }

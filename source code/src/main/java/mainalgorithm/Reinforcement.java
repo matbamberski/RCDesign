@@ -29,6 +29,9 @@ public class Reinforcement {
 	private double degreeOfDesignedSymmetricalReinforcement;
 	private double degreeOfComputedUnsymmetricalReinforcement;
 	private double degreeOfDesignedUnsymmetricalReinforcement;
+	
+	private double reinforcementRatio;
+
 
 	// shearing
 	private double sLmin;
@@ -75,6 +78,17 @@ public class Reinforcement {
 		this.s2Designed = s2Designed;
 		System.out.println("s1Designed" + s2Designed);
 
+	}
+	
+	///Obliczenie pola zbrojenia
+	
+
+	public double getReinforcementRatio() {
+		return reinforcementRatio;
+	}
+
+	public void setReinforcementRatio(double reinforcementRatio) {
+		this.reinforcementRatio = reinforcementRatio;
 	}
 
 	public void calculateDesignedSymmetricalAs1RodsGiven() {
@@ -366,6 +380,7 @@ public class Reinforcement {
 		System.out.println("designedAS2 " + designedAS2);
 	}
 
+	///Obliczenie gestosci zbrojenia
 	public void setDegreeOfComputedSymmetricalReinforcementRectangular(DimensionsOfCrossSectionOfConcrete dimensions) {
 		this.degreeOfComputedSymmetricalReinforcement = (requiredSymmetricalAS1 + requiredSymmetricalAS2) / (dimensions.getB() * dimensions.getH());
 		System.out.println("degreeOfComputedSymmetricalReinforcement " + degreeOfComputedSymmetricalReinforcement);
@@ -384,6 +399,14 @@ public class Reinforcement {
 	public void setDegreeOfDesignedUnsymmetricalReinforcement(DimensionsOfCrossSectionOfConcrete dimensions) {
 		this.degreeOfDesignedUnsymmetricalReinforcement = (desingedUnsymmetricalAS1 + designedUnsymmetricalAS2) / (dimensions.getB() * dimensions.getH());
 		System.out.println("degreeOfDesignedUnsymmetricalReinforcement " + degreeOfDesignedUnsymmetricalReinforcement);
+	}
+	
+	public void setDegreeOfSymmetricalReinforcement(double degree) {
+		this.degreeOfComputedSymmetricalReinforcement = degree;
+	}
+	
+	public void setDegreeOfUnsymmetricalReinforcement(double degree) {
+		this.degreeOfComputedUnsymmetricalReinforcement = degree;
 	}
 
 	public void setPhiSt(double phiSt) {

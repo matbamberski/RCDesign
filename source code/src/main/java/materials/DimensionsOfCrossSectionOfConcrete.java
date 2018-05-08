@@ -9,6 +9,7 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double b;
 	private double bEff;
 	private double tW;
+	private boolean isColumn;
 	private boolean isBeamRectangular;
 	private double lEff;
 	private double aC;
@@ -225,6 +226,15 @@ public class DimensionsOfCrossSectionOfConcrete {
 
 	public boolean getisBeamRectangular() {
 		return isBeamRectangular;
+	}
+
+	public void setIsColumn(boolean isColumn) {
+		this.isColumn = isColumn;
+		System.out.println("isColumn" + isColumn);
+	}
+	
+	public boolean getIsColumn() {
+		return isColumn;
 	}
 
 	public double getB() {

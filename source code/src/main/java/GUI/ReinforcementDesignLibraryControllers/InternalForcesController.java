@@ -1,5 +1,8 @@
 package GUI.ReinforcementDesignLibraryControllers;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ChoiceBox;
@@ -9,6 +12,16 @@ import util.InputValidation;
 import util.StringToDouble;
 
 public class InternalForcesController {
+	
+	///3.0 ver
+	
+	public static void addPropertiesToTextField(InternalForces internalForces, TextField tf) {
+		addInputListener(internalForces, tf);
+		addFocusListener(tf);
+		setInitialValue(tf);
+	}
+	
+	///////
 
 	public static void addPropertiesToMEdTextField(InternalForces internalForces, TextField mEd, TextField mEdCharCalk,
 			TextField mEdCharDlug) {
@@ -157,7 +170,7 @@ public class InternalForcesController {
 				mEdCharCalValue = 0.0;
 				mEdCharCalStringValue = "0";
 			}
-			
+
 		}
 	}
 
@@ -238,7 +251,7 @@ public class InternalForcesController {
 				mEdCharDlugValue = 0.0;
 				mEdCharString = "0";
 			}
-			
+
 		}
 	}
 
@@ -415,4 +428,99 @@ public class InternalForcesController {
 	private static void setVedInitialValue(TextField vEd) {
 		vEd.setText("0");
 	}
+
+	////// Ogolna metoda na sprawdzanie wprowadzanych danych
+
+	// text field
+	private static boolean isInputCorrect;
+
+	private static void addInputListener(InternalForces internalForces, TextField tf) {
+		tf.textProperty().addListener(new InputListener(internalForces, tf));
+	}
+
+	private static class InputListener implements ChangeListener<String> {
+		private InternalForces internalForces;
+		private TextField tf;
+
+		private InputListener(InternalForces internalForces, TextField tf) {
+			this.internalForces = internalForces;
+			this.tf = tf;
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+			arg2 = arg2.replace(',', '.');
+			if (InputValidation.internalForcesTextFieldInputValidation(arg2)) {
+				String name = tf.getId();
+				name = name.substring(0, 1).toUpperCase() + name.substring(1);
+				Method method = null;
+				try {
+					method = Class.forName("mainalgorithm.InternalForces").getMethod("set"+name, double.class);
+				} catch (NoSuchMethodException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				try {
+					method.invoke(internalForces, StringToDouble.stringToDouble(arg2));
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				//internalForces.setvEd(StringToDouble.stringToDouble(arg2));
+				isInputCorrect = true;
+			} else {
+				isInputCorrect = false;
+			}
+
+		}
+
+	}
+
+	private static void addFocusListener(TextField ForceEd) {
+		ForceEd.focusedProperty().addListener(new FocusListener(ForceEd));
+	}
+
+	private static class FocusListener implements ChangeListener<Boolean> {
+
+		private TextField ForceEd;
+
+		protected FocusListener(TextField ForceEd) {
+			this.ForceEd = ForceEd;
+		}
+
+		private void ifInputWasIncorrectSetValueToInitial() {
+			if (isInputCorrect == false) {
+				setInitialValue(ForceEd);
+			}
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+			if (arg2 == false) {
+				ifInputWasIncorrectSetValueToInitial();
+			}
+		}
+
+	}
+	
+	private static void setInitialValue(TextField tf) {
+		tf.setText("0");
+	}
+
 }

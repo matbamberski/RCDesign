@@ -6,7 +6,9 @@ import util.PolynominalSolver;
 import util.ResultsToPDF;
 
 public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciazona {
-
+	
+	
+	
 	protected void setCapitalA(Concrete concrete, Steel steel) {
 		capitalA = LAMBDA * (steel.getFYd() * 1000 - concrete.getEpsilonCU3() * steel.getES() * 1000000);
 		System.out.println("capitalA " + capitalA);
@@ -100,6 +102,7 @@ public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciaz
 			System.out.println("x<=xMinMinusYd");
 			setSigmaS2EqualToMinusFYd(steel);
 			setX(concrete, nEd, d, a2, b);
+			if (x>0) x = 0;
 		} else {
 			System.out.println("x>xMinMinusYd");
 			setSigmaS2(concrete, steel, a2);
@@ -117,12 +120,12 @@ public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciaz
 		setASMin(steel, nEd, b, h);
 		setSigmaS1AndSigmaS2EqualToFYd(steel);
 		symmetricalAnalysisWhileXIsGreaterOrEqualXLim(concrete, steel, nEd, a2, d, b);
-		if (x > 0) {
-			setAS(concrete, nEd, b, a2, d);
-		} else {
-			x = 0;
-			setAS(concrete, nEd, b, a2, d);
-		}
+		//if (x > 0) {
+		setAS(concrete, nEd, b, a2, d);
+		//} else {
+		//	x = 0;
+			//setAS(concrete, nEd, b, a2, d);
+		//}
 		// changeAsToAsMinIfAsIsLessThenAsMin();
 		// changeAs1ToAsMinIfAs1IsLessThenAsMin();
 		// changeAs2ToAsMinIfAs2IsLessThenAsMin();

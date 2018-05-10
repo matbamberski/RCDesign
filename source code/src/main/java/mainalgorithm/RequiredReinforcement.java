@@ -464,7 +464,8 @@ public class RequiredReinforcement {
 		}
 		//// Jesli zaznaczono slup
 		else {
-			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+			NominalStiffness stiffness = new NominalStiffness();
+			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness);
 			System.err.println("S³up");
 		}
 
@@ -510,8 +511,8 @@ public class RequiredReinforcement {
 		double m0Ed = combinationsMed.get(maxE); // nie jestem pewny czy to dzia³a
 
 		System.err.println("Max mimoœród: " + maxE);
-		System.err.println("Moment z max mimoœrodu to: " + m0Ed);
-		System.err.println("Normalna z max mimoœrodu to: " + n0Ed);
+		System.err.println("Moment z max mimoœrodu to: " + m0Ed + "kNm");
+		System.err.println("Normalna z max mimoœrodu to: " + n0Ed + "kN");
 		/*
 		for (Map.Entry<Double, Double> forces : combinations.entrySet()) {
 			System.out.println("Moment: " + forces.getKey() + " Normalna: " + forces.getValue());
@@ -540,6 +541,7 @@ public class RequiredReinforcement {
 			/// Zbrojenie symetryczne
 
 			double mEd = m0Ed;
+			System.err.println("Moment pocz¹tkowy: " + mEd);
 			/// Petla dopoki stopien zbrojenia dobranego i zaprojektowanego jest wieksza
 			/// rowna 0.1
 			do {
@@ -561,14 +563,14 @@ public class RequiredReinforcement {
 
 				/// Metoda nominalnej sztywnosci - nowy moment
 				mEd = stiffness.getMEd();
+				System.err.println("Moment po nominalnej sztywnoœci: " + mEd);
+
 
 				// Obliczenie zbrojenia
 				if (n0Ed > 0) {
 					System.out.println("œciskanie ");
 					columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions, reinforcement, mEd,
 							n0Ed);
-					System.err.println("Normalna dodatnia");
-					System.out.println("");
 					// pobiera stopieñ zbrojenia na koñcu pêtli
 					reinforcementRatio2 = reinforcement.getReinforcementRatio();
 					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;

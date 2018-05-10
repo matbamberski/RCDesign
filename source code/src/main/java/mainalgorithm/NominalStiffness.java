@@ -9,9 +9,19 @@ public class NominalStiffness {
 	private double l0; // dodaæ przycisk
 	private double fiT0; // dodaæ przycisk
 	private double roS1;
+	private double m0Ed;
+	private double n0Ed;
 	
-	public void setRoS1(Reinforcement reinforcement) {
-		this.roS1 = reinforcement.getReinforcementRatio();
+	public void setM0Ed(double m0Ed) {
+		this.m0Ed = m0Ed;
+	}
+
+	public void setN0Ed(double n0Ed) {
+		this.n0Ed = n0Ed;
+	}
+
+	public void setRoS1(double roS1) {
+		this.roS1 = roS1;
 	}
 	
 	public void setl0(double l0) {
@@ -78,7 +88,9 @@ public class NominalStiffness {
 		double nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
 		
 		/// ta wartosæ momentu musi odpowiadaæ najwiêkszemu mimoœrodowi \|/
-		mEd = internalForces.getmEd() * (1 + (beta / ((nB / internalForces.getnEd()) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
+		
+		
+		mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
 		
 		//sprawdzenie
 		

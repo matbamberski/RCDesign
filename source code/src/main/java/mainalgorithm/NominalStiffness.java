@@ -32,30 +32,35 @@ public class NominalStiffness {
 		this.fiT0 = fiT0;
 	}
 
-	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd) {
+	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 
-		int fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
-		int eCm = concrete.getECm() * 1000; // [Gpa] -> [Mpa]
-		double fCd = fCk / 1.40;
+		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
+		double eCm = concrete.getECm() * 1000; // [Gpa] -> [Mpa]
+		//double fCd = fCk / 1.40;
+		double fCd = concrete.getFCd()*1000;
 		double eCd = eCm / 1.2;
 		double eS = steel.getES() * 1000; /// [Gpa] -> [Mpa]
+		setl0(2);
+		setfiT0(2.4);
 
 		//////////////////// Dzia³ania matematyczne
 
 		//aC = h * b;
 		//iC = (b * Math.pow((h), 3)) / 12; // [m^4]
+		dimensions.calculateAc();
+		dimensions.calculateIc();
 		double i = Math.sqrt(dimensions.getIc() / dimensions.getAc()); // [m]
 		double lambda = l0 / i;
-		double n = internalForces.getnEd() / (dimensions.getAc() * fCd);
+		double n = nEd / (dimensions.getAc() * fCd);
 		double k1 = Math.sqrt((fCk / 20000.0));
 		double k2 = n * (lambda / 170.0);
 		double fiEf = fiT0 * 0.7;
 		double eCdEff = (eCd / (1 + fiEf)) * 1000;
 		double beta = (Math.sqrt(Math.PI)) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
 		
-		int kS;
+		double kS;
 		double kC;
 		
 		
@@ -84,19 +89,26 @@ public class NominalStiffness {
 		double iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
 		double eI = kC * eCdEff * dimensions.getIc() + kS * eS * iS; // [kNm^2]
 		
-
+		System.out.println("eI " + eI);
 		double nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
 		
 		/// ta wartosæ momentu musi odpowiadaæ najwiêkszemu mimoœrodowi \|/
 		
-		
-		mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
-		
+		//System.out.println("m0Ed " + m0Ed + " beta " + beta + " nB "+ nB + " n0Ed " + n0Ed);
+		this.mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
+		System.out.println(mEd);
 		//sprawdzenie
 		
 		}
-	public double getMEd() {
-		return mEd;
 
+	public double getmEd() {
+		System.out.println("Med w klasie nominalstiffness " + this.mEd);
+		return mEd;
 	}
+
+	public void setmEd(double mEd) {
+		this.mEd = mEd;
+	}
+	
+	
 }

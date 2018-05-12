@@ -559,10 +559,11 @@ public class RequiredReinforcement {
 				stiffness.setRoS1(reinforcementRatio1);
 				stiffness.setM0Ed(m0Ed);
 				stiffness.setN0Ed(n0Ed);
-				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, mEd);
+				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, mEd, n0Ed);
 
 				/// Metoda nominalnej sztywnosci - nowy moment
-				mEd = stiffness.getMEd();
+				mEd = stiffness.getmEd();
+				internalForces.setmEd(mEd);
 				System.err.println("Moment po nominalnej sztywnoœci: " + mEd);
 
 
@@ -616,11 +617,11 @@ public class RequiredReinforcement {
 
 				reinforcement.setReinforcementRatio(reinforcementRatio1);
 				stiffness.setRoS1(reinforcementRatio1);
-				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, mEd);
+				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, mEd, n0Ed);
 
 				/// Metoda nominalnej sztywnosci - nowy moment
-				mEd = stiffness.getMEd();
-
+				mEd = stiffness.getmEd();
+				internalForces.setmEd(mEd);
 				// Obliczenie zbrojenia
 				if (n0Ed > 0) {
 					System.out.println("œciskanie ");

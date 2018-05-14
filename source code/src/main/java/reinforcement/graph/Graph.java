@@ -1,6 +1,5 @@
 package reinforcement.graph;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import mainalgorithm.InternalForces;
@@ -13,7 +12,6 @@ public class Graph {
 
 	private Steel steel;
 	private DimensionsOfCrossSectionOfConcrete dimensions;
-	private InternalForces forces;
 	private Concrete concrete;
 	private Reinforcement reinforcement;
 
@@ -21,7 +19,6 @@ public class Graph {
 			Reinforcement reinforcement) {
 		this.steel = steel;
 		this.dimensions = dimensions;
-		this.forces = forces;
 		this.concrete = concrete;
 		this.reinforcement = reinforcement;
 	}

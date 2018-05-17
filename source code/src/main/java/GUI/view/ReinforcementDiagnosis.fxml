@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -346,7 +347,7 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="148.0" layoutY="222.0" text="s2" AnchorPane.bottomAnchor="489.0" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="181.0">
+      <Label layoutX="148.0" layoutY="222.0" text="s2" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="181.0">
          <font>
             <Font size="10.0" />
          </font>
@@ -410,7 +411,7 @@
       </Label>
       <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="250.0" />
       <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="250.0" />
-      <HBox fx:id="columsCasesHBox" layoutX="19.0" layoutY="610.0" maxHeight="100.0" maxWidth="300.0" prefHeight="75.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="600.0">
+      <HBox fx:id="columsCasesHBox" layoutX="19.0" layoutY="610.0" maxHeight="100.0" maxWidth="368.0" prefHeight="75.0" prefWidth="368.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="600.0">
          <children>
             <VBox fx:id="firstColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -444,9 +445,14 @@
                <children>
                   <Label fx:id="nMinLabel" text="Nmin" />
                   <TextField fx:id="momentNmin" />
-                  <TextField fx:id="normalnaNmin" />
+                  <TextField fx:id="normalnaNmin" prefHeight="25.0" prefWidth="30.0" />
                </children>
             </VBox>
+            <StackPane minWidth="45.0" prefHeight="150.0" prefWidth="200.0" translateX="20.0">
+               <children>
+                  <Button fx:id="graphButton" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" />
+               </children>
+            </StackPane>
          </children>
       </HBox>
    </children>

@@ -34,6 +34,7 @@ import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
+import reinforcement.graph.Graph;
 
 public class ReinforcementDiagnosisController {
 
@@ -41,7 +42,18 @@ public class ReinforcementDiagnosisController {
 	ReinforcementDesignController design;
 	ReinforcementDesignController x;
 	ADistanceTextFieldsController adistance;
+	GraphScreenController graph;
 	Main main;
+	
+	/*
+	 * //dodane coœ psuje Graph graph; DimensionsOfCrossSectionOfConcrete
+	 * dimensions;
+	 * 
+	 * public ReinforcementDiagnosisController(Graph graph,
+	 * DimensionsOfCrossSectionOfConcrete dimensions, GraphScreenController
+	 * graphValues) { super(); this.graph = graph; this.dimensions = dimensions; }
+	 * //
+	 */
 	@FXML
 	private TextField aS1SymmetricalNumberOfRodsTextField;
 	@FXML
@@ -504,6 +516,11 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private Button saveToPdfButton;
 
+	@FXML
+	private Button graphButton;
+	
+	private Graph plotGraph;
+
 	private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete = ReinforcementDesignController.dimensionsOfCrossSectionOfConcrete;
 	private InternalForces internalForces = ReinforcementDesignController.internalForces;
 	private Reinforcement reinforcement = ReinforcementDesignController.reinforcement;
@@ -531,13 +548,14 @@ public class ReinforcementDiagnosisController {
 		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField,
 				dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
-				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete, columsCasesHBox);
+				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
+				columsCasesHBox);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
-		
-		///Metoda sprawdza poprawosc wprowadzonych danych
+
+		/// Metoda sprawdza poprawosc wprowadzonych danych
 		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmax);
 		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmin);
 		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmax);
@@ -619,7 +637,12 @@ public class ReinforcementDiagnosisController {
 	private void switchToDesignScene(ActionEvent event) {
 		main.switchToDesignScene();
 	}
-
+	
+	@FXML
+	private void switchToGraphScene(ActionEvent event) {
+		main.switchToGraphScene();
+	}
+	
 	public ChoiceBox<String> getConcreteChoiceBox() {
 		return concreteChoiceBox;
 	}
@@ -804,7 +827,5 @@ public class ReinforcementDiagnosisController {
 	public TextField getNormalnaNmin() {
 		return normalnaNmin;
 	}
-	
-	
 
 }

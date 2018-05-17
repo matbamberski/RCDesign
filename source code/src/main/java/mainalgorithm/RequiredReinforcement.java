@@ -1,7 +1,9 @@
 package mainalgorithm;
 
-import java.util.Map;
 import static java.util.Map.entry;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -99,10 +101,8 @@ public class RequiredReinforcement {
 		}
 		reinforcement.setDesignedSymmetricalAS1(aS1Designed);
 		reinforcement.setRequiredNumberOfSymmetricalRodsAS1(numberOfAS1Rods);
-		
-		
-		
-		////To chyba niepotrzebne skoro ma byc symetryczne?
+
+		//// To chyba niepotrzebne skoro ma byc symetryczne?
 		do {
 			aS2Designed = aS2Designed + aS2SurfaceArea;
 			numberOfAS2Rods = numberOfAS2Rods + 1;
@@ -207,14 +207,14 @@ public class RequiredReinforcement {
 			}
 		} else {
 			if (internalForces.getnEd() > 0) {
-				System.out.println("œciskanie ");
+				System.out.println("ï¿½ciskanie ");
 				rectangularBeamCompressingForcesSymmetricalReinforcementWithDesign(concrete, steel, internalForces,
 						dimensions, reinforcement);
 				rectangularBeamCompressingForcesUnsymmetricalReinforcementWithDesign(concrete, steel, internalForces,
 						dimensions, reinforcement);
 			}
 			if (internalForces.getnEd() < 0) {
-				System.out.println("rozci¹ganie ");
+				System.out.println("rozciï¿½ganie ");
 				// ROZCIAGANIE , W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN
 				// PODSTAWIONE Z + !!!
 				rectangularBeamTensilingForcesSymmetricalReinforcementWithDesign(concrete, steel, internalForces,
@@ -350,7 +350,7 @@ public class RequiredReinforcement {
 
 	}
 
-	///////// S³upy
+	///////// Sï¿½upy
 
 	private void columnCompressingForcesSymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
@@ -430,27 +430,32 @@ public class RequiredReinforcement {
 			if (internalForces.getnEd() == 0) {
 				if (dimensions.getisBeamRectangular()) {
 					rectangularBeamBendingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+					System.err.println("Belka prostokï¿½tna, zginanie");
 				} else {
 					if (dimensions.gettW() == 0) {
 						rectangularBeamBendingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+						System.err.println("Belka prostokï¿½tna, zginanie");
 					} else {
 						traptezeBeamBendingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+						System.err.println("Belka trapezowa, zginanie");
 					}
 				}
 			} else {
 				if (internalForces.getnEd() > 0) {
-					System.out.println("œciskanie ");
+					System.out.println("ï¿½ciskanie ");
 					rectangularBeamCompressingForcesSymmetricalReinforcement(concrete, steel, internalForces,
 							dimensions, reinforcement);
+					System.err.println("Belka prostokï¿½tna, ï¿½ciskanie");
 					rectangularBeamCompressingForcesUnsymmetricalReinforcement(concrete, steel, internalForces,
 							dimensions, reinforcement);
-				}
+									}
 				if (internalForces.getnEd() < 0) {
-					System.out.println("rozci¹ganie ");
+					System.out.println("rozciï¿½ganie ");
 					// ROZCIAGANIE , W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN
 					// PODSTAWIONE Z + !!!
 					rectangularBeamTensilingForcesSymmetricalReinforcement(concrete, steel, internalForces, dimensions,
 							reinforcement);
+					System.err.println("Belka prostokï¿½tna, rozciï¿½ganie");
 					rectangularBeamTensilingForcesUnsymmetricalReinforcement(concrete, steel, internalForces,
 							dimensions, reinforcement);
 				}
@@ -459,103 +464,197 @@ public class RequiredReinforcement {
 		}
 		//// Jesli zaznaczono slup
 		else {
-			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+			NominalStiffness stiffness = new NominalStiffness();
+			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness);
+			System.err.println("Sï¿½up");
 		}
 
 	}
 
-	//// S³upy
+	//// Sï¿½upy
 
 	public void columnRequiredReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness) {
+		double e1 = (Math.abs(internalForces.getMomentMmax()) / Math.abs(internalForces.getNormalnaMmax()));
+		double e2 = (Math.abs(internalForces.getMomentMmin()) / Math.abs(internalForces.getNormalnaMmin()));
+		double e3 = (Math.abs(internalForces.getMomentNmax()) / Math.abs(internalForces.getNormalnaNmax()));
+		double e4 = (Math.abs(internalForces.getMomentNmin()) / Math.abs(internalForces.getNormalnaNmin()));
+		double maxE1 = Math.max(e1, e2);
+		double maxE2 = Math.max(e3, e4);
+		double maxE = Math.max(maxE1, maxE2);
+		System.out.println("obliczanie sï¿½upa");
+		System.out.println("");
 		/// kombinacje Mmax,Nodp; Mmin,Nodp; Modp,Nmax; Modp,Nmin
-		Map<Double, Double> combinations = Map.ofEntries(
-				/// entry(key,value) -> entry(moment, normalna)
-				entry(internalForces.getMomentMmax(), internalForces.getNormalnaMmax()),
-				entry(internalForces.getMomentMmin(), internalForces.getNormalnaMmin()),
-				entry(internalForces.getMomentNmax(), internalForces.getNormalnaNmax()),
-				entry(internalForces.getMomentNmin(), internalForces.getNormalnaNmin()));
+		/*
+		 * Map<Double, Double> combinations = Map.ofEntries( /// entry(key,value) ->
+		 * entry(moment, normalna) entry(internalForces.getMomentMmax(),
+		 * internalForces.getNormalnaMmax()), entry(internalForces.getMomentMmin(),
+		 * internalForces.getNormalnaMmin()), entry(internalForces.getMomentNmax(),
+		 * internalForces.getNormalnaNmax()), entry(internalForces.getMomentNmin(),
+		 * internalForces.getNormalnaNmin()));
+		 */
+		HashMap<Double, Double> combinationsMed = new HashMap<Double, Double>();
+		/// put(key,value) -> entry(mimoï¿½rï¿½d, moment)
+		combinationsMed.put(e1, internalForces.getMomentMmax());
+		combinationsMed.put(e2, internalForces.getMomentMmin());
+		combinationsMed.put(e3, internalForces.getMomentNmax());
+		combinationsMed.put(e4, internalForces.getMomentNmin());
 
+		HashMap<Double, Double> combinationsNed = new HashMap<Double, Double>();
+		/// put(key,value) -> entry(mimoï¿½rï¿½d, normalna)
+		combinationsNed.put(e1, internalForces.getNormalnaMmax());
+		combinationsNed.put(e2, internalForces.getNormalnaMmin());
+		combinationsNed.put(e3, internalForces.getNormalnaNmax());
+		combinationsNed.put(e4, internalForces.getNormalnaNmin());
+
+		double n0Ed = combinationsNed.get(maxE); // nie jestem pewny czy to dziaï¿½a
+		double m0Ed = combinationsMed.get(maxE); // nie jestem pewny czy to dziaï¿½a
+
+		System.err.println("Max mimoï¿½rï¿½d: " + maxE);
+		System.err.println("Moment z max mimoï¿½rodu to: " + m0Ed + "kNm");
+		System.err.println("Normalna z max mimoï¿½rodu to: " + n0Ed + "kN");
+		/*
 		for (Map.Entry<Double, Double> forces : combinations.entrySet()) {
 			System.out.println("Moment: " + forces.getKey() + " Normalna: " + forces.getValue());
 		}
-		
+		 */
 		/*
+		 * double mimos[][] = { {e1, internalForces.getMomentMmax(),
+		 * internalForces.getNormalnaMmax()}, {e2, internalForces.getMomentMmin(),
+		 * internalForces.getNormalnaMmin()}, {e3, internalForces.getMomentNmax(),
+		 * internalForces.getNormalnaNmax()}, {e4, internalForces.getMomentNmin(),
+		 * internalForces.getNormalnaNmin()}, };
+		 */
 
 		/// dla kazdej kombinacji wykonaj obliczenia
-		for (Map.Entry<Double, Double> forces : combinations.entrySet()) {
-			
-			if (forces.getValue()!=0.0) {
-				
+		// for (Map.Entry<Double, Double> forces : combinations.entrySet()) {
 
-			///Zbrojenie symetryczne
-			
-			double reinforcementRatio = 0.009;
-			double mEd = forces.getKey();
+
+		if (n0Ed != 0.0) {
+
+			double reinforcementRatio1 = 0.0; // stopieï¿½ na poczï¿½tku pï¿½tli
+			double reinforcementRatio2 = 0.0; // stopieï¿½ na koï¿½cu pï¿½tli
+			double reinforcementRatio3 = 0.0; // stopieï¿½ ktï¿½ry jest ï¿½redniï¿½ arytmetycznï¿½ dwï¿½ch powyï¿½szych do porï¿½wnania
+												// z reinforcementRatio2
+			// ostatecznym
+
+			/// Zbrojenie symetryczne
+
+			double mEd = m0Ed;
+			System.err.println("Moment poczï¿½tkowy: " + mEd);
 			/// Petla dopoki stopien zbrojenia dobranego i zaprojektowanego jest wieksza
 			/// rowna 0.1
 			do {
-				/// Przyjmij stopien zbrojenia
-				reinforcementRatio += 0.001;
-				reinforcement.setReinforcementRatio(reinforcementRatio);
-				
-				/// Metoda nominalnej sztywnosci - nowy moment
-				mEd += 2;
-				
-				//Obliczenie zbrojenia
-				if (forces.getValue() > 0) {
-					System.out.println("œciskanie ");
-					columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions, reinforcement,
-							mEd, forces.getValue());
+				if (reinforcementRatio1 == 0.0) {
+					/// Przyjmij stopien zbrojenia (0,04 AC)
+					reinforcementRatio1 = 0.04 * dimensions.getAc();
+				} else if (reinforcementRatio1 >= 0.04 * dimensions.getAc()) {
+					System.out.println("Stopieï¿½ zbrojenia przekracza warunek normowy: 0,04 *AC");
+				} else {
+					/// pobierz stopieï¿½ zbrojenia na poczï¿½tku pï¿½tli
+					reinforcementRatio1 = reinforcementRatio3;
+				}
 
-				} else if (forces.getValue() < 0) {
-					System.out.println("rozci¹ganie ");
+				reinforcement.setReinforcementRatio(reinforcementRatio1);
+				stiffness.setRoS1(reinforcementRatio1);
+				stiffness.setM0Ed(m0Ed);
+				stiffness.setN0Ed(n0Ed);
+				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, mEd, n0Ed);
+
+				/// Metoda nominalnej sztywnosci - nowy moment
+				mEd = stiffness.getmEd();
+				internalForces.setmEd(mEd);
+				System.err.println("Moment po nominalnej sztywnoï¿½ci: " + mEd);
+
+
+				// Obliczenie zbrojenia
+				if (n0Ed > 0) {
+					System.out.println("ï¿½ciskanie ");
+					columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions, reinforcement, mEd,
+							n0Ed);
+					// pobiera stopieï¿½ zbrojenia na koï¿½cu pï¿½tli
+					reinforcementRatio2 = reinforcement.getReinforcementRatio();
+					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+
+				} else if (n0Ed < 0) {
+					System.out.println("rozciï¿½ganie ");
 					// ROZCIAGANIE , W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN
 					// PODSTAWIONE Z + !!!
-					columnTensilingForcesSymmetricalReinforcement(concrete, steel, dimensions, reinforcement,
-							mEd, forces.getValue());
+					columnTensilingForcesSymmetricalReinforcement(concrete, steel, dimensions, reinforcement, mEd,
+							n0Ed);
+					// pobiera stopieï¿½ zbrojenia na koï¿½cu pï¿½tli
+					reinforcementRatio2 = reinforcement.getReinforcementRatio();
+					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
 
-				} else break;
-			} while (Math.abs((reinforcement.getReinforcementRatio()
-					- reinforcement.getDegreeOfDesignedSymmetricalReinforcement())
-					/ reinforcement.getReinforcementRatio()) >= 0.1);
-			
-			
-			//Zbrojenie niesymetryczne
-			
-			reinforcementRatio = 0.009;
+				} else
+					break;
+			} while ((Math.min(reinforcementRatio3, reinforcementRatio2)
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99
+
+			/*
+			 * Math.abs((reinforcement.getReinforcementRatio() -
+			 * reinforcement.getDegreeOfDesignedSymmetricalReinforcement()) /
+			 * reinforcement.getReinforcementRatio()) >= 0.1
+			 */);
+
+			// Zbrojenie niesymetryczne
+
 			/// Petla dopoki stopien zbrojenia dobranego i zaprojektowanego jest wieksza
 			/// rowna 0.1
+
 			do {
 				/// Przyjmij stopien zbrojenia
-				reinforcementRatio += 0.001;
-				reinforcement.setReinforcementRatio(reinforcementRatio);
-				
+
+				if (reinforcementRatio1 == 0.0) {
+					/// Przyjmij stopien zbrojenia (0,04 AC)
+					reinforcementRatio1 = 0.04 * dimensions.getAc();
+				} else if (reinforcementRatio1 >= 0.04 * dimensions.getAc()) {
+					System.out.println("Stopieï¿½ zbrojenia przekracza warunek normowy: 0,04 *AC");
+				} else {
+					/// pobierz stopieï¿½ zbrojenia na poczï¿½tku pï¿½tli
+					reinforcementRatio1 = reinforcementRatio3;
+				}
+
+				reinforcement.setReinforcementRatio(reinforcementRatio1);
+				stiffness.setRoS1(reinforcementRatio1);
+				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, mEd, n0Ed);
+
 				/// Metoda nominalnej sztywnosci - nowy moment
-				mEd += 2;
-				
-				//Obliczenie zbrojenia
-				if (forces.getValue() > 0) {
-					System.out.println("œciskanie ");
-					columnCompressingForcesUnSymmetricalReinforcement(concrete, steel, dimensions, reinforcement,
-							forces.getKey(), forces.getValue());
-				} else if (forces.getValue() < 0) {
-					System.out.println("rozci¹ganie ");
+				mEd = stiffness.getmEd();
+				internalForces.setmEd(mEd);
+				// Obliczenie zbrojenia
+				if (n0Ed > 0) {
+					System.out.println("ï¿½ciskanie ");
+					columnCompressingForcesUnSymmetricalReinforcement(concrete, steel, dimensions, reinforcement, mEd,
+							n0Ed);
+					// pobiera stopieï¿½ zbrojenia na koï¿½cu pï¿½tli
+					reinforcementRatio2 = reinforcement.getReinforcementRatio();
+					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+
+				} else if (n0Ed < 0) {
+					System.out.println("rozciï¿½ganie ");
 					// ROZCIAGANIE , W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN
 					// PODSTAWIONE Z + !!!
-					columnTensilingForcesUnsymmetricalReinforcement(concrete, steel, dimensions, reinforcement,
-							forces.getKey(), forces.getValue());
-				} else break;
-			} while (Math.abs((reinforcement.getReinforcementRatio()
-					- reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement())
-					/ reinforcement.getReinforcementRatio()) >= 0.1);
-			
-			}
-			
-			
+					columnTensilingForcesUnsymmetricalReinforcement(concrete, steel, dimensions, reinforcement, mEd,
+							n0Ed);
+					// pobiera stopieï¿½ zbrojenia na koï¿½cu pï¿½tli
+					reinforcementRatio2 = reinforcement.getReinforcementRatio();
+					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+				} else
+					break;
+			} while ((Math.min(reinforcementRatio3, reinforcementRatio2)
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99
+			/*
+			 * Math.abs((reinforcement.getReinforcementRatio() -
+			 * reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement()) /
+			 * reinforcement.getReinforcementRatio()) >= 0.1
+			 */
+			);
+
 		}
-*/
+
 	}
 
 }
+
+// }

@@ -2,6 +2,7 @@ package GUI;
 
 import java.io.IOException;
 
+import GUI.view.GraphScreenController;
 import GUI.view.ReinforcementDesignController;
 import GUI.view.ReinforcementDiagnosisController;
 import javafx.application.Application;
@@ -10,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -17,8 +19,10 @@ public class Main extends Application {
 	private Stage primaryStage;
 	private AnchorPane design;
 	private AnchorPane diagnosis;
+	private AnchorPane graph;
 	private ReinforcementDesignController designController;
 	private ReinforcementDiagnosisController diagnosisController;
+	private GraphScreenController graphController;
 	private BorderPane rootLayout;
 	private HBox hbox;
 	private static final String colorBackground = "#e8eaed;";
@@ -32,6 +36,7 @@ public class Main extends Application {
 		initRootLayout();
 		loadDesignScene();
 		loadDiagnosisScene();
+		loadGraphScene();
 		//rootLayout.setCenter(design);
 		hbox.getChildren().add(design);
 		designController.giveReferences(diagnosisController);
@@ -79,6 +84,19 @@ public class Main extends Application {
 			diagnosis = (AnchorPane) loader.load();
 			diagnosisController = loader.getController();
 			diagnosisController.giveReferences(this);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadGraphScene() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/GraphScreen.fxml"));
+			graph = (AnchorPane) loader.load();
+			graphController = loader.getController();
+			graphController.giveReferences(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -86,6 +104,26 @@ public class Main extends Application {
 
 	public void switchToDiagnosisScene() {
 		hbox.getChildren().remove(design);
+		hbox.getChildren().add(diagnosis);
+		
+		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
+		primaryStage.setTitle(
+				"RCdesign v3.0 - Diagnostyka                                                                                                               autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD");
+
+	}
+	
+	public void switchToGraphScene() {
+		hbox.getChildren().remove(diagnosis);
+		hbox.getChildren().add(graph);
+		
+		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
+		primaryStage.setTitle(
+				"RCdesign v3.0 - Krzywe noœnoœæi granicznej                                                                                                autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD");
+
+	}
+	
+	public void switchBackToDiagnosisScene() {
+		hbox.getChildren().remove(graph);
 		hbox.getChildren().add(diagnosis);
 		
 		rootLayout.setStyle("-fx-background-color: #d1d1d1;");

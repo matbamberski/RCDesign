@@ -24,11 +24,20 @@ public class NominalStiffness {
 		this.roS1 = roS1;
 	}
 	
-	public void setl0(double l0) {
+
+	public double getL0() {
+		return l0;
+	}
+
+	public void setL0(double l0) {
 		this.l0 = l0;
 	}
-	
-	public void setfiT0(double fiT0) {
+
+	public double getFiT0() {
+		return fiT0;
+	}
+
+	public void setFiT0(double fiT0) {
 		this.fiT0 = fiT0;
 	}
 
@@ -42,15 +51,14 @@ public class NominalStiffness {
 		double fCd = concrete.getFCd()*1000;
 		double eCd = eCm / 1.2;
 		double eS = steel.getES() * 1000; /// [Gpa] -> [Mpa]
-		setl0(2);
-		setfiT0(2.4);
+		//setL0(2);
+		//setFiT0(2.4);
 
 		//////////////////// Dzia³ania matematyczne
 
 		//aC = h * b;
 		//iC = (b * Math.pow((h), 3)) / 12; // [m^4]
-		dimensions.calculateAc();
-		dimensions.calculateIc();
+
 		double i = Math.sqrt(dimensions.getIc() / dimensions.getAc()); // [m]
 		double lambda = l0 / i;
 		double n = nEd / (dimensions.getAc() * fCd);

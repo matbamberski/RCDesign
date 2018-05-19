@@ -28,6 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import mainalgorithm.RequiredReinforcement;
 import materials.Cement;
@@ -44,7 +45,7 @@ public class ReinforcementDiagnosisController {
 	ADistanceTextFieldsController adistance;
 	GraphScreenController graph;
 	Main main;
-	
+
 	/*
 	 * //dodane coœ psuje Graph graph; DimensionsOfCrossSectionOfConcrete
 	 * dimensions;
@@ -482,6 +483,26 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private TextField normalnaNmin;
 
+	@FXML
+	private VBox labelsColumnVBox;
+	@FXML
+	private Label emptyLabelL0;
+	@FXML
+	private Label l0Label;
+	@FXML
+	private Label fit0Label;
+
+	@FXML
+	private VBox lastColumnVBox;
+	@FXML
+	private Label emptyLastColumnLabel;
+	@FXML
+	private TextField l0;
+	@FXML
+	private TextField fiT0;
+	
+	/////////////////////////
+
 	// steel parameters
 	@FXML
 	private Label fYkLabel;
@@ -518,7 +539,7 @@ public class ReinforcementDiagnosisController {
 
 	@FXML
 	private Button graphButton;
-	
+
 	private Graph plotGraph;
 
 	private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete = ReinforcementDesignController.dimensionsOfCrossSectionOfConcrete;
@@ -532,7 +553,9 @@ public class ReinforcementDiagnosisController {
 	protected CreepCoeficent creep = ReinforcementDesignController.creep;
 	private ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis;
 	private DiagnosisButtonController diagnosisButtonController;
+	private NominalStiffness stiffness = ReinforcementDesignController.stiffness;
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm = new DiagnosisMainAlgorithm();
+
 
 	@FXML
 	void initialize() {
@@ -556,14 +579,19 @@ public class ReinforcementDiagnosisController {
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 
 		/// Metoda sprawdza poprawosc wprowadzonych danych
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentMmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentMmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentNmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentNmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmin, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaNmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaNmin, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmin, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmin, ReinforcementDesignController.InternalForces);
+		
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, fiT0, ReinforcementDesignController.Nominalstiffness);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, l0, ReinforcementDesignController.Nominalstiffness);
+
+		
 		////////
 
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
@@ -637,12 +665,12 @@ public class ReinforcementDiagnosisController {
 	private void switchToDesignScene(ActionEvent event) {
 		main.switchToDesignScene();
 	}
-	
+
 	@FXML
 	private void switchToGraphScene(ActionEvent event) {
 		main.switchToGraphScene();
 	}
-	
+
 	public ChoiceBox<String> getConcreteChoiceBox() {
 		return concreteChoiceBox;
 	}

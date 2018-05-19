@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
@@ -411,7 +410,8 @@
       </Label>
       <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="250.0" />
       <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="250.0" />
-      <HBox fx:id="columsCasesHBox" layoutX="19.0" layoutY="610.0" maxHeight="100.0" maxWidth="368.0" prefHeight="75.0" prefWidth="368.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="600.0">
+      <Button fx:id="graphButton" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="565.0" />
+      <HBox fx:id="columsCasesHBox" layoutX="19.0" layoutY="610.0" maxHeight="100.0" maxWidth="300.0" prefHeight="75.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="600.0">
          <children>
             <VBox fx:id="firstColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -445,14 +445,23 @@
                <children>
                   <Label fx:id="nMinLabel" text="Nmin" />
                   <TextField fx:id="momentNmin" />
-                  <TextField fx:id="normalnaNmin" prefHeight="25.0" prefWidth="30.0" />
+                  <TextField fx:id="normalnaNmin" />
                </children>
             </VBox>
-            <StackPane minWidth="45.0" prefHeight="150.0" prefWidth="200.0" translateX="20.0">
+            <VBox fx:id="labelsColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="graphButton" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" />
+                  <Label fx:id="emptyLabelL0" />
+                  <Label fx:id="l0Label" alignment="CENTER_RIGHT" prefHeight="25.0" text="l0 [m]" textAlignment="RIGHT" />
+                  <Label fx:id="fit0Label" alignment="CENTER_RIGHT" prefHeight="25.0" text="ϕ t0" textAlignment="RIGHT" />
                </children>
-            </StackPane>
+            </VBox>
+            <VBox fx:id="lastColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="emptyLastColumnLabel" />
+                  <TextField fx:id="l0" />
+                  <TextField fx:id="fiT0" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>

@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import util.InputValidation;
 import util.StringToDouble;
 
@@ -15,10 +16,10 @@ public class InternalForcesController {
 	
 	///3.0 ver
 	
-	public static void addPropertiesToTextField(InternalForces internalForces, TextField tf) {
-		addInputListener(internalForces, tf);
-		addFocusListener(tf);
-		setInitialValue(tf);
+	public static void addPropertiesToTextField(InternalForces internalForces, NominalStiffness stiffness, TextField tf, String className) {
+		addInputListener(internalForces, stiffness, tf, className);
+		addFocusListener(tf, className);
+		setInitialValue(tf, className);
 	}
 	
 	///////
@@ -434,17 +435,21 @@ public class InternalForcesController {
 	// text field
 	private static boolean isInputCorrect;
 
-	private static void addInputListener(InternalForces internalForces, TextField tf) {
-		tf.textProperty().addListener(new InputListener(internalForces, tf));
+	private static void addInputListener(InternalForces internalForces, NominalStiffness stiffness, TextField tf, String className) {
+		tf.textProperty().addListener(new InputListener(internalForces, stiffness, tf, className));
 	}
 
 	private static class InputListener implements ChangeListener<String> {
 		private InternalForces internalForces;
 		private TextField tf;
+		private NominalStiffness stiffness;
+		private String className;
 
-		private InputListener(InternalForces internalForces, TextField tf) {
+		private InputListener(InternalForces internalForces, NominalStiffness stiffness, TextField tf, String className) {
 			this.internalForces = internalForces;
 			this.tf = tf;
+			this.stiffness = stiffness;
+			this.className = className;
 		}
 
 		@Override
@@ -455,7 +460,7 @@ public class InternalForcesController {
 				name = name.substring(0, 1).toUpperCase() + name.substring(1);
 				Method method = null;
 				try {
-					method = Class.forName("mainalgorithm.InternalForces").getMethod("set"+name, double.class);
+					method = Class.forName(className).getMethod("set"+name, double.class);
 				} catch (NoSuchMethodException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -469,7 +474,13 @@ public class InternalForcesController {
 				
 				
 				try {
-					method.invoke(internalForces, StringToDouble.stringToDouble(arg2));
+					if (className.equals("mainalgorithm.InternalForces")) {
+						method.invoke(internalForces, StringToDouble.stringToDouble(arg2));
+					}
+					else if (className.equals("mainalgorithm.NominalStiffness")) {
+						method.invoke(stiffness, StringToDouble.stringToDouble(arg2));
+					}
+					
 				} catch (IllegalAccessException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -492,21 +503,23 @@ public class InternalForcesController {
 
 	}
 
-	private static void addFocusListener(TextField ForceEd) {
-		ForceEd.focusedProperty().addListener(new FocusListener(ForceEd));
+	private static void addFocusListener(TextField ForceEd, String className) {
+		ForceEd.focusedProperty().addListener(new FocusListener(ForceEd, className));
 	}
 
 	private static class FocusListener implements ChangeListener<Boolean> {
 
 		private TextField ForceEd;
+		private String className;
 
-		protected FocusListener(TextField ForceEd) {
+		protected FocusListener(TextField ForceEd, String className) {
 			this.ForceEd = ForceEd;
+			this.className = className;
 		}
 
 		private void ifInputWasIncorrectSetValueToInitial() {
 			if (isInputCorrect == false) {
-				setInitialValue(ForceEd);
+				setInitialValue(ForceEd, className);
 			}
 		}
 
@@ -519,8 +532,12 @@ public class InternalForcesController {
 
 	}
 	
-	private static void setInitialValue(TextField tf) {
-		tf.setText("0");
+	private static void setInitialValue(TextField tf, String className) {
+		if (className.equals("mainalgorithm.NominalStiffness")) {
+			tf.setText("1");
+		} else {
+			tf.setText("0");
+		}
 	}
 
 }

@@ -27,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import mainalgorithm.RequiredReinforcement;
 import materials.Cement;
@@ -102,12 +103,11 @@ public class ReinforcementDesignController {
 	private Label tWLabel;
 	@FXML
 	private Label tWLowerLabel;
-	
-	
+
 	/// Kombinacje obciazen do slupow
 	@FXML
 	private HBox columsCasesHBox;
-	
+
 	@FXML
 	private VBox firstColumnVBox;
 	@FXML
@@ -116,7 +116,7 @@ public class ReinforcementDesignController {
 	private Label mLabel;
 	@FXML
 	private Label nLabel;
-	
+
 	@FXML
 	private VBox mMaxColumnVBox;
 	@FXML
@@ -125,7 +125,7 @@ public class ReinforcementDesignController {
 	private TextField momentMmax;
 	@FXML
 	private TextField normalnaMmax;
-	
+
 	@FXML
 	private VBox mMinColumnVBox;
 	@FXML
@@ -134,7 +134,7 @@ public class ReinforcementDesignController {
 	private TextField momentMmin;
 	@FXML
 	private TextField normalnaMmin;
-	
+
 	@FXML
 	private VBox nMaxColumnVBox;
 	@FXML
@@ -143,7 +143,7 @@ public class ReinforcementDesignController {
 	private TextField momentNmax;
 	@FXML
 	private TextField normalnaNmax;
-	
+
 	@FXML
 	private VBox nMinColumnVBox;
 	@FXML
@@ -152,6 +152,24 @@ public class ReinforcementDesignController {
 	private TextField momentNmin;
 	@FXML
 	private TextField normalnaNmin;
+
+	@FXML
+	private VBox labelsColumnVBox;
+	@FXML
+	private Label emptyLabelL0;
+	@FXML
+	private Label l0Label;
+	@FXML
+	private Label fit0Label;
+
+	@FXML
+	private VBox lastColumnVBox;
+	@FXML
+	private Label emptyLastColumnLabel;
+	@FXML
+	private TextField l0;
+	@FXML
+	private TextField fiT0;
 
 	// ** RESULTS ULS
 
@@ -386,8 +404,7 @@ public class ReinforcementDesignController {
 
 	@FXML
 	private Label lowerTitle;
-	
-	
+
 	// additional variables
 
 	@FXML
@@ -475,6 +492,10 @@ public class ReinforcementDesignController {
 	protected static Cement cement;
 	protected static Sls sls;
 	protected static CreepCoeficent creep;
+	protected static NominalStiffness stiffness;
+
+	public static final String Nominalstiffness = "mainalgorithm.NominalStiffness";
+	public static final String InternalForces = "mainalgorithm.InternalForces";
 
 	@FXML
 	void initialize() {
@@ -487,8 +508,7 @@ public class ReinforcementDesignController {
 		sls = new Sls();
 		cement = new Cement(0);
 		creep = new CreepCoeficent();
-		
-		
+		stiffness = new NominalStiffness();
 
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -498,35 +518,43 @@ public class ReinforcementDesignController {
 
 		SteelParametersController.addPropertiesToFYkTF(steel, fYkTextField);
 
-		ADistanceTextFieldsController.addPropertiesToA1TextField(a1DimensionTextField, dimensionsOfCrossSectionOfConcrete);
-		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField, dimensionsOfCrossSectionOfConcrete);
+		ADistanceTextFieldsController.addPropertiesToA1TextField(a1DimensionTextField,
+				dimensionsOfCrossSectionOfConcrete);
+		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField,
+				dimensionsOfCrossSectionOfConcrete);
 
-		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField, tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-				dimensionsOfCrossSectionOfConcrete, columsCasesHBox);
+		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
+				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
+				columsCasesHBox);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 
-		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
+		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
+				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
-		
-		///Metoda sprawdza poprawosc wprowadzonych danych i wpisuje w pola sily
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentMmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentMmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentNmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentNmin);
-		
-		
+
+		/// Metoda sprawdza poprawosc wprowadzonych danych i wpisuje w pola sily
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmax, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmin, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaNmax, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaNmin, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmax, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmin, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmax, InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmin, InternalForces);
+
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, l0, Nominalstiffness);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, fiT0, Nominalstiffness);
+
 		/////////
-		
-		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
-		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField, mEdCharCalkTextField, mEdCharDlugTextField);
+
+		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField,
+				mEdCharCalkTextField, mEdCharDlugTextField);
+		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField,
+				mEdCharCalkTextField, mEdCharDlugTextField);
 
 		UsersDesignedReinforcementController.addPropertiesToDesignedAs1TF(reinforcement, aS1TextField);
 		UsersDesignedReinforcementController.addPropertiesToDesignedAs2TF(reinforcement, aS2TextField);
@@ -546,25 +574,38 @@ public class ReinforcementDesignController {
 		AdditionalVariablesController.addPropertiesToT0TF(concrete, t0TextField);
 		AdditionalVariablesController.addPropertiesToTypeOfLoad(internalForces, typeOfLoadChoiceBox);
 
-		resultsPaneControllerULS = new ResultsPaneControllerULS(reinforcement, internalForces, sls, gridLabel00, gridLabel01, gridLabel02, gridLabel03, gridLabel04, gridLabel05, gridLabel06,
-				gridLabel07, gridLabel08, gridLabel09, gridLabel010, gridLabel011, gridLabel012, gridLabel013, gridLabel014, gridLabel015, gridLabel10, gridLabel11, gridLabel12, gridLabel13,
-				gridLabel14, gridLabel15, gridLabel16, gridLabel17, gridLabel18, gridLabel19, gridLabel110, gridLabel111, gridLabel112, gridLabel113, gridLabel114, gridLabel115, gridLabel20,
-				gridLabel21, gridLabel22, gridLabel23, gridLabel24, gridLabel25, gridLabel26, gridLabel27, gridLabel28, gridLabel29, gridLabel210, gridLabel211, gridLabel212, gridLabel213,
-				gridLabel214, gridLabel215, gridLabel30, gridLabel31, gridLabel32, gridLabel33, gridLabel34, gridLabel35, gridLabel36, gridLabel37, gridLabel38, gridLabel39, gridLabel310,
-				gridLabel311, gridLabel312, gridLabel313, gridLabel314, gridLabel315, stanGranicznyNosnosciNequal0Label, leftSGNNequal0Line, rightSGNNequal0Line, zbrojeniePodluzneNequal0Label,
-				leftZbrojeniePodluzneNequal0Line, rightZbrojeniePodluzneNequal0Line, zbrojeniePoprzeczneNequal0Label, leftZbrojeniePoprzeczneNequal0Line, rightZbrojeniePoprzeczneNequal0Line,
-				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1, stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
-				zbrojeniePodluzneSymetryczneLabel, leftZbrojeniePodluzneSymetryczneLine, rightZbrojeniePodluzneSymetryczneLine, zbrojeniePodluzneNiesymetryczneLabel,
-				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine, zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
+		resultsPaneControllerULS = new ResultsPaneControllerULS(reinforcement, internalForces, sls, gridLabel00,
+				gridLabel01, gridLabel02, gridLabel03, gridLabel04, gridLabel05, gridLabel06, gridLabel07, gridLabel08,
+				gridLabel09, gridLabel010, gridLabel011, gridLabel012, gridLabel013, gridLabel014, gridLabel015,
+				gridLabel10, gridLabel11, gridLabel12, gridLabel13, gridLabel14, gridLabel15, gridLabel16, gridLabel17,
+				gridLabel18, gridLabel19, gridLabel110, gridLabel111, gridLabel112, gridLabel113, gridLabel114,
+				gridLabel115, gridLabel20, gridLabel21, gridLabel22, gridLabel23, gridLabel24, gridLabel25, gridLabel26,
+				gridLabel27, gridLabel28, gridLabel29, gridLabel210, gridLabel211, gridLabel212, gridLabel213,
+				gridLabel214, gridLabel215, gridLabel30, gridLabel31, gridLabel32, gridLabel33, gridLabel34,
+				gridLabel35, gridLabel36, gridLabel37, gridLabel38, gridLabel39, gridLabel310, gridLabel311,
+				gridLabel312, gridLabel313, gridLabel314, gridLabel315, stanGranicznyNosnosciNequal0Label,
+				leftSGNNequal0Line, rightSGNNequal0Line, zbrojeniePodluzneNequal0Label,
+				leftZbrojeniePodluzneNequal0Line, rightZbrojeniePodluzneNequal0Line, zbrojeniePoprzeczneNequal0Label,
+				leftZbrojeniePoprzeczneNequal0Line, rightZbrojeniePoprzeczneNequal0Line,
+				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1,
+				stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
+				zbrojeniePodluzneSymetryczneLabel, leftZbrojeniePodluzneSymetryczneLine,
+				rightZbrojeniePodluzneSymetryczneLine, zbrojeniePodluzneNiesymetryczneLabel,
+				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine,
+				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line);
 
-		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter, concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
+		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
+				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
 				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated);
-		
-		//CountButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter, concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-		//		resultsPaneControllerULS, cement, sls, internalForces, creep);
-		
-		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls);
+
+		// CountButtonController.addPropertiesToDesignButton(countButton,
+		// requiredReinforcementSeter, concrete, steel, internalForces,
+		// dimensionsOfCrossSectionOfConcrete, reinforcement,
+		// resultsPaneControllerULS, cement, sls, internalForces, creep);
+
+		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement,
+				internalForces, dimensionsOfCrossSectionOfConcrete, sls);
 
 	}
 
@@ -617,12 +658,12 @@ public class ReinforcementDesignController {
 		// bindBidirectionalCrossSectionTypeCBs();
 		bindBidirectionalConcreteCBs();
 		bindBidirectionalPdfName();
-		
+
 		bindBidirectionalarMomentMmax();
 		bindBidirectionalarMomentMmin();
 		bindBidirectionalarMomentNmax();
 		bindBidirectionalarMomentNmin();
-		
+
 		bindBidirectionalarNormalnaMmax();
 		bindBidirectionalarNormalnaMmin();
 		bindBidirectionalarNormalnaNmax();
@@ -659,7 +700,8 @@ public class ReinforcementDesignController {
 	}
 
 	private void bindBidirectionalmEdObliczenioweTFs() {
-		mEdObliczenioweTextField.textProperty().bindBidirectional(diagnosis.getmEdObliczenioweTextField().textProperty());
+		mEdObliczenioweTextField.textProperty()
+				.bindBidirectional(diagnosis.getmEdObliczenioweTextField().textProperty());
 	}
 
 	private void bindBidirectionalmEdCharCalkTFs() {
@@ -703,11 +745,13 @@ public class ReinforcementDesignController {
 	}
 
 	private void bindBidirectionalCementClassCBs() {
-		cementClassChoiceBox.selectionModelProperty().bindBidirectional(diagnosis.getCementClassChoiceBox().selectionModelProperty());
+		cementClassChoiceBox.selectionModelProperty()
+				.bindBidirectional(diagnosis.getCementClassChoiceBox().selectionModelProperty());
 	}
 
 	private void bindBidirectionalTypeOfLoadCBs() {
-		typeOfLoadChoiceBox.selectionModelProperty().bindBidirectional(diagnosis.getTypeOfLoadChoiceBox().selectionModelProperty());
+		typeOfLoadChoiceBox.selectionModelProperty()
+				.bindBidirectional(diagnosis.getTypeOfLoadChoiceBox().selectionModelProperty());
 	}
 
 	private void bindBidirectionalarwLimTFs() {
@@ -749,41 +793,47 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalarfYkTFs() {
 		fYkTextField.textProperty().bindBidirectional(diagnosis.getfYkTextField().textProperty());
 	}
-	
+
 	private void bindBidirectionalarMomentMmax() {
 		momentMmax.textProperty().bindBidirectional(diagnosis.getMomentMmax().textProperty());
 	}
+
 	private void bindBidirectionalarMomentMmin() {
 		momentMmin.textProperty().bindBidirectional(diagnosis.getMomentMmin().textProperty());
 	}
+
 	private void bindBidirectionalarMomentNmax() {
 		momentNmax.textProperty().bindBidirectional(diagnosis.getMomentNmax().textProperty());
 	}
+
 	private void bindBidirectionalarMomentNmin() {
 		momentNmin.textProperty().bindBidirectional(diagnosis.getMomentNmin().textProperty());
 	}
-	
+
 	private void bindBidirectionalarNormalnaNmin() {
 		normalnaNmin.textProperty().bindBidirectional(diagnosis.getNormalnaNmin().textProperty());
 	}
+
 	private void bindBidirectionalarNormalnaNmax() {
 		normalnaNmax.textProperty().bindBidirectional(diagnosis.getNormalnaNmax().textProperty());
 	}
+
 	private void bindBidirectionalarNormalnaMmax() {
 		normalnaMmax.textProperty().bindBidirectional(diagnosis.getNormalnaMmax().textProperty());
 	}
+
 	private void bindBidirectionalarNormalnaMmin() {
 		normalnaMmin.textProperty().bindBidirectional(diagnosis.getNormalnaMmin().textProperty());
 	}
-	
-	
 
 	private void bindBidirectionalCrossSectionTypeCBs() {
-		crossSectionTypeChoiceBox.selectionModelProperty().bindBidirectional(diagnosis.getCrossSectionTypeChoiceBox().selectionModelProperty());
+		crossSectionTypeChoiceBox.selectionModelProperty()
+				.bindBidirectional(diagnosis.getCrossSectionTypeChoiceBox().selectionModelProperty());
 	}
 
 	private void bindBidirectionalConcreteCBs() {
-		concreteChoiceBox.selectionModelProperty().bindBidirectional(diagnosis.getConcreteChoiceBox().selectionModelProperty());
+		concreteChoiceBox.selectionModelProperty()
+				.bindBidirectional(diagnosis.getConcreteChoiceBox().selectionModelProperty());
 	}
 
 	private void pushNumberOfRodsToDiagnosisScene() {
@@ -794,19 +844,23 @@ public class ReinforcementDesignController {
 	}
 
 	private void pushNumberOfRodsAs1Symmetrical() {
-		diagnosis.getaS1SymmetricalNumberOfRodsTextField().setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()));
+		diagnosis.getaS1SymmetricalNumberOfRodsTextField()
+				.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()));
 	}
 
 	private void pushNumberOfRodsAs2Symmetrical() {
-		diagnosis.getaS2SymmetricalNumberOfRodsTextField().setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()));
+		diagnosis.getaS2SymmetricalNumberOfRodsTextField()
+				.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()));
 	}
 
 	private void pushNumberOfRodsAs1Unsymmetrical() {
-		diagnosis.getaS1UnsymmetricalNumberOfRodsTextField().setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1()));
+		diagnosis.getaS1UnsymmetricalNumberOfRodsTextField()
+				.setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1()));
 	}
 
 	private void pushNumberOfRodsAs2Unsymmetrical() {
-		diagnosis.getaS2UnsymmetricalNumberOfRodsTextField().setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2()));
+		diagnosis.getaS2UnsymmetricalNumberOfRodsTextField()
+				.setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2()));
 	}
 
 	private void pushS1ValueToDiagnosisScene() {

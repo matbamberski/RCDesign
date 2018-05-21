@@ -6,6 +6,7 @@ import GUI.ReinforcementDesignLibraryControllers.AdditionalVariablesController;
 import GUI.ReinforcementDesignLibraryControllers.ConcreteChoiceBoxController;
 import GUI.ReinforcementDesignLibraryControllers.CrossSectionTypeController;
 import GUI.ReinforcementDesignLibraryControllers.DiagnosisButtonController;
+import GUI.ReinforcementDesignLibraryControllers.GraphButtonController;
 import GUI.ReinforcementDesignLibraryControllers.InternalForcesController;
 import GUI.ReinforcementDesignLibraryControllers.NumberOfRodsController;
 import GUI.ReinforcementDesignLibraryControllers.PdfController;
@@ -43,7 +44,7 @@ public class ReinforcementDiagnosisController {
 	ReinforcementDesignController design;
 	ReinforcementDesignController x;
 	ADistanceTextFieldsController adistance;
-	GraphScreenController graph;
+	GraphScreenController graphController;
 	Main main;
 
 	/*
@@ -540,7 +541,6 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private Button graphButton;
 
-	private Graph plotGraph;
 
 	private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete = ReinforcementDesignController.dimensionsOfCrossSectionOfConcrete;
 	private InternalForces internalForces = ReinforcementDesignController.internalForces;
@@ -555,6 +555,9 @@ public class ReinforcementDiagnosisController {
 	private DiagnosisButtonController diagnosisButtonController;
 	private NominalStiffness stiffness = ReinforcementDesignController.stiffness;
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm = new DiagnosisMainAlgorithm();
+	
+	private Graph graph = ReinforcementDesignController.graph;
+	
 
 
 	@FXML
@@ -654,11 +657,17 @@ public class ReinforcementDiagnosisController {
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
-
+		
+		GraphButtonController.addPropertiesToDesignButton(graphButton, this, graph);
+		
 	}
 
 	public void giveReferences(Main main) {
 		this.main = main;
+	}
+	
+	public void giveReferences(GraphScreenController graphController) {
+		this.graphController = graphController;
 	}
 
 	@FXML
@@ -667,7 +676,7 @@ public class ReinforcementDiagnosisController {
 	}
 
 	@FXML
-	private void switchToGraphScene(ActionEvent event) {
+	public void switchToGraphScene(ActionEvent event) {
 		main.switchToGraphScene();
 	}
 
@@ -855,5 +864,27 @@ public class ReinforcementDiagnosisController {
 	public TextField getNormalnaNmin() {
 		return normalnaNmin;
 	}
+
+	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
+		return dimensionsOfCrossSectionOfConcrete;
+	}
+
+	public InternalForces getInternalForces() {
+		return internalForces;
+	}
+
+	public Concrete getConcrete() {
+		return concrete;
+	}
+
+	public Steel getSteel() {
+		return steel;
+	}
+
+	public Reinforcement getReinforcement() {
+		return reinforcement;
+	}
+	
+	
 
 }

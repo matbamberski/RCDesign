@@ -34,11 +34,13 @@ import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
+import reinforcement.graph.Graph;
 
 public class ReinforcementDesignController {
 
 	ScreensController myController;
 	ReinforcementDiagnosisController diagnosis;
+	GraphScreenController graphController;
 	Main main;
 
 	@FXML
@@ -493,6 +495,9 @@ public class ReinforcementDesignController {
 	protected static Sls sls;
 	protected static CreepCoeficent creep;
 	protected static NominalStiffness stiffness;
+	
+	protected static Graph graph;
+	
 
 	public static final String Nominalstiffness = "mainalgorithm.NominalStiffness";
 	public static final String InternalForces = "mainalgorithm.InternalForces";
@@ -509,7 +514,8 @@ public class ReinforcementDesignController {
 		cement = new Cement(0);
 		creep = new CreepCoeficent();
 		stiffness = new NominalStiffness();
-
+		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement);
+		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
 		PdfController.addPropertiesToPdfNameTextField(pdfName);
@@ -597,7 +603,7 @@ public class ReinforcementDesignController {
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated);
+				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, graphController);
 
 		// CountButtonController.addPropertiesToDesignButton(countButton,
 		// requiredReinforcementSeter, concrete, steel, internalForces,
@@ -606,6 +612,8 @@ public class ReinforcementDesignController {
 
 		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement,
 				internalForces, dimensionsOfCrossSectionOfConcrete, sls);
+		
+		
 
 	}
 
@@ -615,6 +623,10 @@ public class ReinforcementDesignController {
 
 	public void giveReferences(ReinforcementDiagnosisController diagnosis) {
 		this.diagnosis = diagnosis;
+	}
+	
+	public void giveReferences(GraphScreenController graphController) {
+		this.graphController = graphController;
 	}
 
 	@FXML

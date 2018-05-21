@@ -21,9 +21,9 @@ import reinforcement.graph.Graph;
 
 public class GraphScreenController {
 
-	private LinkedList<Double> pointsN = new LinkedList<>();
-	private LinkedList<Double> pointsM = new LinkedList<>();
+	
 	Main main;
+	ReinforcementDiagnosisController diagnosis;
 
 	@FXML
 	private ResourceBundle resources;
@@ -36,48 +36,87 @@ public class GraphScreenController {
 
 	@FXML
 	private LineChart<Number, Number> lineChart;
-
+/*
 	@FXML
 	private Axis<Number> xAxis;
 
 	@FXML
 	private NumberAxis yAxis;
+	*/
+	private static Graph graph = ReinforcementDesignController.graph;
 
-	public void setPointsN(LinkedList<Double> pointsN) {
-		this.pointsN = pointsN;
-	}
-
-	public void setPointsM(LinkedList<Double> pointsM) {
-		this.pointsM = pointsM;
-	}
+	//private static XYChart.Series<Number, Number> series;
+	
 
 	@FXML
 	void initialize() {
+		System.out.println("\nODPALONO GRAPHCONTROLLER!\n");
+		//lineChart = new LineChart<Number, Number>(xAxis, yAxis);
+		graph.addSeries(lineChart);
+		//graph = new Graph(lineChart, diagnosis.getSteel(), diagnosis.getDimensionsOfCrossSectionOfConcrete(), 
+		//		diagnosis.getConcrete(), diagnosis.getReinforcement());
 		
-		LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		lineChart.setTitle("Krzywe noœnoœci granicznej");
 
-		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-		series.setName("noœnoœci");
-
-		for (int i = 0; i < pointsN.size(); i++) {
-			System.out.println("N" + i + ": " + pointsN.get(i));
-			System.out.println("M" + i + ": " + pointsM.get(i));
-			series.getData().add(new Data<Number, Number>(pointsN.get(i), pointsM.get(i)));
-			}
-		lineChart.getData().add(series);
+		//series = new XYChart.Series<Number, Number>();
+		//series.setName("noœnoœci");
 		
 	}
 	
-
+	public static void plot() {
+		graph.plotGraph();
+	}
+	
+	/*
+	public static void newGraph(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions,
+			Concrete concrete, Reinforcement reinforcement) {
+		System.out.println("\nNowy wykres\n");
+		//Graph graph = new Graph(steel, dimensions, concrete, reinforcement);
+		//graph.prepareDataGraph(dimensions, steel, concrete, reinforcement);
+		series.getData().clear();
+		lineChart.getData().clear();
+		//prepareGraph(graph.getPointsN(), graph.getPointsM());
+		test();
+	}
+	
+	private static void prepareGraph(LinkedList<Double> pointsN, LinkedList<Double> pointsM) {
+		
+		for (int i = 0; i < pointsN.size(); i++) {
+			/*
+			System.out.println("N" + i + ": " + pointsN.get(i));
+			System.out.println("M" + i + ": " + pointsM.get(i));
+			
+			series.getData().add(new Data<Number, Number>(pointsN.get(i), pointsM.get(i)));
+			}
+			
+		lineChart.getData().add(series);
+	}
+*/
 	public void giveReferences(Main main) {
 		this.main = main;
-
 	}
-
+	
+	public void giveReferences(ReinforcementDiagnosisController diagnosis) {
+		this.diagnosis = diagnosis;
+	}
+	/*
+	private static void test() {
+		for (double x = -10; x <= 10; x = x + 0.01) {
+			series.getData().add(new XYChart.Data<Number, Number>(x, Math.pow(x, 2)));
+        }
+		lineChart.getData().add(series);
+		
+		System.out.println("Dodano dane do wykresu");
+	}
+*/
 	@FXML
 	void switchBackToDiagnosisScene(ActionEvent event) {
 		main.switchBackToDiagnosisScene();
 	}
+
+	public LineChart<Number, Number> getLineChart() {
+		return lineChart;
+	}
+	
+	
 
 }

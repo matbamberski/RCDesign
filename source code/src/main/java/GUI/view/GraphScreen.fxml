@@ -12,7 +12,8 @@
    <children>
       <LineChart fx:id="lineChart" layoutX="12.0" layoutY="42.0" prefHeight="602.0" prefWidth="875.0">
         <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
+          <!--  <CategoryAxis side="BOTTOM" fx:id="xAxis" />-->
+          <NumberAxis fx:id="xAxis" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="yAxis" side="LEFT" />

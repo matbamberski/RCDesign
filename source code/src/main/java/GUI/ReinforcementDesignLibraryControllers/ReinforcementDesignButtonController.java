@@ -1,5 +1,6 @@
 package GUI.ReinforcementDesignLibraryControllers;
 
+import GUI.view.GraphScreenController;
 import SLS.Sls;
 import SLS.creepCoeficent.CreepCoeficent;
 import javafx.event.ActionEvent;
@@ -12,20 +13,23 @@ import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
+import reinforcement.graph.Graph;
 import util.ResultsToPDF;
 
 public class ReinforcementDesignButtonController {
 
 	public static void addPropertiesToDesignButton(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, boolean wasResultsGenerated) {
-		addListener(button, requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated);
+			CreepCoeficent creep, boolean wasResultsGenerated, GraphScreenController graphController) {
+		addListener(button, requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, 
+				resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, graphController);
 	}
 
 	private static void addListener(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, boolean wasResultsGenerated) {
-		button.setOnAction(new onClick(requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated));
+			CreepCoeficent creep, boolean wasResultsGenerated, GraphScreenController graphController) {
+		button.setOnAction(new onClick(requiredReinforcement, concrete, steel, internalForces, 
+				dimensions, reinforcement, resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, graphController));
 	}
 
 	private static class onClick implements EventHandler<ActionEvent> {
@@ -40,9 +44,12 @@ public class ReinforcementDesignButtonController {
 		ResultsPaneControllerULS resultsPaneControllerULS;
 		InternalForces forces;
 		CreepCoeficent creep;
+		GraphScreenController graphController;
 
 		protected onClick(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
-				Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep, boolean wasResultsGenerated) {
+				Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, 
+				Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep, boolean wasResultsGenerated,
+				GraphScreenController graphController) {
 			this.requiredReinforcement = requiredReinforcement;
 			this.concrete = concrete;
 			this.steel = steel;
@@ -54,7 +61,7 @@ public class ReinforcementDesignButtonController {
 			this.sls = sls;
 			this.forces = forces;
 			this.creep = creep;
-
+			this.graphController = graphController;
 		}
 
 		@Override
@@ -63,7 +70,8 @@ public class ReinforcementDesignButtonController {
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, dimensions, reinforcement);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			resultsPaneControllerULS.dispResults();
-
+			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);
+			//graph.plotGraph();
 			SaveFileButtonController.enableSaveButtonDesignScene();
 		}
 

@@ -6,6 +6,7 @@ import GUI.ReinforcementDesignLibraryControllers.AdditionalVariablesController;
 import GUI.ReinforcementDesignLibraryControllers.ConcreteChoiceBoxController;
 import GUI.ReinforcementDesignLibraryControllers.CrossSectionTypeController;
 import GUI.ReinforcementDesignLibraryControllers.DiagnosisButtonController;
+import GUI.ReinforcementDesignLibraryControllers.GraphButtonController;
 import GUI.ReinforcementDesignLibraryControllers.InternalForcesController;
 import GUI.ReinforcementDesignLibraryControllers.NumberOfRodsController;
 import GUI.ReinforcementDesignLibraryControllers.PdfController;
@@ -23,11 +24,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import mainalgorithm.RequiredReinforcement;
 import materials.Cement;
@@ -42,9 +45,9 @@ public class ReinforcementDiagnosisController {
 	ReinforcementDesignController design;
 	ReinforcementDesignController x;
 	ADistanceTextFieldsController adistance;
-	GraphScreenController graph;
+	GraphScreenController graphController;
 	Main main;
-	
+
 	/*
 	 * //dodane coœ psuje Graph graph; DimensionsOfCrossSectionOfConcrete
 	 * dimensions;
@@ -482,6 +485,26 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private TextField normalnaNmin;
 
+	@FXML
+	private VBox labelsColumnVBox;
+	@FXML
+	private Label emptyLabelL0;
+	@FXML
+	private Label l0Label;
+	@FXML
+	private Label fit0Label;
+
+	@FXML
+	private VBox lastColumnVBox;
+	@FXML
+	private Label emptyLastColumnLabel;
+	@FXML
+	private TextField l0;
+	@FXML
+	private TextField fiT0;
+	
+	/////////////////////////
+
 	// steel parameters
 	@FXML
 	private Label fYkLabel;
@@ -518,8 +541,7 @@ public class ReinforcementDiagnosisController {
 
 	@FXML
 	private Button graphButton;
-	
-	private Graph plotGraph;
+
 
 	private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete = ReinforcementDesignController.dimensionsOfCrossSectionOfConcrete;
 	private InternalForces internalForces = ReinforcementDesignController.internalForces;
@@ -532,7 +554,12 @@ public class ReinforcementDiagnosisController {
 	protected CreepCoeficent creep = ReinforcementDesignController.creep;
 	private ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis;
 	private DiagnosisButtonController diagnosisButtonController;
+	private NominalStiffness stiffness = ReinforcementDesignController.stiffness;
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm = new DiagnosisMainAlgorithm();
+	
+	private Graph graph = ReinforcementDesignController.graph;
+	
+
 
 	@FXML
 	void initialize() {
@@ -556,14 +583,19 @@ public class ReinforcementDiagnosisController {
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 
 		/// Metoda sprawdza poprawosc wprowadzonych danych
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaMmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, normalnaNmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentMmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentMmin);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentNmax);
-		InternalForcesController.addPropertiesToTextField(internalForces, momentNmin);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmin, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaNmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaNmin, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmin, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmax, ReinforcementDesignController.InternalForces);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmin, ReinforcementDesignController.InternalForces);
+		
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, fiT0, ReinforcementDesignController.Nominalstiffness);
+		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, l0, ReinforcementDesignController.Nominalstiffness);
+
+		
 		////////
 
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
@@ -626,23 +658,29 @@ public class ReinforcementDiagnosisController {
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
-
+		
+		GraphButtonController.addPropertiesToDesignButton(graphButton, this, graph);
+		
 	}
 
 	public void giveReferences(Main main) {
 		this.main = main;
+	}
+	
+	public void giveReferences(GraphScreenController graphController) {
+		this.graphController = graphController;
 	}
 
 	@FXML
 	private void switchToDesignScene(ActionEvent event) {
 		main.switchToDesignScene();
 	}
-	
+
 	@FXML
-	private void switchToGraphScene(ActionEvent event) {
+	public void switchToGraphScene(ActionEvent event) {
 		main.switchToGraphScene();
 	}
-	
+
 	public ChoiceBox<String> getConcreteChoiceBox() {
 		return concreteChoiceBox;
 	}
@@ -827,5 +865,37 @@ public class ReinforcementDiagnosisController {
 	public TextField getNormalnaNmin() {
 		return normalnaNmin;
 	}
+	
+	public TextField getFiT0() {
+		return fiT0;
+	}
+	
+	public TextField getL0() {
+		return l0;
+	}
+
+	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
+		return dimensionsOfCrossSectionOfConcrete;
+	}
+
+	public InternalForces getInternalForces() {
+		return internalForces;
+	}
+
+	public Concrete getConcrete() {
+		return concrete;
+	}
+
+	public Steel getSteel() {
+		return steel;
+	}
+
+	public Reinforcement getReinforcement() {
+		return reinforcement;
+	}
+
+	
+	
+	
 
 }

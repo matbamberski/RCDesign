@@ -1,5 +1,7 @@
 package mainalgorithm;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.OptionalDouble;
 import java.util.stream.DoubleStream;
 
@@ -8,21 +10,18 @@ public class InternalForces {
 	private double mEdObliczeniowe;
 	private double nEd;
 	private double vEd;
-	
-	private double momentMmax;
-	private double momentMmin;
-	private double momentNmax;
-	private double momentNmin;
-	private double normalnaMmax;
-	private double normalnaMmin;
-	private double normalnaNmax;
-	private double normalnaNmin;
-	
-	private double e1;
-	private double e2;
-	private double e3;
-	private double e4;
-	
+
+	protected double momentMmax;
+	protected double momentMmin;
+	protected double momentNmax;
+	protected double momentNmin;
+	protected double normalnaMmax;
+	protected double normalnaMmin;
+	protected double normalnaNmax;
+	protected double normalnaNmin;
+
+	ArrayList<ForcesCombination> combinations = new ArrayList<>();
+
 
 	private double gPlusQForShearing;
 
@@ -35,30 +34,58 @@ public class InternalForces {
 	private double alfaM;
 	private boolean isLoadSustained;
 	
-	public void countE() {
-		if (this.normalnaMmax!=0) {
-			setE1(getMomentMmax()/getNormalnaMmax());
-		} else setE1(0);
+	public class ForcesCombination {
+		private double M;
+		private double N;
+		private double e;
 		
-		if (this.normalnaMmin!=0) {
-			setE2(getMomentMmin()/getNormalnaMmin());
-		} else setE2(0);
+		public ForcesCombination(double M, double N) {
+			this.M = M;
+			this.N = N;
+			countE();
+		}
 		
-		if (this.normalnaNmax!=0) {
-			setE3(getMomentNmax()/getNormalnaNmax());
-		} else setE3(0);
-		
-		if (this.normalnaNmin!=0) {
-			setE4(getMomentNmin()/getNormalnaNmin());
-		} else setE4(0);
+		public void countE() {
+			if (this.N!=0) {
+				this.e = M/N;
+			} else this.e = 0;
+		}
+
+		public double getE() {
+			return e;
+		}
+
+		public double getM() {
+			return M;
+		}
+
+		public double getN() {
+			return N;
+		}
 		
 	}
-	
-	public double getMaxE() {
-		OptionalDouble max = DoubleStream.of(Math.abs(this.e1), Math.abs(this.e2), Math.abs(this.e3), Math.abs(this.e4)).max();
-		return max.orElse(0);
+
+	public void countECombinations() {
+		combinations.clear();
+		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());
+		ForcesCombination Mmin = new ForcesCombination(getMomentMmin(), getNormalnaMmin());
+		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
+		ForcesCombination Nmin = new ForcesCombination(getMomentNmin(), getNormalnaNmin());
+		Collections.addAll(combinations, Mmax, Mmin, Nmax, Nmin);
 	}
-	
+
+	public ForcesCombination getMaxECombination() {
+		double eResult = 0;
+		ForcesCombination combination = null;
+		for(ForcesCombination fc : combinations ) {
+			if (eResult<=fc.getE()) {
+				combination = fc;
+				eResult = fc.getE();
+			}
+		}
+		return combination;
+	}
+
 
 	public void checkIsLoadSustained(int i) {
 		if (i == 0) {
@@ -67,47 +94,6 @@ public class InternalForces {
 			isLoadSustained = false;
 		}
 		System.out.println(" obciazenie dlugotrwale ? " + isLoadSustained);
-	}
-	
-	
-
-	public double getE1() {
-		return e1;
-	}
-
-
-	public void setE1(double e1) {
-		this.e1 = e1;
-	}
-
-
-	public double getE2() {
-		return e2;
-	}
-
-
-	public void setE2(double e2) {
-		this.e2 = e2;
-	}
-
-
-	public double getE3() {
-		return e3;
-	}
-
-
-	public void setE3(double e3) {
-		this.e3 = e3;
-	}
-
-
-	public double getE4() {
-		return e4;
-	}
-
-
-	public void setE4(double e4) {
-		this.e4 = e4;
 	}
 
 
@@ -250,7 +236,7 @@ public class InternalForces {
 		this.normalnaNmin = normalnaNmin;
 		System.out.println("normalnaNmin: "+normalnaNmin);
 	}
-	
-	
+
+
 
 }

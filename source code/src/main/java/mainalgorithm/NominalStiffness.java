@@ -24,33 +24,35 @@ public class NominalStiffness {
 		this.roS1 = roS1;
 	}
 	
-	public void setl0(double l0) {
-		this.l0 = l0;
-	}
-	
-	public void setfiT0(double fiT0) {
-		this.fiT0 = fiT0;
+	public double getL0() {
+		return l0;
 	}
 
+	public void setL0(double l0) {
+		this.l0 = l0;
+	}
+
+	public double getFiT0() {
+		return fiT0;
+	}
+
+	public void setFiT0(double fiT0) {
+		this.fiT0 = fiT0;
+	}
+	
 	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
-
 		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
 		double eCm = concrete.getECm() * 1000; // [Gpa] -> [Mpa]
 		//double fCd = fCk / 1.40;
 		double fCd = concrete.getFCd()*1000;
 		double eCd = eCm / 1.2;
 		double eS = steel.getES() * 1000; /// [Gpa] -> [Mpa]
-		setl0(2);
-		setfiT0(2.4);
+		
+		System.err.println("FiT0 = " + fiT0);
+		System.err.println("L0 = " + l0);
 
-		//////////////////// Dzia³ania matematyczne
-
-		//aC = h * b;
-		//iC = (b * Math.pow((h), 3)) / 12; // [m^4]
-		dimensions.calculateAc();
-		dimensions.calculateIc();
 		double i = Math.sqrt(dimensions.getIc() / dimensions.getAc()); // [m]
 		double lambda = l0 / i;
 		double n = nEd / (dimensions.getAc() * fCd);

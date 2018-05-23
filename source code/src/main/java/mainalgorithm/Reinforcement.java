@@ -380,7 +380,7 @@ public class Reinforcement {
 		System.out.println("designedAS2 " + designedAS2);
 	}
 
-	///Obliczenie gestosci zbrojenia
+	///Obliczenie stopni zbrojenia
 	public void setDegreeOfComputedSymmetricalReinforcementRectangular(DimensionsOfCrossSectionOfConcrete dimensions) {
 		this.degreeOfComputedSymmetricalReinforcement = (requiredSymmetricalAS1 + requiredSymmetricalAS2) / (dimensions.getB() * dimensions.getH());
 		System.out.println("degreeOfComputedSymmetricalReinforcement " + degreeOfComputedSymmetricalReinforcement);

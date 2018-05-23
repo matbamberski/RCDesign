@@ -408,6 +408,20 @@
                   <TextField fx:id="normalnaNmin" />
                </children>
             </VBox>
+            <VBox fx:id="labelsColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="emptyLabelL0" />
+                  <Label fx:id="l0Label" alignment="CENTER_RIGHT" prefHeight="25.0" text="l0 [m]" textAlignment="RIGHT" />
+                  <Label fx:id="fit0Label" alignment="CENTER_RIGHT" prefHeight="25.0" text="ϕ t0" textAlignment="RIGHT" />
+               </children>
+            </VBox>
+            <VBox fx:id="lastColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label fx:id="emptyLastColumnLabel" />
+                  <TextField fx:id="l0" />
+                  <TextField fx:id="fiT0" />
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>

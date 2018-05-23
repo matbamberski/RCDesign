@@ -40,6 +40,8 @@ public class Main extends Application {
 		//rootLayout.setCenter(design);
 		hbox.getChildren().add(design);
 		designController.giveReferences(diagnosisController);
+		designController.giveReferences(graphController);
+		diagnosisController.giveReferences(graphController);
 		designController.bindPropertiesWithDiagnosisScene();
 	}
 
@@ -140,6 +142,11 @@ public class Main extends Application {
 		//rootLayout.setTop(design);
 		primaryStage.setTitle(
 				"RCdesign v3.0 - Projektowanie                                                                                                             autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD ");
+	}
+	
+
+	public ReinforcementDiagnosisController getDiagnosisController() {
+		return diagnosisController;
 	}
 
 	public static void main(String[] args) {

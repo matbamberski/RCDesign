@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -864,6 +865,38 @@ public class ReinforcementDiagnosisController {
 	public TextField getNormalnaNmin() {
 		return normalnaNmin;
 	}
+	
+	public TextField getFiT0() {
+		return fiT0;
+	}
+	
+	public TextField getL0() {
+		return l0;
+	}
+
+	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
+		return dimensionsOfCrossSectionOfConcrete;
+	}
+
+	public InternalForces getInternalForces() {
+		return internalForces;
+	}
+
+	public Concrete getConcrete() {
+		return concrete;
+	}
+
+	public Steel getSteel() {
+		return steel;
+	}
+
+	public Reinforcement getReinforcement() {
+		return reinforcement;
+	}
+
+	
+	
+	
 
 	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
 		return dimensionsOfCrossSectionOfConcrete;

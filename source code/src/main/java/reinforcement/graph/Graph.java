@@ -10,7 +10,7 @@ import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
 
-public class Graph {
+public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinforcement{
 
 	ReinforcementDiagnosisController diagnosis;
 	
@@ -29,6 +29,7 @@ public class Graph {
 	private double m;
 
 	private double krok; // <- dok³adnoœæ wykresu (krok zwiêkszania wartoœci x)
+	private double dzielnik;
 
 	private double fcH;
 	private double fcX;
@@ -36,16 +37,10 @@ public class Graph {
 	private double aS2;
 
 	private double n7;
-
-	// sprawdziæ, czy poni¿sze wymiary a2, d, h s¹ w [m]
-	private double x_YdMin;
-	private double xYdMin;
-	private double xLim;
-	private double x0;
-	private double xYdMax;
 	
 	private LinkedList<Double> pointsN = new LinkedList<>();
 	private LinkedList<Double> pointsM = new LinkedList<>();
+	private LinkedList<Double> points_M = new LinkedList<>();
 
 	
 	private XYChart<Number, Number> newGraph;
@@ -75,48 +70,47 @@ public class Graph {
 		LAMBDA = 0.8;
 		sigmaS1 = 0.0;
 		sigmaS2 = 0.0;
+		setX0(concrete, steel, dimensions.getH());
+		setXLim(concrete, steel, dimensions.getD());
+		setXMaxYd(concrete, steel, dimensions.getA2());
+		setXMinMinusYd(concrete, steel, dimensions.getA2());
+		setXMinYd(concrete, steel, dimensions.getA2());
 		x = 0;
 		n = 0;
 		m = 0;
-		krok = 0.01;
-		fcH = concrete.getFCd() * dimensions.getB() * dimensions.getH();
-		fcX = concrete.getFCd() * dimensions.getB() * LAMBDA;
+		krok = 0.0;
+		dzielnik = 10;
+		fcH = concrete.getFCd()* 1000 * dimensions.getB() * dimensions.getH();
+		fcX = concrete.getFCd()* 1000 * dimensions.getB() * LAMBDA;
 		
 		// uzale¿niæ aS1 i aS2 od tego czy symetryczne czy nie -- znaleŸæ warunek
 				// symetrycznego
-		if (reinforcement.getDesignedUnsymmetricalAS2() == 0) {
+		
 			aS1 = reinforcement.getDesignedSymmetricalAS1();
 			aS2 = reinforcement.getDesignedSymmetricalAS2();
-		} else {
-			aS1 = reinforcement.getDesingedUnsymmetricalAS1();
-			aS2 = reinforcement.getDesignedUnsymmetricalAS2();
-		}
+			System.out.println("As1: " + aS1);
+			System.out.println("As2: " + aS2);
+		
 
 		///sprawdzic jednostki czy [m] (te wartosci sa juz policzone, trzeba polaczyc z obiektem liczonego zbrojenia)
-		 n7 = ypsilonC3 * steel.getES() * (aS1 + aS2) + fcH;
-		 x_YdMin = (ypsilonCu3 / (ypsilonCu3 + (steel.getFYd() / steel.getES()))) * dimensions.getA2();
-		 xYdMin = (ypsilonCu3 / (ypsilonCu3 - (steel.getFYd() / steel.getES()))) * dimensions.getA2();
-		 xLim = (ypsilonCu3 / (ypsilonCu3 + (steel.getFYd() / steel.getES()))) * dimensions.getD();
-		 x0 = ((ypsilonCu3 - ypsilonC3) / ypsilonCu3) * dimensions.getH();
-		 xYdMax = ((steel.getFYd() * x0)
-					- (ypsilonC3 * dimensions.getA2() * steel.getES()) / (steel.getFYd() - (ypsilonC3 * steel.getES())));
-		 
+		 n7 = ypsilonC3 * (steel.getES() * 1000000) * (aS1 + aS2) + fcH;
 	}
-
-
-
-	
-	
 
 	public void prepareDataGraph(DimensionsOfCrossSectionOfConcrete dimensions, Steel steel, Concrete concrete,
 			Reinforcement reinforcement) {
 		
 		pointsM.clear();
 		pointsN.clear();
+		points_M.clear();
 
-		while (x < x_YdMin) { // przedzia³ 1
-			sigmaS1 = steel.getFYd();
-			sigmaS2 = -steel.getFYd();
+		while (x < xMinMinusYd) { // przedzia³ 1
+			krok = (xMinMinusYd)/dzielnik;
+			System.out.println("Przedzia³1");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
+			
+			sigmaS1 = (steel.getFYd()* 1000);
+			sigmaS2 = -(steel.getFYd()* 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -127,9 +121,14 @@ public class Graph {
 
 		}
 
-		while (x < xYdMin) { // przedzia³ 2
-			sigmaS1 = steel.getFYd();
-			sigmaS2 = ypsilonCu3 * ((x - dimensions.getA2()) / x) * steel.getES();
+		while (x < xMinYd) { // przedzia³ 2
+			krok = (xMinYd - xMinMinusYd)/dzielnik;
+			System.out.println("Przedzia³2");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
+			
+			sigmaS1 = (steel.getFYd()* 1000);
+			sigmaS2 = ypsilonCu3 * ((x - dimensions.getA2()) / x) * (steel.getES() * 1000000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -140,8 +139,13 @@ public class Graph {
 		}
 
 		while (x < xLim) { // przedzia³ 3
-			sigmaS1 = steel.getFYd();
-			sigmaS2 = steel.getFYd();
+			krok = (xLim - xMinYd)/dzielnik;
+			System.out.println("Przedzia³3");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
+			
+			sigmaS1 = (steel.getFYd()* 1000);
+			sigmaS2 = (steel.getFYd()* 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -152,13 +156,18 @@ public class Graph {
 		}
 
 		while (x < dimensions.getH()) { // przedzia³ 4
-			if ((ypsilonCu3 * ((dimensions.getD() - x) / (x)) * steel.getES()) < steel.getFYd()) {
-				sigmaS1 = ypsilonCu3 * ((dimensions.getD() - x) / (x)) * steel.getES();
+			krok = (dimensions.getH() - xLim)/dzielnik;
+			System.out.println("Przedzia³4");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
+			
+			if ((ypsilonCu3 * ((dimensions.getD() - x) / (x)) * (steel.getES() * 1000000)) < (steel.getFYd()* 1000)) {
+				sigmaS1 = ypsilonCu3 * ((dimensions.getD() - x) / (x)) * (steel.getES() * 1000000);
 			} else {
-				sigmaS1 = steel.getFYd();
+				sigmaS1 = (steel.getFYd()* 1000);
 			}
 
-			sigmaS2 = steel.getFYd();
+			sigmaS2 = (steel.getFYd()* 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -169,13 +178,18 @@ public class Graph {
 		}
 
 		while (x < (dimensions.getH() / LAMBDA)) { // przedzia³ 5
-			if ((ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * steel.getES()) > -steel.getFYd()) {
-				sigmaS1 = ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * steel.getES();
+			krok = ((dimensions.getH() / LAMBDA) - dimensions.getH())/dzielnik;
+			System.out.println("Przedzia³5");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
+			
+			if ((ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * (steel.getES() * 1000000)) > -(steel.getFYd()* 1000)) {
+				sigmaS1 = ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * (steel.getES() * 1000000);
 			} else {
-				sigmaS1 = -steel.getFYd();
+				sigmaS1 = -(steel.getFYd()* 1000);
 			}
 
-			sigmaS2 = steel.getFYd();
+			sigmaS2 = (steel.getFYd()* 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -185,14 +199,19 @@ public class Graph {
 			x = x + krok;
 		}
 
-		while (x < xYdMax) { // przedzia³ 6
-			if ((ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * steel.getES()) > -steel.getFYd()) {
-				sigmaS1 = ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * steel.getES();
+		while (x < xMaxYd) { // przedzia³ 6
+			krok = (xMaxYd - (dimensions.getH() / LAMBDA))/dzielnik;
+			System.out.println("Przedzia³6");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
+			
+			if ((ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * (steel.getES() * 1000000)) > -(steel.getFYd()* 1000)) {
+				sigmaS1 = ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * (steel.getES() * 1000000);
 			} else {
-				sigmaS1 = -steel.getFYd();
+				sigmaS1 = -(steel.getFYd()* 1000);
 			}
 
-			sigmaS2 = steel.getFYd();
+			sigmaS2 = (steel.getFYd()* 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
@@ -200,19 +219,26 @@ public class Graph {
 			pointsM.add(m);
 			x = x + krok;
 		}
+		
+		System.out.println("N =" + n);
+		System.out.println("N7 = " + n7);
+		krok = (n7 - n)/dzielnik;
+		if(n < n7) {
+		while (n < n7) { // przedzia³ 7
+			System.out.println("Przedzia³7");
+			System.out.println("Krok = " + krok);
+			System.out.println("X = " + x);
 
-		while (n <= n7) { // przedzia³ 7
-
-			if ((ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * steel.getES()) > -steel.getFYd()) {
-				sigmaS1 = ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * steel.getES();
+			if ((ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * (steel.getES() * 1000000)) > -(steel.getFYd()* 1000)) {
+				sigmaS1 = ypsilonC3 * ((dimensions.getD() - x) / (x - x0)) * (steel.getES() * 1000000);
 			} else {
-				sigmaS1 = -steel.getFYd();
+				sigmaS1 = -(steel.getFYd()* 1000);
 			}
 
-			if ((ypsilonC3 * ((x - dimensions.getA2()) / (x - x0)) * steel.getES()) < steel.getFYd()) {
-				sigmaS2 = ypsilonC3 * ((x - dimensions.getA2()) / (x - x0)) * steel.getES();
+			if ((ypsilonC3 * ((x - dimensions.getA2()) / (x - x0)) * (steel.getES() * 1000000)) < (steel.getFYd()* 1000)) {
+				sigmaS2 = ypsilonC3 * ((x - dimensions.getA2()) / (x - x0)) * (steel.getES() * 1000000);
 			} else {
-				sigmaS2 = steel.getFYd();
+				sigmaS2 = (steel.getFYd()* 1000);
 			}
 
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
@@ -222,18 +248,17 @@ public class Graph {
 			pointsM.add(m);
 			x = x + krok;
 		}
-		/*
+		}else {
+			System.err.println("N wiêksze ni¿ N7");
+		}
+
 		for (int i = 0; i < pointsN.size(); i++) {
-			System.out.println("N" + i + ": " + pointsN.get(i));
-			System.out.println("M" + i + ": " + pointsM.get(i));
-
+			points_M.add(-pointsM.get(i));
 		}
-		
-		
-		*/
+	
 		setPointsM(pointsM);
+		setPoints_M(points_M);
 		setPointsN(pointsN);
-		
 	}
 	
 	private void test() {
@@ -252,11 +277,13 @@ public class Graph {
 		//test();
 		System.out.println("DATA PRZYGOTOWANA");
 		final XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+		final XYChart.Series<Number, Number> series2 = new XYChart.Series<Number, Number>();
 		System.out.println("DODANO SERIES");
-		assignData(series);
+		assignData(series, series2);
 		System.out.println("PRZYPISANO DANE");
 		newGraph.getData().clear();
 		newGraph.getData().add(series);
+		newGraph.getData().add(series2);
 		System.out.println("ZAKONCZONO");
 		
 	}
@@ -264,10 +291,12 @@ public class Graph {
 	public void addSeries(final XYChart<Number, Number> graph) {
 		this.newGraph = graph;
 	}
-	
-	private void assignData(final XYChart.Series<Number, Number> series) {
+
+	private void assignData(final XYChart.Series<Number, Number> series, final XYChart.Series<Number, Number> series2) {
 		for (int i = 0; i < pointsN.size(); i++) {
 			series.getData().add(new XYChart.Data<Number, Number>(pointsN.get(i), pointsM.get(i)));
+			series2.getData().add(new XYChart.Data<Number, Number>(pointsN.get(i), points_M.get(i)));
+
 			}
 	}
 	
@@ -285,6 +314,10 @@ public class Graph {
 
 	public void setPointsM(LinkedList<Double> pointsM) {
 		this.pointsM = pointsM;
+	}
+
+	public void setPoints_M(LinkedList<Double> points_M) {
+		this.points_M = points_M;
 	}
 
 	

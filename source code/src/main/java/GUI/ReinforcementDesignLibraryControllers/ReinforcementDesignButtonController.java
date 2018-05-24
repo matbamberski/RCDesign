@@ -48,6 +48,7 @@ public class ReinforcementDesignButtonController {
 		GraphScreenController graphController;
 		NominalStiffness stiffness;
 
+
 		protected onClick(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
 				Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, 
 				Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep, boolean wasResultsGenerated,
@@ -73,7 +74,8 @@ public class ReinforcementDesignButtonController {
 					dimensions, reinforcement, stiffness);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			resultsPaneControllerULS.dispResults();
-
+			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);
+			//graph.plotGraph();
 			SaveFileButtonController.enableSaveButtonDesignScene();
 		}
 

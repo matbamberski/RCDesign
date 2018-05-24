@@ -680,9 +680,10 @@ public class ReinforcementDesignController {
 		bindBidirectionalarNormalnaMmin();
 		bindBidirectionalarNormalnaNmax();
 		bindBidirectionalarNormalnaNmin();
-		
+
 		bindBidirectionalarL0();
 		bindBidirectionalarFiT0();
+
 
 	}
 

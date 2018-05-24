@@ -866,41 +866,11 @@ public class ReinforcementDiagnosisController {
 		return normalnaNmin;
 	}
 	
-	public TextField getFiT0() {
-		return fiT0;
-	}
-	
-	public TextField getL0() {
-		return l0;
-	}
 
 	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
 		return dimensionsOfCrossSectionOfConcrete;
 	}
 
-	public InternalForces getInternalForces() {
-		return internalForces;
-	}
-
-	public Concrete getConcrete() {
-		return concrete;
-	}
-
-	public Steel getSteel() {
-		return steel;
-	}
-
-	public Reinforcement getReinforcement() {
-		return reinforcement;
-	}
-
-	
-	
-	
-
-	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
-		return dimensionsOfCrossSectionOfConcrete;
-	}
 
 	public InternalForces getInternalForces() {
 		return internalForces;

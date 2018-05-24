@@ -185,7 +185,7 @@ public class RequiredReinforcement {
 	}
 
 	public void checkWhatIsRequiredReinforcementAndDesign(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness) {
 
 		printInputValuesInConsole(concrete, internalForces, dimensions);
 		if (!dimensions.getIsColumn()) {
@@ -222,7 +222,6 @@ public class RequiredReinforcement {
 			}
 			designShearingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
 		} else {
-			NominalStiffness stiffness = new NominalStiffness();
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, true);
 			System.err.println("S³up");
 		}
@@ -472,7 +471,7 @@ public class RequiredReinforcement {
 	}
 
 	public void checkWhatIsRequiredReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness) {
 
 		printInputValuesInConsole(concrete, internalForces, dimensions);
 
@@ -515,7 +514,6 @@ public class RequiredReinforcement {
 		}
 		//// Jesli zaznaczono slup
 		else {
-			NominalStiffness stiffness = new NominalStiffness();
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, false);
 			System.err.println("Sï¿½up");
 		}

@@ -30,6 +30,7 @@ public class NominalStiffness {
 	}
 
 	public void setL0(double l0) {
+		System.out.println("Ustawiam lo " + l0);
 		this.l0 = l0;
 	}
 
@@ -38,12 +39,16 @@ public class NominalStiffness {
 	}
 
 	public void setFiT0(double fiT0) {
+		System.out.println("Ustawiam fit0 " + fiT0);
 		this.fiT0 = fiT0;
 	}
 
 	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
+		
+		System.out.println("l0: "+ l0);
+		System.out.println("fit0: " + fiT0 );
 
 		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
 		double eCm = concrete.getECm() * 1000; // [Gpa] -> [Mpa]

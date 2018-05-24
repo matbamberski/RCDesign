@@ -46,6 +46,7 @@ public class Graph {
 	
 	private LinkedList<Double> pointsN = new LinkedList<>();
 	private LinkedList<Double> pointsM = new LinkedList<>();
+
 	
 	private XYChart<Number, Number> newGraph;
 	

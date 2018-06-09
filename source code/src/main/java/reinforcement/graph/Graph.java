@@ -37,17 +37,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	private double aS2;
 
 	private double n7;
-
-	// sprawdziæ, czy poni¿sze wymiary a2, d, h s¹ w [m]
-	//private double x_YdMin;
-	//private double xYdMin;
-	//private double xLim;
-	//private double x0;
-	//private double xYdMax;
 	
 	private LinkedList<Double> pointsN = new LinkedList<>();
 	private LinkedList<Double> pointsM = new LinkedList<>();
 	private LinkedList<Double> points_M = new LinkedList<>();
+
 	
 	private XYChart<Number, Number> newGraph;
 	
@@ -100,16 +94,6 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 
 		///sprawdzic jednostki czy [m] (te wartosci sa juz policzone, trzeba polaczyc z obiektem liczonego zbrojenia)
 		 n7 = ypsilonC3 * (steel.getES() * 1000000) * (aS1 + aS2) + fcH;
-		 /*
-		  * x_YdMin = (ypsilonCu3 / (ypsilonCu3 + ((steel.getFYd()* 1000) / (steel.getES() * 1000000)))) * dimensions.getA2();
-		 
-		 xYdMin = (ypsilonCu3 / (ypsilonCu3 - ((steel.getFYd()* 1000) / (steel.getES() * 1000000)))) * dimensions.getA2();
-		 xLim = (ypsilonCu3 / (ypsilonCu3 + ((steel.getFYd()* 1000) / (steel.getES() * 1000000)))) * dimensions.getD();
-		 x0 = ((ypsilonCu3 - ypsilonC3) / ypsilonCu3) * dimensions.getH();
-		 xYdMax = (((steel.getFYd()* 1000) * x0)
-					- (ypsilonC3 * dimensions.getA2() * (steel.getES() * 1000000)) / ((steel.getFYd()* 1000) - (ypsilonC3 * (steel.getES() * 1000000))));
-					 */
-		 
 	}
 
 	public void prepareDataGraph(DimensionsOfCrossSectionOfConcrete dimensions, Steel steel, Concrete concrete,
@@ -275,7 +259,6 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		setPointsM(pointsM);
 		setPoints_M(points_M);
 		setPointsN(pointsN);
-		
 	}
 	
 	private void test() {
@@ -308,11 +291,12 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	public void addSeries(final XYChart<Number, Number> graph) {
 		this.newGraph = graph;
 	}
-	
+
 	private void assignData(final XYChart.Series<Number, Number> series, final XYChart.Series<Number, Number> series2) {
 		for (int i = 0; i < pointsN.size(); i++) {
 			series.getData().add(new XYChart.Data<Number, Number>(pointsN.get(i), pointsM.get(i)));
 			series2.getData().add(new XYChart.Data<Number, Number>(pointsN.get(i), points_M.get(i)));
+
 			}
 	}
 	
@@ -331,7 +315,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	public void setPointsM(LinkedList<Double> pointsM) {
 		this.pointsM = pointsM;
 	}
-	
+
 	public void setPoints_M(LinkedList<Double> points_M) {
 		this.points_M = points_M;
 	}

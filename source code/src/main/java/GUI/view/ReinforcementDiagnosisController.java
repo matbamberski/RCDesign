@@ -654,7 +654,7 @@ public class ReinforcementDiagnosisController {
 				rightZbrojeniePoprzeczneNNotequal0Line);
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm);
+				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
@@ -866,17 +866,11 @@ public class ReinforcementDiagnosisController {
 		return normalnaNmin;
 	}
 	
-	public TextField getFiT0() {
-		return fiT0;
-	}
-	
-	public TextField getL0() {
-		return l0;
-	}
 
 	public DimensionsOfCrossSectionOfConcrete getDimensionsOfCrossSectionOfConcrete() {
 		return dimensionsOfCrossSectionOfConcrete;
 	}
+
 
 	public InternalForces getInternalForces() {
 		return internalForces;
@@ -894,7 +888,13 @@ public class ReinforcementDiagnosisController {
 		return reinforcement;
 	}
 
-	
+	public TextField getL0() {
+		return l0;
+	}
+
+	public TextField getFiT0() {
+		return fiT0;
+	}
 	
 	
 

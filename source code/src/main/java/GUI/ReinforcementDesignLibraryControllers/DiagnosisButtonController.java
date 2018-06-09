@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import mainalgorithm.RequiredReinforcement;
 import materials.Cement;
@@ -19,16 +20,16 @@ public class DiagnosisButtonController {
 
 	public static void addPropertiesToDiagnosisButton(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm) {
+			CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm, NominalStiffness stiffness) {
 		addListenerToDiagnosisButton(button, requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, resultsPaneControllerDiagnosis, cement, sls, forces, creep,
-				diagnosisMainAlgorithm);
+				diagnosisMainAlgorithm, stiffness);
 	}
 
 	private static void addListenerToDiagnosisButton(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm) {
+			CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm, NominalStiffness stiffness) {
 		button.setOnAction(new PresedDiagnosisButton(requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, resultsPaneControllerDiagnosis, cement, sls, forces, creep,
-				diagnosisMainAlgorithm));
+				diagnosisMainAlgorithm, stiffness));
 	}
 
 	private static class PresedDiagnosisButton implements EventHandler<ActionEvent> {
@@ -44,10 +45,11 @@ public class DiagnosisButtonController {
 		InternalForces forces;
 		CreepCoeficent creep;
 		DiagnosisMainAlgorithm diagnosisMainAlgorithm;
+		NominalStiffness stiffness;
 
 		protected PresedDiagnosisButton(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
 				Reinforcement reinforcement, ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep,
-				DiagnosisMainAlgorithm diagnosisMainAlgorithm) {
+				DiagnosisMainAlgorithm diagnosisMainAlgorithm, NominalStiffness stiffness) {
 			this.requiredReinforcement = requiredReinforcement;
 			this.concrete = concrete;
 			this.steel = steel;
@@ -60,13 +62,13 @@ public class DiagnosisButtonController {
 			this.forces = forces;
 			this.creep = creep;
 			this.diagnosisMainAlgorithm = diagnosisMainAlgorithm;
-
+			this.stiffness = stiffness;
 		}
 
 		@Override
 		public void handle(ActionEvent arg0) {
 			ResultsToPDF.clearResults();
-			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(), internalForces.getnEd(), dimensions, reinforcement);
 			resultsPaneControllerDiagnosis.dispResults();

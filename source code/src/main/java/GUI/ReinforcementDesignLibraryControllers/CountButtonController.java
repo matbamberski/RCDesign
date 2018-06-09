@@ -84,7 +84,7 @@ public class CountButtonController {
 			
 			
 			ResultsToPDF.clearResults();
-			
+			/*
 			///design calculations
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, dimensions, reinforcement);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
@@ -97,7 +97,7 @@ public class CountButtonController {
 			//sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(), internalForces.getnEd(), dimensions, reinforcement);
 			resultsPaneControllerDiagnosis.dispResults();
-			
+			*/
 			SaveFileButtonController.enableButtonDiagnosis();
 		}
 	}

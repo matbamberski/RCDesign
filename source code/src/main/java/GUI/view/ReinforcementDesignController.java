@@ -603,7 +603,7 @@ public class ReinforcementDesignController {
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, graphController);
+				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness);
 
 		// CountButtonController.addPropertiesToDesignButton(countButton,
 		// requiredReinforcementSeter, concrete, steel, internalForces,
@@ -680,8 +680,10 @@ public class ReinforcementDesignController {
 		bindBidirectionalarNormalnaMmin();
 		bindBidirectionalarNormalnaNmax();
 		bindBidirectionalarNormalnaNmin();
-		bindBidirectionalarFiT0();
+
 		bindBidirectionalarL0();
+		bindBidirectionalarFiT0();
+
 
 	}
 
@@ -840,6 +842,14 @@ public class ReinforcementDesignController {
 		normalnaMmin.textProperty().bindBidirectional(diagnosis.getNormalnaMmin().textProperty());
 	}
 
+	private void bindBidirectionalarL0() {
+		l0.textProperty().bindBidirectional(diagnosis.getL0().textProperty());
+	}
+
+	private void bindBidirectionalarFiT0() {
+		fiT0.textProperty().bindBidirectional(diagnosis.getFiT0().textProperty());
+	}
+	
 	private void bindBidirectionalCrossSectionTypeCBs() {
 		crossSectionTypeChoiceBox.selectionModelProperty()
 				.bindBidirectional(diagnosis.getCrossSectionTypeChoiceBox().selectionModelProperty());
@@ -848,14 +858,6 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalConcreteCBs() {
 		concreteChoiceBox.selectionModelProperty()
 				.bindBidirectional(diagnosis.getConcreteChoiceBox().selectionModelProperty());
-	}
-	
-	private void bindBidirectionalarFiT0() {
-		fiT0.textProperty().bindBidirectional(diagnosis.getFiT0().textProperty());
-	}
-	
-	private void bindBidirectionalarL0() {
-		l0.textProperty().bindBidirectional(diagnosis.getL0().textProperty());
 	}
 
 	private void pushNumberOfRodsToDiagnosisScene() {

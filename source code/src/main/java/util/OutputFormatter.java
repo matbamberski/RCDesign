@@ -45,7 +45,7 @@ public class OutputFormatter {
 	}
 
 	public static String s1s2(double number) {
-		String formattedNumber = String.format("%.03f", number) + " m";
+		String formattedNumber = String.format("%.05f", number) + " m";
 		return formattedNumber;
 	}
 

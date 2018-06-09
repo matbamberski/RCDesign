@@ -459,6 +459,7 @@ public class InternalForcesController {
 				String name = tf.getId();
 				name = name.substring(0, 1).toUpperCase() + name.substring(1);
 				Method method = null;
+				
 				try {
 					method = Class.forName(className).getMethod("set"+name, double.class);
 				} catch (NoSuchMethodException e) {

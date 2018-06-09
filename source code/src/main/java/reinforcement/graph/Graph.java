@@ -223,8 +223,9 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		System.out.println("N =" + n);
 		System.out.println("N7 = " + n7);
 		krok = (n7 - n)/dzielnik;
+		int j = 50;
 		if(n < n7) {
-		while (n < n7) { // przedzia³ 7
+		while (j>0) { // przedzia³ 7
 			System.out.println("Przedzia³7");
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
@@ -247,6 +248,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			pointsN.add(n);
 			pointsM.add(m);
 			x = x + krok;
+			j--;
 		}
 		}else {
 			System.err.println("N wiêksze ni¿ N7");

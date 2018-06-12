@@ -300,16 +300,35 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		newGraph.getData().clear();
 		newGraph.getData().add(series);
 		newGraph.getData().add(series2);
+		if(forces.getmEd() !=0) {
+			newGraph.getData().add(seriesMed);
+		}else if(forces.getnEd() !=0) {
+			newGraph.getData().add(seriesMed);
+		}
+		
+		if(forces.getMomentMmax() !=0) {
+			newGraph.getData().add(seriesMmax);
+		}else if(forces.getNormalnaMmax() !=0) {
+			newGraph.getData().add(seriesMmax);
+		}
+		
+		if(forces.getMomentMmin() !=0) {
+			newGraph.getData().add(seriesMmin);
+		}else if(forces.getNormalnaMmin() !=0) {
+			newGraph.getData().add(seriesMmin);
+		}
 
-		newGraph.getData().add(seriesMed);
+		if(forces.getMomentNmax() !=0) {
+			newGraph.getData().add(seriesNmax);
+		}else if(forces.getNormalnaNmax() !=0) {
+			newGraph.getData().add(seriesNmax);
+		}
 
-		newGraph.getData().add(seriesMmax);
-
-		newGraph.getData().add(seriesMmin);
-
-		newGraph.getData().add(seriesNmax);
-
-		newGraph.getData().add(seriesNmin);
+		if(forces.getMomentNmin() !=0) {
+			newGraph.getData().add(seriesNmin);
+		}else if(forces.getNormalnaNmin() !=0) {
+			newGraph.getData().add(seriesNmin);
+		}
 
 		System.out.println("ZAKONCZONO");
 

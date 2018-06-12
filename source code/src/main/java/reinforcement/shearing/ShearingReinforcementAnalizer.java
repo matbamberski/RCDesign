@@ -24,6 +24,7 @@ public class ShearingReinforcementAnalizer {
 		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
 		reinforcement.setS1Required(s1);
 		reinforcement.setS(s1);
+		
 		/*
 		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
 			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
@@ -72,6 +73,7 @@ public class ShearingReinforcementAnalizer {
 
 	protected double roW;
 	protected double vRd;
+	protected double vRdS;
 	protected double vRdS1;
 	protected double vRdS2;
 	protected double v1;
@@ -281,6 +283,14 @@ public class ShearingReinforcementAnalizer {
 		roWMin = 0.08 * Math.sqrt((double) concrete.getFCk() * 1000) / (steel.getFYk() * 1000);
 		System.out.println("roWMin " + roWMin);
 	}
+	
+	protected void setVrdDiagnosis (Steel steel) {
+		vRdS1 = (aSw1/s1)*z*steel.getFYd()*1000*cotTheta;
+		vRdS2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
+		vRdS = Math.min(vRdS1+vRdS2, 2*vRdS1);
+		vRd = Math.min(vRdS, vRdMax);
+	}
+		
 	
 	private void pushResultsToPDFWhenS2WasGiven(InternalForces forces) {
 

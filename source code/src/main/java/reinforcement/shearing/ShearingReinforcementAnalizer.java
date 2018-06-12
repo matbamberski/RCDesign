@@ -8,43 +8,7 @@ import materials.Steel;
 import util.ResultsToPDF;
 
 public class ShearingReinforcementAnalizer {
-
-	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		System.out.println("\n \n Scinanie \n \n");
-		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
-		calculateCotTheta(reinforcement.getTheta());
-		calculateTanTheta(reinforcement.getTheta());
-		calculateSinAlfa(reinforcement.getAlfa());
-		calculateCotAlfa(reinforcement.getAlfa());
-		this.s2 = reinforcement.getS2Required();
-		setVRDC(concrete, forces, dimensions, reinforcement);
-		setVRdMax(concrete, dimensions, reinforcement);
-		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
-		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
-		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
-		reinforcement.setS1Required(s1);
-		reinforcement.setS(s1);
-		/*
-		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
-			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
-			DesignOfVerticalStirrupsAndCapacity design = new DesignOfVerticalStirrupsAndCapacity();
-			design.designVerticalStirrupsAndCheckCapacity(concrete, steel, forces, dimensions, reinforcement);
-		} else {
-			System.out.println(" projektowanie zbrojenia poprzecznego oraz pretow odgietych");
-			DesignOfVerticalStirrupsBentRodsAndCapacity design = new DesignOfVerticalStirrupsBentRodsAndCapacity();
-			design.designVerticalStirrupsBentRodsAndCheckCapacityWhenS2WasGiven(concrete, steel, forces, dimensions, reinforcement);
-		}
-		*/
-		
-	}
-
-	protected void pushResultsToReinforcementClass(Reinforcement reinforcement) {
-		reinforcement.setlW(lW);
-		reinforcement.setS(s);
-		reinforcement.setS1Required(s1);
-		reinforcement.setS2Required(s2);
-	}
-
+	
 	private double vRdMax;
 	protected final double alfaCw = 1;
 	protected double z;
@@ -83,6 +47,64 @@ public class ShearingReinforcementAnalizer {
 	protected double deltaV;
 	protected double sMin;
 	protected double a;
+	
+
+	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel, 
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		calculateCotTheta(reinforcement.getTheta());
+		calculateTanTheta(reinforcement.getTheta());
+		calculateSinAlfa(reinforcement.getAlfa());
+		calculateCotAlfa(reinforcement.getAlfa());
+		this.s2 = reinforcement.getS2Required();
+		setVRDC(concrete, forces, dimensions, reinforcement);
+		setVRdMax(concrete, dimensions, reinforcement);
+		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
+		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
+		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
+		reinforcement.setS1Required(s1);
+		reinforcement.setS(s1);
+		/*
+		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
+			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
+			DesignOfVerticalStirrupsAndCapacity design = new DesignOfVerticalStirrupsAndCapacity();
+			design.designVerticalStirrupsAndCheckCapacity(concrete, steel, forces, dimensions, reinforcement);
+		} else {
+			System.out.println(" projektowanie zbrojenia poprzecznego oraz pretow odgietych");
+			DesignOfVerticalStirrupsBentRodsAndCapacity design = new DesignOfVerticalStirrupsBentRodsAndCapacity();
+			design.designVerticalStirrupsBentRodsAndCheckCapacityWhenS2WasGiven(concrete, steel, forces, dimensions, reinforcement);
+		}
+		*/
+	}
+	
+	public void doFullSheringReinforcementWithoutDesign(Concrete concrete, Steel steel, 
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		System.out.println("\n \n Scinanie \n \n");
+		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
+		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+	}
+	
+	public void doFullSheringReinforcementWitDesign(Concrete concrete, Steel steel, 
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		System.out.println("\n \n Scinanie \n \n");
+		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
+		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+		designSheringReinforcement(reinforcement);
+	}
+	
+	private void designSheringReinforcement(Reinforcement reinforcement) {
+		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
+			reinforcement.setS2Designed(0.05*(Math.floor(Math.abs(s2/0.05))));
+		}
+		reinforcement.setS1Designed(0.05*(Math.floor(Math.abs(s1/0.05))));		
+	}
+
+	protected void pushResultsToReinforcementClass(Reinforcement reinforcement) {
+		reinforcement.setlW(lW);
+		reinforcement.setS(s);
+		reinforcement.setS1Required(s1);
+		reinforcement.setS2Required(s2);
+	}
+
 
 	protected void calculateCotTheta(double theta) {
 		cotTheta = theta;
@@ -214,7 +236,7 @@ public class ShearingReinforcementAnalizer {
 		} else 
 			Veds1 = forces.getvEd(); 
 		System.out.println("Veds1 " + Veds1);
-		double b = aSw1/Veds1*z*steel.getFYd()*cotTheta;
+		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
 		double c = Math.min(b, sLMax);
 		double d = Math.min(c, a);
 		s1 = Math.max(d, sMin);

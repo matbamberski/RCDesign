@@ -220,7 +220,8 @@ public class RequiredReinforcement {
 							dimensions, reinforcement);
 				}
 			}
-			designShearingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+			shearingReinforcementAnalizer.doFullSheringReinforcementWitDesign(
+					concrete, steel, internalForces, dimensions, reinforcement);
 		} else {
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, true);
 			System.err.println("S³up");
@@ -510,7 +511,8 @@ public class RequiredReinforcement {
 							dimensions, reinforcement);
 				}
 			}
-			designShearingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+			shearingReinforcementAnalizer.doFullSheringReinforcementWithoutDesign(
+					concrete, steel, internalForces, dimensions, reinforcement);
 		}
 		//// Jesli zaznaczono slup
 		else {

@@ -214,7 +214,7 @@ public class ShearingReinforcementAnalizer {
 		} else 
 			Veds1 = forces.getvEd(); 
 		System.out.println("Veds1 " + Veds1);
-		double b = aSw1/Veds1*z*steel.getFYd()*cotTheta;
+		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
 		double c = Math.min(b, sLMax);
 		double d = Math.min(c, a);
 		s1 = Math.max(d, sMin);

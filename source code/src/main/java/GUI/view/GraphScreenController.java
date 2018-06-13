@@ -55,8 +55,8 @@ public class GraphScreenController {
 		System.out.println("\nODPALONO GRAPHCONTROLLER!\n");
 		//lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		
-		lineChart.setCreateSymbols(true);
-		lineChart.setAnimated(false);
+		//lineChart.setCreateSymbols(true);
+		//lineChart.setAnimated(false);
 		graph.addSeries(lineChart);
 		//graph = new Graph(lineChart, diagnosis.getSteel(), diagnosis.getDimensionsOfCrossSectionOfConcrete(), 
 		//		diagnosis.getConcrete(), diagnosis.getReinforcement());

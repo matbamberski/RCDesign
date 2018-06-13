@@ -36,7 +36,6 @@ public class ShearingReinforcementAnalizer {
 
 	protected double roW;
 	protected double vRd;
-	protected double vRdS;
 	protected double vRdS1;
 	protected double vRdS2;
 	protected double v1;
@@ -314,12 +313,6 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("roWMin " + roWMin);
 	}
 
-	protected void setVrdDiagnosis (Steel steel) {
-		vRdS1 = (aSw1/s1)*z*steel.getFYd()*1000*cotTheta;
-		vRdS2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
-		vRdS = Math.min(vRdS1+vRdS2, 2*vRdS1);
-		vRd = Math.min(vRdS, vRdMax);
-	}
 
 
 	private void pushResultsToPDFWhenS2WasGiven(InternalForces forces) {

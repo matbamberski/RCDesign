@@ -50,6 +50,8 @@ public class GraphScreenController {
 
 	@FXML
 	void initialize() {
+		lineChart.setCreateSymbols(false);
+		lineChart.getStyleClass().add("thick-chart");
 		System.out.println("\nODPALONO GRAPHCONTROLLER!\n");
 		//lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		

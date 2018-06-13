@@ -25,7 +25,7 @@ public class DesignOfVerticalStirrupsBentRodsAndCapacity extends ShearingReinfor
 		setSlMax(dimensions.getD());
 		setSBMax(dimensions);
 		setS150Percent(steel, forces);
-		setVRSd1(steel);
+		//setVRSd1(steel);
 		setS2(steel, forces);
 		setVRDS2(steel);
 		calculateRoW(reinforcement, dimensions);
@@ -54,7 +54,7 @@ public class DesignOfVerticalStirrupsBentRodsAndCapacity extends ShearingReinfor
 		setVRDS2(steel);
 		calculateVEdS1WhenS2WasGiven(forces);
 		setS1WhenS2WasGiven(steel);
-		setVRSd1(steel);
+		//setVRSd1(steel);
 		calculateRoW(reinforcement, dimensions);
 		checkIfRoWIsGreterOrEqualToRoWMinR();
 		calculateSWhenRoWIsLessThenRoWMin(dimensions);
@@ -94,11 +94,11 @@ public class DesignOfVerticalStirrupsBentRodsAndCapacity extends ShearingReinfor
 		ResultsToPDF.addResults("vRdS1", String.valueOf(vRdS1));
 		ResultsToPDF.addResults("roW", String.valueOf(roW));
 	}
-
+/*
 	private void setVRSd1(Steel steel) {
 		vRdS1 = aSw1 / s1 * z * steel.getFYd() * 1000 * cotTheta;
 	}
-
+*/
 	private void setS150Percent(Steel steel, InternalForces forces) {
 		double s1Temp = aSw1 / (0.5 * forces.getvEd()) * z * steel.getFYd() * 1000 * cotTheta;
 		s1 = Math.min(s1Temp, sLMax);

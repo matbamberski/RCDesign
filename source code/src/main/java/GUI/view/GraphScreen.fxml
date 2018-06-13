@@ -9,13 +9,13 @@
 
 <AnchorPane minHeight="680.0" minWidth="890.0" prefHeight="685.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.view.GraphScreenController">
    <children>
-      <LineChart fx:id="lineChart" layoutX="12.0" layoutY="42.0" prefHeight="602.0" prefWidth="875.0" stylesheets="@graph.css">
+      <LineChart fx:id="lineChart" layoutX="24.0" layoutY="42.0" prefHeight="602.0" prefWidth="864.0">
         <xAxis>
           <!--  <CategoryAxis side="BOTTOM" fx:id="xAxis" />-->
           <NumberAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxis" side="LEFT" />
+          <NumberAxis fx:id="yAxis" prefHeight="549.0" prefWidth="26.0" side="LEFT" />
         </yAxis>
       </LineChart>
       <Button fx:id="backButton" layoutX="421.0" layoutY="644.0" mnemonicParsing="false" onAction="#switchBackToDiagnosisScene" text="Wstecz" />
@@ -24,5 +24,7 @@
             <Font size="18.0" />
          </font>
       </Label>
+      <Label layoutX="828.0" layoutY="598.0" text="Normalna" />
+      <Label layoutY="68.0" rotate="270.0" text="Moment" />
    </children>
 </AnchorPane>

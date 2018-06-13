@@ -47,6 +47,7 @@ public class ShearingReinforcementAnalizer {
 	protected double deltaV;
 	protected double sMin;
 	protected double a;
+	protected double vRdS;
 	
 
 	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel, 
@@ -81,6 +82,7 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("\n \n Scinanie \n \n");
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
 		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+		setVrdDiagnosis(steel);
 	}
 	
 	public void doFullSheringReinforcementWitDesign(Concrete concrete, Steel steel, 
@@ -89,6 +91,13 @@ public class ShearingReinforcementAnalizer {
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
 		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
 		designSheringReinforcement(reinforcement);
+	}
+	
+	protected void setVrdDiagnosis (Steel steel) {
+		vRdS1 = (aSw1/s1)*z*steel.getFYd()*1000*cotTheta;
+		vRdS2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
+		vRdS = Math.min(vRdS1+vRdS2, 2*vRdS1);
+		vRd = Math.max(Math.min(vRdS, vRdMax), vRDC);
 	}
 	
 	private void designSheringReinforcement(Reinforcement reinforcement) {

@@ -173,6 +173,15 @@ public class ReinforcementDesignController {
 	@FXML
 	private TextField fiT0;
 
+	
+	
+	
+	///////
+	@FXML
+	private TextField VEdRedTextField;
+	
+	
+	/////
 	// ** RESULTS ULS
 
 	@FXML
@@ -514,7 +523,7 @@ public class ReinforcementDesignController {
 		cement = new Cement(0);
 		creep = new CreepCoeficent();
 		stiffness = new NominalStiffness();
-		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement);
+		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces);
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -888,8 +897,7 @@ public class ReinforcementDesignController {
 	}
 
 	private void pushS1ValueToDiagnosisScene() {
-		diagnosis.gets1TextField().setText(Double.toString(reinforcement.getS1Required()));
-		reinforcement.setS1Designed(reinforcement.getS1Required());
+		diagnosis.gets1TextField().setText(Double.toString(reinforcement.getS1Designed()));
 	}
 
 	private void bindBidirectionalPdfName() {

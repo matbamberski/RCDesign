@@ -1,10 +1,15 @@
 package reinforcement.graph;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import GUI.view.GraphScreenController;
 import GUI.view.ReinforcementDiagnosisController;
 import javafx.scene.chart.XYChart;
+import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -18,6 +23,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	private DimensionsOfCrossSectionOfConcrete dimensions;
 	private Concrete concrete;
 	private Reinforcement reinforcement;
+	private InternalForces forces;
 	//private GraphScreenController graphCont;
 	private double ypsilonCu3;
 	private double ypsilonC3;
@@ -38,10 +44,13 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 
 	private double n7;
 	
-	private LinkedList<Double> pointsN = new LinkedList<>();
-	private LinkedList<Double> pointsM = new LinkedList<>();
-	private LinkedList<Double> points_M = new LinkedList<>();
+	private List<Double> pointsN = new ArrayList<Double>();
+	private List<Double> pointsM = new ArrayList<Double>();
+	private List<Double> points_M = new ArrayList<Double>();
+	
 
+	private List<Double> moments = new ArrayList<Double>();
+	private List<Double> normals = new ArrayList<Double>();
 	
 	private XYChart<Number, Number> newGraph;
 	
@@ -57,11 +66,12 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	}
 	
 	public Graph(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, Concrete concrete,
-			Reinforcement reinforcement) {
+			Reinforcement reinforcement, InternalForces forces) {
 		this.steel = steel;
 		this.dimensions = dimensions;
 		this.concrete = concrete;
 		this.reinforcement = reinforcement;
+		this.forces = forces;
 	}
 
 	private void init() {
@@ -255,10 +265,17 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		for (int i = 0; i < pointsN.size(); i++) {
 			points_M.add(-pointsM.get(i));
 		}
+		List<Double> points_N = new ArrayList<Double>(pointsN);
+		Collections.reverse(points_M.subList(0, points_M.size()));
+		Collections.reverse(points_N.subList(0, points_N.size()));
+		moments.addAll(pointsM);
+		moments.addAll(points_M);
+		normals.addAll(pointsN);
+		normals.addAll(points_N);
 	
-		setPointsM(pointsM);
-		setPoints_M(points_M);
-		setPointsN(pointsN);
+		//setPointsM(pointsM);
+		//setPoints_M(points_M);
+		//setPointsN(pointsN);
 	}
 	
 	private void test() {
@@ -270,6 +287,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		setPointsN(pointsN);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void plotGraph() {
 		init();
 		System.out.println("PO INICJACJI");
@@ -282,8 +300,8 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		assignData(series, series2);
 		System.out.println("PRZYPISANO DANE");
 		newGraph.getData().clear();
-		newGraph.getData().add(series);
-		newGraph.getData().add(series2);
+		newGraph.getData().addAll(series2, series);
+		//newGraph.getData().add(series2);
 		System.out.println("ZAKONCZONO");
 		
 	}
@@ -293,30 +311,32 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	}
 
 	private void assignData(final XYChart.Series<Number, Number> series, final XYChart.Series<Number, Number> series2) {
-		for (int i = 0; i < pointsN.size(); i++) {
-			series.getData().add(new XYChart.Data<Number, Number>(pointsN.get(i), pointsM.get(i)));
-			series2.getData().add(new XYChart.Data<Number, Number>(pointsN.get(i), points_M.get(i)));
-
+		for (int i = 0; i < normals.size(); i++) {
+			series.getData().add(new XYChart.Data<Number, Number>(normals.get(i), moments.get(i)));
 			}
+		series2.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmax(), forces.getMomentMmax()));
+		series2.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmin(), forces.getMomentMmin()));
+		series2.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmax(), forces.getMomentNmax()));
+		series2.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmin(), forces.getMomentNmin()));
 	}
 	
-	public LinkedList<Double> getPointsN() {
+	public List<Double> getPointsN() {
 		return pointsN;
 	}
 
-	public LinkedList<Double> getPointsM() {
+	public List<Double> getPointsM() {
 		return pointsM;
 	}
 
-	public void setPointsN(LinkedList<Double> pointsN) {
+	public void setPointsN(List<Double> pointsN) {
 		this.pointsN = pointsN;
 	}
 
-	public void setPointsM(LinkedList<Double> pointsM) {
+	public void setPointsM(List<Double> pointsM) {
 		this.pointsM = pointsM;
 	}
 
-	public void setPoints_M(LinkedList<Double> points_M) {
+	public void setPoints_M(List<Double> points_M) {
 		this.points_M = points_M;
 	}
 

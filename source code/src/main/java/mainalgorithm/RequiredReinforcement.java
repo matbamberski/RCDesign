@@ -220,12 +220,14 @@ public class RequiredReinforcement {
 							dimensions, reinforcement);
 				}
 			}
-			designShearingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
+
 		} else {
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, true);
-			System.err.println("S³up");
+			System.err.println("Sï¿½up");
 		}
-	}
+		shearingReinforcementAnalizer.doFullSheringReinforcementWitDesign(
+				concrete, steel, internalForces, dimensions, reinforcement);
+}
 
 	///////// Slupy
 
@@ -254,8 +256,8 @@ public class RequiredReinforcement {
 	public void columnCompressingForcesUnSymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 		UnsymmetricalCompressingBeamReinforcement column = new UnsymmetricalCompressingBeamReinforcement();
-		column.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getB(), dimensions.getH(),
-				dimensions.getD(), dimensions.getA1(), dimensions.getA2());
+		column.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getB(),
+				dimensions.getH(), dimensions.getD(), dimensions.getA1(), dimensions.getA2());
 		setRequiredUnsymmetricalReinforcementCompressing(column, reinforcement);
 		designUnsymmetricalReinforcement(reinforcement);
 		reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
@@ -266,16 +268,15 @@ public class RequiredReinforcement {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 
 		UnsymmetricalTensilingBeamReinforcement column = new UnsymmetricalTensilingBeamReinforcement();
-		column.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getD(), 
+		column.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getD(),
 				dimensions.getA1(), dimensions.getA2(), dimensions.getB(), dimensions.getH());
 		setRequiredUnsymmetricalReinforcementTensiling(column, reinforcement);
 		designUnsymmetricalReinforcement(reinforcement);
 		reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
 		reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
 	}
-	
-	
-	//without design
+
+	// without design
 	public void columnCompressingForcesSymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 		SymmetricalCompressingBeamReinforcement column = new SymmetricalCompressingBeamReinforcement();
@@ -299,8 +300,8 @@ public class RequiredReinforcement {
 	public void columnCompressingForcesUnSymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 		UnsymmetricalCompressingBeamReinforcement column = new UnsymmetricalCompressingBeamReinforcement();
-		column.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getB(), dimensions.getH(),
-				dimensions.getD(), dimensions.getA1(), dimensions.getA2());
+		column.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getB(),
+				dimensions.getH(), dimensions.getD(), dimensions.getA1(), dimensions.getA2());
 		setRequiredUnsymmetricalReinforcementCompressing(column, reinforcement);
 		reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
 		reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
@@ -310,14 +311,14 @@ public class RequiredReinforcement {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 
 		UnsymmetricalTensilingBeamReinforcement column = new UnsymmetricalTensilingBeamReinforcement();
-		column.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getD(), 
+		column.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getD(),
 				dimensions.getA1(), dimensions.getA2(), dimensions.getB(), dimensions.getH());
 		setRequiredUnsymmetricalReinforcementTensiling(column, reinforcement);
 		reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
 		reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
 	}
-	
-	////////////////////////WITH DESIGN
+
+	//////////////////////// WITH DESIGN
 
 	private void rectangularBeamBendingReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
@@ -510,21 +511,21 @@ public class RequiredReinforcement {
 							dimensions, reinforcement);
 				}
 			}
-			designShearingReinforcement(concrete, steel, internalForces, dimensions, reinforcement);
 		}
 		//// Jesli zaznaczono slup
 		else {
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, false);
 			System.err.println("Sï¿½up");
 		}
-
+		shearingReinforcementAnalizer.doFullSheringReinforcementWithoutDesign(
+				concrete, steel, internalForces, dimensions, reinforcement);
 	}
 
 	//// Sï¿½upy
 
 	public void columnRequiredReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, 
-			NominalStiffness stiffness, boolean withDesign) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
+			boolean withDesign) {
 		Column column = new Column(this, withDesign);
 		column.countColumnReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness);
 		/*
@@ -539,31 +540,31 @@ public class RequiredReinforcement {
 		 * double maxE2 = Math.max(e3, e4); double maxE = Math.max(maxE1, maxE2);
 		 * System.out.println("obliczanie sï¿½upa"); System.out.println(""); ///
 		 * kombinacje Mmax,Nodp; Mmin,Nodp; Modp,Nmax; Modp,Nmin
-		 * 
+		 *
 		 * Map<Double, Double> combinations = Map.ofEntries( /// entry(key,value) ->
 		 * entry(moment, normalna) entry(internalForces.getMomentMmax(),
 		 * internalForces.getNormalnaMmax()), entry(internalForces.getMomentMmin(),
 		 * internalForces.getNormalnaMmin()), entry(internalForces.getMomentNmax(),
 		 * internalForces.getNormalnaNmax()), entry(internalForces.getMomentNmin(),
 		 * internalForces.getNormalnaNmin()));
-		 * 
+		 *
 		 * HashMap<Double, Double> combinationsMed = new HashMap<Double, Double>(); ///
 		 * put(key,value) -> entry(mimoï¿½rï¿½d, moment) combinationsMed.put(e1,
 		 * internalForces.getMomentMmax()); combinationsMed.put(e2,
 		 * internalForces.getMomentMmin()); combinationsMed.put(e3,
 		 * internalForces.getMomentNmax()); combinationsMed.put(e4,
 		 * internalForces.getMomentNmin());
-		 * 
+		 *
 		 * HashMap<Double, Double> combinationsNed = new HashMap<Double, Double>(); ///
 		 * put(key,value) -> entry(mimoï¿½rï¿½d, normalna) combinationsNed.put(e1,
 		 * internalForces.getNormalnaMmax()); combinationsNed.put(e2,
 		 * internalForces.getNormalnaMmin()); combinationsNed.put(e3,
 		 * internalForces.getNormalnaNmax()); combinationsNed.put(e4,
 		 * internalForces.getNormalnaNmin());
-		 * 
+		 *
 		 * double n0Ed = combinationsNed.get(maxE); // nie jestem pewny czy to dziaï¿½a
 		 * double m0Ed = combinationsMed.get(maxE); // nie jestem pewny czy to dziaï¿½a
-		 * 
+		 *
 		 * System.err.println("Max mimoï¿½rï¿½d: " + maxE);
 		 * System.err.println("Moment z max mimoï¿½rodu to: " + m0Ed + "kNm");
 		 * System.err.println("Normalna z max mimoï¿½rodu to: " + n0Ed + "kN"); /* for
@@ -577,22 +578,22 @@ public class RequiredReinforcement {
 		 * internalForces.getNormalnaMmin()}, {e3, internalForces.getMomentNmax(),
 		 * internalForces.getNormalnaNmax()}, {e4, internalForces.getMomentNmin(),
 		 * internalForces.getNormalnaNmin()}, };
-		 * 
-		 * 
+		 *
+		 *
 		 * /// dla kazdej kombinacji wykonaj obliczenia // for (Map.Entry<Double,
 		 * Double> forces : combinations.entrySet()) {
-		 * 
-		 * 
+		 *
+		 *
 		 * if (n0Ed != 0.0) {
-		 * 
+		 *
 		 * double reinforcementRatio1 = 0.0; // stopieï¿½ na poczï¿½tku pï¿½tli double
 		 * reinforcementRatio2 = 0.0; // stopieï¿½ na koï¿½cu pï¿½tli double
 		 * reinforcementRatio3 = 0.0; // stopieï¿½ ktï¿½ry jest ï¿½redniï¿½
 		 * arytmetycznï¿½ dwï¿½ch powyï¿½szych do porï¿½wnania // z reinforcementRatio2
 		 * // ostatecznym
-		 * 
+		 *
 		 * /// Zbrojenie symetryczne
-		 * 
+		 *
 		 * double mEd = m0Ed; System.err.println("Moment poczï¿½tkowy: " + mEd); ///
 		 * Petla dopoki stopien zbrojenia dobranego i zaprojektowanego jest wieksza ///
 		 * rowna 0.1 do { if (reinforcementRatio1 == 0.0) { /// Przyjmij stopien
@@ -601,56 +602,56 @@ public class RequiredReinforcement {
 		 * System.out.println("Stopieï¿½ zbrojenia przekracza warunek normowy: 0,04 *AC"
 		 * ); } else { /// pobierz stopieï¿½ zbrojenia na poczï¿½tku pï¿½tli
 		 * reinforcementRatio1 = reinforcementRatio3; }
-		 * 
+		 *
 		 * reinforcement.setReinforcementRatio(reinforcementRatio1);
 		 * stiffness.setRoS1(reinforcementRatio1); stiffness.setM0Ed(m0Ed);
 		 * stiffness.setN0Ed(n0Ed); stiffness.CountNominalStiffness(steel, concrete,
 		 * internalForces, dimensions, mEd, n0Ed);
-		 * 
+		 *
 		 * /// Metoda nominalnej sztywnosci - nowy moment mEd = stiffness.getmEd();
 		 * internalForces.setmEd(mEd);
 		 * System.err.println("Moment po nominalnej sztywnoï¿½ci: " + mEd);
-		 * 
-		 * 
+		 *
+		 *
 		 * // Obliczenie zbrojenia if (n0Ed > 0) { System.out.println("ï¿½ciskanie ");
 		 * columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions,
 		 * reinforcement, mEd, n0Ed); // pobiera stopieï¿½ zbrojenia na koï¿½cu pï¿½tli
 		 * reinforcementRatio2 = reinforcement.getReinforcementRatio();
 		 * reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
-		 * 
+		 *
 		 * } else if (n0Ed < 0) { System.out.println("rozciï¿½ganie "); // ROZCIAGANIE ,
 		 * W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
 		 * columnTensilingForcesSymmetricalReinforcement(concrete, steel, dimensions,
 		 * reinforcement, mEd, n0Ed); // pobiera stopieï¿½ zbrojenia na koï¿½cu pï¿½tli
 		 * reinforcementRatio2 = reinforcement.getReinforcementRatio();
 		 * reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
-		 * 
+		 *
 		 * } else break; } while ((Math.min(reinforcementRatio3, reinforcementRatio2) /
 		 * Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99
-		 * 
+		 *
 		 * /* Math.abs((reinforcement.getReinforcementRatio() -
 		 * reinforcement.getDegreeOfDesignedSymmetricalReinforcement()) /
 		 * reinforcement.getReinforcementRatio()) >= 0.1 );
-		 * 
+		 *
 		 * // Zbrojenie niesymetryczne
-		 * 
+		 *
 		 * /// Petla dopoki stopien zbrojenia dobranego i zaprojektowanego jest wieksza
 		 * /// rowna 0.1
-		 * 
+		 *
 		 * do { /// Przyjmij stopien zbrojenia
-		 * 
+		 *
 		 * if (reinforcementRatio1 == 0.0) { /// Przyjmij stopien zbrojenia (0,04 AC)
 		 * reinforcementRatio1 = 0.04 * dimensions.getAc(); } else if
 		 * (reinforcementRatio1 >= 0.04 * dimensions.getAc()) {
 		 * System.out.println("Stopieï¿½ zbrojenia przekracza warunek normowy: 0,04 *AC"
 		 * ); } else { /// pobierz stopieï¿½ zbrojenia na poczï¿½tku pï¿½tli
 		 * reinforcementRatio1 = reinforcementRatio3; }
-		 * 
+		 *
 		 * reinforcement.setReinforcementRatio(reinforcementRatio1);
 		 * stiffness.setRoS1(reinforcementRatio1);
 		 * stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions,
 		 * mEd, n0Ed);
-		 * 
+		 *
 		 * /// Metoda nominalnej sztywnosci - nowy moment mEd = stiffness.getmEd();
 		 * internalForces.setmEd(mEd); // Obliczenie zbrojenia if (n0Ed > 0) {
 		 * System.out.println("ï¿½ciskanie ");
@@ -658,7 +659,7 @@ public class RequiredReinforcement {
 		 * dimensions, reinforcement, mEd, n0Ed); // pobiera stopieï¿½ zbrojenia na
 		 * koï¿½cu pï¿½tli reinforcementRatio2 = reinforcement.getReinforcementRatio();
 		 * reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
-		 * 
+		 *
 		 * } else if (n0Ed < 0) { System.out.println("rozciï¿½ganie "); // ROZCIAGANIE ,
 		 * W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
 		 * columnTensilingForcesUnsymmetricalReinforcement(concrete, steel, dimensions,
@@ -670,7 +671,7 @@ public class RequiredReinforcement {
 		 * Math.abs((reinforcement.getReinforcementRatio() -
 		 * reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement()) /
 		 * reinforcement.getReinforcementRatio()) >= 0.1
-		 * 
+		 *
 		 * ); }
 		 */
 

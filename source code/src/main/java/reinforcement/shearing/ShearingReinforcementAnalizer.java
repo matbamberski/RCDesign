@@ -9,34 +9,6 @@ import util.ResultsToPDF;
 
 public class ShearingReinforcementAnalizer {
 
-	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		System.out.println("\n \n Scinanie \n \n");
-		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
-		calculateCotTheta(reinforcement.getTheta());
-		calculateTanTheta(reinforcement.getTheta());
-		setVRDC(concrete, forces, dimensions, reinforcement);
-		setVRdMax(concrete, dimensions);
-		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions);
-		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
-		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
-		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
-			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
-			DesignOfVerticalStirrupsAndCapacity design = new DesignOfVerticalStirrupsAndCapacity();
-			design.designVerticalStirrupsAndCheckCapacity(concrete, steel, forces, dimensions, reinforcement);
-		} else {
-			System.out.println(" projektowanie zbrojenia poprzecznego oraz pretow odgietych");
-			DesignOfVerticalStirrupsBentRodsAndCapacity design = new DesignOfVerticalStirrupsBentRodsAndCapacity();
-			design.designVerticalStirrupsBentRodsAndCheckCapacityWhenS2WasGiven(concrete, steel, forces, dimensions, reinforcement);
-		}
-	}
-
-	protected void pushResultsToReinforcementClass(Reinforcement reinforcement) {
-		reinforcement.setlW(lW);
-		reinforcement.setS(s);
-		reinforcement.setS1Required(s1);
-		reinforcement.setS2Required(s2);
-	}
-
 	private double vRdMax;
 	protected final double alfaCw = 1;
 	protected double z;
@@ -70,9 +42,87 @@ public class ShearingReinforcementAnalizer {
 	protected double sBMax;
 	protected double roWMin;
 
+
+	////nowe
+	protected double deltaV;
+	protected double sMin;
+	protected double a;
+	protected double vRdS;
+
+
+	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel,
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		calculateCotTheta(reinforcement.getTheta());
+		calculateTanTheta(reinforcement.getTheta());
+		calculateSinAlfa(reinforcement.getAlfa());
+		calculateCotAlfa(reinforcement.getAlfa());
+		this.s2 = reinforcement.getS2Required();
+		setVRDC(concrete, forces, dimensions, reinforcement);
+		setVRdMax(concrete, dimensions, reinforcement);
+		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
+		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
+		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
+		reinforcement.setS1Required(s1);
+		reinforcement.setS(s1);
+		/*
+		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
+			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
+			DesignOfVerticalStirrupsAndCapacity design = new DesignOfVerticalStirrupsAndCapacity();
+			design.designVerticalStirrupsAndCheckCapacity(concrete, steel, forces, dimensions, reinforcement);
+		} else {
+			System.out.println(" projektowanie zbrojenia poprzecznego oraz pretow odgietych");
+			DesignOfVerticalStirrupsBentRodsAndCapacity design = new DesignOfVerticalStirrupsBentRodsAndCapacity();
+			design.designVerticalStirrupsBentRodsAndCheckCapacityWhenS2WasGiven(concrete, steel, forces, dimensions, reinforcement);
+		}
+		*/
+	}
+
+	public void doFullSheringReinforcementWithoutDesign(Concrete concrete, Steel steel,
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		System.out.println("\n \n Scinanie \n \n");
+		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
+		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+		setVrdDiagnosis(steel);
+	}
+
+	public void doFullSheringReinforcementWitDesign(Concrete concrete, Steel steel,
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		System.out.println("\n \n Scinanie \n \n");
+		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
+		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+		designSheringReinforcement(reinforcement);
+	}
+
+	protected void setVrdDiagnosis (Steel steel) {
+		vRdS1 = (aSw1/s1)*z*steel.getFYd()*1000*cotTheta;
+		vRdS2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
+		vRdS = Math.min(vRdS1+vRdS2, 2*vRdS1);
+		vRd = Math.max(Math.min(vRdS, vRdMax), vRDC);
+	}
+
+	private void designSheringReinforcement(Reinforcement reinforcement) {
+		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
+			reinforcement.setS2Designed(0.05*(Math.floor(Math.abs(s2/0.05))));
+		}
+		reinforcement.setS1Designed(0.05*(Math.floor(Math.abs(s1/0.05))));
+	}
+
+	protected void pushResultsToReinforcementClass(Reinforcement reinforcement) {
+		reinforcement.setlW(lW);
+		reinforcement.setS(s);
+		reinforcement.setS1Required(s1);
+		reinforcement.setS2Required(s2);
+	}
+
+
 	protected void calculateCotTheta(double theta) {
 		cotTheta = theta;
 		System.out.println("cotTheta " + cotTheta);
+	}
+
+	protected void calculateDeltaV(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimension) {
+		deltaV = (alfaCw * dimension.getB() * z * ny1 * concrete.getFCd() * 1000)*cotTheta*cotAlfa/((1+Math.pow(cotTheta, 2))*(2*cotTheta+cotAlfa));
+		System.out.println("deltaV " + deltaV);
 	}
 
 	protected void calculateTanTheta(double theta) {
@@ -102,10 +152,16 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("ny1 " + ny1);
 	}
 
-	private void setVRdMax(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions) {
+	private void setVRdMax(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setZ(dimensions);
 		setNy1(concrete);
 		vRdMax = (alfaCw * dimensions.getB() * z * ny1 * concrete.getFCd() * 1000) / (tanTheta + cotTheta);
+		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
+			calculateDeltaV(concrete, dimensions);
+			vRdMax += deltaV;
+			System.out.println("Projektowanie strzemion odgietych!!!!");
+		} else
+			System.out.println("Projektowanie strzemion pionowych!!!");
 		System.out.println("vRdMax " + vRdMax);
 	}
 
@@ -116,8 +172,8 @@ public class ShearingReinforcementAnalizer {
 	// shearingResistanceWithoutShearingReinforcement
 	// vRdc
 
-	private void setSigmaCp(DimensionsOfCrossSectionOfConcrete dimension, InternalForces forces) {
-		sigmaCp = forces.getnEd() / (dimension.getB() * 100 * dimension.getD() * 100);
+	private void setSigmaCp(DimensionsOfCrossSectionOfConcrete dimension, InternalForces forces, Concrete concrete) {
+		sigmaCp = Math.min(10*forces.getnEd() / (dimension.getB() * 100 * dimension.getD() * 100), 0.2*concrete.getFCd());
 		System.out.println("sigmaCp " + sigmaCp);
 
 	}
@@ -142,13 +198,13 @@ public class ShearingReinforcementAnalizer {
 	private void setVRDCDependencies(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setK(dimensions);
 		setRoMin1(reinforcement, dimensions);
-		setSigmaCp(dimensions, forces);
+		setSigmaCp(dimensions, forces, concrete);
 		setNyMin(concrete);
 	}
 
 	private void setVRDC(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setVRDCDependencies(concrete, forces, dimensions, reinforcement);
-		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
+		vRDC = Math.min((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
 				(nyMin + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000);
 
 		vRDC = vRDC / 1000;
@@ -162,11 +218,38 @@ public class ShearingReinforcementAnalizer {
 	// maxValueWhichCanBeSustainedByTheYieldingShearReinforcement
 	// Vrdc<Ved<=Vrdmax
 
-	private void maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(Steel steel, InternalForces forces, Reinforcement reinforcement, DimensionsOfCrossSectionOfConcrete dimensions) {
+	private void maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(Steel steel, InternalForces forces,
+			Reinforcement reinforcement, DimensionsOfCrossSectionOfConcrete dimensions, Concrete concrete) {
 		setASwVerticalStirrup(reinforcement.getnS1(), reinforcement.getaSW1Diameter());
+		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0)
+			setASwBentRods(reinforcement.getnS2Required(), reinforcement.getaSW2Diameter());
 		setSlMax(dimensions.getD());
-		setS(steel, forces.getvEd());
-		setlW(forces);
+		setSMin(steel, dimensions, concrete);
+		setS1Algorith(steel, dimensions, concrete, forces, reinforcement);
+		//setS(steel, forces.getvEd());
+		//setlW(forces);
+	}
+
+	private void countS1WhenVedLessThanVrdc(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, Concrete concrete) {
+		double b = Math.min(sLMax, a);
+		s1 = Math.max(b,sMin);
+		System.out.println("s1 " + s1);
+	}
+
+
+	private void countS1WhenVedGreaterThanVrdcAndLessVrdMax(Steel steel, InternalForces forces, Reinforcement reinforcement) {
+		double Veds1 = 0;
+		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
+			double Vrds2 = (aSw2/s2)*z*steel.getFYd()*(cotTheta+cotAlfa)*sinAlfa;
+			Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
+		} else
+			Veds1 = forces.getvEd();
+		System.out.println("Veds1 " + Veds1);
+		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
+		double c = Math.min(b, sLMax);
+		double d = Math.min(c, a);
+		s1 = Math.max(d, sMin);
+		System.out.println("s1 " + s1);
 	}
 
 	protected void setASwVerticalStirrup(double nS1, double phiSt) {
@@ -184,7 +267,30 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("sLMax " + sLMax);
 	}
 
+	protected void setSMin(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions,
+			Concrete concrete) {
+		//TU SKO�CZYLI�MY
+		sMin = 2*aSw1*steel.getFYd()/(dimensions.getB()*alfaCw*ny1*concrete.getFCd());
+		System.out.println("sMin " + sMin);
+	}
+
+	protected void setS1Algorith(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions,
+			Concrete concrete, InternalForces forces, Reinforcement reinforcement) {
+		a = aSw1 * steel.getFYk()/(0.08*dimensions.getB()*Math.sqrt(concrete.getFCk()));
+		System.out.println("a " + a);
+		if (forces.getvEd()<= vRDC) {
+			System.out.println("Ved < Vrdc");
+			countS1WhenVedLessThanVrdc(steel, dimensions, concrete);
+		} else if (forces.getvEd() > vRDC && forces.getvEd()<= vRdMax) {
+			countS1WhenVedGreaterThanVrdcAndLessVrdMax(steel, forces, reinforcement);
+		} else {
+			s1 = 0.0;
+			System.out.println("s1 " + s1);
+		}
+	}
+
 	protected void setS(Steel steel, double vEd) {
+
 		double a = aSw1 / vEd * z * steel.getFYd() * 1000 * cotTheta;
 		s1 = Math.min(a, sLMax);
 		System.out.println("s tutaj" + s1);
@@ -205,6 +311,25 @@ public class ShearingReinforcementAnalizer {
 	protected void setRoWMin(Concrete concrete, Steel steel) {
 		roWMin = 0.08 * Math.sqrt((double) concrete.getFCk() * 1000) / (steel.getFYk() * 1000);
 		System.out.println("roWMin " + roWMin);
+	}
+
+
+
+	private void pushResultsToPDFWhenS2WasGiven(InternalForces forces) {
+
+		ResultsToPDF.addResults("Ved", String.valueOf(forces.getvEd()));
+		ResultsToPDF.addResults("RoWMin", String.valueOf(roWMin));
+		ResultsToPDF.addResults("z", String.valueOf(z));
+		ResultsToPDF.addResults("Asw1", String.valueOf(aSw1));
+		ResultsToPDF.addResults("Asw2", String.valueOf(aSw2));
+		ResultsToPDF.addResults("sLMax", String.valueOf(sLMax));
+		ResultsToPDF.addResults("sBMax", String.valueOf(sBMax));
+		ResultsToPDF.addResults("s2", String.valueOf(s2));
+		ResultsToPDF.addResults("vRdS2", String.valueOf(vRdS2));
+		//ResultsToPDF.addResults("vEds1", String.valueOf());
+		ResultsToPDF.addResults("s1", String.valueOf(s1));
+		ResultsToPDF.addResults("vRdS1", String.valueOf(vRdS1));
+		ResultsToPDF.addResults("roW", String.valueOf(roW));
 	}
 
 }

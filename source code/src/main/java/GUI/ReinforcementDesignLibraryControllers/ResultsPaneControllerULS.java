@@ -401,11 +401,17 @@ public class ResultsPaneControllerULS {
 			gridLabel111.setText("");
 			gridLabel112.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
 			gridLabel113.setText(OutputFormatter.s1s2(reinforcement.getS2Required()));
+			gridLabel211.setText("");
+			gridLabel212.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
+			gridLabel213.setText(OutputFormatter.s1s2(reinforcement.getS2Designed()));
 
 		} else {
 			gridLabel111.setText("");
 			gridLabel112.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
 			gridLabel113.setText("");
+			gridLabel211.setText("");
+			gridLabel212.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
+			gridLabel213.setText("");
 
 		}
 		gridLabel114.setText("");
@@ -422,9 +428,7 @@ public class ResultsPaneControllerULS {
 		gridLabel28.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesingedUnsymmetricalAS1())));
 		gridLabel29.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedUnsymmetricalAS2())));
 		gridLabel210.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement()));
-		gridLabel211.setText("");
-		gridLabel212.setText("");
-		gridLabel213.setText("");
+
 		gridLabel214.setText("");
 		gridLabel215.setText("");
 

@@ -9,3 +9,7 @@
 .graphDesign{
 	-fx-background-color: #D3D3D3;
 }
+
+.thick-chart .chart-series-line {
+	-fx-stroke-width: 6px;
+}

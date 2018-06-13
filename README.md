@@ -5,7 +5,7 @@ App is based on "Eurocode 2: Design of conrete strucurees EN1992-1-1". <br>
 
 If you would like to know some details about design metodology simply send me an email! 
 
-EDIT:
+### EDIT
 Project was developing by 2 students as a project for master thesis. The main problems was fixed and implemented. What is more, visualisations are available to display to show the correctness of designed reinforcement.
 
 ### How to run 

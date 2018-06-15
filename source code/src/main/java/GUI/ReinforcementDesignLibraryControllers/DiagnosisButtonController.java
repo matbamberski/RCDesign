@@ -70,7 +70,7 @@ public class DiagnosisButtonController {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
-			diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(), internalForces.getnEd(), dimensions, reinforcement);
+			diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(), internalForces.getnEd(), dimensions, reinforcement, forces);
 			resultsPaneControllerDiagnosis.dispResults();
 			
 			SaveFileButtonController.enableButtonDiagnosis();

@@ -519,7 +519,7 @@ public class ResultsPaneControllerULS {
 		gridLabel013.setText("");
 		gridLabel014.setText("");
 		gridLabel015.setText("");
-
+		
 		gridLabel10.setText("");
 		gridLabel11.setText("");
 		gridLabel12.setText("Obliczeniowe");
@@ -555,15 +555,15 @@ public class ResultsPaneControllerULS {
 		gridLabel25.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedSymmetricalReinforcement()));
 		gridLabel26.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
-			gridLabel27.setText("");
-			gridLabel28.setText("");
+			gridLabel27.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
+			gridLabel28.setText(OutputFormatter.s1s2(reinforcement.getS2Designed()));
 			gridLabel29.setText("");
 			gridLabel210.setText("");
 			gridLabel211.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
 			gridLabel212.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesigned()));
 
 		} else {
-			gridLabel27.setText("");
+			gridLabel27.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
 			gridLabel28.setText("");
 			gridLabel29.setText("");
 			gridLabel210.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));

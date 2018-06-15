@@ -1,9 +1,11 @@
 package diagnosis;
 
+import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
+import reinforcement.shearing.ShearingReinforcementAnalizer;
 
 public class DiagnosisMainAlgorithm {
 
@@ -22,7 +24,7 @@ public class DiagnosisMainAlgorithm {
 	private double vRdRequired;
 	private double vRdDesigned;
 
-	public void runDiagnosis(Concrete concrete, Steel steel, double mEd, double nEd, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+	public void runDiagnosis(Concrete concrete, Steel steel, double mEd, double nEd, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, InternalForces forces) {
 		if (mEd == 0) {
 			mEd = nEd / 1000000;
 		}
@@ -105,12 +107,16 @@ public class DiagnosisMainAlgorithm {
 			mRdDesignedUnsymmetrical = diagnosis.getmRd();
 			nRdDesignedUnsymmetrical = diagnosis.getnRd();
 		}
-		ShearingDiagnosis shearingDiagnosis = new ShearingDiagnosis();
-		shearingDiagnosis.runShearingDiagnosis(concrete, steel, reinforcement, dimensions, reinforcement.getS1Required(), reinforcement.getS2Required(), reinforcement.getnS2Required());
+		ShearingReinforcementAnalizer shearingDiagnosis = new ShearingReinforcementAnalizer();
+		shearingDiagnosis.doFullSheringReinforcementWithoutDesign(concrete, steel, forces, dimensions, reinforcement, reinforcement.getS1Required(), reinforcement.getS2Required());
+		//shearingDiagnosis.runShearingDiagnosis(concrete, steel, reinforcement, dimensions, reinforcement.getS1Required(), reinforcement.getS2Required(), reinforcement.getnS2Required(), shearingDiagnosis, forces);
 		vRdRequired = shearingDiagnosis.getvRd();
-		ShearingDiagnosis shearingDiagnosis2 = new ShearingDiagnosis();
-		shearingDiagnosis2.runShearingDiagnosis(concrete, steel, reinforcement, dimensions, reinforcement.getS1Designed(), reinforcement.getS2Designed(), reinforcement.getnS2Designed());
-		vRdDesigned = shearingDiagnosis2.getvRd();
+		System.out.println("vRd Required = " + vRdRequired);
+		//ShearingReinforcementAnalizer shearingDiagnosis2 = new ShearingReinforcementAnalizer();
+		shearingDiagnosis.doFullSheringReinforcementWithoutDesign(concrete, steel, forces, dimensions, reinforcement, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+		//shearingDiagnosis2.runShearingDiagnosis(concrete, steel, reinforcement, dimensions, reinforcement.getS1Designed(), reinforcement.getS2Designed(), reinforcement.getnS2Designed(), shearingDiagnosis2, forces);
+		vRdDesigned = shearingDiagnosis.getvRd();
+		System.out.println("vRd Designed = " + vRdDesigned);
 	}
 
 	public double getmRdRequiredSymmetrical() {

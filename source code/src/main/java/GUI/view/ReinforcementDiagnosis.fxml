@@ -403,13 +403,13 @@
       </Label>
       <Line fx:id="leftSGUNequal0Line2" endX="-40.0" layoutX="437.0" layoutY="238.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="363.0" />
       <Line fx:id="rightSGUNequal0Line2" endX="-40.0" layoutX="447.0" layoutY="248.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="363.0" />
-      <Label fx:id="zbrojeniePoprzeczneNNotequal0Label" layoutX="623.0" layoutY="589.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="566.0" AnchorPane.topAnchor="240.0">
+      <Label fx:id="zbrojeniePoprzeczneNNotequal0Label" layoutX="623.0" layoutY="418.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="566.0" AnchorPane.topAnchor="412.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="250.0" />
-      <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="250.0" />
+      <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.leftAnchor="695.0" AnchorPane.topAnchor="421.0" />
+      <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="421.0" />
       <Button fx:id="graphButton" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="565.0" />
       <HBox fx:id="columsCasesHBox" layoutX="19.0" layoutY="610.0" maxHeight="100.0" maxWidth="300.0" prefHeight="75.0" prefWidth="200.0" spacing="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="600.0">
          <children>

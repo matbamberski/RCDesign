@@ -85,7 +85,7 @@ public class InternalForces {
 		}
 		return combination;
 	}
-
+	
 
 	public void checkIsLoadSustained(int i) {
 		if (i == 0) {

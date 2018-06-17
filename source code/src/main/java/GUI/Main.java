@@ -8,10 +8,10 @@ import GUI.view.ReinforcementDiagnosisController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -31,6 +31,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		primaryStage.getIcons().add(new Image("/GUI/icon.png"));
 		this.primaryStage.setTitle(
 				"RCdesign v4.0 - Projektowanie                                  autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 		initRootLayout();
@@ -60,6 +61,7 @@ public class Main extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
+			//primaryStage.getIcons().add(new Image("icon.jpg"));
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (IOException e) {

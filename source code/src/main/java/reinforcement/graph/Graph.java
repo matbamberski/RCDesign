@@ -29,6 +29,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	private double x;
 	private double n;
 	private double m;
+	private double mm;
 
 	private double krok; // <- dok�adno�� wykresu (krok zwi�kszania warto�ci x)
 	private double dzielnik;
@@ -119,8 +120,13 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
 					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+			mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+					+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+			
 			pointsN.add(n);
 			pointsM.add(m);
+			points_M.add(mm);
 			x = x + krok;
 
 		}
@@ -137,8 +143,14 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
 					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+			
+			mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+					+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+			
 			pointsN.add(n);
 			pointsM.add(m);
+			points_M.add(mm);
 			x = x + krok;
 		}
 
@@ -154,8 +166,14 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
 					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+			
+			mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+					+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+			
 			pointsN.add(n);
 			pointsM.add(m);
+			points_M.add(mm);
 			x = x + krok;
 		}
 
@@ -176,8 +194,14 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
 					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+			
+			mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+					+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+			
 			pointsN.add(n);
 			pointsM.add(m);
+			points_M.add(mm);
 			x = x + krok;
 		}
 
@@ -199,8 +223,14 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
 					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+			
+			mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+					+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+			
 			pointsN.add(n);
 			pointsM.add(m);
+			points_M.add(mm);
 			x = x + krok;
 		}
 
@@ -221,17 +251,24 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
+			
+			mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+					+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2()));
+			
 			pointsN.add(n);
 			pointsM.add(m);
+			points_M.add(mm);
 			x = x + krok;
 		}
 
 		System.out.println("N =" + n);
 		System.out.println("N7 = " + n7);
 		krok = (n7 - n) / dzielnik;
+		if (krok < 0.01) {
+			krok =0.01;
+		}
 		if (n < n7) {
-			while (n < n7) { // przedzia� 7
-				while (x<1.5) {
+			while (n < n7 & x <2.0) { // przedzia� 7
 				System.out.println("Przedzia�7");
 				System.out.println("Krok = " + krok);
 				System.out.println("X = " + x);
@@ -253,21 +290,30 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 				n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
+				
+				mm = -(sigmaS2 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ sigmaS1 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2()));
+				
 				pointsN.add(n);
 				pointsM.add(m);
+				points_M.add(mm);
 				x = x + krok;
-				}
+				
 			}
 		} else {
 			System.err.println("N wi�ksze ni� N7");
 		}
-
+		
+		/*
 		for (int i = 0; i < pointsN.size(); i++) {
 			points_M.add(-pointsM.get(i));
 		}
-		pointsM.add((double) 0);
-		points_M.add((double) 0);
-		pointsN.add(n7);
+		*/
+		//pointsM.add((double) 0);
+		points_M.add((m+mm/2));
+		pointsM.add((m+mm/2));
+		
+		pointsN.add(n);
 
 		/*
 		 * setPointsM(pointsM); setPoints_M(points_M); setPointsN(pointsN);

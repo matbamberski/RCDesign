@@ -56,6 +56,14 @@ public class InternalForcesController {
 		addInputVEdListener(internalForces, vEd);
 		addFocusVEdListener(vEd);
 		setVedInitialValue(vEd);
+		System.out.println("Ved = " + vEd);
+	}
+
+	public static void addPropertiesToVEdRedTextField(InternalForces internalForces, TextField vEdRed) {
+		addInputVEdRedListener(internalForces, vEdRed);
+		addFocusVEdRedListener(vEdRed);
+		setVedRedInitialValue(vEdRed);
+		System.out.println("VedREd = " + vEdRed);
 	}
 
 	// mEd text field
@@ -364,11 +372,13 @@ public class InternalForcesController {
 	}
 
 	// vEd text field
+	//
 	private static boolean isVEdInputCorrect;
-
+	
 	private static void addInputVEdListener(InternalForces internalForces, TextField vEd) {
 		vEd.textProperty().addListener(new VEdInputListener(internalForces));
 	}
+	
 
 	private static class VEdInputListener implements ChangeListener<String> {
 		private InternalForces internalForces;
@@ -377,6 +387,7 @@ public class InternalForcesController {
 			this.internalForces = internalForces;
 		}
 
+		
 		@Override
 		public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
 			arg2 = arg2.replace(',', '.');
@@ -390,19 +401,19 @@ public class InternalForcesController {
 		}
 
 	}
-
+	
 	private static void addFocusVEdListener(TextField vEd) {
 		vEd.focusedProperty().addListener(new VEdFocusListener(vEd));
 	}
-
+	
 	private static class VEdFocusListener implements ChangeListener<Boolean> {
 
 		private TextField vEd;
-
+		
 		protected VEdFocusListener(TextField vEd) {
 			this.vEd = vEd;
 		}
-
+				
 		private void ifInputWasIncorrectSetValueToInitial() {
 			if (isVEdInputCorrect == false) {
 				setNedInitialValue(vEd);
@@ -418,6 +429,66 @@ public class InternalForcesController {
 
 	}
 
+	//
+	// vEdRed text field
+	private static boolean isVEdRedInputCorrect;
+	
+	private static void addInputVEdRedListener(InternalForces internalForces, TextField vEdRed) {
+		vEdRed.textProperty().addListener(new VEdRedInputListener(internalForces));
+	}
+	
+
+	private static class VEdRedInputListener implements ChangeListener<String> {
+		private InternalForces internalForces;
+
+		private VEdRedInputListener(InternalForces internalForces) {
+			this.internalForces = internalForces;
+		}
+
+		
+		@Override
+		public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
+			arg2 = arg2.replace(',', '.');
+			if (InputValidation.vEdRedTextFieldInputValidation(arg2)) {
+				internalForces.setvEdRed(StringToDouble.stringToDouble(arg2));
+				isVEdRedInputCorrect = true;
+			} else {
+				isVEdRedInputCorrect = false;
+			}
+
+		}
+
+	}
+	
+	private static void addFocusVEdRedListener(TextField vEdRed) {
+		vEdRed.focusedProperty().addListener(new VEdRedFocusListener(vEdRed));
+	}
+	
+	private static class VEdRedFocusListener implements ChangeListener<Boolean> {
+
+		private TextField vEdRed;
+		
+		protected VEdRedFocusListener(TextField vEdRed) {
+			this.vEdRed = vEdRed;
+		}
+				
+		private void ifInputWasIncorrectSetValueToInitial() {
+			if (isVEdRedInputCorrect == false) {
+				setNedInitialValue(vEdRed);
+			}
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
+			if (arg2 == false) {
+				ifInputWasIncorrectSetValueToInitial();
+			}
+		}
+
+	}
+	//
+
+	
 	private static void setMedInitialValue(TextField mEd) {
 		mEd.setText("0");
 	}
@@ -428,6 +499,10 @@ public class InternalForcesController {
 
 	private static void setVedInitialValue(TextField vEd) {
 		vEd.setText("0");
+	}
+	
+	private static void setVedRedInitialValue(TextField vEdRed) {
+		vEdRed.setText("0");
 	}
 
 	////// Ogolna metoda na sprawdzanie wprowadzanych danych

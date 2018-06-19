@@ -17,6 +17,7 @@ public class ShearingReinforcementAnalizer {
 	protected double cotTheta;
 	protected double tanTheta;
 	protected double sinAlfa;
+	
 	protected double cotAlfa;
 
 	protected double vRDC;
@@ -65,6 +66,8 @@ public class ShearingReinforcementAnalizer {
 		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
 		reinforcement.setS1Required(s1);
 		reinforcement.setS(s1);
+		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
+		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
 		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
 		
 		/*
@@ -248,9 +251,19 @@ public class ShearingReinforcementAnalizer {
 		double Veds1 = 0;
 		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
 			double Vrds2 = (aSw2/s2)*z*steel.getFYd()*(cotTheta+cotAlfa)*sinAlfa;
+			
+			if(forces.getvEdRed() != 0) {
+				Veds1 = Math.max(forces.getvEdRed()-Vrds2, 0.5*forces.getvEdRed());
+			} else {
+				Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
+			}
 			Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
 		} else
-			Veds1 = forces.getvEd();
+			if(forces.getvEdRed() != 0) {
+				Veds1 = forces.getvEdRed();
+			} else {
+				Veds1 = forces.getvEd();
+			}
 		System.out.println("Veds1 " + Veds1);
 		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
 		double c = Math.min(b, sLMax);

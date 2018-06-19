@@ -550,6 +550,7 @@ public class ReinforcementDesignController {
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		InternalForcesController.addPropertiesToVEdRedTextField(internalForces, VEdRedTextField);
 
 		/// Metoda sprawdza poprawosc wprowadzonych danych i wpisuje w pola sily
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmax, InternalForces);

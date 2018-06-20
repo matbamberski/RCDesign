@@ -180,6 +180,15 @@ public class ReinforcementDesignController {
 	@FXML
 	private TextField VEdRedTextField;
 	
+	@FXML
+	private TextField befftTextField;
+	
+	@FXML
+	private TextField hftTextField;
+	
+	@FXML
+	private VBox vBoxBeffHf;
+	
 	
 	/////
 	// ** RESULTS ULS
@@ -540,9 +549,19 @@ public class ReinforcementDesignController {
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox);
-		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
-		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
+				columsCasesHBox, vBoxBeffHf);
+		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
+		
+		
+		
+		///////////////////////
+		CrossSectionTypeController.addPropertiesToBEfftTextField(befftTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesTohftTextField(hftTextField, dimensionsOfCrossSectionOfConcrete);
+		/////////////////////
+		
+		
+		
+		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 
@@ -550,6 +569,11 @@ public class ReinforcementDesignController {
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		InternalForcesController.addPropertiesToVEdRedTextField(internalForces, VEdRedTextField);
+		
+		//////////////
+		AdditionalVariablesController.addPropertiesTocNomTextField(dimensionsOfCrossSectionOfConcrete, cNomTextField);
+		
 
 		/// Metoda sprawdza poprawosc wprowadzonych danych i wpisuje w pola sily
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmax, InternalForces);
@@ -693,6 +717,10 @@ public class ReinforcementDesignController {
 		bindBidirectionalarL0();
 		bindBidirectionalarFiT0();
 
+		
+		bindBidirectionalbefft();
+		bindBidirectionalhft();
+		bindBidirectionalcNom();
 
 	}
 
@@ -867,6 +895,18 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalConcreteCBs() {
 		concreteChoiceBox.selectionModelProperty()
 				.bindBidirectional(diagnosis.getConcreteChoiceBox().selectionModelProperty());
+	}
+	
+	private void bindBidirectionalbefft() {
+		befftTextField.textProperty().bindBidirectional(diagnosis.getBefftTextField().textProperty());
+	}
+	
+	private void bindBidirectionalhft() {
+		hftTextField.textProperty().bindBidirectional(diagnosis.getHftTextField().textProperty());
+	}
+	
+	private void bindBidirectionalcNom() {
+		cNomTextField.textProperty().bindBidirectional(diagnosis.getcNomTextField().textProperty());
 	}
 
 	private void pushNumberOfRodsToDiagnosisScene() {

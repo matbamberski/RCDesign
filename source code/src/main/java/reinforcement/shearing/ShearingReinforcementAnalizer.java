@@ -1,5 +1,6 @@
 package reinforcement.shearing;
 
+//import diagnosis.ShearingDiagnosis;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
 import materials.Concrete;
@@ -12,13 +13,14 @@ public class ShearingReinforcementAnalizer {
 	private double vRdMax;
 	protected final double alfaCw = 1;
 	protected double z;
-	private double ny1;
+	protected double ny1;
 	protected double cotTheta;
 	protected double tanTheta;
 	protected double sinAlfa;
+	
 	protected double cotAlfa;
 
-	private double vRDC;
+	protected double vRDC;
 	private final double CRDC = 0.129;
 	private double k;
 	private final double K1 = 0.15;
@@ -64,6 +66,10 @@ public class ShearingReinforcementAnalizer {
 		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
 		reinforcement.setS1Required(s1);
 		reinforcement.setS(s1);
+		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
+		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
+		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+		
 		/*
 		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
 			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
@@ -78,11 +84,11 @@ public class ShearingReinforcementAnalizer {
 	}
 
 	public void doFullSheringReinforcementWithoutDesign(Concrete concrete, Steel steel,
-			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double s1, double s2) {
 		System.out.println("\n \n Scinanie \n \n");
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
 		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
-		setVrdDiagnosis(steel);
+		setVrdDiagnosis(steel, s1, s2);
 	}
 
 	public void doFullSheringReinforcementWitDesign(Concrete concrete, Steel steel,
@@ -93,9 +99,13 @@ public class ShearingReinforcementAnalizer {
 		designSheringReinforcement(reinforcement);
 	}
 
-	protected void setVrdDiagnosis (Steel steel) {
+	protected void setVrdDiagnosis (Steel steel, double s1, double s2) {
 		vRdS1 = (aSw1/s1)*z*steel.getFYd()*1000*cotTheta;
-		vRdS2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
+		if (s2 != 0) {
+			vRdS2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
+		} else {
+			vRdS2 = 0.0;
+		}
 		vRdS = Math.min(vRdS1+vRdS2, 2*vRdS1);
 		vRd = Math.max(Math.min(vRdS, vRdMax), vRDC);
 	}
@@ -147,12 +157,12 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("z " + z);
 	}
 
-	private void setNy1(Concrete concrete) {
+	protected void setNy1(Concrete concrete) {
 		ny1 = 0.6 * (1 - (double) concrete.getFCk() / 250);
 		System.out.println("ny1 " + ny1);
 	}
 
-	private void setVRdMax(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+	protected void setVRdMax(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setZ(dimensions);
 		setNy1(concrete);
 		vRdMax = (alfaCw * dimensions.getB() * z * ny1 * concrete.getFCd() * 1000) / (tanTheta + cotTheta);
@@ -241,9 +251,19 @@ public class ShearingReinforcementAnalizer {
 		double Veds1 = 0;
 		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
 			double Vrds2 = (aSw2/s2)*z*steel.getFYd()*(cotTheta+cotAlfa)*sinAlfa;
+			
+			if(forces.getvEdRed() != 0) {
+				Veds1 = Math.max(forces.getvEdRed()-Vrds2, 0.5*forces.getvEdRed());
+			} else {
+				Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
+			}
 			Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
 		} else
-			Veds1 = forces.getvEd();
+			if(forces.getvEdRed() != 0) {
+				Veds1 = forces.getvEdRed();
+			} else {
+				Veds1 = forces.getvEd();
+			}
 		System.out.println("Veds1 " + Veds1);
 		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
 		double c = Math.min(b, sLMax);
@@ -299,6 +319,10 @@ public class ShearingReinforcementAnalizer {
 	private void setlW(InternalForces internalForces) {
 		lW = (internalForces.getvEd() - getVRDC()) / internalForces.getgPlusQForShearing();
 		System.out.println("lw " + lW);
+	}
+	
+	public double getvRd() {
+		return vRd;
 	}
 
 	//

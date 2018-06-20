@@ -43,6 +43,15 @@ public class InputValidation {
 		}
 		return isCorrect;
 	}
+	
+	public static boolean vEdRedTextFieldInputValidation(String string) {
+		boolean isCorrect = false;
+		Pattern pattern = Pattern.compile("[0-9]+[,\\.]*[0-9]*");
+		if (pattern.matcher(string).matches()) {
+			isCorrect = true;
+		}
+		return isCorrect;
+	}
 
 	public static boolean dimensionTextFieldInputValidation(String string) {
 		boolean isCorrect = false;

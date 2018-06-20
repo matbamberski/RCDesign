@@ -518,7 +518,7 @@ public class RequiredReinforcement {
 			System.err.println("S�up");
 		}
 		shearingReinforcementAnalizer.doFullSheringReinforcementWithoutDesign(
-				concrete, steel, internalForces, dimensions, reinforcement);
+				concrete, steel, internalForces, dimensions, reinforcement, reinforcement.getS1Required(), reinforcement.getS2Required());
 	}
 
 	//// S�upy

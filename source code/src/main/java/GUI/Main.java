@@ -8,10 +8,10 @@ import GUI.view.ReinforcementDiagnosisController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -31,8 +31,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
+		primaryStage.getIcons().add(new Image("/GUI/icon.png"));
 		this.primaryStage.setTitle(
-				"RCdesign v3.0 - Projektowanie                                                                                                             autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Projektowanie                                  autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 		initRootLayout();
 		loadDesignScene();
 		loadDiagnosisScene();
@@ -54,12 +55,13 @@ public class Main extends Application {
 			rootLayout.setStyle("-fx-background-color: " + colorBackground);
 			
 			hbox = new HBox();
-			hbox.maxWidth(895);
+			//hbox.maxWidth(895);
 			
 			rootLayout.setCenter(hbox);
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
+			//primaryStage.getIcons().add(new Image("icon.jpg"));
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (IOException e) {
@@ -110,7 +112,7 @@ public class Main extends Application {
 		
 		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
 		primaryStage.setTitle(
-				"RCdesign v3.0 - Diagnostyka                                                                                                               autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD");
+				"RCdesign v4.0 - Diagnostyka                                     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
 	}
 	
@@ -120,7 +122,7 @@ public class Main extends Application {
 		
 		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
 		primaryStage.setTitle(
-				"RCdesign v3.0 - Krzywe noœnoœæi granicznej                                                                                                autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD");
+				"RCdesign v4.0 - Krzywe noœnoœci granicznej             autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
 	}
 	
@@ -130,7 +132,7 @@ public class Main extends Application {
 		
 		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
 		primaryStage.setTitle(
-				"RCdesign v3.0 - Diagnostyka                                                                                                               autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD");
+				"RCdesign v4.0 - Diagnostyka                                     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
 	}
 
@@ -141,7 +143,7 @@ public class Main extends Application {
 		rootLayout.setStyle("-fx-background-color: " + colorBackground);
 		//rootLayout.setTop(design);
 		primaryStage.setTitle(
-				"RCdesign v3.0 - Projektowanie                                                                                                             autor:Tadeusz Miesi¹c pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Projektowanie                                  autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 	}
 	
 

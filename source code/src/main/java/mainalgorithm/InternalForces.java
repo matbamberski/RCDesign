@@ -2,14 +2,13 @@ package mainalgorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.OptionalDouble;
-import java.util.stream.DoubleStream;
 
 public class InternalForces {
 
 	private double mEdObliczeniowe;
 	private double nEd;
 	private double vEd;
+	private double vEdRed;
 
 	protected double momentMmax;
 	protected double momentMmin;
@@ -30,6 +29,7 @@ public class InternalForces {
 	private double characteristicMEdDlugotrwale;
 	private double characteristicNEd;
 	private double characteristicVEd;
+	private double characteristicVEdRed;
 
 	private double alfaM;
 	private boolean isLoadSustained;
@@ -85,7 +85,7 @@ public class InternalForces {
 		}
 		return combination;
 	}
-
+	
 
 	public void checkIsLoadSustained(int i) {
 		if (i == 0) {
@@ -143,6 +143,10 @@ public class InternalForces {
 	public double getvEd() {
 		return vEd;
 	}
+	
+	public double getvEdRed() {
+		return vEdRed;
+	}
 
 	public void setgPlusQForShearing(double gPlusQForShearing) {
 		this.gPlusQForShearing = gPlusQForShearing;
@@ -163,6 +167,11 @@ public class InternalForces {
 	public void setvEd(double vEd) {
 		this.vEd = vEd;
 		System.out.println("vEd " + vEd);
+	}
+	
+	public void setvEdRed(double vEdRed) {
+		this.vEdRed = vEdRed;
+		System.out.println("vEdRed " + vEdRed);
 	}
 
 	public double getMomentMmax() {
@@ -236,7 +245,5 @@ public class InternalForces {
 		this.normalnaNmin = normalnaNmin;
 		System.out.println("normalnaNmin: "+normalnaNmin);
 	}
-
-
 
 }

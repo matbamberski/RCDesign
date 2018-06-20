@@ -24,6 +24,12 @@ public class AdditionalVariablesController {
 		addFocusListenerAlfaM(tf);
 		setInitialValueAlfaMTF(tf);
 	}
+	
+	public static void addPropertiesTocNomTextField(DimensionsOfCrossSectionOfConcrete dimensions, TextField tf) {
+		addListenerTocNom(dimensions, tf);
+		addFocusListenerCNom(tf);
+		setInitialValueCNom(tf);
+	}
 
 	public static void addPropertiesToT0TF(Concrete concrete, TextField tf) {
 		addListenerToT0TF(concrete, tf);
@@ -60,6 +66,70 @@ public class AdditionalVariablesController {
 		setInitialValueOfALimTF(tf);
 	}
 
+	/////////CNom
+	
+	
+	private static void addListenerTocNom(DimensionsOfCrossSectionOfConcrete dimensions, TextField tf) {
+		tf.textProperty().addListener(new cNomListener(dimensions));
+	}
+
+	private static boolean iscNomInputCorrect;
+
+	private static class cNomListener implements ChangeListener<String> {
+
+		DimensionsOfCrossSectionOfConcrete dimensions;
+
+		protected cNomListener(DimensionsOfCrossSectionOfConcrete dimensions) {
+			this.dimensions = dimensions;
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+			newValue = newValue.replace(",", ".");
+			if (InputValidation.lEffTextFieldInputValidation(newValue)) {
+				dimensions.setcNom(Double.parseDouble(newValue));
+				iscNomInputCorrect = true;
+			} else {
+				iscNomInputCorrect = false;
+			}
+		}
+
+	}
+
+	private static void addFocusListenerCNom(TextField tf) {
+		tf.focusedProperty().addListener(new cNomFocusListener(tf));
+	}
+
+	private static class cNomFocusListener implements ChangeListener<Boolean> {
+		TextField tf;
+
+		protected cNomFocusListener(TextField tf) {
+			this.tf = tf;
+		}
+
+		private void ifLEffWasIncorectSetValueToInitial() {
+			if (iscNomInputCorrect == false) {
+				setInitialValueCNom(tf);
+			}
+		}
+
+		@Override
+		public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+			if (newValue == false) {
+				ifLEffWasIncorectSetValueToInitial();
+			}
+
+		}
+
+	}
+
+	private static void setInitialValueCNom(TextField tf) {
+		tf.setText("30");
+	}
+
+	
+	
+	
 	// Leff TF
 
 	private static void addListenerToLEffTF(DimensionsOfCrossSectionOfConcrete dimensions, TextField tf) {
@@ -300,7 +370,7 @@ public class AdditionalVariablesController {
 	// cement class choicebox
 
 	private static void addInitialValuesToCementClassCB(ChoiceBox<String> cb) {
-		cb.setItems(FXCollections.observableArrayList("Cement klasy S", "Cement klasy N", "Cement klasy R"));
+		cb.setItems(FXCollections.observableArrayList("Klasa S", "Klasa N", "Klasa R"));
 	}
 
 	private static void addListenerToCementTypeCB(ChoiceBox<String> cb, Cement cement) {
@@ -323,7 +393,7 @@ public class AdditionalVariablesController {
 	}
 
 	private static void setInitialValueOfCementTypeCB(ChoiceBox<String> cb) {
-		cb.setValue("Cement klasy N");
+		cb.setValue("Klasa N");
 	}
 	// type of loads choice box
 

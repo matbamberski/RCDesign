@@ -30,6 +30,7 @@ public class InternalForcesController {
 		addFocusMEdListener(mEd, mEdCharCalk, mEdCharDlug);
 		setMedInitialValue(mEd);
 	}
+	
 
 	public static void addPropertiesToMEdCharCalk(InternalForces forces, TextField mEd, TextField mEdCharCalk,
 			TextField mEdCharDlug) {
@@ -63,7 +64,7 @@ public class InternalForcesController {
 		addInputVEdRedListener(internalForces, vEdRed);
 		addFocusVEdRedListener(vEdRed);
 		setVedRedInitialValue(vEdRed);
-		System.out.println("VedREd = " + vEdRed);
+		System.out.println("VedREd = " + vEdRed.getText());
 	}
 
 	// mEd text field

@@ -2,8 +2,6 @@ package mainalgorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.OptionalDouble;
-import java.util.stream.DoubleStream;
 
 public class InternalForces {
 
@@ -247,7 +245,5 @@ public class InternalForces {
 		this.normalnaNmin = normalnaNmin;
 		System.out.println("normalnaNmin: "+normalnaNmin);
 	}
-
-
 
 }

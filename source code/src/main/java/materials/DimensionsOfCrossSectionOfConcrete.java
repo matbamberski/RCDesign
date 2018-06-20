@@ -8,6 +8,11 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double d = h - a1;
 	private double b;
 	private double bEff;
+	
+	//////////\\
+	private double befft;
+	private double hft;
+	
 	private double tW;
 	private boolean isColumn;
 	private boolean isBeamRectangular;
@@ -171,7 +176,13 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateSc() {
-		sC = 0.5 * b * h * h + 0.5 * (bEff - b) * tW * tW;
+		if (!isBeamRectangular) {
+			
+		} else {
+			sC = 0.5 * b * h * h + 0.5 * (bEff - b) * tW * tW;
+		}
+		//sC = (bEff - b) * tW * tW / 2 + (befft - b)
+		
 	}
 
 	public double getSc() {
@@ -305,5 +316,25 @@ public class DimensionsOfCrossSectionOfConcrete {
 		System.out.println("h " + h);
 		calculateD();
 	}
+
+	public double getBefft() {
+		return befft;
+	}
+
+	public void setBefft(double befft) {
+		this.befft = befft;
+		System.out.println("befft " + befft);
+	}
+
+	public double getHft() {
+		return hft;
+	}
+
+	public void setHft(double hft) {
+		this.hft = hft;
+		System.out.println("hft " + hft);
+	}
+	
+	
 
 }

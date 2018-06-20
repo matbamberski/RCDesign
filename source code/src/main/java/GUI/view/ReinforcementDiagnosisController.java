@@ -541,6 +541,22 @@ public class ReinforcementDiagnosisController {
 
 	@FXML
 	private Button graphButton;
+	
+	///////
+	@FXML
+	private TextField VEdRedTextField;
+	
+	@FXML
+	private TextField befftTextField;
+	
+	@FXML
+	private TextField hftTextField;
+	
+	@FXML
+	private VBox vBoxBeffHf;
+	
+	
+	/////
 
 
 	private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete = ReinforcementDesignController.dimensionsOfCrossSectionOfConcrete;
@@ -576,12 +592,21 @@ public class ReinforcementDiagnosisController {
 				dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox);
+				columsCasesHBox, vBoxBeffHf);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
+		
+		//////////////
+		CrossSectionTypeController.addPropertiesToBEfftTextField(befftTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesTohftTextField(hftTextField, dimensionsOfCrossSectionOfConcrete);
+		/////////////
+		
 
+		InternalForcesController.addPropertiesToVEdRedTextField(internalForces, VEdRedTextField);
+		AdditionalVariablesController.addPropertiesTocNomTextField(dimensionsOfCrossSectionOfConcrete, cNomTextField);
+		
 		/// Metoda sprawdza poprawosc wprowadzonych danych
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmax, ReinforcementDesignController.InternalForces);
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, normalnaMmin, ReinforcementDesignController.InternalForces);
@@ -895,6 +920,23 @@ public class ReinforcementDiagnosisController {
 	public TextField getFiT0() {
 		return fiT0;
 	}
+
+	public TextField getBefftTextField() {
+		return befftTextField;
+	}
+
+	public void setBefftTextField(TextField befftTextField) {
+		this.befftTextField = befftTextField;
+	}
+
+	public TextField getHftTextField() {
+		return hftTextField;
+	}
+
+	public void setHftTextField(TextField hftTextField) {
+		this.hftTextField = hftTextField;
+	}
+	
 	
 	
 

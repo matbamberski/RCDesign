@@ -55,7 +55,7 @@ public class Main extends Application {
 			rootLayout.setStyle("-fx-background-color: " + colorBackground);
 			
 			hbox = new HBox();
-			hbox.maxWidth(895);
+			//hbox.maxWidth(895);
 			
 			rootLayout.setCenter(hbox);
 

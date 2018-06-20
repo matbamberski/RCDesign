@@ -593,13 +593,13 @@ public class ReinforcementDiagnosisController {
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
 				columsCasesHBox, vBoxBeffHf);
-		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
-		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 		
 		//////////////
-		CrossSectionTypeController.addPropertiesToBEfftTextField(befftTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesToBEfftTextField(befftTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesTohftTextField(hftTextField, dimensionsOfCrossSectionOfConcrete);
 		/////////////
 		

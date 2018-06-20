@@ -550,18 +550,18 @@ public class ReinforcementDesignController {
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
 				columsCasesHBox, vBoxBeffHf);
-		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		
 		
 		
 		///////////////////////
-		CrossSectionTypeController.addPropertiesToBEfftTextField(befftTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesToBEfftTextField(befftTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesTohftTextField(hftTextField, dimensionsOfCrossSectionOfConcrete);
 		/////////////////////
 		
 		
 		
-		CrossSectionTypeController.addPropertiesToBTextField(bTextField, dimensionsOfCrossSectionOfConcrete);
+		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 

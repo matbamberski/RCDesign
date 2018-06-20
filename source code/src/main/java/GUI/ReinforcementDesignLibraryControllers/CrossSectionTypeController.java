@@ -26,7 +26,7 @@ public class CrossSectionTypeController {
 	public static void addPropertiesToBTextField(TextField b, TextField beff, TextField befft,
 			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToBTextField(b, dimensionsOfCrossSectionOfConcrete);
-		addFocusListenerToBTextField(b);
+		addFocusListenerToBTextField(b, beff, befft);
 		setBInitialValue(b);
 	}
 
@@ -40,7 +40,7 @@ public class CrossSectionTypeController {
 	public static void addPropertiesToBEffTextField(TextField bEff, TextField b,
 			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToBEffTextField(bEff, dimensionsOfCrossSectionOfConcrete);
-		addFocusListenerToBEffTextField(bEff);
+		addFocusListenerToBEffTextField(bEff, b);
 		setBEffInitialValue(bEff, b);
 	}
 	
@@ -48,7 +48,7 @@ public class CrossSectionTypeController {
 	public static void addPropertiesToBEfftTextField(TextField bEfft, TextField b,
 			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		addListenerToBEfftTextField(bEfft, dimensionsOfCrossSectionOfConcrete);
-		addFocusListenerToBEfftTextField(bEfft);
+		addFocusListenerToBEfftTextField(bEfft, b);
 		setBEfftInitialValue(bEfft, b);
 	}
 	
@@ -224,7 +224,7 @@ public class CrossSectionTypeController {
 	private static String BeffString;
 
 
-	private static void addListenerToBEffTextField(TextField bEff, TextField b,
+	private static void addListenerToBEffTextField(TextField bEff,
 			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
 		bEff.textProperty().addListener(new BEffTextFieldListener(dimensionsOfCrossSectionOfConcrete));
 	}
@@ -255,8 +255,8 @@ public class CrossSectionTypeController {
 
 	}
 
-	private static void addFocusListenerToBEffTextField(TextField bEff) {
-		bEff.focusedProperty().addListener(new BEffTextFieldFocusListener(bEff));
+	private static void addFocusListenerToBEffTextField(TextField bEff, TextField b) {
+		bEff.focusedProperty().addListener(new BEffTextFieldFocusListener(bEff, b));
 	}
 	
 
@@ -264,14 +264,22 @@ public class CrossSectionTypeController {
 	private static class BEffTextFieldFocusListener implements ChangeListener<Boolean> {
 
 		TextField bEff;
+		TextField b;
 
-		protected BEffTextFieldFocusListener(TextField bEff) {
+		protected BEffTextFieldFocusListener(TextField bEff, TextField b) {
 			this.bEff = bEff;
+			this.b = b;
 		}
 
 		private void ifInputWasInCorrectSetValueToInitial() {
 			if (isBEffTextFieldInputCorrect == false) {
-				setBEffInitialValue(bEff);
+				setBEffInitialValue(bEff, b);
+			}
+		}
+		
+		private void checkBwithBEff() {
+			if (BeffValue < BValue) {
+				bEff.setText(BString);
 			}
 		}
 
@@ -280,6 +288,7 @@ public class CrossSectionTypeController {
 			if (arg2 == false) {
 				ifInputWasInCorrectSetValueToInitial();
 			}
+			checkBwithBEff();
 		}
 
 	}
@@ -406,8 +415,8 @@ public class CrossSectionTypeController {
 		crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
 	}
 
-	private static void setBEffInitialValue(TextField bEff) {
-		bEff.setText("0");
+	private static void setBEffInitialValue(TextField bEff, TextField b) {
+		bEff.setText(b.getText());
 	}
 
 	private static void setTWInitialValue(TextField tW) {
@@ -614,28 +623,40 @@ public class CrossSectionTypeController {
 
 				dimensionsOfCrossSectionOfConcrete.setBefft(StringToDouble.stringToDouble(newValue));
 				isBEfftTextFieldInputCorrect = true;
+				BefftValue = Double.parseDouble(newValue);
+				BefftString = newValue;
 			} else {
 				isBEfftTextFieldInputCorrect = false;
+				BefftValue = 0;
+				BefftString = "0";
 			}
 		}
 
 	}
 
-	private static void addFocusListenerToBEfftTextField(TextField bEfft) {
-		bEfft.focusedProperty().addListener(new BEfftTextFieldFocusListener(bEfft));
+	private static void addFocusListenerToBEfftTextField(TextField bEfft, TextField b) {
+		bEfft.focusedProperty().addListener(new BEfftTextFieldFocusListener(bEfft , b));
 	}
 
 	private static class BEfftTextFieldFocusListener implements ChangeListener<Boolean> {
 
 		TextField bEfft;
+		TextField b;
 
-		protected BEfftTextFieldFocusListener(TextField bEfft) {
+		protected BEfftTextFieldFocusListener(TextField bEfft, TextField b) {
 			this.bEfft = bEfft;
+			this.b = b;
 		}
 
 		private void ifInputWasInCorrectSetValueToInitial() {
 			if (isBEfftTextFieldInputCorrect == false) {
-				setBEfftInitialValue(bEfft);
+				setBEfftInitialValue(bEfft, b);
+			}
+		}
+		
+		private void checkBWithBefft() {
+			if (BefftValue < BValue) {
+				bEfft.setText(BString);
 			}
 		}
 
@@ -644,12 +665,13 @@ public class CrossSectionTypeController {
 			if (arg2 == false) {
 				ifInputWasInCorrectSetValueToInitial();
 			}
+			checkBWithBefft();
 		}
 
 	}
 	
-	private static void setBEfftInitialValue(TextField bEfft) {
-		bEfft.setText("0");
+	private static void setBEfftInitialValue(TextField bEfft, TextField b) {
+		bEfft.setText(b.getText());
 	}
 	private static void sethftInitialValue(TextField hft) {
 		hft.setText("0");

@@ -1,4 +1,6 @@
 package mainalgorithm;
+import SLS.creepCoeficent.CreepCoeficent;
+import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
@@ -44,12 +46,31 @@ public class NominalStiffness {
 	}
 
 	
-	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd) {
+	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd, Cement cement, CreepCoeficent creep) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 		
+		System.out.println("");
+		System.out.println("");
+		System.out.println("*** Nominalna Sztywnosc ***");
+		System.out.println("");
+		System.out.println("");
+		
+		dimensions.calculateSc();
+		dimensions.calculateAc();
+		dimensions.calculateU();
+		dimensions.calculateh0();
+		dimensions.calculateXc();
+		dimensions.calculateIc();
+		dimensions.calculateWc();
+		
+		creep.runCreepCoeficentCalculations(concrete, cement, dimensions);
+		System.out.println("FiT0 z creep'a : " + creep.getCreepCoeficent());
+		fiT0 = creep.getCreepCoeficent();
+		l0 = dimensions.getlEff();
 		System.out.println("l0: "+ l0);
 		System.out.println("fit0: " + fiT0 );
+		
 
 
 		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]

@@ -71,7 +71,7 @@ public class ReinforcementDesignButtonController {
 		public void handle(ActionEvent event) {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, 
-					dimensions, reinforcement, stiffness);
+					dimensions, reinforcement, stiffness, cement, creep);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			resultsPaneControllerULS.dispResults();
 			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);

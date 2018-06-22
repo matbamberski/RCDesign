@@ -40,6 +40,31 @@ public class PolynominalSolver {
 		System.out.println("array " + rootsList);
 		return rootsList;
 	}
+	
+	private static ArrayList<Double> solveSquaredPolynominalABC(double a, double b, double c) {
+		ArrayList<Double> rootsList = new ArrayList<Double>();
+		// Ax^2 + Bx + C = 0
+		//
+		double delta;
+
+		delta = (b * b) - (4 * a * c);
+
+		double x1 = (-b - Math.sqrt(delta)) / (2 * a);
+		double x2 = (-b + Math.sqrt(delta)) / (2 * a);
+		System.out.println("x1 " + x1);
+		System.out.println("x2 " + x2);
+		/*
+		if (x1 == x2) {
+			rootsList.add(x1);
+		} else {
+			rootsList.add(Math.max(x1, x2));
+			rootsList.add(Math.min(x1, x2));
+		}
+		*/
+		rootsList.add(x1);
+		rootsList.add(x2);
+		return rootsList;
+	}
 
 	private static ArrayList<Double> solveCubicPolynominalABCD(double a, double b, double c, double d) {
 		ArrayList<Double> rootsList = new ArrayList<Double>();
@@ -104,6 +129,10 @@ public class PolynominalSolver {
 
 	public static double getMinimumRootOfPolynoiminalABC(double a, double b, double c) {
 		return getMinimumRoot(solveCubicPolynominalABC(a, b, c));
+	}
+	
+	public static double getMaximumRootofPolynominalSquare(double a, double b, double c) {
+		return getMaximumRoot(solveSquaredPolynominalABC(a, b, c));
 	}
 
 }

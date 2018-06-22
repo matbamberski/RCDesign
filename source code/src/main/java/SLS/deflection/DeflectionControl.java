@@ -1,6 +1,7 @@
 package SLS.deflection;
 
 import mainalgorithm.InternalForces;
+import mainalgorithm.InternalForces.ForcesCombination;
 import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -184,15 +185,18 @@ public class DeflectionControl {
 				- 2 * (dimensions.getA1() - aSTensiledDiameter / 2 - aSW1);
 	}
 
-	private void calculateF(DimensionsOfCrossSectionOfConcrete dimensions) {
-		if (r < 0) {
+	private void calculateF(DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces) {
+		//if (r < 0) {
+		if (forces.isLoadSustained())
 			f = dzeta * (f2 + f2Cs) + (1 - dzeta) * (f1 + f1Cs);
-		} else {
-			f = 1.3 * (dimensions.getH() - dimensions.getX2());
-		}
+		else f= dzeta * f2 + (1-dzeta)*f1;
+		//} else {
+		//	f = 1.3 * (dimensions.getH() - dimensions.getX2());
+		//}
 	}
 
-	public double runDeflectionControlWithCalculatingDeflection(Concrete concrete, Steel steel, Cement cement, DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces, double mCr,
+	public double runDeflectionControlWithCalculatingDeflection(Concrete concrete, Steel steel, 
+			Cement cement, DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces, double mCr,
 			double alfaM, double mEd, double aSTensiled, double aSTensiledDiameter, double aSW1) {
 		calculateBetaRH(concrete);
 		calculateEpsilonCD0(concrete, cement);
@@ -206,10 +210,10 @@ public class DeflectionControl {
 		calculateDzeta(mEd, mCr);
 		calculateF1(mEd, dimensions, alfaM);
 		calculateF2(mEd, dimensions, alfaM);
-		calculateF1Cs(steel, forces, dimensions, alfaM);
-		calculateF2Cs(steel, forces, dimensions, alfaM);
-		calculateR(dimensions, aSTensiled, aSTensiledDiameter, aSW1);
-		calculateF(dimensions);
+		calculateF1Cs(steel, forces, dimensions, alfaCS);
+		calculateF2Cs(steel, forces, dimensions, alfaCS);
+		//calculateR(dimensions, aSTensiled, aSTensiledDiameter, aSW1);
+		calculateF(dimensions, forces);
 		if (mEd == 0) {
 			f = 0;
 		}

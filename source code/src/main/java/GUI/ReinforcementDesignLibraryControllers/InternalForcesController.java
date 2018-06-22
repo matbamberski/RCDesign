@@ -3,6 +3,8 @@ package GUI.ReinforcementDesignLibraryControllers;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import com.itextpdf.layout.border.RoundDotsBorder;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ChoiceBox;
@@ -75,7 +77,11 @@ public class InternalForcesController {
 
 	private static boolean isMEdInputCorrect;
 	private static double mEdValue;
+	private static double mEdValueToCharacteristic;
 	private static String mEdStringValue;
+	private static String mEdToCharacteristicString;
+	private static double mEkToMEkLtValue;
+	private static String mEkToMEkLtString;
 
 	private static class MEdInputListener implements ChangeListener<String> {
 		private InternalForces internalForces;
@@ -92,12 +98,24 @@ public class InternalForcesController {
 			if (InputValidation.mEdInputValidation(arg2)) {
 				internalForces.setmEd(StringToDouble.stringToDouble(arg2));
 				isMEdInputCorrect = true;
+				
 				mEdValue = Double.parseDouble(arg2);
+				mEdValueToCharacteristic = mEdValue/1.45;
+				mEkToMEkLtValue = mEdValueToCharacteristic*0.85;
+				
 				mEdStringValue = arg2;
+				mEdToCharacteristicString = String.format("%.2f", mEdValueToCharacteristic);
+				mEkToMEkLtString = String.format("%.2f", mEkToMEkLtValue);
 			} else {
 				isMEdInputCorrect = false;
+				
 				mEdValue = 0.0;
+				mEdValueToCharacteristic = 0.0;
+				mEkToMEkLtValue = 0.0;
+				
 				mEdStringValue = "0";
+				mEdToCharacteristicString = "0";
+				mEkToMEkLtString = "0";
 			}
 
 		}
@@ -127,12 +145,18 @@ public class InternalForcesController {
 		}
 
 		private void fuction() {
+			
 			if (mEdValue < mEdCharCalValue) {
-				mEdCharCalk.setText(mEdStringValue);
+				mEdCharCalk.setText(mEdToCharacteristicString);
+				//mEdCharCalk.setText(mEdStringValue);
 				if (mEdCharCalValue < mEdCharDlugValue) {
-					mEdCharDlug.setText(mEdCharCalStringValue);
+					mEdCharDlug.setText(mEkToMEkLtString);
+					//mEdCharDlug.setText(mEdCharCalStringValue);
 				}
 			}
+			
+			mEdCharCalk.setText(mEdToCharacteristicString);
+			mEdCharDlug.setText(mEkToMEkLtString);
 		}
 
 		@Override
@@ -173,11 +197,18 @@ public class InternalForcesController {
 			if (InputValidation.mEdInputValidation(arg2)) {
 				internalForces.setCharacteristicMEdCalkowita(StringToDouble.stringToDouble(arg2));
 				isMEdCharCalInputCorrect = true;
+				
 				mEdCharCalValue = Double.parseDouble(arg2);
+				mEkToMEkLtValue = mEdCharCalValue*0.85;
+				
 				mEdCharCalStringValue = arg2;
+				mEkToMEkLtString = String.format("%.2f", mEkToMEkLtValue);
 			} else {
 				isMEdCharCalInputCorrect = false;
 				mEdCharCalValue = 0.0;
+				mEkToMEkLtValue = 0.0;
+				
+				mEkToMEkLtString = "0";
 				mEdCharCalStringValue = "0";
 			}
 
@@ -207,16 +238,19 @@ public class InternalForcesController {
 
 		private void ifMekIsGreaterThenMedChangeValueToEqual() {
 			if (mEdCharCalValue > mEdValue) {
-				mEdCharCalk.setText(mEdStringValue);
+				mEdCharCalk.setText(mEdToCharacteristicString);
 
 			}
 		}
 
 		private void function() {
+			/*
 			if (mEdCharCalValue < mEdCharDlugValue && mEdCharCalValue > 0) {
-				mEdCharDlug.setText(mEdCharCalStringValue);
+				mEdCharDlug.setText(mEkToMEkLtString);
 
 			}
+			*/
+			mEdCharDlug.setText(mEkToMEkLtString);
 		}
 
 		@Override
@@ -271,21 +305,21 @@ public class InternalForcesController {
 
 	private static class MEdCharDlugFocusListener implements ChangeListener<Boolean> {
 
-		TextField med;
+		TextField meklt;
 
 		protected MEdCharDlugFocusListener(TextField mEd) {
-			this.med = mEd;
+			this.meklt = mEd;
 		}
 
 		private void compareMedCharAndCal() {
 			if (mEdCharDlugValue > mEdCharCalValue) {
-				med.setText(mEdCharCalStringValue);
+				meklt.setText(mEkToMEkLtString);
 			}
 		}
 
 		private void ifInputWasIncorrectSetValueToInitial() {
 			if (isMEdCharDlugInputCorrect == false) {
-				setMedInitialValue(med);
+				setMedInitialValue(meklt);
 			}
 		}
 

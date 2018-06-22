@@ -1,5 +1,7 @@
 package materials;
 
+import util.PolynominalSolver;
+
 public class DimensionsOfCrossSectionOfConcrete {
 
 	private double a1;
@@ -21,6 +23,9 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double u;
 	private double h0;
 	private double sC;
+	////
+	
+	
 	private double xC;
 	private double iC;
 	private double wC;
@@ -83,12 +88,42 @@ public class DimensionsOfCrossSectionOfConcrete {
 		}
 
 	}
+	
+	private void calculateI2andS2WhenXLessThanHf(double alfaE, double aS1, double aS2) {
+		s2 = aS1*(d-x2) - aS2*(x2-a2);
+		System.out.println("s2 " + s2);
+		i2 = bEff*Math.pow(x2, 3)/12 + bEff*x2*Math.pow((x2/2), 2) + alfaE*aS2*Math.pow((x2-a2),2) + alfaE*aS1*Math.pow((h-x2*a1),2);
+		System.out.println("i2 " + i2);
+	}
+	
+	private void calculateI2andS2WhenXtheHighest(double alfaE, double aS1, double aS2) {
+		s2 = aS1*(d-x2) - aS2*(x2-a2);
+		System.out.println("s2 " + s2);
+		i2 = b*Math.pow(x2, 3)/12 + b*x2*Math.pow((x2/2),2) + 
+				(bEff-b)*Math.pow(tW, 3)/12 + (bEff - b)*tW*Math.pow((x2-tW/2),2) + 
+				(befft-b)*Math.pow((x2-h+hft),3)/12 + (befft-b)*(x2-h+hft)*Math.pow(((x2-h+hft)/2),2) +
+				alfaE*aS2*Math.pow((x2-a2),2) + alfaE*aS1*Math.pow((h-x2-a1),2);
+		System.out.println("i2 " + i2);
+	}
+	
+	private void calculateI2andS2WhenXHigherThanHf(double alfaE, double aS1, double aS2) {
+		s2 = aS1*(d-x2) - aS2*(x2-a2);
+		System.out.println("s2 " + s2);
+		i2 = b*Math.pow(x2, 3)/12 + b*x2*Math.pow((x2/2),2) + 
+				(bEff-b)*Math.pow(tW, 3)/12 + (bEff - b)*tW*Math.pow((x2-tW/2),2) + 
+				alfaE*aS2*Math.pow((x2-a2),2) + alfaE*aS1*Math.pow((h-x2-a1),2);
+		System.out.println("i2 " + i2);
+	}
+	
+	
 
 	public double getI2() {
 		return i2;
 	}
 
-	public void calculateX2(double alfaE, double aS1, double aS2) {
+	public void calculateX2AndS2AndI2(double alfaE, double aS1, double aS2) {
+		
+		/*
 		if (tW != 0) {
 			if (x1 > tW) {
 				double a = -((bEff - b) * tW + alfaE * (aS1 + aS2)) / b;
@@ -110,20 +145,55 @@ public class DimensionsOfCrossSectionOfConcrete {
 				x2 = -alfaE * (aS1 + aS2) / bEff + (Math.sqrt(part * part + 8 * alfaE / bEff * (aS1 * d + aS2 * a2))) / 2;
 			}
 		}
+		*/
+		//PolynominalSolver solver = new PolynominalSolver();
+		double a1 = bEff/2;
+		double b1 = alfaE*aS2 + alfaE*aS1;
+		double c1 = -alfaE*aS2*a2 - alfaE*aS1*d;
+		x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a1, b1, c1);
+		if (x2<=tW) {
+			System.out.println("x2 <= hf");
+			calculateI2andS2WhenXLessThanHf(alfaE, aS1, aS2);
+		} else {
+			double a2 = b/2;
+			double b2 = (bEff-b)*tW + alfaE*aS2 + alfaE*aS1;
+			double c2 = -(bEff-b)*tW*tW/2 - alfaE*aS2*a2 - alfaE*aS1*d;
+			x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a2, b2, c2);
+			if (x2>tW && x2<(h-hft)) {
+				System.out.println("(h-hft)> x2 >hf");
+				calculateI2andS2WhenXHigherThanHf(alfaE, aS1, aS2);
+			} else {
+				double a3 = b/2 + (befft-b)/2;
+				double b3 = (bEff-b)*tW + (-2*h+ 2*hft)*(befft-b)/2 + alfaE*aS2 + alfaE*aS1;
+				double c3 = -(bEff-b)*tW*tW/2 + (-2*h*hft+h*h+hft*hft)*(befft-b)/2 - alfaE*aS2*a2 - alfaE*aS1*d;
+				x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a3, b3, c3);
+				if (x2>=(h-hft)) {
+					System.out.println("x2>=(h-hft)");
+					calculateI2andS2WhenXtheHighest(alfaE, aS1, aS2);
+				} else {
+					System.out.println("Something is no yes xd");
+				}
+			}
+		}
 	}
 
 	public double getX2() {
 		return x2;
 	}
 
-	public void calculateS1(double aS1) {
-		s1 = aS1 * (d - x1);
+	public void calculateS1(double aS1, double aS2) {
+		s1 = aS1*(d - x1) - aS2*(x1-a2);
+		System.out.println("s1 " + s1);
 	}
 
 	public void calculateI1(double alfaE, double aS1, double aS2) {
-		i1 = b * h * h * h / 12 + b * h * (0.5 * h - x1) * (0.5 * h - x1) + (bEff - b) * tW * tW * tW / 12 + (bEff - b) * tW * (x1 - 0.5 * tW) * (x1 - 0.5 * tW)
-				+ alfaE * (aS1 * (d - x1) * (d - x1) + aS2 * (x1 - a2) * (x1 - a2));
-		;
+		i1 = b*Math.pow(h, 3)/12 + b*h*Math.pow((h/2-x1),2) + 
+				(bEff-b)*Math.pow(tW, 3)/12 + (bEff-b)*tW*Math.pow((x1-tW/2), 2) + 
+				(befft-b)*Math.pow(hft, 3)/12 + (befft-b)*hft*Math.pow((h-x1-hft/2), 2) + 
+				alfaE*aS2*Math.pow((x1-a2), 2) + alfaE*aS1*Math.pow((h-x1-a1),2); 
+		//i1 = b * h * h * h / 12 + b * h * (0.5 * h - x1) * (0.5 * h - x1) + (bEff - b) * tW * tW * tW / 12 + (bEff - b) * tW * (x1 - 0.5 * tW) * (x1 - 0.5 * tW)
+		//		+ alfaE * (aS1 * (d - x1) * (d - x1) + aS2 * (x1 - a2) * (x1 - a2));
+		
 	}
 
 	public double getI1() {
@@ -135,7 +205,8 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateAC1(double alfaE, double aS1, double aS2) {
-		aC1 = b * h + (bEff - b) * tW + alfaE * (aS1 + aS2);
+		aC1 = (bEff-b)*tW + (befft-b)*hft + b*h + alfaE*aS2 + alfaE*aS1;
+		//aC1 = b * h + (bEff - b) * tW + alfaE * (aS1 + aS2);
 	}
 
 	public double getAC1() {
@@ -143,8 +214,10 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateInitialS1(double alfaE, double aS1, double aS2) {
-		s1 = b * h * h / 2 + (bEff - b) * tW * tW / 2 + alfaE * (aS1 * d + aS2 * a2);
-		;
+		s1 = (bEff-b)*tW*tW/2 + (befft-b)*hft*(h-hft/2) + b*h*h/2 + alfaE*aS2*a2 + alfaE*aS1*d;
+		//s1 = b * h * h / 2 + (bEff - b) * tW * tW / 2 + alfaE * (aS1 * d + aS2 * a2);
+		System.out.println("s1 initial "+ s1);
+		
 	}
 
 	public double getS1() {
@@ -160,7 +233,12 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateIc() {
-		iC = b * h * h * h / 12 + b * h * (0.5 * h - xC) * (0.5 * h - xC) + (bEff - b) * (bEff - b) * tW * tW * tW / 12 + (bEff - b) * tW * (xC - 0.5 * tW) * (xC - 0.5 * tW);
+		iC = b * Math.pow(h, 3) / 12 + b * h * Math.pow((0.5 * h - xC), 2) + 
+				(bEff - b) * Math.pow(tW, 3)/ 12 + (bEff - b) * tW * Math.pow((xC - 0.5 * tW), 2) + 
+				(befft - b)* Math.pow(hft, 3)/ 12 + (befft - b) * hft * Math.pow((h-xC-hft/2),2);
+		//iC = b * h * h * h / 12 + b * h * (0.5 * h - xC) * (0.5 * h - xC) + (bEff - b) * (bEff - b) * tW * tW * tW / 12 + (bEff - b) * tW * (xC - 0.5 * tW) * (xC - 0.5 * tW)
+		//		+ (befft-b)*Math.pow(hft, 3)/12 + (befft-b)*hft*Math.pow((h-xC-hft*hft/2),2);
+		System.out.println("iC " + iC);
 	}
 
 	public double getIc() {
@@ -176,13 +254,9 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateSc() {
-		if (!isBeamRectangular) {
-			
-		} else {
-			sC = 0.5 * b * h * h + 0.5 * (bEff - b) * tW * tW;
-		}
+		sC = 0.5 * b * h * h + 0.5 * (bEff - b) * tW * tW + 0.5 * (befft - b) * hft * hft;
 		//sC = (bEff - b) * tW * tW / 2 + (befft - b)
-		
+		System.out.println("sC " + sC);
 	}
 
 	public double getSc() {
@@ -190,7 +264,8 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateAc() {
-		aC = bEff * tW + b * (h - tW);
+		//aC = bEff * tW + b * (h - tW);
+		aC = (bEff-b)*tW + (befft-b)*hft + b*h;
 		System.out.println("Ac " + aC);
 	}
 
@@ -199,11 +274,15 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateU() {
+		/*
 		double bf = bEff;
 		if (bEff == 0) {
 			bf = b;
 		}
-		u = 2 * bf + 2 * (h - tW);
+		*/
+		
+		//u = 2 * bf + 2 * (h - tW);
+		u = 2*(h-tW-hft) + 2*hft + befft + (befft-b) + (bEff-b);
 		System.out.println("u " + u);
 	}
 

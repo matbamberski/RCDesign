@@ -376,45 +376,28 @@
       <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.leftAnchor="695.0" AnchorPane.topAnchor="421.0" />
       <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="421.0" />
       <Button fx:id="graphButton" layoutX="407.0" layoutY="620.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.leftAnchor="407.0" AnchorPane.topAnchor="620.0" />
-      <VBox layoutX="131.0" layoutY="356.0" prefHeight="120.0" prefWidth="108.0" AnchorPane.leftAnchor="127.0" AnchorPane.topAnchor="355.0">
+      <VBox fx:id="vBoxBeffHf" prefHeight="60.0" prefWidth="108.0" AnchorPane.leftAnchor="127.0" AnchorPane.topAnchor="415.0">
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="l0Label" prefHeight="25.0" prefWidth="50.0" text="l0 [m]" />
-                        <TextField fx:id="l0" prefHeight="26.0" prefWidth="45.0" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label fx:id="fit0Label" prefHeight="25.0" prefWidth="50.0" text="ϕ t0" />
-                        <TextField fx:id="fiT0" prefHeight="26.0" prefWidth="45.0" />
-                     </children>
-                  </HBox>
+                  <Label prefHeight="26.0" prefWidth="50.0" text="beff,t [m]" />
+                  <TextField fx:id="befftTextField" prefHeight="26.0" prefWidth="45.0" />
                </children>
-            </VBox>
-            <VBox fx:id="vBoxBeffHf" prefHeight="200.0" prefWidth="100.0">
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="26.0" prefWidth="50.0" text="beff,t [m]" />
-                        <TextField fx:id="befftTextField" prefHeight="26.0" prefWidth="45.0" />
-                     </children>
-                  </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="26.0" prefWidth="50.0" text="hf,t [m]" />
-                        <TextField fx:id="hftTextField" prefHeight="26.0" prefWidth="45.0" />
-                     </children>
-                  </HBox>
+                  <Label prefHeight="26.0" prefWidth="50.0" text="hf,t [m]" />
+                  <TextField fx:id="hftTextField" prefHeight="26.0" prefWidth="45.0" />
                </children>
-            </VBox>
+            </HBox>
          </children>
       </VBox>
-      <VBox layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="371.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="500.0">
+      <Label layoutX="231.0" layoutY="46.0" text="CEMENT" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="45.0" />
+      <Label layoutX="311.0" layoutY="45.0" text="Cnom [mm]" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="45.0" />
+      <TextField fx:id="cNomTextField" layoutX="306.0" layoutY="65.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="65.0" />
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="380.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="500.0">
          <children>
-            <AnchorPane prefHeight="30.0" prefWidth="220.0">
+            <AnchorPane fx:id="anchorPaneMLine" prefHeight="30.0" prefWidth="220.0">
                <children>
                   <Label text="Ed" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="8.0">
                      <font>
@@ -439,7 +422,7 @@
                   <TextField fx:id="mEdCharDlugTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <HBox prefHeight="30.0" prefWidth="200.0">
+            <HBox fx:id="NEdHBoxLine" prefHeight="30.0" prefWidth="200.0">
                <children>
                   <AnchorPane prefHeight="29.0" prefWidth="75.0">
                      <children>
@@ -482,54 +465,56 @@
                   <TextField fx:id="VEdRedTextField" prefWidth="46.0" />
                </children>
             </HBox>
-            <HBox fx:id="columsCasesHBox" maxHeight="100.0" maxWidth="300.0" prefHeight="75.0" prefWidth="200.0" spacing="5.0">
+            <HBox fx:id="columsCasesHBox" prefHeight="75.0" spacing="5.0">
                <children>
-                  <VBox fx:id="firstColumnVBox" minWidth="45.0" prefHeight="75.0" prefWidth="287.0">
+                  <VBox fx:id="firstColumnVBox" minWidth="45.0" prefHeight="75.0" prefWidth="70.0">
                      <children>
                         <Label fx:id="emptyLabel" />
                         <Label fx:id="mLabel" prefHeight="25.0" prefWidth="62.0" text="  M[kNm]" />
                         <Label fx:id="nLabel" prefHeight="25.0" prefWidth="70.0" text="  N[kNm]" />
                      </children>
                   </VBox>
-                  <VBox fx:id="mMaxColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="mMaxColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="46.0">
                      <children>
                         <Label fx:id="mMaxLabel" text="Mmax" />
                         <TextField fx:id="momentMmax" />
                         <TextField fx:id="normalnaMmax" />
                      </children>
                   </VBox>
-                  <VBox fx:id="mMinColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="mMinColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="46.0">
                      <children>
                         <Label fx:id="mMinLabel" text="Mmin" />
                         <TextField fx:id="momentMmin" />
                         <TextField fx:id="normalnaMmin" />
                      </children>
                   </VBox>
-                  <VBox fx:id="nMaxColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="nMaxColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="46.0">
                      <children>
                         <Label fx:id="nMaxLabel" text="Nmax" />
                         <TextField fx:id="momentNmax" />
                         <TextField fx:id="normalnaNmax" />
                      </children>
                   </VBox>
-                  <VBox fx:id="nMinColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="nMinColumnVBox" minWidth="45.0" prefHeight="200.0" prefWidth="46.0">
                      <children>
                         <Label fx:id="nMinLabel" text="Nmin" />
                         <TextField fx:id="momentNmin" />
                         <TextField fx:id="normalnaNmin" />
                      </children>
                   </VBox>
-                  <VBox fx:id="labelsColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="labelsColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="75.0">
                      <children>
-                        <Label fx:id="emptyLabelL0" />
+                        <Region prefHeight="45.0" />
+                        <HBox prefHeight="20.0">
+                           <children>
+                              <Region prefHeight="200.0" prefWidth="5.0" />
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="231.0" layoutY="46.0" text="CEMENT" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="45.0" />
-      <Label layoutX="311.0" layoutY="45.0" text="Cnom [mm]" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="45.0" />
-      <TextField fx:id="cNomTextField" layoutX="306.0" layoutY="65.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="308.0" AnchorPane.topAnchor="65.0" />
    </children>
 </AnchorPane>

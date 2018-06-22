@@ -8,6 +8,7 @@ import diagnosis.DiagnosisMainAlgorithm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
@@ -27,10 +28,10 @@ public class DiagnosisButtonController {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement,
 			ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls,
 			InternalForces forces, CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm,
-			NominalStiffness stiffness) {
+			NominalStiffness stiffness, CheckBox checkbox) {
 		addListenerToDiagnosisButton(button, requiredReinforcement, concrete, steel, internalForces, dimensions,
 				reinforcement, resultsPaneControllerDiagnosis, cement, sls, forces, creep, diagnosisMainAlgorithm,
-				stiffness);
+				stiffness, checkbox);
 	}
 
 	private static void addListenerToDiagnosisButton(Button button, RequiredReinforcement requiredReinforcement,
@@ -38,10 +39,10 @@ public class DiagnosisButtonController {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement,
 			ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls,
 			InternalForces forces, CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm,
-			NominalStiffness stiffness) {
+			NominalStiffness stiffness, CheckBox checkbox) {
 		button.setOnAction(new PresedDiagnosisButton(requiredReinforcement, concrete, steel, internalForces, dimensions,
 				reinforcement, resultsPaneControllerDiagnosis, cement, sls, forces, creep, diagnosisMainAlgorithm,
-				stiffness));
+				stiffness, checkbox));
 	}
 
 	private static class PresedDiagnosisButton implements EventHandler<ActionEvent> {
@@ -58,12 +59,13 @@ public class DiagnosisButtonController {
 		CreepCoeficent creep;
 		DiagnosisMainAlgorithm diagnosisMainAlgorithm;
 		NominalStiffness stiffness;
+		CheckBox checkbox;
 
 		protected PresedDiagnosisButton(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel,
 				InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
 				Reinforcement reinforcement, ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis,
 				Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep,
-				DiagnosisMainAlgorithm diagnosisMainAlgorithm, NominalStiffness stiffness) {
+				DiagnosisMainAlgorithm diagnosisMainAlgorithm, NominalStiffness stiffness, CheckBox checkbox) {
 			this.requiredReinforcement = requiredReinforcement;
 			this.concrete = concrete;
 			this.steel = steel;
@@ -77,6 +79,7 @@ public class DiagnosisButtonController {
 			this.creep = creep;
 			this.diagnosisMainAlgorithm = diagnosisMainAlgorithm;
 			this.stiffness = stiffness;
+			this.checkbox = checkbox;
 		}
 		private ArrayList<Double> normalne = new ArrayList<Double>();
 		private ArrayList<Double> momenty = new ArrayList<Double>();
@@ -90,7 +93,7 @@ public class DiagnosisButtonController {
 		public void handle(ActionEvent arg0) {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
-					reinforcement, stiffness, cement, creep);
+					reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			if (internalForces.getMomentMmax() == 0 & internalForces.getNormalnaMmax() == 0
 					& internalForces.getMomentMmin() == 0 & internalForces.getNormalnaMmin() == 0

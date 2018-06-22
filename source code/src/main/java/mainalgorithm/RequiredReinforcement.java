@@ -1,6 +1,7 @@
 package mainalgorithm;
 
 import SLS.creepCoeficent.CreepCoeficent;
+import javafx.scene.control.CheckBox;
 import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -187,7 +188,8 @@ public class RequiredReinforcement {
 	}
 
 	public void checkWhatIsRequiredReinforcementAndDesign(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness, Cement cement, CreepCoeficent creep) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness, 
+			Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 
 		printInputValuesInConsole(concrete, internalForces, dimensions);
 		if (!dimensions.getIsColumn()) {
@@ -224,7 +226,8 @@ public class RequiredReinforcement {
 			}
 
 		} else {
-			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, true, cement, creep);
+			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
+					reinforcement, stiffness, true, cement, creep, checkbox);
 			System.err.println("S�up");
 		}
 		shearingReinforcementAnalizer.doFullSheringReinforcementWitDesign(
@@ -474,7 +477,8 @@ public class RequiredReinforcement {
 	}
 
 	public void checkWhatIsRequiredReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness, Cement cement, CreepCoeficent creep) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness, 
+			Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 
 		printInputValuesInConsole(concrete, internalForces, dimensions);
 
@@ -516,7 +520,8 @@ public class RequiredReinforcement {
 		}
 		//// Jesli zaznaczono slup
 		else {
-			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, false, cement, creep);
+			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
+					reinforcement, stiffness, false, cement, creep, checkbox);
 			System.err.println("S�up");
 		}
 		shearingReinforcementAnalizer.doFullSheringReinforcementWithoutDesign(
@@ -527,9 +532,9 @@ public class RequiredReinforcement {
 
 	public void columnRequiredReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
-			boolean withDesign, Cement cement, CreepCoeficent creep) {
+			boolean withDesign, Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 		Column column = new Column(this, withDesign);
-		column.countColumnReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, cement, creep);
+		column.countColumnReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, cement, creep, checkbox);
 		/*
 		 * double e1 = (Math.abs(internalForces.getMomentMmax()) /
 		 * Math.abs(internalForces.getNormalnaMmax())); double e2 =

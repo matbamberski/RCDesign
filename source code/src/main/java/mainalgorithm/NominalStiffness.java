@@ -86,8 +86,8 @@ public class NominalStiffness {
 		double k1 = Math.sqrt((fCk / 20000.0));
 		double k2 = n * (lambda / 170.0);
 		double fiEf = fiT0 * 0.7;
-		double eCdEff = (eCd / (1 + fiEf)) * 1000;
-		double beta = (Math.sqrt(Math.PI)) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
+		double eCdEff = (eCd / (1 + fiEf));
+		double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
 		
 		double kS;
 		double kC;
@@ -119,7 +119,7 @@ public class NominalStiffness {
 		double eI = kC * eCdEff * dimensions.getIc() + kS * eS * iS; // [kNm^2]
 		
 		System.out.println("eI " + eI);
-		double nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
+		double nB = (Math.pow(Math.PI, 2) * eI * 1000) / (Math.pow(l0, 2));
 		
 		/// ta wartosæ momentu musi odpowiadaæ najwiêkszemu mimoœrodowi \|/
 		

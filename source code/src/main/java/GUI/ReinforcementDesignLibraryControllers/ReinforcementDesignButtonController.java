@@ -6,6 +6,7 @@ import SLS.creepCoeficent.CreepCoeficent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
@@ -14,23 +15,22 @@ import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
-import reinforcement.graph.Graph;
 import util.ResultsToPDF;
 
 public class ReinforcementDesignButtonController {
 
 	public static void addPropertiesToDesignButton(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness ) {
+			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness, CheckBox checkbox ) {
 		addListener(button, requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, 
-				resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness);
+				resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness, checkbox);
 	}
 
 	private static void addListener(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness) {
+			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness, CheckBox checkbox) {
 		button.setOnAction(new onClick(requiredReinforcement, concrete, steel, internalForces, 
-				dimensions, reinforcement, resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness));
+				dimensions, reinforcement, resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness, checkbox));
 	}
 
 	private static class onClick implements EventHandler<ActionEvent> {
@@ -47,12 +47,13 @@ public class ReinforcementDesignButtonController {
 		CreepCoeficent creep;
 		GraphScreenController graphController;
 		NominalStiffness stiffness;
+		CheckBox checkbox;
 
 
 		protected onClick(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
 				Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, 
 				Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep, boolean wasResultsGenerated,
-				NominalStiffness stiffness) {
+				NominalStiffness stiffness, CheckBox checkbox) {
 			this.requiredReinforcement = requiredReinforcement;
 			this.concrete = concrete;
 			this.steel = steel;
@@ -65,13 +66,14 @@ public class ReinforcementDesignButtonController {
 			this.forces = forces;
 			this.creep = creep;
 			this.stiffness = stiffness;
+			this.checkbox = checkbox;
 		}
 
 		@Override
 		public void handle(ActionEvent event) {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, 
-					dimensions, reinforcement, stiffness, cement, creep);
+					dimensions, reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			resultsPaneControllerULS.dispResults();
 			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);

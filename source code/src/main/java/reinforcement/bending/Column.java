@@ -1,6 +1,7 @@
 package reinforcement.bending;
 
 import SLS.creepCoeficent.CreepCoeficent;
+import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
 import mainalgorithm.InternalForces.ForcesCombination;
 import mainalgorithm.NominalStiffness;
@@ -40,7 +41,8 @@ public class Column extends ClearBendingBeam {
 	}
 
 	public void countColumnReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness, Cement cement, CreepCoeficent creep) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness, 
+			Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 
 		internalForces.countECombinations();
 		dimensions.calculateIc();
@@ -55,16 +57,16 @@ public class Column extends ClearBendingBeam {
 		if (combination.getN() != 0.0) {
 			
 			countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
-					combination, cement, creep);
+					combination, cement, creep, checkbox);
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
-					combination, cement, creep);
+					combination, cement, creep, checkbox);
 		}
 
 	}
 
 	public void countSymmetricalReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
-			ForcesCombination combination, Cement cement, CreepCoeficent creep) {
+			ForcesCombination combination, Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 		double reinforcementRatio1 = 0.0;
 		double reinforcementRatio2 = 0.0;
 		double reinforcementRatio3 = 0.0;
@@ -87,13 +89,19 @@ public class Column extends ClearBendingBeam {
 			stiffness.setRoS1(reinforcementRatio1);
 			stiffness.setM0Ed(combination.getM());
 			stiffness.setN0Ed(combination.getN());
-			stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
-					combination.getN(), cement, creep);
-
-			/// Metoda nominalnej sztywnosci - nowy moment
-			internalForces.setmEd(stiffness.getmEd());
-			internalForces.setnEd(combination.getN());
-			System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+			if (checkbox.isSelected()) {
+				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
+						combination.getN(), cement, creep);
+				/// Metoda nominalnej sztywnosci - nowy moment
+				internalForces.setmEd(stiffness.getmEd());
+				internalForces.setnEd(combination.getN());
+				System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+			} else {
+				internalForces.setmEd(combination.getM());
+				internalForces.setnEd(combination.getN());
+				System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+			}
+				
 
 			// Obliczenie zbrojenia
 			if (combination.getN() > 0) {
@@ -140,7 +148,7 @@ public class Column extends ClearBendingBeam {
 
 	public void countUnsymmetricalReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
-			ForcesCombination combination, Cement cement, CreepCoeficent creep) {
+			ForcesCombination combination, Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 		double reinforcementRatio1 = 0.0;
 		double reinforcementRatio2 = 0.0;
 		double reinforcementRatio3 = 0.0;
@@ -165,13 +173,19 @@ public class Column extends ClearBendingBeam {
 			stiffness.setRoS1(reinforcementRatio1);
 			stiffness.setM0Ed(combination.getM());
 			stiffness.setN0Ed(combination.getN());
-			stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
-					combination.getN(), cement, creep);
-
-			/// Metoda nominalnej sztywnosci - nowy moment
-			internalForces.setmEd(stiffness.getmEd());
-			internalForces.setnEd(combination.getN());
-			System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+			
+			if (checkbox.isSelected()) {
+				stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
+						combination.getN(), cement, creep);
+				/// Metoda nominalnej sztywnosci - nowy moment
+				internalForces.setmEd(stiffness.getmEd());
+				internalForces.setnEd(combination.getN());
+				System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+			} else {
+				internalForces.setmEd(combination.getM());
+				internalForces.setnEd(combination.getN());
+				System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+			}
 
 			// Obliczenie zbrojenia
 			if (combination.getN() > 0) {

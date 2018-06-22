@@ -1,5 +1,7 @@
 package GUI.view;
 
+import java.util.ArrayList;
+
 import GUI.Main;
 import GUI.ReinforcementDesignLibraryControllers.ADistanceTextFieldsController;
 import GUI.ReinforcementDesignLibraryControllers.AdditionalVariablesController;
@@ -22,10 +24,11 @@ import diagnosis.DiagnosisMainAlgorithm;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -493,6 +496,10 @@ public class ReinforcementDiagnosisController {
 	private Label l0Label;
 	@FXML
 	private Label fit0Label;
+	/*
+	@FXML
+	private CheckBox nominalCheckBox;
+	
 
 	@FXML
 	private VBox lastColumnVBox;
@@ -502,7 +509,7 @@ public class ReinforcementDiagnosisController {
 	private TextField l0;
 	@FXML
 	private TextField fiT0;
-	
+	*/
 	/////////////////////////
 
 	// steel parameters
@@ -555,6 +562,12 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private VBox vBoxBeffHf;
 	
+	@FXML
+	private AnchorPane anchorPaneMLine;
+	
+	@FXML
+	private HBox NEdHBoxLine;
+	
 	
 	/////
 
@@ -571,6 +584,10 @@ public class ReinforcementDiagnosisController {
 	private ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis;
 	private DiagnosisButtonController diagnosisButtonController;
 	private NominalStiffness stiffness = ReinforcementDesignController.stiffness;
+	protected ArrayList<TextField> list1 = ReinforcementDesignController.list1;
+	protected ArrayList<TextField> list2 = ReinforcementDesignController.list2;
+	protected ArrayList<TextField> list3 = ReinforcementDesignController.list3;
+	
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm = new DiagnosisMainAlgorithm();
 	
 	private Graph graph = ReinforcementDesignController.graph;
@@ -592,7 +609,7 @@ public class ReinforcementDiagnosisController {
 				dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox, vBoxBeffHf);
+				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
@@ -617,9 +634,10 @@ public class ReinforcementDiagnosisController {
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmax, ReinforcementDesignController.InternalForces);
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmin, ReinforcementDesignController.InternalForces);
 		
+		/*
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, fiT0, ReinforcementDesignController.Nominalstiffness);
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, l0, ReinforcementDesignController.Nominalstiffness);
-
+*/
 		
 		////////
 
@@ -677,9 +695,11 @@ public class ReinforcementDiagnosisController {
 
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line);
+		
+		CheckBox nominalCheckBox = new CheckBox();
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness);
+				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, nominalCheckBox);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
@@ -912,7 +932,7 @@ public class ReinforcementDiagnosisController {
 	public Reinforcement getReinforcement() {
 		return reinforcement;
 	}
-
+/*
 	public TextField getL0() {
 		return l0;
 	}
@@ -920,7 +940,7 @@ public class ReinforcementDiagnosisController {
 	public TextField getFiT0() {
 		return fiT0;
 	}
-
+*/
 	public TextField getBefftTextField() {
 		return befftTextField;
 	}

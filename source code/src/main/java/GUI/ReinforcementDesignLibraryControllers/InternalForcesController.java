@@ -351,7 +351,7 @@ public class InternalForcesController {
 		}
 
 		private void disableCbWhenNedIsNotEqual0() {
-			crossSectionTypeChoiceBox.setDisable(true);
+			//crossSectionTypeChoiceBox.setDisable(true);
 			crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
 		}
 

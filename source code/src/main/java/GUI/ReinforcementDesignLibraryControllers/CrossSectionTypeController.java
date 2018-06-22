@@ -1,13 +1,17 @@
 package GUI.ReinforcementDesignLibraryControllers;
 
+import java.util.ArrayList;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import mainalgorithm.InternalForces;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import util.InputValidation;
 import util.StringToDouble;
@@ -16,10 +20,12 @@ public class CrossSectionTypeController {
 
 	public static void addPorpertiesToCrossSectionTypeChoiceBox(ChoiceBox<String> crossSectionTypeChoiceBox,
 			TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
-			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination, VBox befftHftVBox) {
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination, VBox befftHftVBox,
+			AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list2, ArrayList<TextField> list3, 
+			TextField befft) {
 		initializeChoiceBox(crossSectionTypeChoiceBox);
 		addListenerToChoiceBox(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-				dimensionsOfCrossSectionOfConcrete, hBoxCombination, befftHftVBox);
+				dimensionsOfCrossSectionOfConcrete, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, list1, list2, list3, befft);
 		setCrossSectionTypeCBInitialValue(crossSectionTypeChoiceBox);
 	}
 
@@ -80,10 +86,13 @@ public class CrossSectionTypeController {
 
 	private static void addListenerToChoiceBox(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff,
 			TextField tW, Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
-			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination, VBox befftHftVBox) {
+			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination, VBox befftHftVBox,
+			AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list2, ArrayList<TextField> list3,
+			TextField befft) {
 		crossSectionTypeChoiceBox.getSelectionModel().selectedIndexProperty()
 				.addListener(new ChoiceBoxListener(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel,
-						tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete, hBoxCombination,	befftHftVBox));
+						tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete, hBoxCombination,	befftHftVBox, 
+						mEdAnchorPane, nEdHBox, list1, list2, list3, befft));
 	}
 
 	// b text fiedl
@@ -441,10 +450,17 @@ public class CrossSectionTypeController {
 		private HBox hBoxCombination;
 		private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete;
 		private VBox befftHftVBox;
+		private AnchorPane mEdAnchorPane;
+		private HBox nEdHBox;
+		private ArrayList<TextField> list1;
+		private ArrayList<TextField> list2;
+		private ArrayList<TextField> list3;
+		private TextField befft;
 
 		protected ChoiceBoxListener(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff, TextField tW,
 				Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
-				DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination,VBox befftHftVBox) {
+				DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination,VBox befftHftVBox,
+				AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list2, ArrayList<TextField> list3, TextField befft) {
 			this.bEff = bEff;
 			this.tW = tW;
 			this.bEffLabel = bEffLabel;
@@ -455,51 +471,66 @@ public class CrossSectionTypeController {
 			this.dimensionsOfCrossSectionOfConcrete = dimensionsOfCrossSectionOfConcrete;
 
 			this.befftHftVBox = befftHftVBox;
-
+			this.mEdAnchorPane = mEdAnchorPane;
+			this.nEdHBox = nEdHBox;
+			this.list1 = list1;
+			this.list2 = list2;
+			this.list3 = list3;
+			this.befft = befft;
 		}
 
 		@Override
 		public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number newValue) {
 			setTCrossSectionTextFields(bEff, tW, newValue.intValue(), bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-					hBoxCombination, befftHftVBox);
+					hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, list1, list2, list3);
 			/// arg0 - informacje co to itp System.out.println(arg0);
 			/// arg1 poprzedni wybor System.out.println(arg1);
 			/// newValue - nowy wybor System.out.println(newValue);
 		}
 
 		private void setTCrossSectionTextFields(TextField bEff, TextField tW, int choice, Label bEffLabel,
-				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox) {
+				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
+				AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list2, ArrayList<TextField> list3) {
 			if (choice == 0) {
 				setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-						hBoxCombination, befftHftVBox);
-				setBeamToRectangular(dimensionsOfCrossSectionOfConcrete);
+						hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
+				setBeamToRectangular(dimensionsOfCrossSectionOfConcrete, list1);
 			} else if (choice == 1) {
 				setTCrossSectionTextFieldsVisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-						hBoxCombination,befftHftVBox);
-				setBeamToTrapeze(dimensionsOfCrossSectionOfConcrete);
+						hBoxCombination,befftHftVBox, mEdAnchorPane, nEdHBox);
+				setBeamToTrapeze(dimensionsOfCrossSectionOfConcrete, list2);
 			} else {
-				setColumnCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, hBoxCombination, befftHftVBox);
-				setColumn(dimensionsOfCrossSectionOfConcrete);
+				setColumnCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, 
+						hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
+				setColumn(dimensionsOfCrossSectionOfConcrete, list3);
 			}
 		}
 
-		private void setColumn(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+		private void setColumn(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, ArrayList<TextField> list) {
 			dimensionsOfCrossSectionOfConcrete.setIsColumn(true);
 			dimensionsOfCrossSectionOfConcrete.setisBeamRectangular(false);
+			setTextFieldsToZero(list);
+			bEff.setText(((Double)dimensionsOfCrossSectionOfConcrete.getB()).toString());
+			befft.setText(((Double)dimensionsOfCrossSectionOfConcrete.getB()).toString());
 		}
 
-		private void setBeamToRectangular(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+		private void setBeamToRectangular(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, ArrayList<TextField> list) {
 			dimensionsOfCrossSectionOfConcrete.setisBeamRectangular(true);
 			dimensionsOfCrossSectionOfConcrete.setIsColumn(false);
+			setTextFieldsToZero(list);
+			bEff.setText(((Double)dimensionsOfCrossSectionOfConcrete.getB()).toString());
+			befft.setText(((Double)dimensionsOfCrossSectionOfConcrete.getB()).toString());
 		}
 
-		private void setBeamToTrapeze(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete) {
+		private void setBeamToTrapeze(DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, ArrayList<TextField> list) {
 			dimensionsOfCrossSectionOfConcrete.setisBeamRectangular(false);
 			dimensionsOfCrossSectionOfConcrete.setIsColumn(false);
+			setTextFieldsToZero(list);
 		}
 
 		private void setTCrossSectionTextFieldsVisible(TextField bEff, TextField tW, Label bEffLabel,
-				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox) {
+				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
+				AnchorPane mEdAnchorPane, HBox nEdHBox) {
 			bEff.setVisible(true);
 			tW.setVisible(true);
 			bEffLabel.setVisible(true);
@@ -508,10 +539,13 @@ public class CrossSectionTypeController {
 			tWLowerLabel.setVisible(true);
 			hBoxCombination.setVisible(false);
 			befftHftVBox.setVisible(true);
+			mEdAnchorPane.setVisible(true);
+			nEdHBox.setVisible(false);
 		}
 
 		private void setTCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel, Label tWLabel,
-				Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox) {
+				Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
+				AnchorPane mEdAnchorPane, HBox nEdHBox) {
 			bEff.setVisible(false);
 			tW.setVisible(false);
 			bEffLabel.setVisible(false);
@@ -520,10 +554,13 @@ public class CrossSectionTypeController {
 			tWLowerLabel.setVisible(false);
 			hBoxCombination.setVisible(false);
 			befftHftVBox.setVisible(false);
+			mEdAnchorPane.setVisible(true);
+			nEdHBox.setVisible(true);
 		}
 
 		private void setColumnCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel,
-				Label tWLabel, Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox) {
+				Label tWLabel, Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
+				AnchorPane mEdAnchorPane, HBox nEdHBox) {
 			bEff.setVisible(false);
 			tW.setVisible(false);
 			bEffLabel.setVisible(false);
@@ -532,8 +569,19 @@ public class CrossSectionTypeController {
 			tWLowerLabel.setVisible(false);
 			hBoxCombination.setVisible(true);
 			befftHftVBox.setVisible(false);
+			mEdAnchorPane.setVisible(false);
+			nEdHBox.setVisible(false);
 		}
+		
+		private void setTextFieldsToZero(ArrayList<TextField> list) {
+			for(TextField tf : list) {
+				tf.setText("0");
+			}
+		}
+		
 	}
+	
+	
 	
 	////////////////////////////
 	

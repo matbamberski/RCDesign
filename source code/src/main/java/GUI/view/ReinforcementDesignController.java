@@ -1,6 +1,10 @@
 
 package GUI.view;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import GUI.Main;
 import GUI.ReinforcementDesignLibraryControllers.ADistanceTextFieldsController;
 import GUI.ReinforcementDesignLibraryControllers.AdditionalVariablesController;
@@ -20,9 +24,11 @@ import SLS.creepCoeficent.CreepCoeficent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
@@ -164,6 +170,7 @@ public class ReinforcementDesignController {
 	@FXML
 	private Label fit0Label;
 
+	/*
 	@FXML
 	private VBox lastColumnVBox;
 	@FXML
@@ -172,9 +179,12 @@ public class ReinforcementDesignController {
 	private TextField l0;
 	@FXML
 	private TextField fiT0;
-
+*/
+	@FXML
+	private AnchorPane anchorPaneMLine;
 	
-	
+	@FXML
+	private HBox NEdHBoxLine;
 	
 	///////
 	@FXML
@@ -188,6 +198,9 @@ public class ReinforcementDesignController {
 	
 	@FXML
 	private VBox vBoxBeffHf;
+	
+	@FXML
+	private CheckBox nominalCheckBox;
 	
 	
 	/////
@@ -516,6 +529,10 @@ public class ReinforcementDesignController {
 	
 	protected static Graph graph;
 	
+	protected static ArrayList<TextField> list1;
+	protected static ArrayList<TextField> list2;
+	protected static ArrayList<TextField> list3;
+	
 
 	public static final String Nominalstiffness = "mainalgorithm.NominalStiffness";
 	public static final String InternalForces = "mainalgorithm.InternalForces";
@@ -546,10 +563,20 @@ public class ReinforcementDesignController {
 				dimensionsOfCrossSectionOfConcrete);
 		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField,
 				dimensionsOfCrossSectionOfConcrete);
+		
+		list1 = new ArrayList<>(Arrays.asList(momentMmax, momentMmin, momentNmax, momentNmax, momentNmin,
+				normalnaMmax, normalnaMmin, normalnaNmax, normalnaNmin, hftTextField, tWTextField));
+		
+		list2 = new ArrayList<>(Arrays.asList(momentMmax, momentMmin, momentNmax, momentNmax, momentNmin,
+				normalnaMmax, normalnaMmin, normalnaNmax, normalnaNmin, nEdTextField));
+		
+		list3 = new ArrayList<>(Arrays.asList(hftTextField, tWTextField,
+				mEdObliczenioweTextField, nEdTextField, mEdCharCalkTextField, mEdCharDlugTextField));
+		
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox, vBoxBeffHf);
+				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField);
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		
 		
@@ -584,10 +611,10 @@ public class ReinforcementDesignController {
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentMmin, InternalForces);
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmax, InternalForces);
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, momentNmin, InternalForces);
-
+/*
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, l0, Nominalstiffness);
 		InternalForcesController.addPropertiesToTextField(internalForces, stiffness, fiT0, Nominalstiffness);
-
+*/
 		/////////
 
 		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField,
@@ -636,7 +663,7 @@ public class ReinforcementDesignController {
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness);
+				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness, nominalCheckBox);
 
 		// CountButtonController.addPropertiesToDesignButton(countButton,
 		// requiredReinforcementSeter, concrete, steel, internalForces,
@@ -713,10 +740,10 @@ public class ReinforcementDesignController {
 		bindBidirectionalarNormalnaMmin();
 		bindBidirectionalarNormalnaNmax();
 		bindBidirectionalarNormalnaNmin();
-
+/*
 		bindBidirectionalarL0();
 		bindBidirectionalarFiT0();
-
+*/
 		
 		bindBidirectionalbefft();
 		bindBidirectionalhft();
@@ -878,7 +905,7 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalarNormalnaMmin() {
 		normalnaMmin.textProperty().bindBidirectional(diagnosis.getNormalnaMmin().textProperty());
 	}
-
+/*
 	private void bindBidirectionalarL0() {
 		l0.textProperty().bindBidirectional(diagnosis.getL0().textProperty());
 	}
@@ -886,7 +913,7 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalarFiT0() {
 		fiT0.textProperty().bindBidirectional(diagnosis.getFiT0().textProperty());
 	}
-	
+	*/
 	private void bindBidirectionalCrossSectionTypeCBs() {
 		crossSectionTypeChoiceBox.selectionModelProperty()
 				.bindBidirectional(diagnosis.getCrossSectionTypeChoiceBox().selectionModelProperty());

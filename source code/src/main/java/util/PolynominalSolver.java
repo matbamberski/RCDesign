@@ -66,6 +66,22 @@ public class PolynominalSolver {
 		return rootsList;
 	}
 
+	private static ArrayList<Double> solveSquaredPolynominalABC(double a, double b, double c) {
+		ArrayList<Double> rootsList = new ArrayList<Double>();
+		// Ax^2 + Bx + C = 0
+		//
+		double delta;
+		double x1;
+		double x2;
+
+		delta = (b * b) - (4 * a * c);
+		rootsList.add((-b - Math.sqrt(delta)) / (2 * a));
+		rootsList.add((-b + Math.sqrt(delta)) / (2 * a));
+		
+		return rootsList;
+
+	}
+
 	private static ArrayList<Double> solveCubicPolynominalABCD(double a, double b, double c, double d) {
 		ArrayList<Double> rootsList = new ArrayList<Double>();
 		// Ax^3+Bx^2+Cx+D=0

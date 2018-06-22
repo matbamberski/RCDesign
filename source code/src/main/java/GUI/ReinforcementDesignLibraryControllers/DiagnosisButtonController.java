@@ -90,7 +90,7 @@ public class DiagnosisButtonController {
 		public void handle(ActionEvent arg0) {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
-					reinforcement, stiffness);
+					reinforcement, stiffness, cement, creep);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			if (internalForces.getMomentMmax() == 0 & internalForces.getNormalnaMmax() == 0
 					& internalForces.getMomentMmin() == 0 & internalForces.getNormalnaMmin() == 0

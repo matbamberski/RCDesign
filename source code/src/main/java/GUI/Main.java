@@ -43,6 +43,7 @@ public class Main extends Application {
 		designController.giveReferences(diagnosisController);
 		designController.giveReferences(graphController);
 		diagnosisController.giveReferences(graphController);
+		diagnosisController.giveReferences(designController);
 		designController.bindPropertiesWithDiagnosisScene();
 	}
 
@@ -52,7 +53,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/Root.fxml"));
 			rootLayout = (BorderPane) loader.load();
-			rootLayout.setStyle("-fx-background-color: " + colorBackground);
+			rootLayout.setStyle("-fx-background-color: #6897bb;");
 			
 			hbox = new HBox();
 			//hbox.maxWidth(895);
@@ -110,7 +111,7 @@ public class Main extends Application {
 		hbox.getChildren().remove(design);
 		hbox.getChildren().add(diagnosis);
 		
-		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
+		rootLayout.setStyle("-fx-background-color: #91bfa0;");
 		primaryStage.setTitle(
 				"RCdesign v4.0 - Diagnostyka                                     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
@@ -130,7 +131,7 @@ public class Main extends Application {
 		hbox.getChildren().remove(graph);
 		hbox.getChildren().add(diagnosis);
 		
-		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
+		rootLayout.setStyle("-fx-background-color: #91bfa0;");
 		primaryStage.setTitle(
 				"RCdesign v4.0 - Diagnostyka                                     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
@@ -140,7 +141,7 @@ public class Main extends Application {
 		hbox.getChildren().remove(diagnosis);
 		hbox.getChildren().add(design);
 		
-		rootLayout.setStyle("-fx-background-color: " + colorBackground);
+		rootLayout.setStyle("-fx-background-color: #6897bb;");
 		//rootLayout.setTop(design);
 		primaryStage.setTitle(
 				"RCdesign v4.0 - Projektowanie                                  autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");

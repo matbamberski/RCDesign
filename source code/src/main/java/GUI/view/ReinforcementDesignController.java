@@ -688,9 +688,15 @@ public class ReinforcementDesignController {
 	public void giveReferences(GraphScreenController graphController) {
 		this.graphController = graphController;
 	}
+	
+	public void setTypeSection(String value) {
+		crossSectionTypeChoiceBox.setValue(value);
+	}
+	
 
 	@FXML
 	private void switchToDiagnosisScene(ActionEvent event) {
+		diagnosis.setTypeCrossSectionChoice(crossSectionTypeChoiceBox.getValue());
 		main.switchToDiagnosisScene();
 		pushNumberOfRodsToDiagnosisScene();
 		pushS1ValueToDiagnosisScene();
@@ -727,7 +733,7 @@ public class ReinforcementDesignController {
 		bindBidirectionalarThetaTFs();
 		bindBidirectionalarAlfaTFs();
 		bindBidirectionalarfYkTFs();
-		// bindBidirectionalCrossSectionTypeCBs();
+		//bindBidirectionalCrossSectionTypeCBs();
 		bindBidirectionalConcreteCBs();
 		bindBidirectionalPdfName();
 

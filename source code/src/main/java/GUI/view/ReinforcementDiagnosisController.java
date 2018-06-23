@@ -715,9 +715,14 @@ public class ReinforcementDiagnosisController {
 	public void giveReferences(GraphScreenController graphController) {
 		this.graphController = graphController;
 	}
+	
+	public void giveReferences(ReinforcementDesignController design) {
+		this.design = design;
+	}
 
 	@FXML
 	private void switchToDesignScene(ActionEvent event) {
+		design.setTypeSection(crossSectionTypeChoiceBox.getValue());
 		main.switchToDesignScene();
 	}
 
@@ -957,7 +962,9 @@ public class ReinforcementDiagnosisController {
 		this.hftTextField = hftTextField;
 	}
 	
-	
+	public void setTypeCrossSectionChoice(String choice) {
+		crossSectionTypeChoiceBox.setValue(choice);
+	}
 	
 
 }

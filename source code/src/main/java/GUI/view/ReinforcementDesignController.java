@@ -751,6 +751,8 @@ public class ReinforcementDesignController {
 		bindBidirectionalarNormalnaMmin();
 		bindBidirectionalarNormalnaNmax();
 		bindBidirectionalarNormalnaNmin();
+		bindBidirectionalarColumnCheckBox();
+		bindBidirectionalarNominalCheckBox();
 /*
 		bindBidirectionalarL0();
 		bindBidirectionalarFiT0();
@@ -915,6 +917,14 @@ public class ReinforcementDesignController {
 
 	private void bindBidirectionalarNormalnaMmin() {
 		normalnaMmin.textProperty().bindBidirectional(diagnosis.getNormalnaMmin().textProperty());
+	}
+	
+	private void bindBidirectionalarColumnCheckBox() {
+		columnCheckBox.selectedProperty().bindBidirectional(diagnosis.getcolumnCheckBox().selectedProperty());
+	}
+	
+	private void bindBidirectionalarNominalCheckBox() {
+		nominalCheckBox.selectedProperty().bindBidirectional(diagnosis.getnominalCheckBox().selectedProperty());
 	}
 /*
 	private void bindBidirectionalarL0() {

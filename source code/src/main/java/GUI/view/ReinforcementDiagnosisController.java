@@ -746,6 +746,14 @@ public class ReinforcementDiagnosisController {
 	public ChoiceBox<String> getCrossSectionTypeChoiceBox() {
 		return crossSectionTypeChoiceBox;
 	}
+	
+	public CheckBox getcolumnCheckBox() {
+		return columnCheckBox;
+	}
+	
+	public CheckBox getnominalCheckBox() {
+		return nominalCheckBox;
+	}
 
 	public TextField getA1DimensionTextField() {
 		return a1DimensionTextField;

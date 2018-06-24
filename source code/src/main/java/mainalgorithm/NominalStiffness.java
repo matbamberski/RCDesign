@@ -46,7 +46,8 @@ public class NominalStiffness {
 	}
 
 	
-	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd, Cement cement, CreepCoeficent creep) {
+	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, 
+			DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd, Cement cement, CreepCoeficent creep) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 		

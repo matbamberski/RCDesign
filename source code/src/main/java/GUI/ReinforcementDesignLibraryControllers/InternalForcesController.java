@@ -97,6 +97,7 @@ public class InternalForcesController {
 			arg2 = arg2.replaceAll(",", ".");
 			if (InputValidation.mEdInputValidation(arg2)) {
 				internalForces.setmEd(StringToDouble.stringToDouble(arg2));
+				internalForces.setM0Ed(StringToDouble.stringToDouble(arg2));
 				isMEdInputCorrect = true;
 				
 				mEdValue = Double.parseDouble(arg2);

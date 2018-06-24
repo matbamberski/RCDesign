@@ -202,6 +202,9 @@ public class ReinforcementDesignController {
 	@FXML
 	private CheckBox nominalCheckBox;
 	
+	@FXML
+	private CheckBox columnCheckBox;
+	
 	
 	/////
 	// ** RESULTS ULS
@@ -576,7 +579,9 @@ public class ReinforcementDesignController {
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField);
+				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox,
+				internalForces, momentMmax, normalnaMmax);
+		
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		
 		

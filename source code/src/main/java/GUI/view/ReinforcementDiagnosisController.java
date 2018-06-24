@@ -568,6 +568,12 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private HBox NEdHBoxLine;
 	
+	@FXML
+	private CheckBox nominalCheckBox;
+	
+	@FXML
+	private CheckBox columnCheckBox;
+	
 	
 	/////
 
@@ -609,7 +615,9 @@ public class ReinforcementDiagnosisController {
 				dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField);
+				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox, internalForces,
+				momentMmax, normalnaMmax);
+		
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
@@ -696,7 +704,7 @@ public class ReinforcementDiagnosisController {
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line);
 		
-		CheckBox nominalCheckBox = new CheckBox();
+		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
 				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, nominalCheckBox);

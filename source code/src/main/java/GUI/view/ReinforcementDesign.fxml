@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="680.0" minWidth="890.0" styleClass="backgroundDesign" stylesheets="@DarkStyle.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.view.ReinforcementDesignController">
+<AnchorPane minHeight="690.0" minWidth="890.0" styleClass="backgroundDesign" stylesheets="@DarkStyle.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.view.ReinforcementDesignController">
    <children>
       <GridPane focusTraversable="true" layoutX="208.0" layoutY="89.0" prefHeight="56.0" prefWidth="66.0" AnchorPane.leftAnchor="600.0" AnchorPane.topAnchor="120.0">
         <columnConstraints>
@@ -32,7 +32,7 @@
       </GridPane>
       <ChoiceBox fx:id="concreteChoiceBox" layoutX="391.0" layoutY="250.0" prefHeight="21.0" prefWidth="74.0" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="65.0" />
       <ChoiceBox fx:id="crossSectionTypeChoiceBox" layoutX="300.0" layoutY="291.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="320.0" />
-      <Button fx:id="countButton" layoutX="739.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Licz" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="739.0" />
+      <Button fx:id="countButton" layoutX="739.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Licz" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="730.0" />
       <GridPane layoutX="13.0" layoutY="8.0" maxHeight="594.0" maxWidth="-Infinity" prefHeight="600.0" prefWidth="341.0" styleClass="paneColor" stylesheets="@DarkStyle.css" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="10.0">
          <children>
             <Label fx:id="gridLabel12" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -135,7 +135,7 @@
             <Insets left="10.0" />
          </padding>
       </GridPane>
-      <Button fx:id="switchScenesButton" layoutX="578.0" layoutY="611.0" mnemonicParsing="false" onAction="#switchToDiagnosisScene" prefHeight="26.0" prefWidth="135.0" text="Panel diagnostyczny" AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="578.0" />
+      <Button fx:id="switchScenesButton" layoutX="578.0" layoutY="611.0" mnemonicParsing="false" onAction="#switchToDiagnosisScene" prefHeight="26.0" prefWidth="135.0" text="Panel diagnostyczny" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="578.0" />
       <Label layoutX="512.0" layoutY="16.0" prefHeight="16.0" prefWidth="47.0" text="STAL" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
       <Label layoutX="704.0" layoutY="10.0" text="BETON" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="45.0" />
       <Label layoutX="500.0" layoutY="96.0" prefHeight="16.0" prefWidth="139.0" text="Zbrojenie podłużne" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="95.0" />
@@ -285,7 +285,7 @@
       </Label>
       <TextField fx:id="fYkTextField" layoutX="88.0" layoutY="30.0" maxWidth="35.0" minWidth="16.0" prefHeight="26.0" prefWidth="35.0" text="100" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="65.0" />
       <Label fx:id="fYkLabel" layoutX="13.0" layoutY="33.0" text="f    [MPa]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
-      <Button fx:id="saveToPdfButton" layoutX="450.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Zapisz wyniki " AnchorPane.bottomAnchor="48.0" AnchorPane.leftAnchor="450.0" />
+      <Button fx:id="saveToPdfButton" layoutX="450.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Zapisz wyniki " AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="461.0" />
       <Line fx:id="leftSGNNequal0Line" endX="-20.0" layoutX="431.0" layoutY="24.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="25.0" />
       <Line fx:id="rightSGNNequal0Line" endX="-20.0" layoutX="730.0" layoutY="506.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="25.0" />
       <Line fx:id="leftZbrojeniePodluzneNequal0Line" endX="15.0" layoutX="441.0" layoutY="34.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="55.0">
@@ -447,12 +447,22 @@
                   <VBox fx:id="labelsColumnVBox" alignment="TOP_RIGHT" minWidth="45.0" prefHeight="75.0">
                      <children>
                         <Region prefHeight="45.0" />
-                        <HBox prefHeight="20.0">
-                           <children>
-                              <Region prefHeight="200.0" prefWidth="5.0" />
-                              <CheckBox fx:id="nominalCheckBox" mnemonicParsing="false" text="Efekty II rzędu" />
-                           </children>
-                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="20.0">
+               <children>
+                  <Region prefHeight="200.0" prefWidth="50.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <CheckBox fx:id="nominalCheckBox" mnemonicParsing="false" text="Efekty II rzędu" />
+                     </children>
+                  </VBox>
+                  <Region prefHeight="200.0" prefWidth="20.0" />
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <CheckBox fx:id="columnCheckBox" minWidth="-Infinity" mnemonicParsing="false" prefHeight="17.0" prefWidth="130.0" text="Przypadki obciążeń" />
                      </children>
                   </VBox>
                </children>

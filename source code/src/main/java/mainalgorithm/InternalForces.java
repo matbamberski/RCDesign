@@ -6,6 +6,7 @@ import java.util.Collections;
 public class InternalForces {
 
 	private double mEdObliczeniowe;
+	private double m0Ed;
 	private double nEd;
 	private double vEd;
 	private double vEdRed;
@@ -72,6 +73,13 @@ public class InternalForces {
 		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
 		ForcesCombination Nmin = new ForcesCombination(getMomentNmin(), getNormalnaNmin());
 		Collections.addAll(combinations, Mmax, Mmin, Nmax, Nmin);
+		System.out.println("liczy kombinacje si³");
+	}
+	
+	public void setMedCombination() {
+		combinations.clear();
+		ForcesCombination Mmax = new ForcesCombination(getmEd(), getnEd());
+		Collections.addAll(combinations, Mmax);
 	}
 
 	public ForcesCombination getMaxECombination() {
@@ -244,6 +252,14 @@ public class InternalForces {
 	public void setNormalnaNmin(double normalnaNmin) {
 		this.normalnaNmin = normalnaNmin;
 		System.out.println("normalnaNmin: "+normalnaNmin);
+	}
+
+	public double getM0Ed() {
+		return m0Ed;
+	}
+
+	public void setM0Ed(double m0Ed) {
+		this.m0Ed = m0Ed;
 	}
 
 }

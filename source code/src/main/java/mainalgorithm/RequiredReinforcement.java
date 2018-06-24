@@ -209,8 +209,13 @@ public class RequiredReinforcement {
 			} else {
 				if (internalForces.getnEd() > 0) {
 					System.out.println("ï¿½ciskanie ");
+					columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
+							reinforcement, stiffness, true, cement, creep, checkbox);
+					System.err.println("S³up");
+					/*
 					rectangularBeamCompressingForcesSymmetricalReinforcementWithDesign(concrete, steel, internalForces,
 							dimensions, reinforcement);
+							*/
 					rectangularBeamCompressingForcesUnsymmetricalReinforcementWithDesign(concrete, steel,
 							internalForces, dimensions, reinforcement);
 				}
@@ -228,7 +233,7 @@ public class RequiredReinforcement {
 		} else {
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
 					reinforcement, stiffness, true, cement, creep, checkbox);
-			System.err.println("Sï¿½up");
+			System.err.println("S³up");
 		}
 		shearingReinforcementAnalizer.doFullSheringReinforcementWitDesign(
 				concrete, steel, internalForces, dimensions, reinforcement);

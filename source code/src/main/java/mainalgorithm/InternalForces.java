@@ -35,46 +35,6 @@ public class InternalForces {
 	private double alfaM;
 	private boolean isLoadSustained;
 	
-	public class ForcesCombination {
-		private double M;
-		private double N;
-		private double mStiff;
-		private double e;
-		
-		public ForcesCombination(double M, double N) {
-			this.M = M;
-			this.N = N;
-			countE();
-		}
-		
-		public void countE() {
-			if (this.N!=0) {
-				this.e = M/N;
-			} else this.e = 0;
-		}
-
-		public double getE() {
-			return e;
-		}
-
-		public double getM() {
-			return M;
-		}
-
-		public double getN() {
-			return N;
-		}
-
-		public double getmStiff() {
-			return mStiff;
-		}
-
-		public void setmStiff(double mStiff) {
-			this.mStiff = mStiff;
-		}
-		
-		
-	}
 
 	public void countECombinations() {
 		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());

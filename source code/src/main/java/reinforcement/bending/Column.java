@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import SLS.creepCoeficent.CreepCoeficent;
 import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
-import mainalgorithm.InternalForces.ForcesCombination;
+import mainalgorithm.ForcesCombination;
 import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import mainalgorithm.RequiredReinforcement;
@@ -102,6 +102,9 @@ public class Column extends ClearBendingBeam {
 					combination1, cement, creep, checkbox);
 			
 			combination1.setmStiff(stiffness.getmEd());
+		}
+		if (!checkbox.isSelected()) {
+			combination1.setmStiff(combination1.getM());
 		}
 	}
 

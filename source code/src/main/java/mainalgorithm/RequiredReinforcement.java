@@ -235,6 +235,7 @@ public class RequiredReinforcement {
 			}
 
 		} else {
+			internalForces.getCombinations().clear();
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
 					reinforcement, stiffness, true, cement, creep, checkbox);
 			System.err.println("S³up");
@@ -543,6 +544,7 @@ public class RequiredReinforcement {
 		}
 		//// Jesli zaznaczono slup
 		else {
+			internalForces.getCombinations().clear();
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
 					reinforcement, stiffness, false, cement, creep, checkbox);
 			System.err.println("Sï¿½up");

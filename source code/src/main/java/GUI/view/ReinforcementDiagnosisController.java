@@ -27,11 +27,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
@@ -566,6 +570,35 @@ public class ReinforcementDiagnosisController {
 	private CheckBox columnCheckBox;
 	
 	
+	
+	////
+	
+	//TABLE
+	
+	@FXML
+    private TableView<ForcesCombination> tableViewCombinations;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> combinationColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> medColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> nedColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> mrdColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> nrdColumn;
+    
+    @FXML
+    private TableColumn<?,?> designedColumn;
+    
+    @FXML
+    private TableColumn<?,?> requiredColumn;
+	
 	/////
 
 
@@ -593,6 +626,13 @@ public class ReinforcementDiagnosisController {
 
 	@FXML
 	void initialize() {
+		
+		nrdColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Nrdtab"));
+		mrdColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Mrdtab"));
+		nedColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Nedtab"));
+		medColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Medtab"));
+		combinationColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("name"));
+		
 
 		PdfController.addPropertiesToPdfNameTextField(pdfName);
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
@@ -699,7 +739,8 @@ public class ReinforcementDiagnosisController {
 		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, nominalCheckBox);
+				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, 
+				nominalCheckBox, tableViewCombinations);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);

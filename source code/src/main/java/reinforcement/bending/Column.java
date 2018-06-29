@@ -1,5 +1,7 @@
 package reinforcement.bending;
 
+import java.util.ArrayList;
+
 import SLS.creepCoeficent.CreepCoeficent;
 import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
@@ -70,6 +72,41 @@ public class Column extends ClearBendingBeam {
 		}
 
 	}
+	
+	public void countColumnReinforcementDiagnosis(Concrete concrete, Steel steel, InternalForces internalForces,
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
+			Cement cement, CreepCoeficent creep, CheckBox checkbox) {
+
+		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+								|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+			internalForces.countECombinations();
+		} else {
+			internalForces.setMedCombination();
+		}
+		dimensions.calculateIc();
+		dimensions.calculateAc();
+
+		ArrayList<ForcesCombination> combination = internalForces.getCombinations();
+		//System.out.println("emax " + combination.getE() + " modp " + combination.getM() + " nodp " + combination.getN());
+		
+		for (ForcesCombination combination1 : combination) {
+		setM0Ed(combination1.getM());
+
+		if (combination1.getN() != 0.0) {
+
+			countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
+					combination1, cement, creep, checkbox);
+			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
+					combination1, cement, creep, checkbox);
+			
+			combination1.setmStiff(stiffness.getmEd());
+		}
+	}
+
+	}
+	
 
 	public void countSymmetricalReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,

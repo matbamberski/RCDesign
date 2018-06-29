@@ -51,15 +51,6 @@ public class ReinforcementDiagnosisController {
 	GraphScreenController graphController;
 	Main main;
 
-	/*
-	 * //dodane coœ psuje Graph graph; DimensionsOfCrossSectionOfConcrete
-	 * dimensions;
-	 * 
-	 * public ReinforcementDiagnosisController(Graph graph,
-	 * DimensionsOfCrossSectionOfConcrete dimensions, GraphScreenController
-	 * graphValues) { super(); this.graph = graph; this.dimensions = dimensions; }
-	 * //
-	 */
 	@FXML
 	private TextField aS1SymmetricalNumberOfRodsTextField;
 	@FXML
@@ -613,6 +604,7 @@ public class ReinforcementDiagnosisController {
 				dimensionsOfCrossSectionOfConcrete);
 		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField,
 				dimensionsOfCrossSectionOfConcrete);
+		
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
 				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox, internalForces,

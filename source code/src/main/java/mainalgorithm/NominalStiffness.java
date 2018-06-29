@@ -71,6 +71,7 @@ public class NominalStiffness {
 		l0 = dimensions.getlEff();
 		System.out.println("l0: "+ l0);
 		System.out.println("fit0: " + fiT0 );
+		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
 		
 
 

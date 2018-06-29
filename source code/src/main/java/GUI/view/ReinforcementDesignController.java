@@ -574,7 +574,8 @@ public class ReinforcementDesignController {
 				normalnaMmax, normalnaMmin, normalnaNmax, normalnaNmin, nEdTextField));
 		
 		list3 = new ArrayList<>(Arrays.asList(hftTextField, tWTextField,
-				mEdObliczenioweTextField, nEdTextField, mEdCharCalkTextField, mEdCharDlugTextField));
+				mEdObliczenioweTextField, nEdTextField, 
+				mEdCharCalkTextField, mEdCharDlugTextField));
 		
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,

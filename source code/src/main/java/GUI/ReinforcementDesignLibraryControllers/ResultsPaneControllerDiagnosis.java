@@ -21,10 +21,12 @@ public class ResultsPaneControllerDiagnosis {
 	private double nRd2D;
 	private double nRd3D;
 	private double nRd4D;
+	
 	private double mRd1R;
 	private double mRd2R;
 	private double mRd3R;
 	private double mRd4R;
+	
 	private double nRd1R;
 	private double nRd2R;
 	private double nRd3R;

@@ -38,6 +38,7 @@ public class InternalForces {
 	public class ForcesCombination {
 		private double M;
 		private double N;
+		private double mStiff;
 		private double e;
 		
 		public ForcesCombination(double M, double N) {
@@ -63,11 +64,19 @@ public class InternalForces {
 		public double getN() {
 			return N;
 		}
+
+		public double getmStiff() {
+			return mStiff;
+		}
+
+		public void setmStiff(double mStiff) {
+			this.mStiff = mStiff;
+		}
+		
 		
 	}
 
 	public void countECombinations() {
-		combinations.clear();
 		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());
 		ForcesCombination Mmin = new ForcesCombination(getMomentMmin(), getNormalnaMmin());
 		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
@@ -77,7 +86,6 @@ public class InternalForces {
 	}
 	
 	public void setMedCombination() {
-		combinations.clear();
 		ForcesCombination Mmax = new ForcesCombination(getmEd(), getnEd());
 		Collections.addAll(combinations, Mmax);
 	}
@@ -260,6 +268,10 @@ public class InternalForces {
 
 	public void setM0Ed(double m0Ed) {
 		this.m0Ed = m0Ed;
+	}
+
+	public ArrayList<ForcesCombination> getCombinations() {
+		return combinations;
 	}
 
 }

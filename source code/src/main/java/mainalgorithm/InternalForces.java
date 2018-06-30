@@ -21,6 +21,7 @@ public class InternalForces {
 	protected double normalnaNmin;
 
 	ArrayList<ForcesCombination> combinations = new ArrayList<>();
+	ArrayList<ForcesCombination> combinationDiagnosis = new ArrayList<>();
 
 
 	private double gPlusQForShearing;
@@ -36,12 +37,12 @@ public class InternalForces {
 	private boolean isLoadSustained;
 	
 
-	public void countECombinations() {
+	public void countECombinations(ArrayList<ForcesCombination> combination) {
 		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());
 		ForcesCombination Mmin = new ForcesCombination(getMomentMmin(), getNormalnaMmin());
 		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
 		ForcesCombination Nmin = new ForcesCombination(getMomentNmin(), getNormalnaNmin());
-		Collections.addAll(combinations, Mmax, Mmin, Nmax, Nmin);
+		Collections.addAll(combination, Mmax, Mmin, Nmax, Nmin);
 		System.out.println("liczy kombinacje si³");
 	}
 	
@@ -234,4 +235,14 @@ public class InternalForces {
 		return combinations;
 	}
 
+	public ArrayList<ForcesCombination> getCombinationDiagnosis() {
+		return combinationDiagnosis;
+	}
+
+	public void setCombinationDiagnosis(ArrayList<ForcesCombination> combinationDiagnosis) {
+		this.combinationDiagnosis = combinationDiagnosis;
+	}
+
+	
+	
 }

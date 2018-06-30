@@ -545,6 +545,14 @@ public class RequiredReinforcement {
 		//// Jesli zaznaczono slup
 		else {
 			internalForces.getCombinations().clear();
+			
+			columnRequiredReinforcementDiagnosis(concrete, steel, internalForces, dimensions, 
+					reinforcement, stiffness, false, cement, creep, checkbox);
+			
+			internalForces.setmEd(internalForces.getM0Ed());
+			
+			//internalForces.getCombinations().clear();
+			
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
 					reinforcement, stiffness, false, cement, creep, checkbox);
 			System.err.println("S�up");

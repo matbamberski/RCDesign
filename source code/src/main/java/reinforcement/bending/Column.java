@@ -50,7 +50,7 @@ public class Column extends ClearBendingBeam {
 				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
 						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 								|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-			internalForces.countECombinations();
+			internalForces.countECombinations(internalForces.getCombinations());
 		} else {
 			internalForces.setMedCombination();
 		}
@@ -81,14 +81,14 @@ public class Column extends ClearBendingBeam {
 				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
 						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 								|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-			internalForces.countECombinations();
+			internalForces.countECombinations(internalForces.getCombinationDiagnosis());
 		} else {
 			internalForces.setMedCombination();
 		}
 		dimensions.calculateIc();
 		dimensions.calculateAc();
 
-		ArrayList<ForcesCombination> combination = internalForces.getCombinations();
+		ArrayList<ForcesCombination> combination = internalForces.getCombinationDiagnosis();
 		//System.out.println("emax " + combination.getE() + " modp " + combination.getM() + " nodp " + combination.getN());
 		
 		for (ForcesCombination combination1 : combination) {
@@ -98,14 +98,15 @@ public class Column extends ClearBendingBeam {
 
 			countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination1, cement, creep, checkbox);
+			/*
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination1, cement, creep, checkbox);
-			
-			combination1.setmStiff(stiffness.getmEd());
-		}
-		if (!checkbox.isSelected()) {
-			combination1.setmStiff(combination1.getM());
-		}
+			*/
+			if (checkbox.isSelected())
+				combination1.setmStiff(stiffness.getmEd());
+			else combination1.setmStiff(combination1.getM());
+		} 
+		
 	}
 
 	}

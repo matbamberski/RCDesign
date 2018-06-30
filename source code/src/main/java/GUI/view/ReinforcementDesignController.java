@@ -601,7 +601,7 @@ public class ReinforcementDesignController {
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
-		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField, VEdRedTextField);
 		InternalForcesController.addPropertiesToVEdRedTextField(internalForces, VEdRedTextField);
 		
 		//////////////
@@ -721,6 +721,7 @@ public class ReinforcementDesignController {
 		bindBidirectionalmEdCharDlugTFs();
 		bindBidirectionalnEdTFs();
 		bindBidirectionalvEdTFs();
+		bindBidirectionalvEdRedTFs();
 		bindBidirectionalaS1TFs();
 		bindBidirectionalaS2TFs();
 		bindBidirectionalalEffTFs();
@@ -812,6 +813,10 @@ public class ReinforcementDesignController {
 
 	private void bindBidirectionalvEdTFs() {
 		vEdTextField.textProperty().bindBidirectional(diagnosis.getvEdTextField().textProperty());
+	}
+	
+	private void bindBidirectionalvEdRedTFs() {
+		VEdRedTextField.textProperty().bindBidirectional(diagnosis.getVEdRedTextField().textProperty());
 	}
 
 	private void bindBidirectionalaS1TFs() {

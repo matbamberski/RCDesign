@@ -627,6 +627,7 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	void initialize() {
 		
+		
 		nrdColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Nrdtab"));
 		mrdColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Mrdtab"));
 		nedColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Nedtab"));
@@ -684,7 +685,7 @@ public class ReinforcementDiagnosisController {
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
-		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField, VEdRedTextField);
 		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField,
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField,
@@ -740,7 +741,7 @@ public class ReinforcementDiagnosisController {
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
 				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, 
-				nominalCheckBox, tableViewCombinations);
+				nominalCheckBox, tableViewCombinations, columnCheckBox);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
@@ -1013,6 +1014,10 @@ public class ReinforcementDiagnosisController {
 	
 	public void setTypeCrossSectionChoice(String choice) {
 		crossSectionTypeChoiceBox.setValue(choice);
+	}
+
+	public TextField getVEdRedTextField() {
+		return VEdRedTextField;
 	}
 	
 

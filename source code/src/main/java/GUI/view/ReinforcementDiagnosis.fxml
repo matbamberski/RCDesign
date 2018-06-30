@@ -371,13 +371,13 @@
       </Label>
       <Line fx:id="leftSGUNequal0Line2" endX="-40.0" layoutX="437.0" layoutY="238.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="363.0" />
       <Line fx:id="rightSGUNequal0Line2" endX="-40.0" layoutX="447.0" layoutY="248.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="363.0" />
-      <Label fx:id="zbrojeniePoprzeczneNNotequal0Label" layoutX="623.0" layoutY="418.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="566.0" AnchorPane.topAnchor="412.0">
+      <Label fx:id="zbrojeniePoprzeczneNNotequal0Label" layoutX="623.0" layoutY="418.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="566.0" AnchorPane.topAnchor="350.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.leftAnchor="695.0" AnchorPane.topAnchor="421.0" />
-      <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="421.0" />
+      <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.leftAnchor="695.0" AnchorPane.topAnchor="358.0" />
+      <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="358.0" />
       <Button fx:id="graphButton" layoutX="407.0" layoutY="625.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.leftAnchor="407.0" AnchorPane.topAnchor="625.0" />
       <VBox fx:id="vBoxBeffHf" prefHeight="60.0" prefWidth="108.0" AnchorPane.leftAnchor="127.0" AnchorPane.topAnchor="415.0">
          <children>
@@ -535,22 +535,25 @@
             </HBox>
          </children>
       </VBox>
-      <TableView fx:id="tableViewCombinations" layoutX="328.0" layoutY="177.0" prefHeight="238.0" prefWidth="350.0" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="177.0">
+      <TableView fx:id="tableViewCombinations" layoutX="328.0" layoutY="177.0" prefHeight="146.0" style="-fx-background-color: #91bfa0;" stylesheets="@DarkStyle.css" visible="false" AnchorPane.leftAnchor="455.0" AnchorPane.topAnchor="190.0">
         <columns>
-          <TableColumn fx:id="combinationColumn" prefWidth="70.0" resizable="false" />
-            <TableColumn fx:id="requiredColumn" prefWidth="75.0" text="Obliczeniowe">
+          <TableColumn fx:id="combinationColumn" editable="false" prefWidth="50.0" resizable="false" styleClass="tablecolor" />
+            <TableColumn fx:id="requiredColumn" editable="false" prefWidth="75.0" styleClass="tablecolor" text="Obliczeniowe">
                <columns>
-                <TableColumn fx:id="medColumn" prefWidth="70.0" resizable="false" text="Med [kNm]" />
-                  <TableColumn fx:id="nedColumn" prefWidth="70.0" resizable="false" text="Ned [kN]" />
+                <TableColumn fx:id="medColumn" editable="false" prefWidth="75.0" resizable="false" styleClass="tablecolor" text="Med [kNm]" />
+                  <TableColumn fx:id="nedColumn" editable="false" prefWidth="75.0" resizable="false" styleClass="tablecolor" text="Ned [kN]" />
                </columns>
             </TableColumn>
-            <TableColumn fx:id="designedColumn" prefWidth="75.0" text="Zastosowane">
+            <TableColumn fx:id="designedColumn" editable="false" prefWidth="75.0" styleClass="tablecolor" text="Zastosowane">
                <columns>
-                  <TableColumn fx:id="mrdColumn" prefWidth="70.0" resizable="false" text="Mrd [kNm]" />
-                  <TableColumn fx:id="nrdColumn" prefWidth="70.0" resizable="false" text="Nrd [kN]" />
+                  <TableColumn fx:id="mrdColumn" editable="false" prefWidth="75.0" resizable="false" styleClass="tablecolor" text="Mrd [kNm]" />
+                  <TableColumn fx:id="nrdColumn" editable="false" prefWidth="75.0" resizable="false" styleClass="tablecolor" text="Nrd [kN]" />
                </columns>
             </TableColumn>
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
    </children>
 </AnchorPane>

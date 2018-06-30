@@ -33,10 +33,11 @@ public class DiagnosisButtonController {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement,
 			ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls,
 			InternalForces forces, CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm,
-			NominalStiffness stiffness, CheckBox checkbox, TableView<ForcesCombination> tableViewCombinations) {
+			NominalStiffness stiffness, CheckBox checkbox, TableView<ForcesCombination> tableViewCombinations, 
+			CheckBox combinationsCheckBox) {
 		addListenerToDiagnosisButton(button, requiredReinforcement, concrete, steel, internalForces, dimensions,
 				reinforcement, resultsPaneControllerDiagnosis, cement, sls, forces, creep, diagnosisMainAlgorithm,
-				stiffness, checkbox, tableViewCombinations);
+				stiffness, checkbox, tableViewCombinations, combinationsCheckBox);
 	}
 
 	private static void addListenerToDiagnosisButton(Button button, RequiredReinforcement requiredReinforcement,
@@ -44,10 +45,11 @@ public class DiagnosisButtonController {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement,
 			ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis, Cement cement, Sls sls,
 			InternalForces forces, CreepCoeficent creep, DiagnosisMainAlgorithm diagnosisMainAlgorithm,
-			NominalStiffness stiffness, CheckBox checkbox, TableView<ForcesCombination> tableViewCombinations) {
+			NominalStiffness stiffness, CheckBox checkbox, TableView<ForcesCombination> tableViewCombinations,
+			CheckBox combinationsCheckBox) {
 		button.setOnAction(new PresedDiagnosisButton(requiredReinforcement, concrete, steel, internalForces, dimensions,
 				reinforcement, resultsPaneControllerDiagnosis, cement, sls, forces, creep, diagnosisMainAlgorithm,
-				stiffness, checkbox, tableViewCombinations));
+				stiffness, checkbox, tableViewCombinations, combinationsCheckBox));
 	}
 
 	private static class PresedDiagnosisButton implements EventHandler<ActionEvent> {
@@ -66,13 +68,14 @@ public class DiagnosisButtonController {
 		NominalStiffness stiffness;
 		CheckBox checkbox;
 		TableView<ForcesCombination> tableViewCombinations;
+		CheckBox combinationsCheckBox;
 
 		protected PresedDiagnosisButton(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel,
 				InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
 				Reinforcement reinforcement, ResultsPaneControllerDiagnosis resultsPaneControllerDiagnosis,
 				Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep,
 				DiagnosisMainAlgorithm diagnosisMainAlgorithm, NominalStiffness stiffness, CheckBox checkbox, 
-				TableView<ForcesCombination> tableViewCombinations) {
+				TableView<ForcesCombination> tableViewCombinations, CheckBox combinationsCheckBox) {
 			this.requiredReinforcement = requiredReinforcement;
 			this.concrete = concrete;
 			this.steel = steel;
@@ -88,6 +91,7 @@ public class DiagnosisButtonController {
 			this.stiffness = stiffness;
 			this.checkbox = checkbox;
 			this.tableViewCombinations = tableViewCombinations;
+			this.combinationsCheckBox = combinationsCheckBox;
 		}
 		private ArrayList<Double> normalne = new ArrayList<Double>();
 		private ArrayList<Double> momenty = new ArrayList<Double>();
@@ -134,14 +138,15 @@ public class DiagnosisButtonController {
 						normalneR.add(diagnosisMainAlgorithm.getnRdRequiredSymmetrical());
 						normalneD.add(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
 						
-						internalForces.getCombinations().get(i).setnRd(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
-						internalForces.getCombinations().get(i).newName(names.get(i));
+						internalForces.getCombinationDiagnosis().get(i).setnRd(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
+						internalForces.getCombinationDiagnosis().get(i).newName(names.get(i));
 						
 						momentyR.add(diagnosisMainAlgorithm.getmRdRequiredSymmetrical());
 						momentyD.add(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
 						
-						internalForces.getCombinations().get(i).setmRd(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
+						internalForces.getCombinationDiagnosis().get(i).setmRd(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
 					}	
+					/*
 			resultsPaneControllerDiagnosis.setmRd1D(momentyD.get(0));
 			resultsPaneControllerDiagnosis.setmRd2D(momentyD.get(1));
 			resultsPaneControllerDiagnosis.setmRd3D(momentyD.get(2));
@@ -158,9 +163,13 @@ public class DiagnosisButtonController {
 			resultsPaneControllerDiagnosis.setnRd2R(normalneR.get(1));
 			resultsPaneControllerDiagnosis.setnRd3R(normalneR.get(2));
 			resultsPaneControllerDiagnosis.setnRd4R(normalneR.get(3));
-			
+			*/
 			prepareTable();
 			}
+			if (combinationsCheckBox.isSelected()) {
+				tableViewCombinations.setVisible(true);
+			} else tableViewCombinations.setVisible(false);
+			
 			resultsPaneControllerDiagnosis.dispResults();
 			normalne.clear();
 			momenty.clear();
@@ -169,6 +178,9 @@ public class DiagnosisButtonController {
 			normalneD.clear();
 			momentyD.clear();
 			
+			internalForces.getCombinations().clear();
+			internalForces.getCombinationDiagnosis().clear();
+			
 			SaveFileButtonController.enableButtonDiagnosis();
 			
 			
@@ -176,12 +188,12 @@ public class DiagnosisButtonController {
 		}
 		
 		private void prepareTable() {
-			for(ForcesCombination f : internalForces.getCombinations())
+			for(ForcesCombination f : internalForces.getCombinationDiagnosis())
 				f.setTableValues();
 			
 			ObservableList<ForcesCombination> data =
 			        FXCollections.observableArrayList(
-			        	internalForces.getCombinations()	
+			        	internalForces.getCombinationDiagnosis()	
 			        );
 			tableViewCombinations.setItems(data);
 			

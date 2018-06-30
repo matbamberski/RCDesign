@@ -13,3 +13,8 @@
 .thick-chart .chart-series-line {
 	-fx-stroke-width: 6px;
 }
+
+.tablecolor{
+	-fx-background-color: #91bfa0;
+	-fx-border-color: #000000;
+}

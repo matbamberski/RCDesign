@@ -805,13 +805,37 @@ public class CrossSectionTypeController {
 		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 			if (arg2 == false) {
 				crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
+				forces.setmEd(0.0);
+				forces.setM0Ed(0.0);
+				forces.setnEd(0.0);
+				forces.setMomentMmax(0.0);
+				forces.setNormalnaMmax(0.0);
+				forces.setMomentMmin(0.0);
+				forces.setNormalnaMmin(0.0);
+				forces.setMomentMmax(0.0);
+				forces.setNormalnaMmax(0.0);
+				forces.setMomentNmin(0.0);
+				forces.setNormalnaNmin(0.0);
+				
 				choiceBox.setBeamToRectangular(dimensionsOfCrossSectionOfConcrete, list1);
 				choiceBox.setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
 				forces.setmEd(forces.getM0Ed());
 			} else {
-				momentMmax.setText(String.valueOf(forces.getmEd()));
-				normalnaMmax.setText(String.valueOf(forces.getnEd()));
+				//momentMmax.setText(String.valueOf(forces.getmEd()));
+				//normalnaMmax.setText(String.valueOf(forces.getnEd()));
 				crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
+				forces.setmEd(0.0);
+				forces.setM0Ed(0.0);
+				forces.setnEd(0.0);
+				forces.setMomentMmax(0.0);
+				forces.setNormalnaMmax(0.0);
+				forces.setMomentMmin(0.0);
+				forces.setNormalnaMmin(0.0);
+				forces.setMomentMmax(0.0);
+				forces.setNormalnaMmax(0.0);
+				forces.setMomentNmin(0.0);
+				forces.setNormalnaNmin(0.0);
+				
 				choiceBox.setColumn(dimensionsOfCrossSectionOfConcrete, list3);
 				choiceBox.setColumnCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
 				forces.setmEd(forces.getM0Ed());

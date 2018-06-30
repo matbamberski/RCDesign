@@ -552,7 +552,7 @@ public class ReinforcementDesignController {
 		cement = new Cement(0);
 		creep = new CreepCoeficent();
 		stiffness = new NominalStiffness();
-		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces);
+		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces, nominalCheckBox);
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 

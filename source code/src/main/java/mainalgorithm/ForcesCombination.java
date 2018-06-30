@@ -10,6 +10,7 @@ public class ForcesCombination {
 	private double e;
 	private double mRd;
 	private double nRd;
+	private boolean medNegativ;
 	
 	private SimpleStringProperty Medtab;
 	private SimpleStringProperty Mrdtab;
@@ -20,11 +21,12 @@ public class ForcesCombination {
 		this.M = M;
 		this.N = N;
 		countE();
+		setMedNegativ(false);
 	}
 	
 	public void countE() {
 		if (this.N!=0) {
-			this.e = M/N;
+			this.e = Math.abs(M/N);
 		} else this.e = 0;
 	}
 
@@ -77,10 +79,14 @@ public class ForcesCombination {
 	}
 	
 	public void setTableValues() {
-		this.Medtab = new SimpleStringProperty(String.format("%.3f", mStiff));
 		this.Nedtab = new SimpleStringProperty(String.format("%.3f", N));
-		this.Mrdtab = new SimpleStringProperty(String.format("%.3f", mRd));
 		this.Nrdtab = new SimpleStringProperty(String.format("%.3f", nRd));
+		this.Medtab = new SimpleStringProperty(String.format("%.3f", mStiff));
+		if (isMedNegativ()) {
+			this.Mrdtab = new SimpleStringProperty(String.format("%.3f", -mRd));
+		} else {
+			this.Mrdtab = new SimpleStringProperty(String.format("%.3f", mRd));
+		}
 	}
 
 	public String getMedtab() {
@@ -113,6 +119,14 @@ public class ForcesCombination {
 
 	public void setNrdtab(String nrdtab) {
 		Nrdtab.set(nrdtab);
+	}
+
+	public boolean isMedNegativ() {
+		return medNegativ;
+	}
+
+	public void setMedNegativ(boolean medNegativ) {
+		this.medNegativ = medNegativ;
 	}
 	
 	

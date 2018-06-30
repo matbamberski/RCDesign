@@ -575,6 +575,7 @@ public class CrossSectionTypeController {
 			befftHftVBox.setVisible(true);
 			mEdAnchorPane.setVisible(true);
 			nEdHBox.setVisible(false);
+			befft.setVisible(true);
 		}
 
 		private void setTCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel, Label tWLabel,

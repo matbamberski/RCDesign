@@ -61,7 +61,9 @@ public class Column extends ClearBendingBeam {
 		System.out
 				.println("emax " + combination.getE() + " modp " + combination.getM() + " nodp " + combination.getN());
 
-		setM0Ed(combination.getM());
+		if (combination.isMedNegativ())
+			setM0Ed(-combination.getM());
+		else setM0Ed(combination.getM());
 
 		if (combination.getN() != 0.0) {
 
@@ -69,6 +71,10 @@ public class Column extends ClearBendingBeam {
 					combination, cement, creep, checkbox);
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination, cement, creep, checkbox);
+		
+			if (checkbox.isSelected())
+				combination.setmStiff(stiffness.getmEd());
+			else combination.setmStiff(m0Ed);
 		}
 
 	}
@@ -92,7 +98,9 @@ public class Column extends ClearBendingBeam {
 		//System.out.println("emax " + combination.getE() + " modp " + combination.getM() + " nodp " + combination.getN());
 		
 		for (ForcesCombination combination1 : combination) {
-		setM0Ed(combination1.getM());
+			if (combination1.isMedNegativ())
+				setM0Ed(-combination1.getM());
+			else setM0Ed(combination1.getM());
 
 		if (combination1.getN() != 0.0) {
 
@@ -104,7 +112,7 @@ public class Column extends ClearBendingBeam {
 			*/
 			if (checkbox.isSelected())
 				combination1.setmStiff(stiffness.getmEd());
-			else combination1.setmStiff(combination1.getM());
+			else combination1.setmStiff(m0Ed);
 		} 
 		
 	}
@@ -135,27 +143,27 @@ public class Column extends ClearBendingBeam {
 
 			reinforcement.setReinforcementRatio(reinforcementRatio1);
 			stiffness.setRoS1(reinforcementRatio1);
-			stiffness.setM0Ed(combination.getM());
+			stiffness.setM0Ed(m0Ed);
 			stiffness.setN0Ed(combination.getN());
 			if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
 					|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
 					|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 							|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
 				if (checkbox.isSelected()) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
+					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
 					internalForces.setmEd(stiffness.getmEd());
 					internalForces.setnEd(combination.getN());
 					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
 				} else {
-					internalForces.setmEd(combination.getM());
+					internalForces.setmEd(m0Ed);
 					internalForces.setnEd(combination.getN());
 					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
 				}
 			} else {
 				if (checkbox.isSelected()) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
+					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
 					internalForces.setmEd(stiffness.getmEd());
@@ -236,7 +244,7 @@ public class Column extends ClearBendingBeam {
 
 			reinforcement.setReinforcementRatio(reinforcementRatio1);
 			stiffness.setRoS1(reinforcementRatio1);
-			stiffness.setM0Ed(combination.getM());
+			stiffness.setM0Ed(m0Ed);
 			stiffness.setN0Ed(combination.getN());
 
 			if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
@@ -244,7 +252,7 @@ public class Column extends ClearBendingBeam {
 					|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 							|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
 				if (checkbox.isSelected()) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
+					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
 
@@ -252,13 +260,13 @@ public class Column extends ClearBendingBeam {
 					internalForces.setnEd(combination.getN());
 					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
 				} else {
-					internalForces.setmEd(combination.getM());
+					internalForces.setmEd(m0Ed);
 					internalForces.setnEd(combination.getN());
 					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
 				}
 			} else {
 				if (checkbox.isSelected()) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, combination.getM(),
+					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
 

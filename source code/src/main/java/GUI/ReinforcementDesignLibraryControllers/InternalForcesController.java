@@ -16,6 +16,7 @@ import util.StringToDouble;
 
 public class InternalForcesController {
 	
+	
 	///3.0 ver
 	
 	public static void addPropertiesToTextField(InternalForces internalForces, NominalStiffness stiffness, TextField tf, String className) {

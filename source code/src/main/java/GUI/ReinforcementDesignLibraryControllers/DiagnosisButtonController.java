@@ -111,9 +111,9 @@ public class DiagnosisButtonController {
 					& internalForces.getMomentMmin() == 0 & internalForces.getNormalnaMmin() == 0
 					& internalForces.getMomentNmax() == 0 & internalForces.getNormalnaNmin() == 0
 					& internalForces.getMomentNmin() == 0 & internalForces.getNormalnaNmin() == 0) {
-				
-					diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(),internalForces.getnEd(), dimensions, reinforcement, forces);
 					
+					diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(),internalForces.getnEd(), dimensions, reinforcement, forces);
+					internalForces.setmEdStiff(internalForces.getCombinations().get(0).getmStiff());
 					System.out.println("Policzono nosnosc pojedynczego zestawu sil");
 					
 				
@@ -141,10 +141,22 @@ public class DiagnosisButtonController {
 						internalForces.getCombinationDiagnosis().get(i).setnRd(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
 						internalForces.getCombinationDiagnosis().get(i).newName(names.get(i));
 						
+						
 						momentyR.add(diagnosisMainAlgorithm.getmRdRequiredSymmetrical());
 						momentyD.add(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
 						
 						internalForces.getCombinationDiagnosis().get(i).setmRd(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
+						
+						if (i==0) {
+							internalForces.setMomentMmaxStiff(internalForces.getCombinationDiagnosis().get(0).getmStiff());
+						} else if (i==1) {
+							internalForces.setMomentMminStiff(internalForces.getCombinationDiagnosis().get(1).getmStiff());
+						} else if (i==2) {
+							internalForces.setMomentNmaxStiff(internalForces.getCombinationDiagnosis().get(2).getmStiff());
+						} else if (i==3) {
+							internalForces.setMomentNminStiff(internalForces.getCombinationDiagnosis().get(3).getmStiff());
+						}
+						
 					}	
 					/*
 			resultsPaneControllerDiagnosis.setmRd1D(momentyD.get(0));

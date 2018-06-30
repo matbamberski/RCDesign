@@ -3,8 +3,8 @@ package reinforcement.graph;
 import java.util.ArrayList;
 
 import GUI.view.ReinforcementDiagnosisController;
-import javafx.scene.Node;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
 import materials.Concrete;
@@ -64,10 +64,12 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	private ArrayList<Double> points_M = new ArrayList<>();
 
 	private XYChart<Number, Number> newGraph;
+	
+	private CheckBox nominalCheckBox;
 
 	public Graph() {
 	};
-
+/*
 	public Graph(final XYChart<Number, Number> newGraph, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions,
 			Concrete concrete, Reinforcement reinforcement) {
 		this.steel = steel;
@@ -77,14 +79,15 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		this.newGraph = newGraph;
 
 	}
-
+*/
 	public Graph(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, Concrete concrete,
-			Reinforcement reinforcement, InternalForces forces) {
+			Reinforcement reinforcement, InternalForces forces, CheckBox nominalCheckBox) {
 		this.steel = steel;
 		this.dimensions = dimensions;
 		this.concrete = concrete;
 		this.reinforcement = reinforcement;
 		this.forces = forces;
+		this.nominalCheckBox = nominalCheckBox;
 	}
 
 	private void init() {
@@ -515,11 +518,17 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		newGraph.getData().clear();
 		newGraph.getData().add(series);
 		newGraph.getData().add(series2);
-		if (forces.getmEd() != 0) {
-			newGraph.getData().add(seriesMed);
-		} else if (forces.getnEd() != 0) {
-			newGraph.getData().add(seriesMed);
+		
+		if (forces.getMomentMmax() == 0 || forces.getNormalnaMmax() == 0 || forces.getMomentMmin() == 0
+				|| forces.getNormalnaMmin() == 0 || forces.getMomentNmax() == 0 || forces.getNormalnaNmax() == 0
+				|| forces.getMomentNmin() == 0 || forces.getNormalnaNmin() == 0) {
+			if (forces.getmEd() != 0) {
+				newGraph.getData().add(seriesMed);
+			} else if (forces.getnEd() != 0) {
+				newGraph.getData().add(seriesMed);
+			}
 		}
+		
 
 		if (forces.getMomentMmax() != 0) {
 			newGraph.getData().add(seriesMmax);
@@ -567,17 +576,34 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		series.setName("KNG");
 		series2.setName("KNG");
 
-		seriesMed.getData().add(new XYChart.Data<Number, Number>(forces.getnEd(), forces.getmEd()));
-		seriesMed.setName("MEd");
-		seriesMmax.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmax(), forces.getMomentMmax()));
+		if (forces.getMomentMmax() == 0 || forces.getNormalnaMmax() == 0 || forces.getMomentMmin() == 0
+				|| forces.getNormalnaMmin() == 0 || forces.getMomentNmax() == 0 || forces.getNormalnaNmax() == 0
+				|| forces.getMomentNmin() == 0 || forces.getNormalnaNmin() == 0) {
+			if (nominalCheckBox.isSelected()) {
+				seriesMed.getData().add(new XYChart.Data<Number, Number>(forces.getnEd(), forces.getmEdStiff()));
+			} else
+				seriesMed.getData().add(new XYChart.Data<Number, Number>(forces.getnEd(), forces.getmEd()));
+			seriesMed.setName("MEd");
+		}
+		
+		if (nominalCheckBox.isSelected()) {
+			seriesMmax.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmax(), forces.getMomentMmaxStiff()));
+			seriesMmin.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmin(), forces.getMomentMminStiff()));
+			seriesNmax.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmax(), forces.getMomentNmaxStiff()));
+			seriesNmin.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmin(), forces.getMomentNminStiff()));
+		} else {
+			seriesMmax.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmax(), forces.getMomentMmax()));
+			seriesMmin.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmin(), forces.getMomentMmin()));
+			seriesNmax.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmax(), forces.getMomentNmax()));
+			seriesNmin.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmin(), forces.getMomentNmin()));
+		}
 		seriesMmax.setName("Mmax");
-		seriesMmin.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaMmin(), forces.getMomentMmin()));
 		seriesMmin.setName("Mmin");
-		seriesNmax.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmax(), forces.getMomentNmax()));
 		seriesNmax.setName("Nmax");
-		seriesNmin.getData().add(new XYChart.Data<Number, Number>(forces.getNormalnaNmin(), forces.getMomentNmin()));
 		seriesNmin.setName("Nmin");
-
+		
 	}
+	
+	
 	
 }

@@ -19,6 +19,13 @@ public class InternalForces {
 	protected double normalnaMmin;
 	protected double normalnaNmax;
 	protected double normalnaNmin;
+	
+	protected double momentMmaxStiff;
+	protected double momentMminStiff;
+	protected double momentNmaxStiff;
+	protected double momentNminStiff;
+	
+	private double mEdStiff;
 
 	ArrayList<ForcesCombination> combinations = new ArrayList<>();
 	ArrayList<ForcesCombination> combinationDiagnosis = new ArrayList<>();
@@ -38,16 +45,26 @@ public class InternalForces {
 	
 
 	public void countECombinations(ArrayList<ForcesCombination> combination) {
-		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());
-		ForcesCombination Mmin = new ForcesCombination(getMomentMmin(), getNormalnaMmin());
-		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
-		ForcesCombination Nmin = new ForcesCombination(getMomentNmin(), getNormalnaNmin());
+		ForcesCombination Mmax = new ForcesCombination(Math.abs(getMomentMmax()), getNormalnaMmax());
+		if (getMomentMmax()<0) Mmax.setMedNegativ(true);
+		
+		ForcesCombination Mmin = new ForcesCombination(Math.abs(getMomentMmin()), getNormalnaMmin());
+		if (getMomentMmin()<0) Mmin.setMedNegativ(true);
+		
+		ForcesCombination Nmax = new ForcesCombination(Math.abs(getMomentNmax()), getNormalnaNmax());
+		if (getMomentNmax()<0) Nmax.setMedNegativ(true);
+		
+		ForcesCombination Nmin = new ForcesCombination(Math.abs(getMomentNmin()), getNormalnaNmin());
+		if (getMomentNmin()<0) Nmin.setMedNegativ(true);
+		
 		Collections.addAll(combination, Mmax, Mmin, Nmax, Nmin);
 		System.out.println("liczy kombinacje si³");
 	}
 	
 	public void setMedCombination() {
-		ForcesCombination Mmax = new ForcesCombination(getmEd(), getnEd());
+		ForcesCombination Mmax = new ForcesCombination(Math.abs(getmEd()), getnEd());
+		if (getmEd()<0) Mmax.setMedNegativ(true);
+		
 		Collections.addAll(combinations, Mmax);
 	}
 
@@ -243,6 +260,47 @@ public class InternalForces {
 		this.combinationDiagnosis = combinationDiagnosis;
 	}
 
+	public double getMomentMmaxStiff() {
+		return momentMmaxStiff;
+	}
+
+	public void setMomentMmaxStiff(double momentMmaxStiff) {
+		this.momentMmaxStiff = momentMmaxStiff;
+	}
+
+	public double getMomentMminStiff() {
+		return momentMminStiff;
+	}
+
+	public void setMomentMminStiff(double momentMminStiff) {
+		this.momentMminStiff = momentMminStiff;
+	}
+
+	public double getMomentNmaxStiff() {
+		return momentNmaxStiff;
+	}
+
+	public void setMomentNmaxStiff(double momentNmaxStiff) {
+		this.momentNmaxStiff = momentNmaxStiff;
+	}
+
+	public double getMomentNminStiff() {
+		return momentNminStiff;
+	}
+
+	public void setMomentNminStiff(double momentNminStiff) {
+		this.momentNminStiff = momentNminStiff;
+	}
+
+	public double getmEdStiff() {
+		return mEdStiff;
+	}
+
+	public void setmEdStiff(double mEdStiff) {
+		this.mEdStiff = mEdStiff;
+	}
+
+	
 	
 	
 }

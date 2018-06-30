@@ -665,7 +665,8 @@ public class ReinforcementDesignController {
 				rightZbrojeniePodluzneSymetryczneLine, zbrojeniePodluzneNiesymetryczneLabel,
 				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
-				rightZbrojeniePoprzeczneNNotequal0Line);
+				rightZbrojeniePoprzeczneNNotequal0Line, gridLabel019, gridLabel119, gridLabel219, gridLabel120,
+				gridLabel220, gridLabel020);
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,

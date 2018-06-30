@@ -97,10 +97,16 @@
             <Label fx:id="gridLabel114" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="14" />
             <Label fx:id="gridLabel115" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="15" />
             <Label fx:id="gridLabel214" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="14" />
-            <Label fx:id="gridLabel215" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="73.0" text="aaaaaaaaaaaaaaaaaaaaaaaaa" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+            <Label fx:id="gridLabel215" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="73.0" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="15" />
             <Label fx:id="gridLabel314" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="14" />
             <Label fx:id="gridLabel315" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="15" />
             <Label fx:id="gridLabel00" prefHeight="21.0" prefWidth="46.0" text="Label" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="gridLabel120" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+            <Label fx:id="gridLabel019" text="Label" GridPane.rowIndex="19" />
+            <Label fx:id="gridLabel119" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="19" />
+            <Label fx:id="gridLabel219" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="19" />
+            <Label fx:id="gridLabel220" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="20" />
+            <Label fx:id="gridLabel020" text="Label" GridPane.rowIndex="20" />
          </children>
          <columnConstraints>
             <ColumnConstraints fillWidth="false" hgrow="ALWAYS" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />

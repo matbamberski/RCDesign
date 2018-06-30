@@ -29,7 +29,13 @@ public class ResultsPaneControllerULS {
 	private Label gridLabel013;
 	private Label gridLabel014;
 	private Label gridLabel015;
-
+	private Label gridLabel019;
+	private Label gridLabel119;
+	private Label gridLabel219;
+	private Label gridLabel120;
+	private Label gridLabel220;
+	private Label gridLabel020;
+	
 	private Label gridLabel10;
 	private Label gridLabel11;
 	private Label gridLabel12;
@@ -119,7 +125,8 @@ public class ResultsPaneControllerULS {
 			Line leftZbrojeniePoprzeczneNequal0Line, Line rightZbrojeniePoprzeczneNequal0Line, Label stanGranicznyUzytkowalnosciNequal0Label1, Line leftSGUNequal0Line1, Line rightSGUNequal0Line1,
 			Label stanGranicznyUzytkowalnosciNequal0Label2, Line leftSGUNequal0Line2, Line rightSGUNequal0Line2, Label zbrojeniePodluzneSymetryczneLabel, Line leftZbrojeniePodluzneSymetryczneLine,
 			Line rightZbrojeniePodluzneSymetryczneLine, Label zbrojeniePodluzneNiesymetryczneLabel, Line leftZbrojeniePodluzneNiesymetryczneLine, Line rightZbrojeniePodluzneNiesymetryczneLine,
-			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line) {
+			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label gridLabel019, Label gridLabel119,
+			Label gridLabel219, Label gridLabel120, Label gridLabel220, Label gridLabel020) {
 
 		this.reinforcement = reinforcement;
 		this.internalForces = internalForces;
@@ -191,6 +198,12 @@ public class ResultsPaneControllerULS {
 		this.gridLabel313 = gridLabel313;
 		this.gridLabel314 = gridLabel314;
 		this.gridLabel315 = gridLabel315;
+		this.gridLabel019 = gridLabel019;
+		this.gridLabel119 = gridLabel119;
+		this.gridLabel219 = gridLabel219;
+		this.gridLabel120 = gridLabel120;
+		this.gridLabel220 = gridLabel220;
+		this.gridLabel020 = gridLabel020;
 
 		this.stanGranicznyNosnosciNequal0Label = stanGranicznyNosnosciNequal0Label;
 		this.leftSGNNequal0Line = leftSGNNequal0Line;
@@ -237,6 +250,12 @@ public class ResultsPaneControllerULS {
 		gridLabel013.setText("");
 		gridLabel014.setText("");
 		gridLabel015.setText("");
+		gridLabel019.setText("");
+		gridLabel119.setText("");
+		gridLabel219.setText("");
+		gridLabel120.setText("");
+		gridLabel220.setText("");
+		gridLabel020.setText("");
 
 		gridLabel10.setText("");
 		gridLabel11.setText("");
@@ -361,6 +380,34 @@ public class ResultsPaneControllerULS {
 		zbrojeniePoprzeczneNNotequal0Label.setVisible(true);
 		leftZbrojeniePoprzeczneNNotequal0Line.setVisible(true);
 		rightZbrojeniePoprzeczneNNotequal0Line.setVisible(true);
+		
+		gridLabel019.setText("");
+		gridLabel119.setText("");
+		gridLabel219.setText("");
+		gridLabel120.setText("");
+		gridLabel220.setText("");
+		gridLabel020.setText("");
+		
+		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0 || internalForces.getMomentMmin() != 0
+				|| internalForces.getNormalnaMmin() != 0 || internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+			
+			gridLabel019.setText("max E:");
+			gridLabel119.setText("MEd:");
+			gridLabel219.setText("NEd:");
+			gridLabel020.setText(String.format("%.2f", Math.abs((internalForces.getCombinations().get(0).getmStiff())/(internalForces.getCombinations().get(0).getN()))) + " m");
+			gridLabel120.setText(OutputFormatter.diagnosisMed(internalForces.getCombinations().get(0).getmStiff()));
+			gridLabel220.setText(OutputFormatter.diagnosisVedAndNed(internalForces.getCombinations().get(0).getN()));
+			
+		} else {
+			gridLabel019.setText("");
+			gridLabel119.setText("");
+			gridLabel219.setText("");
+			gridLabel120.setText("");
+			gridLabel220.setText("");
+			gridLabel020.setText("");
+		}
+		
 		gridLabel00.setText("");
 		gridLabel01.setText("");
 		gridLabel02.setText("");
@@ -573,7 +620,9 @@ public class ResultsPaneControllerULS {
 		gridLabel213.setText("");
 		gridLabel214.setText("");
 		gridLabel215.setText("");
-
+		
+		
+		
 		gridLabel30.setText("");
 		gridLabel31.setText("");
 		gridLabel32.setText("Liczba prêtów");

@@ -72,7 +72,7 @@ public class Column extends ClearBendingBeam {
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination, cement, creep, checkbox);
 		
-			if (checkbox.isSelected())
+			if (checkbox.isSelected() && combination.getN() >=0)
 				combination.setmStiff(stiffness.getmEd());
 			else combination.setmStiff(m0Ed);
 		}
@@ -110,7 +110,7 @@ public class Column extends ClearBendingBeam {
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination1, cement, creep, checkbox);
 			*/
-			if (checkbox.isSelected())
+			if (checkbox.isSelected() && combination1.getN() >=0)
 				combination1.setmStiff(stiffness.getmEd());
 			else combination1.setmStiff(m0Ed);
 		} 
@@ -149,7 +149,8 @@ public class Column extends ClearBendingBeam {
 					|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
 					|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 							|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-				if (checkbox.isSelected()) {
+				
+				if (checkbox.isSelected() && combination.getN() >=0) {
 					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
@@ -162,7 +163,8 @@ public class Column extends ClearBendingBeam {
 					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
 				}
 			} else {
-				if (checkbox.isSelected()) {
+				
+				if (checkbox.isSelected() && combination.getN() >=0) {
 					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
@@ -196,11 +198,11 @@ public class Column extends ClearBendingBeam {
 				// ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
 				if (withDesign) {
 					requiredReinforcement.columnTensilingForcesSymmetricalReinforcementWithDesign(concrete, steel,
-							dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+							dimensions, reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
 					// pobiera stopien zbrojenia na koncu petli
 				} else {
 					requiredReinforcement.columnTensilingForcesSymmetricalReinforcement(concrete, steel, dimensions,
-							reinforcement, internalForces.getmEd(), internalForces.getnEd());
+							reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
 				}
 				reinforcementRatio2 = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
 				reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
@@ -251,11 +253,11 @@ public class Column extends ClearBendingBeam {
 					|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
 					|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 							|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-				if (checkbox.isSelected()) {
+				
+				if (checkbox.isSelected() && combination.getN() >=0) {
 					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
-
 					internalForces.setmEd(stiffness.getmEd());
 					internalForces.setnEd(combination.getN());
 					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
@@ -265,7 +267,8 @@ public class Column extends ClearBendingBeam {
 					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
 				}
 			} else {
-				if (checkbox.isSelected()) {
+				
+				if (checkbox.isSelected() && combination.getN() >=0) {
 					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 							combination.getN(), cement, creep);
 					/// Metoda nominalnej sztywnosci - nowy moment
@@ -301,11 +304,11 @@ public class Column extends ClearBendingBeam {
 				if (withDesign) {
 					// ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
 					requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcementWithDesign(concrete, steel,
-							dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+							dimensions, reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
 					// pobiera stopien zbrojenia na koncu/ petli
 				} else {
 					requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcement(concrete, steel, dimensions,
-							reinforcement, internalForces.getmEd(), internalForces.getnEd());
+							reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
 					// pobiera stopien zbrojenia na koncu/ petli
 				}
 				reinforcementRatio2 = reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement();

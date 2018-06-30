@@ -107,13 +107,16 @@ public class DiagnosisButtonController {
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
 					reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
+			
 			if (internalForces.getMomentMmax() == 0 & internalForces.getNormalnaMmax() == 0
 					& internalForces.getMomentMmin() == 0 & internalForces.getNormalnaMmin() == 0
 					& internalForces.getMomentNmax() == 0 & internalForces.getNormalnaNmin() == 0
 					& internalForces.getMomentNmin() == 0 & internalForces.getNormalnaNmin() == 0) {
 					
+					internalForces.setMedCombination();
+					ForcesCombination combination = internalForces.getMaxECombination();
 					diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(),internalForces.getnEd(), dimensions, reinforcement, forces);
-					internalForces.setmEdStiff(internalForces.getCombinations().get(0).getmStiff());
+					internalForces.setmEdStiff(combination.getmStiff());
 					System.out.println("Policzono nosnosc pojedynczego zestawu sil");
 					
 				

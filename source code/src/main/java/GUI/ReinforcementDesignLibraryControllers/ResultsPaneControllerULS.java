@@ -3,6 +3,7 @@ package GUI.ReinforcementDesignLibraryControllers;
 import SLS.Sls;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
+import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
 import util.OutputFormatter;
@@ -395,9 +396,11 @@ public class ResultsPaneControllerULS {
 			gridLabel019.setText("max E:");
 			gridLabel119.setText("MEd:");
 			gridLabel219.setText("NEd:");
-			gridLabel020.setText(String.format("%.2f", Math.abs((internalForces.getCombinations().get(0).getmStiff())/(internalForces.getCombinations().get(0).getN()))) + " m");
-			gridLabel120.setText(OutputFormatter.diagnosisMed(internalForces.getCombinations().get(0).getmStiff()));
-			gridLabel220.setText(OutputFormatter.diagnosisVedAndNed(internalForces.getCombinations().get(0).getN()));
+			
+			ForcesCombination combination = internalForces.getMaxECombination();
+			gridLabel020.setText(String.format("%.2f", Math.abs((combination.getmStiff())/(combination.getN()))) + " m");
+			gridLabel120.setText(OutputFormatter.diagnosisMed(combination.getmStiff()));
+			gridLabel220.setText(OutputFormatter.diagnosisVedAndNed(combination.getN()));
 			
 		} else {
 			gridLabel019.setText("");

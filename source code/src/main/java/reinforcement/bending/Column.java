@@ -72,9 +72,16 @@ public class Column extends ClearBendingBeam {
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination, cement, creep, checkbox);
 		
-			if (checkbox.isSelected() && combination.getN() >=0)
+			if (checkbox.isSelected() && combination.getN() >0)
 				combination.setmStiff(stiffness.getmEd());
 			else combination.setmStiff(m0Ed);
+		} else {
+			requiredReinforcement.rectangularColumnBeamBendingReinforcementWithDesign(concrete, steel, dimensions, reinforcement, 
+					m0Ed);
+			System.err.println("Belka prostokatna, zginanie");
+			
+			internalForces.setmEd(combination.getM());
+			
 		}
 
 	}
@@ -113,7 +120,12 @@ public class Column extends ClearBendingBeam {
 			if (checkbox.isSelected() && combination1.getN() >=0)
 				combination1.setmStiff(stiffness.getmEd());
 			else combination1.setmStiff(m0Ed);
-		} 
+		} else {
+			requiredReinforcement.rectangularColumnBeamBendingReinforcement(concrete, steel, dimensions, reinforcement, 
+					m0Ed);
+			System.err.println("Belka prostokatna, zginanie");
+			internalForces.setmEd(combination1.getM());
+		}
 		
 	}
 

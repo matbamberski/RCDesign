@@ -519,9 +519,9 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		newGraph.getData().add(series);
 		newGraph.getData().add(series2);
 		
-		if (forces.getMomentMmax() == 0 || forces.getNormalnaMmax() == 0 || forces.getMomentMmin() == 0
-				|| forces.getNormalnaMmin() == 0 || forces.getMomentNmax() == 0 || forces.getNormalnaNmax() == 0
-				|| forces.getMomentNmin() == 0 || forces.getNormalnaNmin() == 0) {
+		if (forces.getMomentMmax() == 0 && forces.getNormalnaMmax() == 0 && forces.getMomentMmin() == 0
+				&& forces.getNormalnaMmin() == 0 && forces.getMomentNmax() == 0 && forces.getNormalnaNmax() == 0
+						&& forces.getMomentNmin() == 0 && forces.getNormalnaNmin() == 0) {
 			if (forces.getmEd() != 0) {
 				newGraph.getData().add(seriesMed);
 			} else if (forces.getnEd() != 0) {
@@ -576,9 +576,9 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		series.setName("KNG");
 		series2.setName("KNG");
 
-		if (forces.getMomentMmax() == 0 || forces.getNormalnaMmax() == 0 || forces.getMomentMmin() == 0
-				|| forces.getNormalnaMmin() == 0 || forces.getMomentNmax() == 0 || forces.getNormalnaNmax() == 0
-				|| forces.getMomentNmin() == 0 || forces.getNormalnaNmin() == 0) {
+		if (forces.getMomentMmax() == 0 && forces.getNormalnaMmax() == 0 && forces.getMomentMmin() == 0
+				&& forces.getNormalnaMmin() == 0 && forces.getMomentNmax() == 0 && forces.getNormalnaNmax() == 0
+						&& forces.getMomentNmin() == 0 && forces.getNormalnaNmin() == 0) {
 			if (nominalCheckBox.isSelected()) {
 				seriesMed.getData().add(new XYChart.Data<Number, Number>(forces.getnEd(), forces.getmEdStiff()));
 			} else

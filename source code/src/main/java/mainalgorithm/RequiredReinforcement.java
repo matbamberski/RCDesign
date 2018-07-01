@@ -235,10 +235,13 @@ public class RequiredReinforcement {
 			}
 
 		} else {
+			
 			internalForces.getCombinations().clear();
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
 					reinforcement, stiffness, true, cement, creep, checkbox);
 			System.err.println("S³up");
+			
+			
 		}
 		shearingReinforcementAnalizer.doFullSheringReinforcementWitDesign(
 				concrete, steel, internalForces, dimensions, reinforcement);
@@ -346,6 +349,18 @@ public class RequiredReinforcement {
 		reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
 
 	}
+	
+	public void rectangularColumnBeamBendingReinforcementWithDesign(Concrete concrete, Steel steel,
+			 DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd) {
+		RectangularBeam beam = new RectangularBeam();
+		beam.fullRectangularBeamReinforcementAnalysis(mEd, concrete, steel, dimensions.getA1(),
+				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
+		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
+		designSymmetricalReinforcement(reinforcement);
+		reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);
+		reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
+
+	}
 
 	private void traptezeBeamBendingReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
@@ -420,6 +435,16 @@ public class RequiredReinforcement {
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		RectangularBeam beam = new RectangularBeam();
 		beam.fullRectangularBeamReinforcementAnalysis(internalForces.getmEd(), concrete, steel, dimensions.getA1(),
+				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
+		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
+		reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);
+		reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
+	}
+	
+	public void rectangularColumnBeamBendingReinforcement(Concrete concrete, Steel steel, 
+			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd) {
+		RectangularBeam beam = new RectangularBeam();
+		beam.fullRectangularBeamReinforcementAnalysis(mEd, concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
 		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
 		reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);

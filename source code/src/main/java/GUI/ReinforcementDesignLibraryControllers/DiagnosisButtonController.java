@@ -108,15 +108,15 @@ public class DiagnosisButtonController {
 					reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
 			
-			if (internalForces.getMomentMmax() == 0 & internalForces.getNormalnaMmax() == 0
-					& internalForces.getMomentMmin() == 0 & internalForces.getNormalnaMmin() == 0
-					& internalForces.getMomentNmax() == 0 & internalForces.getNormalnaNmin() == 0
-					& internalForces.getMomentNmin() == 0 & internalForces.getNormalnaNmin() == 0) {
+			if (internalForces.getMomentMmax() == 0 && internalForces.getNormalnaMmax() == 0
+					&& internalForces.getMomentMmin() == 0 && internalForces.getNormalnaMmin() == 0
+							&& internalForces.getMomentNmax() == 0 && internalForces.getNormalnaNmin() == 0
+									&& internalForces.getMomentNmin() == 0 && internalForces.getNormalnaNmin() == 0) {
 					
 					internalForces.setMedCombination();
 					ForcesCombination combination = internalForces.getMaxECombination();
 					diagnosisMainAlgorithm.runDiagnosis(concrete, steel, internalForces.getmEd(),internalForces.getnEd(), dimensions, reinforcement, forces);
-					internalForces.setmEdStiff(combination.getmStiff());
+					internalForces.setmEdStiff(stiffness.getmEd());
 					System.out.println("Policzono nosnosc pojedynczego zestawu sil");
 					
 				
@@ -184,6 +184,13 @@ public class DiagnosisButtonController {
 			if (combinationsCheckBox.isSelected()) {
 				tableViewCombinations.setVisible(true);
 			} else tableViewCombinations.setVisible(false);
+			
+			if (internalForces.getNormalnaMmax() == 0
+                    && internalForces.getNormalnaMmin() == 0
+                    && internalForces.getNormalnaNmax() == 0
+                    && internalForces.getNormalnaNmin() == 0) {
+                tableViewCombinations.setVisible(false);
+            }
 			
 			resultsPaneControllerDiagnosis.dispResults();
 			normalne.clear();

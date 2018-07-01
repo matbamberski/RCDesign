@@ -202,6 +202,9 @@ public class ReinforcementDesignController {
 	@FXML
 	private CheckBox nominalCheckBox;
 	
+	@FXML
+	private CheckBox columnCheckBox;
+	
 	
 	/////
 	// ** RESULTS ULS
@@ -549,7 +552,7 @@ public class ReinforcementDesignController {
 		cement = new Cement(0);
 		creep = new CreepCoeficent();
 		stiffness = new NominalStiffness();
-		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces);
+		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces, nominalCheckBox);
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -571,12 +574,15 @@ public class ReinforcementDesignController {
 				normalnaMmax, normalnaMmin, normalnaNmax, normalnaNmin, nEdTextField));
 		
 		list3 = new ArrayList<>(Arrays.asList(hftTextField, tWTextField,
-				mEdObliczenioweTextField, nEdTextField, mEdCharCalkTextField, mEdCharDlugTextField));
+				mEdObliczenioweTextField, nEdTextField, 
+				mEdCharCalkTextField, mEdCharDlugTextField));
 		
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField);
+				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox,
+				internalForces, momentMmax, normalnaMmax);
+		
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		
 		
@@ -595,7 +601,7 @@ public class ReinforcementDesignController {
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
-		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField, VEdRedTextField);
 		InternalForcesController.addPropertiesToVEdRedTextField(internalForces, VEdRedTextField);
 		
 		//////////////
@@ -659,7 +665,8 @@ public class ReinforcementDesignController {
 				rightZbrojeniePodluzneSymetryczneLine, zbrojeniePodluzneNiesymetryczneLabel,
 				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
-				rightZbrojeniePoprzeczneNNotequal0Line);
+				rightZbrojeniePoprzeczneNNotequal0Line, gridLabel019, gridLabel119, gridLabel219, gridLabel120,
+				gridLabel220, gridLabel020);
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
@@ -715,6 +722,7 @@ public class ReinforcementDesignController {
 		bindBidirectionalmEdCharDlugTFs();
 		bindBidirectionalnEdTFs();
 		bindBidirectionalvEdTFs();
+		bindBidirectionalvEdRedTFs();
 		bindBidirectionalaS1TFs();
 		bindBidirectionalaS2TFs();
 		bindBidirectionalalEffTFs();
@@ -746,6 +754,8 @@ public class ReinforcementDesignController {
 		bindBidirectionalarNormalnaMmin();
 		bindBidirectionalarNormalnaNmax();
 		bindBidirectionalarNormalnaNmin();
+		bindBidirectionalarColumnCheckBox();
+		bindBidirectionalarNominalCheckBox();
 /*
 		bindBidirectionalarL0();
 		bindBidirectionalarFiT0();
@@ -804,6 +814,10 @@ public class ReinforcementDesignController {
 
 	private void bindBidirectionalvEdTFs() {
 		vEdTextField.textProperty().bindBidirectional(diagnosis.getvEdTextField().textProperty());
+	}
+	
+	private void bindBidirectionalvEdRedTFs() {
+		VEdRedTextField.textProperty().bindBidirectional(diagnosis.getVEdRedTextField().textProperty());
 	}
 
 	private void bindBidirectionalaS1TFs() {
@@ -910,6 +924,14 @@ public class ReinforcementDesignController {
 
 	private void bindBidirectionalarNormalnaMmin() {
 		normalnaMmin.textProperty().bindBidirectional(diagnosis.getNormalnaMmin().textProperty());
+	}
+	
+	private void bindBidirectionalarColumnCheckBox() {
+		columnCheckBox.selectedProperty().bindBidirectional(diagnosis.getcolumnCheckBox().selectedProperty());
+	}
+	
+	private void bindBidirectionalarNominalCheckBox() {
+		nominalCheckBox.selectedProperty().bindBidirectional(diagnosis.getnominalCheckBox().selectedProperty());
 	}
 /*
 	private void bindBidirectionalarL0() {

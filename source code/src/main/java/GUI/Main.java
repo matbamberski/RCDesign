@@ -33,7 +33,7 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		primaryStage.getIcons().add(new Image("/GUI/icon.png"));
 		this.primaryStage.setTitle(
-				"RCdesign v4.0 - Projektowanie                                  autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Projektowanie                          autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 		initRootLayout();
 		loadDesignScene();
 		loadDiagnosisScene();
@@ -113,7 +113,7 @@ public class Main extends Application {
 		
 		rootLayout.setStyle("-fx-background-color: #91bfa0;");
 		primaryStage.setTitle(
-				"RCdesign v4.0 - Diagnostyka                                     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Diagnostyka                             autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
 	}
 	
@@ -123,7 +123,7 @@ public class Main extends Application {
 		
 		rootLayout.setStyle("-fx-background-color: #d1d1d1;");
 		primaryStage.setTitle(
-				"RCdesign v4.0 - Krzywe noœnoœci granicznej             autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Krzywe noœnoœci granicznej     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
 	}
 	
@@ -133,7 +133,7 @@ public class Main extends Application {
 		
 		rootLayout.setStyle("-fx-background-color: #91bfa0;");
 		primaryStage.setTitle(
-				"RCdesign v4.0 - Diagnostyka                                     autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Diagnostyka                             autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 
 	}
 
@@ -144,7 +144,7 @@ public class Main extends Application {
 		rootLayout.setStyle("-fx-background-color: #6897bb;");
 		//rootLayout.setTop(design);
 		primaryStage.setTitle(
-				"RCdesign v4.0 - Projektowanie                                  autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
+				"RCdesign v4.0 - Projektowanie                          autorzy:Tadeusz Miesi¹c, Konrad Markowski, Mateusz Bamberski pod kierunkiem JŒ & MD ");
 	}
 	
 

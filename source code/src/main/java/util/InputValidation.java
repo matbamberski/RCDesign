@@ -18,7 +18,7 @@ public class InputValidation {
 	public static boolean mEdInputValidation(String string) {
 		boolean isCorrect = false;
 		if (!string.isEmpty()) {
-			Pattern pattern = Pattern.compile("[0-9]+[,\\.]*[0-9]*");
+			Pattern pattern = Pattern.compile("[-]*[0-9]+[,\\.]*[0-9]*");
 			if (pattern.matcher(string).matches()) {
 				isCorrect = true;
 			}

@@ -27,11 +27,15 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
@@ -51,15 +55,6 @@ public class ReinforcementDiagnosisController {
 	GraphScreenController graphController;
 	Main main;
 
-	/*
-	 * //dodane coœ psuje Graph graph; DimensionsOfCrossSectionOfConcrete
-	 * dimensions;
-	 * 
-	 * public ReinforcementDiagnosisController(Graph graph,
-	 * DimensionsOfCrossSectionOfConcrete dimensions, GraphScreenController
-	 * graphValues) { super(); this.graph = graph; this.dimensions = dimensions; }
-	 * //
-	 */
 	@FXML
 	private TextField aS1SymmetricalNumberOfRodsTextField;
 	@FXML
@@ -568,6 +563,41 @@ public class ReinforcementDiagnosisController {
 	@FXML
 	private HBox NEdHBoxLine;
 	
+	@FXML
+	private CheckBox nominalCheckBox;
+	
+	@FXML
+	private CheckBox columnCheckBox;
+	
+	
+	
+	////
+	
+	//TABLE
+	
+	@FXML
+    private TableView<ForcesCombination> tableViewCombinations;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> combinationColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> medColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> nedColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> mrdColumn;
+
+    @FXML
+    private TableColumn<ForcesCombination, String> nrdColumn;
+    
+    @FXML
+    private TableColumn<?,?> designedColumn;
+    
+    @FXML
+    private TableColumn<?,?> requiredColumn;
 	
 	/////
 
@@ -596,6 +626,14 @@ public class ReinforcementDiagnosisController {
 
 	@FXML
 	void initialize() {
+		
+		
+		nrdColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Nrdtab"));
+		mrdColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Mrdtab"));
+		nedColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Nedtab"));
+		medColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Medtab"));
+		combinationColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("name"));
+		
 
 		PdfController.addPropertiesToPdfNameTextField(pdfName);
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
@@ -607,9 +645,12 @@ public class ReinforcementDiagnosisController {
 				dimensionsOfCrossSectionOfConcrete);
 		ADistanceTextFieldsController.addPropertiesToA2TextField(a2DimensionTextField,
 				dimensionsOfCrossSectionOfConcrete);
+		
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
-				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField);
+				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox, internalForces,
+				momentMmax, normalnaMmax);
+		
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToHTextField(hTextField, dimensionsOfCrossSectionOfConcrete);
@@ -644,7 +685,7 @@ public class ReinforcementDiagnosisController {
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
-		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField);
+		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField, VEdRedTextField);
 		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField,
 				mEdCharCalkTextField, mEdCharDlugTextField);
 		InternalForcesController.addPropertiesToMEdCharDlug(internalForces, mEdObliczenioweTextField,
@@ -696,10 +737,11 @@ public class ReinforcementDiagnosisController {
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line);
 		
-		CheckBox nominalCheckBox = new CheckBox();
+		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, nominalCheckBox);
+				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, 
+				nominalCheckBox, tableViewCombinations, columnCheckBox);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
@@ -737,6 +779,14 @@ public class ReinforcementDiagnosisController {
 
 	public ChoiceBox<String> getCrossSectionTypeChoiceBox() {
 		return crossSectionTypeChoiceBox;
+	}
+	
+	public CheckBox getcolumnCheckBox() {
+		return columnCheckBox;
+	}
+	
+	public CheckBox getnominalCheckBox() {
+		return nominalCheckBox;
 	}
 
 	public TextField getA1DimensionTextField() {
@@ -964,6 +1014,10 @@ public class ReinforcementDiagnosisController {
 	
 	public void setTypeCrossSectionChoice(String choice) {
 		crossSectionTypeChoiceBox.setValue(choice);
+	}
+
+	public TextField getVEdRedTextField() {
+		return VEdRedTextField;
 	}
 	
 

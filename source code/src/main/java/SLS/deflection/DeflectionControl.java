@@ -1,7 +1,7 @@
 package SLS.deflection;
 
 import mainalgorithm.InternalForces;
-import mainalgorithm.InternalForces.ForcesCombination;
+import mainalgorithm.ForcesCombination;
 import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;

@@ -16,6 +16,7 @@ import util.StringToDouble;
 
 public class InternalForcesController {
 	
+	
 	///3.0 ver
 	
 	public static void addPropertiesToTextField(InternalForces internalForces, NominalStiffness stiffness, TextField tf, String className) {
@@ -55,9 +56,9 @@ public class InternalForcesController {
 		setNedInitialValue(nEd);
 	}
 
-	public static void addPropertiesToVEdTextField(InternalForces internalForces, TextField vEd) {
+	public static void addPropertiesToVEdTextField(InternalForces internalForces, TextField vEd, TextField vEdRed) {
 		addInputVEdListener(internalForces, vEd);
-		addFocusVEdListener(vEd);
+		addFocusVEdListener(vEd, vEdRed);
 		setVedInitialValue(vEd);
 		System.out.println("Ved = " + vEd);
 	}
@@ -97,6 +98,7 @@ public class InternalForcesController {
 			arg2 = arg2.replaceAll(",", ".");
 			if (InputValidation.mEdInputValidation(arg2)) {
 				internalForces.setmEd(StringToDouble.stringToDouble(arg2));
+				internalForces.setM0Ed(StringToDouble.stringToDouble(arg2));
 				isMEdInputCorrect = true;
 				
 				mEdValue = Double.parseDouble(arg2);
@@ -409,12 +411,16 @@ public class InternalForcesController {
 	// vEd text field
 	//
 	private static boolean isVEdInputCorrect;
+	private static double vEdValue;
+	private static double vEdRedValue;
+	private static String vEdStringValue;
+	private static String vEdRedStringValue;
 	
 	private static void addInputVEdListener(InternalForces internalForces, TextField vEd) {
 		vEd.textProperty().addListener(new VEdInputListener(internalForces));
 	}
 	
-
+	
 	private static class VEdInputListener implements ChangeListener<String> {
 		private InternalForces internalForces;
 
@@ -429,24 +435,36 @@ public class InternalForcesController {
 			if (InputValidation.vEdTextFieldInputValidation(arg2)) {
 				internalForces.setvEd(StringToDouble.stringToDouble(arg2));
 				isVEdInputCorrect = true;
+				vEdValue = Double.parseDouble(arg2);
+				vEdRedValue = vEdValue;
+				
+				vEdStringValue = arg2;
+				vEdRedStringValue = arg2;
 			} else {
 				isVEdInputCorrect = false;
+				vEdValue = 0.0;
+				vEdRedValue = 0.0;
+				
+				vEdStringValue ="0";
+				vEdRedStringValue = "0";
 			}
 
 		}
 
 	}
 	
-	private static void addFocusVEdListener(TextField vEd) {
-		vEd.focusedProperty().addListener(new VEdFocusListener(vEd));
+	private static void addFocusVEdListener(TextField vEd, TextField vEdRed) {
+		vEd.focusedProperty().addListener(new VEdFocusListener(vEd, vEdRed));
 	}
 	
 	private static class VEdFocusListener implements ChangeListener<Boolean> {
 
 		private TextField vEd;
+		private TextField vEdRed;
 		
-		protected VEdFocusListener(TextField vEd) {
+		protected VEdFocusListener(TextField vEd, TextField vEdRed) {
 			this.vEd = vEd;
+			this.vEdRed = vEdRed;
 		}
 				
 		private void ifInputWasIncorrectSetValueToInitial() {
@@ -454,12 +472,21 @@ public class InternalForcesController {
 				setNedInitialValue(vEd);
 			}
 		}
+		
+		private void function() {
+			if(vEdValue < vEdRedValue) {
+			vEdRed.setText(vEdRedStringValue);
+			}
+			
+			vEdRed.setText(vEdRedStringValue);
+		}
 
 		@Override
 		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 			if (arg2 == false) {
 				ifInputWasIncorrectSetValueToInitial();
 			}
+			function();
 		}
 
 	}

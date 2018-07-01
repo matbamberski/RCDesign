@@ -46,7 +46,8 @@ public class NominalStiffness {
 	}
 
 	
-	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Double mEd, Double nEd, Cement cement, CreepCoeficent creep) {
+	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, 
+			DimensionsOfCrossSectionOfConcrete dimensions, Double m0Ed, Double nEd, Cement cement, CreepCoeficent creep) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 		
@@ -70,6 +71,7 @@ public class NominalStiffness {
 		l0 = dimensions.getlEff();
 		System.out.println("l0: "+ l0);
 		System.out.println("fit0: " + fiT0 );
+		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
 		
 
 

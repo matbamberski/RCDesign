@@ -21,10 +21,12 @@ public class ResultsPaneControllerDiagnosis {
 	private double nRd2D;
 	private double nRd3D;
 	private double nRd4D;
+	
 	private double mRd1R;
 	private double mRd2R;
 	private double mRd3R;
 	private double mRd4R;
+	
 	private double nRd1R;
 	private double nRd2R;
 	private double nRd3R;
@@ -493,44 +495,44 @@ public class ResultsPaneControllerDiagnosis {
 		gridLabel05.setText("\u03C1");
 		
 		if (internalForces.getMomentMmax() != 0) {
-			gridLabel06.setText("MRd1");
-			gridLabel07.setText("NRd1");
+			gridLabel06.setText("");
+			gridLabel07.setText("");
 		} else if (internalForces.getNormalnaMmax() !=0){
-			gridLabel06.setText("MRd1");
-			gridLabel07.setText("NRd1");
+			gridLabel06.setText("");
+			gridLabel07.setText("");
 		} else {
 			gridLabel06.setText("MRd");
 			gridLabel07.setText("NRd");
 		}
 		
 		if (internalForces.getMomentMmin() != 0) {
-			gridLabel08.setText("MRd2");
-			gridLabel09.setText("NRd2");
+			gridLabel08.setText("");
+			gridLabel09.setText("");
 		} else if (internalForces.getNormalnaMmin() !=0){
-			gridLabel08.setText("MRd2");
-			gridLabel09.setText("NRd2");
+			gridLabel08.setText("");
+			gridLabel09.setText("");
 		} else {
 			gridLabel08.setText("");
 			gridLabel09.setText("");
 		}
 		
 		if (internalForces.getMomentNmax() != 0) {
-			gridLabel010.setText("MRd3");
-			gridLabel011.setText("NRd3");
+			gridLabel010.setText("");
+			gridLabel011.setText("");
 		} else if (internalForces.getNormalnaNmax() !=0){
-			gridLabel010.setText("MRd3");
-			gridLabel011.setText("NRd3");
+			gridLabel010.setText("");
+			gridLabel011.setText("");
 		} else {
 			gridLabel010.setText("");
 			gridLabel011.setText("");
 		}
 		
 		if (internalForces.getMomentNmin() != 0) {
-			gridLabel012.setText("MRd4");
-			gridLabel013.setText("NRd4");
+			gridLabel012.setText("");
+			gridLabel013.setText("");
 		} else if (internalForces.getNormalnaNmin() !=0){
-			gridLabel012.setText("MRd4");
-			gridLabel013.setText("NRd4");
+			gridLabel012.setText("");
+			gridLabel013.setText("");
 		} else {
 			gridLabel012.setText("");
 			gridLabel013.setText("");
@@ -539,15 +541,16 @@ public class ResultsPaneControllerDiagnosis {
 		
 		// zbrojenie poprzeczne
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
-			gridLabel015.setText("s1 ");
-			gridLabel016.setText("s2 ");
-			gridLabel017.setText("Vrd");
+			gridLabel013.setText("s1 ");
+			gridLabel014.setText("s2 ");
+			gridLabel015.setText("Vrd");
 		} else {
-			gridLabel015.setText("s");
-			gridLabel016.setText("VRd");
-			gridLabel017.setText("");
+			gridLabel013.setText("s");
+			gridLabel014.setText("VRd");
+			gridLabel015.setText("");
 		}
-		
+		gridLabel016.setText("");
+		gridLabel017.setText("");
 		gridLabel018.setText("");
 		gridLabel019.setText("");
 		gridLabel020.setText("");
@@ -561,44 +564,44 @@ public class ResultsPaneControllerDiagnosis {
 		gridLabel15.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedSymmetricalReinforcement()));
 		
 		if (internalForces.getMomentMmax() != 0) {
-			gridLabel16.setText(OutputFormatter.diagnosisMed(mRd1R));//MRd1R
-			gridLabel17.setText(OutputFormatter.diagnosisVedAndNed(nRd1R));//NRd1R
+			gridLabel16.setText("");//MRd1R
+			gridLabel17.setText("");//NRd1R
 		} else if (internalForces.getNormalnaMmax() !=0){
-			gridLabel16.setText(OutputFormatter.diagnosisMed(mRd1R));//MRd1R
-			gridLabel17.setText(OutputFormatter.diagnosisVedAndNed(nRd1R));//NRd1R
+			gridLabel16.setText("");//MRd1R
+			gridLabel17.setText("");//NRd1R
 		} else {
 			gridLabel16.setText(OutputFormatter.diagnosisMed(diagnosisMainAlgorithm.getmRdRequiredSymmetrical()));
 			gridLabel17.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getnRdRequiredSymmetrical()));
 		}
 		
 		if (internalForces.getMomentMmin() != 0) {
-			gridLabel18.setText(OutputFormatter.diagnosisMed(mRd2R));//MRd2R
-			gridLabel19.setText(OutputFormatter.diagnosisVedAndNed(nRd2R));//NRd2R
+			gridLabel18.setText("");//MRd2R
+			gridLabel19.setText("");//NRd2R
 		} else if (internalForces.getNormalnaMmin() !=0){
-			gridLabel18.setText(OutputFormatter.diagnosisMed(mRd2R));//MRd2R
-			gridLabel19.setText(OutputFormatter.diagnosisVedAndNed(nRd2R));//NRd2R
+			gridLabel18.setText("");//MRd2R
+			gridLabel19.setText("");//NRd2R
 		} else {
 			gridLabel18.setText("");
 			gridLabel19.setText("");
 		}
 		
 		if (internalForces.getMomentNmax() != 0) {
-			gridLabel110.setText(OutputFormatter.diagnosisMed(mRd3R));//MRd3R
-			gridLabel111.setText(OutputFormatter.diagnosisVedAndNed(nRd3R));//NRd3R
+			gridLabel110.setText("");//MRd3R
+			gridLabel111.setText("");//NRd3R
 		} else if (internalForces.getNormalnaNmax() !=0){
-			gridLabel110.setText(OutputFormatter.diagnosisMed(mRd3R));//MRd3R
-			gridLabel111.setText(OutputFormatter.diagnosisVedAndNed(nRd3R));//NRd3R
+			gridLabel110.setText("");//MRd3R
+			gridLabel111.setText("");//NRd3R
 		} else {
 			gridLabel110.setText("");
 			gridLabel111.setText("");
 		}
 		
 		if (internalForces.getMomentNmin() != 0) {
-			gridLabel112.setText(OutputFormatter.diagnosisMed(mRd4R));//MRd4R
-			gridLabel113.setText(OutputFormatter.diagnosisVedAndNed(nRd4R));//NRd4R
+			gridLabel112.setText("");//MRd4R
+			gridLabel113.setText("");//NRd4R
 		} else if (internalForces.getNormalnaNmin() !=0){
-			gridLabel112.setText(OutputFormatter.diagnosisMed(mRd4R));//MRd4R
-			gridLabel113.setText(OutputFormatter.diagnosisVedAndNed(nRd4R));//NRd4R
+			gridLabel112.setText("");//MRd4R
+			gridLabel113.setText("");//NRd4R
 		} else {
 			gridLabel112.setText("");
 			gridLabel113.setText("");
@@ -608,15 +611,17 @@ public class ResultsPaneControllerDiagnosis {
 		// zbrojenie poprzeczne
 		
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
-			gridLabel115.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
-			gridLabel116.setText(OutputFormatter.s1s2(reinforcement.getS2Required()));
-			gridLabel117.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdRequired()));
+			gridLabel113.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
+			gridLabel114.setText(OutputFormatter.s1s2(reinforcement.getS2Required()));
+			gridLabel115.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdRequired()));
 		} else {
-			gridLabel115.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
-			gridLabel116.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdRequired()));
-			gridLabel117.setText("");
+			gridLabel113.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
+			gridLabel114.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdRequired()));
+			gridLabel115.setText("");
 		}
-
+		gridLabel116.setText("");
+		gridLabel117.setText("");
+		
 		gridLabel118.setText("");
 		gridLabel119.setText("");
 		gridLabel120.setText("");
@@ -631,44 +636,44 @@ public class ResultsPaneControllerDiagnosis {
 		
 		
 		if (internalForces.getMomentMmax() != 0) {
-			gridLabel26.setText(OutputFormatter.diagnosisMed(mRd1D));//MRd1D
-			gridLabel27.setText(OutputFormatter.diagnosisVedAndNed(nRd1D));//NRd1D
+			gridLabel26.setText("");//MRd1D
+			gridLabel27.setText("");//NRd1D
 		} else if (internalForces.getNormalnaMmax() !=0){
-			gridLabel26.setText(OutputFormatter.diagnosisMed(mRd1D));//MRd1D
-			gridLabel27.setText(OutputFormatter.diagnosisVedAndNed(nRd1D));//NRd1D
+			gridLabel26.setText("");//MRd1D
+			gridLabel27.setText("");//NRd1D
 		} else {
 			gridLabel26.setText(OutputFormatter.diagnosisMed(diagnosisMainAlgorithm.getmRdDesignedSymmetrical()));
 			gridLabel27.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getnRdDesignedSymmetrical()));
 		}
 		
 		if (internalForces.getMomentMmin() != 0) {
-			gridLabel28.setText(OutputFormatter.diagnosisMed(mRd2D));//MRd2D
-			gridLabel29.setText(OutputFormatter.diagnosisVedAndNed(nRd2D));//NRd2D
+			gridLabel28.setText("");//MRd2D
+			gridLabel29.setText("");//NRd2D
 		} else if (internalForces.getNormalnaMmin() !=0){
-			gridLabel28.setText(OutputFormatter.diagnosisMed(mRd2D));//MRd2D
-			gridLabel29.setText(OutputFormatter.diagnosisVedAndNed(nRd2D));//NRd2D
+			gridLabel28.setText("");//MRd2D
+			gridLabel29.setText("");//NRd2D
 		} else {
 			gridLabel28.setText("");
 			gridLabel29.setText("");
 		}
 		
 		if (internalForces.getMomentNmax() != 0) {
-			gridLabel210.setText(OutputFormatter.diagnosisMed(mRd3D));//MRd3D
-			gridLabel211.setText(OutputFormatter.diagnosisVedAndNed(nRd3D));//NRd3D
+			gridLabel210.setText("");//MRd3D
+			gridLabel211.setText("");//NRd3D
 		} else if (internalForces.getNormalnaNmax() !=0){
-			gridLabel210.setText(OutputFormatter.diagnosisMed(mRd3D));//MRd3D
-			gridLabel211.setText(OutputFormatter.diagnosisVedAndNed(nRd3D));//NRd3D
+			gridLabel210.setText("");//MRd3D
+			gridLabel211.setText("");//NRd3D
 		} else {
 			gridLabel210.setText("");
 			gridLabel211.setText("");
 		}
 		
 		if (internalForces.getMomentNmin() != 0) {
-			gridLabel212.setText(OutputFormatter.diagnosisMed(mRd4D));//MRd4D
-			gridLabel213.setText(OutputFormatter.diagnosisVedAndNed(nRd4D));//NRd4D
+			gridLabel212.setText("");//MRd4D
+			gridLabel213.setText("");//NRd4D
 		} else if (internalForces.getNormalnaNmin() !=0){
-			gridLabel212.setText(OutputFormatter.diagnosisMed(mRd4D));//MRd4D
-			gridLabel213.setText(OutputFormatter.diagnosisVedAndNed(nRd4D));//NRd4D
+			gridLabel212.setText("");//MRd4D
+			gridLabel213.setText("");//NRd4D
 		} else {
 			gridLabel212.setText("");
 			gridLabel213.setText("");
@@ -677,15 +682,16 @@ public class ResultsPaneControllerDiagnosis {
 		gridLabel214.setText("");
 
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
-			gridLabel215.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
-			gridLabel216.setText(OutputFormatter.s1s2(reinforcement.getS2Designed()));
-			gridLabel217.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdDesigned()));
+			gridLabel213.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
+			gridLabel214.setText(OutputFormatter.s1s2(reinforcement.getS2Designed()));
+			gridLabel215.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdDesigned()));
 		} else {
-			gridLabel215.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
-			gridLabel216.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdDesigned()));
-			gridLabel217.setText("");
+			gridLabel213.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
+			gridLabel214.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getvRdDesigned()));
+			gridLabel215.setText("");
 		}
-		
+		gridLabel216.setText("");
+		gridLabel217.setText("");
 		gridLabel218.setText("");
 		gridLabel219.setText("");
 		gridLabel220.setText("");
@@ -706,13 +712,14 @@ public class ResultsPaneControllerDiagnosis {
 		gridLabel313.setText("");
 		gridLabel314.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
-			gridLabel315.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
-			gridLabel316.setText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
+			gridLabel313.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+			gridLabel314.setText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
 		} else {
-			gridLabel315.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
-			gridLabel316.setText("");
+			gridLabel313.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+			gridLabel314.setText("");
 		}
-		
+		gridLabel315.setText("");
+		gridLabel316.setText("");
 		gridLabel317.setText("");
 		gridLabel318.setText("");
 		gridLabel319.setText("");

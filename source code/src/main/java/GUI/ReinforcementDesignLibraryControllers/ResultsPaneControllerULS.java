@@ -389,6 +389,8 @@ public class ResultsPaneControllerULS {
 		gridLabel220.setText("");
 		gridLabel020.setText("");
 		
+		
+		
 		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0 || internalForces.getMomentMmin() != 0
 				|| internalForces.getNormalnaMmin() != 0 || internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
@@ -535,6 +537,13 @@ public class ResultsPaneControllerULS {
 		gridLabel04.setText("As2");
 		gridLabel05.setText("\u03C1");
 		gridLabel06.setText("");
+		
+		gridLabel019.setText("");
+		gridLabel119.setText("");
+		gridLabel219.setText("");
+		gridLabel120.setText("");
+		gridLabel220.setText("");
+		gridLabel020.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
 			gridLabel07.setText("s1 ");
 			gridLabel08.setText("s2 ");

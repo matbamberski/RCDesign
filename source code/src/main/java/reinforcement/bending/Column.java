@@ -3,6 +3,7 @@ package reinforcement.bending;
 import java.util.ArrayList;
 
 import SLS.creepCoeficent.CreepCoeficent;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
 import mainalgorithm.ForcesCombination;
@@ -48,8 +49,8 @@ public class Column extends ClearBendingBeam {
 
 		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
 				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
-						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
-								|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
 			internalForces.countECombinations(internalForces.getCombinations());
 		} else {
 			internalForces.setMedCombination();
@@ -63,7 +64,8 @@ public class Column extends ClearBendingBeam {
 
 		if (combination.isMedNegativ())
 			setM0Ed(-combination.getM());
-		else setM0Ed(combination.getM());
+		else
+			setM0Ed(combination.getM());
 
 		if (combination.getN() != 0.0) {
 
@@ -71,29 +73,31 @@ public class Column extends ClearBendingBeam {
 					combination, cement, creep, checkbox);
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination, cement, creep, checkbox);
-		
-			if (checkbox.isSelected() && combination.getN() >0)
+
+			if (checkbox.isSelected() && combination.getN() > 0
+					&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.04)
 				combination.setmStiff(stiffness.getmEd());
-			else combination.setmStiff(m0Ed);
+			else
+				combination.setmStiff(m0Ed);
 		} else {
-			requiredReinforcement.rectangularColumnBeamBendingReinforcementWithDesign(concrete, steel, dimensions, reinforcement, 
-					m0Ed);
+			requiredReinforcement.rectangularColumnBeamBendingReinforcementWithDesign(concrete, steel, dimensions,
+					reinforcement, m0Ed);
 			System.err.println("Belka prostokatna, zginanie");
-			
+
 			internalForces.setmEd(combination.getM());
-			
+
 		}
 
 	}
-	
+
 	public void countColumnReinforcementDiagnosis(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
 			Cement cement, CreepCoeficent creep, CheckBox checkbox) {
 
 		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
 				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
-						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
-								|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
 			internalForces.countECombinations(internalForces.getCombinationDiagnosis());
 		} else {
 			internalForces.setMedCombination();
@@ -102,35 +106,40 @@ public class Column extends ClearBendingBeam {
 		dimensions.calculateAc();
 
 		ArrayList<ForcesCombination> combination = internalForces.getCombinationDiagnosis();
-		//System.out.println("emax " + combination.getE() + " modp " + combination.getM() + " nodp " + combination.getN());
-		
+		// System.out.println("emax " + combination.getE() + " modp " +
+		// combination.getM() + " nodp " + combination.getN());
+
 		for (ForcesCombination combination1 : combination) {
 			if (combination1.isMedNegativ())
 				setM0Ed(-combination1.getM());
-			else setM0Ed(combination1.getM());
+			else
+				setM0Ed(combination1.getM());
 
-		if (combination1.getN() != 0.0) {
+			if (combination1.getN() != 0.0) {
 
-			countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
-					combination1, cement, creep, checkbox);
-			/*
-			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
-					combination1, cement, creep, checkbox);
-			*/
-			if (checkbox.isSelected() && combination1.getN() >=0)
-				combination1.setmStiff(stiffness.getmEd());
-			else combination1.setmStiff(m0Ed);
-		} else {
-			requiredReinforcement.rectangularColumnBeamBendingReinforcement(concrete, steel, dimensions, reinforcement, 
-					m0Ed);
-			System.err.println("Belka prostokatna, zginanie");
-			internalForces.setmEd(combination1.getM());
+				countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
+						combination1, cement, creep, checkbox);
+				/*
+				 * countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions,
+				 * reinforcement, stiffness, combination1, cement, creep, checkbox);
+				 */
+				if (checkbox.isSelected() && combination1.getN() >= 0
+						&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.04)
+					combination1.setmStiff(stiffness.getmEd());
+				else
+					combination1.setmStiff(m0Ed);
+			} else {
+				requiredReinforcement.rectangularColumnBeamBendingReinforcement(concrete, steel, dimensions,
+						reinforcement, m0Ed);
+				System.err.println("Belka prostokatna, zginanie");
+				internalForces.setmEd(combination1.getM());
+			}
+
 		}
-		
-	}
 
 	}
-	
+
+	int i = 0;
 
 	public void countSymmetricalReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
@@ -138,99 +147,144 @@ public class Column extends ClearBendingBeam {
 		double reinforcementRatio1 = 0.0;
 		double reinforcementRatio2 = 0.0;
 		double reinforcementRatio3 = 0.0;
+		double ro;
 
-		do {
-			if (reinforcementRatio1 == 0.0) {
-				/// Przyjmij stopien zbrojenia (0,04 AC)
-				reinforcementRatio1 = 0.04 * dimensions.getAc();
-				System.out.println("\nPrzyjmij stopien zbrojenia (0,04 AC) " + reinforcementRatio1 + " AC "
-						+ dimensions.getAc() + "\n");
-			} else if (reinforcementRatio1 > 0.04 * dimensions.getAc()) {
-				System.out.println("\nStopien zbrojenia przekracza warunek normowy: 0,04 *AC\n");
-				reinforcementRatio1 = reinforcementRatio3;
-			} else { /// pobierz stpien zbrojenia na poczatku petli
-				reinforcementRatio1 = reinforcementRatio3;
-				System.out.println("\nWez srednie zbrojenie\n");
-			}
+		if (combination.getN() > 0) {
+			do {
+				if (reinforcementRatio1 == 0.0) {
+					reinforcementRatio1 = 0.04;
+					System.out.println("\nPrzyjmij stopien zbrojenia (0,04 AC)/AC ");
+					reinforcement.setDegreeExceeded(false);
 
-			reinforcement.setReinforcementRatio(reinforcementRatio1);
-			stiffness.setRoS1(reinforcementRatio1);
-			stiffness.setM0Ed(m0Ed);
-			stiffness.setN0Ed(combination.getN());
-			if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
-					|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
-					|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
-							|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-				
-				if (checkbox.isSelected() && combination.getN() >=0) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-							combination.getN(), cement, creep);
-					/// Metoda nominalnej sztywnosci - nowy moment
-					internalForces.setmEd(stiffness.getmEd());
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+				} else if (reinforcementRatio1 > 0.04) {
+					System.out.println("\nStopien zbrojenia przekracza warunek normowy: 0,04 *AC\n");
+					reinforcement.setDegreeExceeded(true);
+					reinforcementRatio1 = reinforcementRatio3;
+					// reinforcementRatio1 = 0.04;
+
+				} else { /// pobierz stpien zbrojenia na poczatku petli
+					reinforcementRatio1 = reinforcementRatio3;
+					System.out.println("\nWez srednie zbrojenie\n");
+					reinforcement.setDegreeExceeded(false);
+				}
+
+				reinforcement.setReinforcementRatio(reinforcementRatio1);
+				System.out.println("Stopieñ przekazany do stiffness w pêtli nr: " + i + " : " + reinforcementRatio1);
+
+				stiffness.setRoS1(reinforcementRatio1);
+				stiffness.setM0Ed(m0Ed);
+				stiffness.setN0Ed(combination.getN());
+				if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+						|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+						|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+
+					if (checkbox.isSelected() && combination.getN() >= 0
+							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() <= 0.04) {
+						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
+								combination.getN(), cement, creep);
+
+						internalForces.setmEd(stiffness.getmEd());
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+					} else {
+						internalForces.setmEd(m0Ed);
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+					}
 				} else {
+
+					if (checkbox.isSelected() && combination.getN() >= 0
+							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.04) {
+						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
+								combination.getN(), cement, creep);
+						/// Metoda nominalnej sztywnosci - nowy moment
+						internalForces.setmEd(stiffness.getmEd());
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+					} else {
+						internalForces.setmEd(internalForces.getM0Ed());
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+					}
+				}
+
+				// Obliczenie zbrojenia
+				if (combination.getN() > 0) {
+					System.out.println("sciskanie ");
+					if (withDesign) {
+						requiredReinforcement.columnCompressingForcesSymmetricalReinforcementWithDesign(concrete, steel,
+								dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+						// pobiera stpien zbrojenia na koncu petli
+					} else {
+						requiredReinforcement.columnCompressingForcesSymmetricalReinforcement(concrete, steel,
+								dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+						// pobiera stpien zbrojenia na koncu petli
+					}
+					reinforcementRatio2 = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
+					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+
+					System.out.println("");
+					System.out.println("*** Porównanie stopni zbrojenia ***");
+					System.out.println("Pêtla numer: " + i);
+					System.out.println("Stopieñ porównawczy: " + reinforcementRatio2);
+					System.out.println("Stopieñ do porównania: " + reinforcementRatio1);
+
+				}
+				/*
+				 * System.out.println("\nratio1 " + reinforcementRatio1);
+				 * System.out.println("ratio2 " + reinforcementRatio2);
+				 * System.out.println("ratio3 " + reinforcementRatio3);
+				 * System.out.println("licznik " + Math.min(reinforcementRatio3,
+				 * reinforcementRatio2)); System.out.println("mianownik " +
+				 * Math.max(reinforcementRatio3, reinforcementRatio2) + "\n");
+				 */
+				if (reinforcementRatio1 > 0.04 || reinforcementRatio2 > 0.04 || reinforcementRatio2 > 0.04) {
 					internalForces.setmEd(m0Ed);
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+					combination.setmStiff(m0Ed);
+					stiffness.setmEd(m0Ed);
+					stiffness.setAborted(true);
+					
+					System.out.println("!!! Zalecane zwiekszenie przekroju !!!");
+				} else {
+					stiffness.setAborted(false);
 				}
+			} while (((Math.min(reinforcementRatio3, reinforcementRatio2)
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.95) && reinforcementRatio1 <= 0.04
+					&& reinforcementRatio2 <= 0.04 && reinforcementRatio3 <= 0.04);
+
+			// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
+			System.out.println("");
+		}
+		if (combination.getN() > 0) {
+			System.out.println("sciskanie ");
+			if (withDesign) {
+				requiredReinforcement.columnCompressingForcesSymmetricalReinforcementWithDesign(concrete, steel,
+						dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+				// pobiera stpien zbrojenia na koncu petli
 			} else {
-				
-				if (checkbox.isSelected() && combination.getN() >=0) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-							combination.getN(), cement, creep);
-					/// Metoda nominalnej sztywnosci - nowy moment
-					internalForces.setmEd(stiffness.getmEd());
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
-				} else {
-					internalForces.setmEd(internalForces.getM0Ed());
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
-				}
+				requiredReinforcement.columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions,
+						reinforcement, internalForces.getmEd(), internalForces.getnEd());
+				// pobiera stpien zbrojenia na koncu petli
 			}
+		} else if (combination.getN() < 0) {
 
-			// Obliczenie zbrojenia
-			if (combination.getN() > 0) {
-				System.out.println("sciskanie ");
-				if (withDesign) {
-					requiredReinforcement.columnCompressingForcesSymmetricalReinforcementWithDesign(concrete, steel,
-							dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
-					// pobiera stpien zbrojenia na koncu petli
-				} else {
-					requiredReinforcement.columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions,
-							reinforcement, internalForces.getmEd(), internalForces.getnEd());
-					// pobiera stpien zbrojenia na koncu petli
-				}
-				reinforcementRatio2 = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
-				reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+			System.out.println("rozciaganie ");
+			// ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
+			if (withDesign) {
+				requiredReinforcement.columnTensilingForcesSymmetricalReinforcementWithDesign(concrete, steel,
+						dimensions, reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
+				// pobiera stopien zbrojenia na koncu petli
+			} else {
+				requiredReinforcement.columnTensilingForcesSymmetricalReinforcement(concrete, steel, dimensions,
+						reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
+			}
+			reinforcementRatio2 = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
+			reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+		} else {
+			System.out.println("N rowne 0 ");
+		}
 
-			} else if (combination.getN() < 0) {
-				System.out.println("rozciaganie ");
-				// ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
-				if (withDesign) {
-					requiredReinforcement.columnTensilingForcesSymmetricalReinforcementWithDesign(concrete, steel,
-							dimensions, reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
-					// pobiera stopien zbrojenia na koncu petli
-				} else {
-					requiredReinforcement.columnTensilingForcesSymmetricalReinforcement(concrete, steel, dimensions,
-							reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
-				}
-				reinforcementRatio2 = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
-				reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
-
-			} else
-				break;
-
-			System.out.println("\nratio1 " + reinforcementRatio1);
-			System.out.println("ratio2 " + reinforcementRatio2);
-			System.out.println("ratio3 " + reinforcementRatio3);
-			System.out.println("licznik " + Math.min(reinforcementRatio3, reinforcementRatio2));
-			System.out.println("mianownik " + Math.max(reinforcementRatio3, reinforcementRatio2) + "\n");
-
-		} while ((Math.min(reinforcementRatio3, reinforcementRatio2)
-				/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.90);
-		// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
 	}
 
 	public void countUnsymmetricalReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
@@ -242,61 +296,122 @@ public class Column extends ClearBendingBeam {
 
 		System.out.println("\nZbrojenie niesymetryczne\n");
 
-		do {
-			if (reinforcementRatio1 == 0.0) {
-				/// Przyjmij stopien zbrojenia (0,04 AC)
-				reinforcementRatio1 = 0.04 * dimensions.getAc();
-				System.out.println("\nPrzyjmij stopien zbrojenia (0,04 AC) " + reinforcementRatio1 + " AC "
-						+ dimensions.getAc() + "\n");
-			} else if (reinforcementRatio1 > 0.04 * dimensions.getAc()) {
-				System.out.println("\nStopien zbrojenia przekracza warunek normowy: 0,04 *AC\n");
-				reinforcementRatio1 = reinforcementRatio3;
-			} else { /// pobierz stpien zbrojenia na poczatku petli
-				reinforcementRatio1 = reinforcementRatio3;
-				System.out.println("\nWez srednie zbrojenie\n");
-			}
+		if (combination.getN() > 0) {
+			do {
+				if (reinforcementRatio1 == 0.0) {
+					reinforcementRatio1 = 0.04;
+					System.out.println("\nPrzyjmij stopien zbrojenia (0,04 AC)/AC ");
+					reinforcement.setDegreeExceeded(false);
 
-			reinforcement.setReinforcementRatio(reinforcementRatio1);
-			stiffness.setRoS1(reinforcementRatio1);
-			stiffness.setM0Ed(m0Ed);
-			stiffness.setN0Ed(combination.getN());
+				} else if (reinforcementRatio1 > 0.04) {
+					System.out.println("\nStopien zbrojenia przekracza warunek normowy: 0,04 *AC\n");
+					reinforcement.setDegreeExceeded(true);
+					reinforcementRatio1 = reinforcementRatio3;
+					// reinforcementRatio1 = 0.04;
 
-			if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
-					|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
-					|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
-							|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-				
-				if (checkbox.isSelected() && combination.getN() >=0) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-							combination.getN(), cement, creep);
-					/// Metoda nominalnej sztywnosci - nowy moment
-					internalForces.setmEd(stiffness.getmEd());
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+				} else { /// pobierz stpien zbrojenia na poczatku petli
+					reinforcementRatio1 = reinforcementRatio3;
+					System.out.println("\nWez srednie zbrojenie\n");
+					reinforcement.setDegreeExceeded(false);
+				}
+
+				reinforcement.setReinforcementRatio(reinforcementRatio1);
+				stiffness.setRoS1(reinforcementRatio1);
+				// stiffness.setM0Ed(m0Ed);
+				stiffness.setM0Ed(m0Ed);
+				stiffness.setN0Ed(combination.getN());
+
+				if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+						|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+						|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+						|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+
+					if (checkbox.isSelected() && combination.getN() >= 0
+							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.04) {
+						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
+								combination.getN(), cement, creep);
+						/// Metoda nominalnej sztywnosci - nowy moment
+						internalForces.setmEd(stiffness.getmEd());
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+					} else {
+						internalForces.setmEd(m0Ed);
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+					}
 				} else {
+
+					if (checkbox.isSelected() && combination.getN() >= 0
+							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.04) {
+						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
+								combination.getN(), cement, creep);
+						/// Metoda nominalnej sztywnosci - nowy moment
+
+						internalForces.setmEd(stiffness.getmEd());
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+					} else {
+						internalForces.setmEd(internalForces.getM0Ed());
+						internalForces.setnEd(combination.getN());
+						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+					}
+
+				}
+
+				// Obliczenie zbrojenia
+				if (combination.getN() > 0) {
+					System.out.println("sciskanie ");
+					if (withDesign) {
+						requiredReinforcement.columnCompressingForcesUnSymmetricalReinforcementWithDesign(concrete,
+								steel, dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+						// pobiera stpien zbrojenia na koncu petli
+					} else {
+						requiredReinforcement.columnCompressingForcesUnSymmetricalReinforcement(concrete, steel,
+								dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+						// pobiera stpien zbrojenia na koncu petli
+					}
+					reinforcementRatio2 = reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement();
+					reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+
+				} /*
+					 * else if (combination.getN() < 0) { System.out.println("rozciaganie "); if
+					 * (withDesign) { // ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN //
+					 * PODSTAWIONE Z + !!! requiredReinforcement.
+					 * columnTensilingForcesUnsymmetricalReinforcementWithDesign(concrete, steel,
+					 * dimensions, reinforcement, internalForces.getmEd(),
+					 * Math.abs(internalForces.getnEd())); // pobiera stopien zbrojenia na koncu/
+					 * petli } else {
+					 * requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcement(
+					 * concrete, steel, dimensions, reinforcement, internalForces.getmEd(),
+					 * Math.abs(internalForces.getnEd())); // pobiera stopien zbrojenia na koncu/
+					 * petli } reinforcementRatio2 =
+					 * reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement();
+					 * reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+					 * 
+					 * }
+					 */
+				else
+					break;
+
+				System.out.println("\nratio1 " + reinforcementRatio1);
+				System.out.println("ratio2 " + reinforcementRatio2);
+				System.out.println("ratio3 " + reinforcementRatio3);
+				System.out.println("licznik " + Math.min(reinforcementRatio3, reinforcementRatio2));
+				System.out.println("mianownik " + Math.max(reinforcementRatio3, reinforcementRatio2) + "\n");
+				if (reinforcementRatio1 > 0.04 || reinforcementRatio2 > 0.04 || reinforcementRatio2 > 0.04) {
 					internalForces.setmEd(m0Ed);
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
-				}
-			} else {
-				
-				if (checkbox.isSelected() && combination.getN() >=0) {
-					stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-							combination.getN(), cement, creep);
-					/// Metoda nominalnej sztywnosci - nowy moment
-
-					internalForces.setmEd(stiffness.getmEd());
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
+					combination.setmStiff(m0Ed);
+					stiffness.setmEd(m0Ed);
+					stiffness.setAborted(true);
+					System.out.println("!!! Zalecane zwiekszenie przekroju !!!");
 				} else {
-					internalForces.setmEd(internalForces.getM0Ed());
-					internalForces.setnEd(combination.getN());
-					System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
+					stiffness.setAborted(false);
 				}
+			} while (((Math.min(reinforcementRatio3, reinforcementRatio2)
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.95) && reinforcementRatio1 <= 0.04
+					&& reinforcementRatio2 <= 0.04 && reinforcementRatio3 <= 0.04);
+			// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
 
-			}
-
-			// Obliczenie zbrojenia
 			if (combination.getN() > 0) {
 				System.out.println("sciskanie ");
 				if (withDesign) {
@@ -310,34 +425,38 @@ public class Column extends ClearBendingBeam {
 				}
 				reinforcementRatio2 = reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement();
 				reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+			}
 
-			} else if (combination.getN() < 0) {
-				System.out.println("rozciaganie ");
-				if (withDesign) {
-					// ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
-					requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcementWithDesign(concrete, steel,
-							dimensions, reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
-					// pobiera stopien zbrojenia na koncu/ petli
-				} else {
-					requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcement(concrete, steel, dimensions,
-							reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
-					// pobiera stopien zbrojenia na koncu/ petli
-				}
-				reinforcementRatio2 = reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement();
-				reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
+		}
+		if (combination.getN() > 0) {
+			System.out.println("sciskanie ");
+			if (withDesign) {
+				requiredReinforcement.columnCompressingForcesSymmetricalReinforcementWithDesign(concrete, steel,
+						dimensions, reinforcement, internalForces.getmEd(), internalForces.getnEd());
+				// pobiera stpien zbrojenia na koncu petli
+			} else {
+				requiredReinforcement.columnCompressingForcesSymmetricalReinforcement(concrete, steel, dimensions,
+						reinforcement, internalForces.getmEd(), internalForces.getnEd());
+				// pobiera stpien zbrojenia na koncu petli
+			}
+		} else if (combination.getN() < 0) {
+			System.out.println("rozciaganie ");
+			if (withDesign) {
+				// ROZCIAGANIE ,W GUI WPROWADZONE Z MINUSEM ALE DO ROWNAN // PODSTAWIONE Z + !!!
+				requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcementWithDesign(concrete, steel,
+						dimensions, reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
+				// pobiera stopien zbrojenia na koncu/ petli
+			} else {
+				requiredReinforcement.columnTensilingForcesUnsymmetricalReinforcement(concrete, steel, dimensions,
+						reinforcement, internalForces.getmEd(), Math.abs(internalForces.getnEd()));
+				// pobiera stopien zbrojenia na koncu/ petli
+			}
+			reinforcementRatio2 = reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement();
+			reinforcementRatio3 = (reinforcementRatio1 + reinforcementRatio2) / 2.0;
 
-			} else
-				break;
+		} else {
+			System.out.println("N rowne 0 ");
+		}
 
-			System.out.println("\nratio1 " + reinforcementRatio1);
-			System.out.println("ratio2 " + reinforcementRatio2);
-			System.out.println("ratio3 " + reinforcementRatio3);
-			System.out.println("licznik " + Math.min(reinforcementRatio3, reinforcementRatio2));
-			System.out.println("mianownik " + Math.max(reinforcementRatio3, reinforcementRatio2) + "\n");
-
-		} while ((Math.min(reinforcementRatio3, reinforcementRatio2)
-				/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.90);
-		// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
 	}
-
 }

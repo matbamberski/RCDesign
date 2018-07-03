@@ -205,6 +205,19 @@ public class ReinforcementDesignController {
 	@FXML
 	private CheckBox columnCheckBox;
 	
+	@FXML
+	private Label warningLabel;
+	
+	@FXML
+	private Label degreeLabel;
+	
+	@FXML
+	private Label abortLabel1;
+	
+	@FXML
+	private Label abortLabel2;
+	
+	
 	
 	/////
 	// ** RESULTS ULS
@@ -666,7 +679,7 @@ public class ReinforcementDesignController {
 				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line, gridLabel019, gridLabel119, gridLabel219, gridLabel120,
-				gridLabel220, gridLabel020);
+				gridLabel220, gridLabel020, stiffness, warningLabel, degreeLabel, abortLabel1, abortLabel2);
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,

@@ -31,6 +31,7 @@ public class Reinforcement {
 	private double degreeOfDesignedUnsymmetricalReinforcement;
 	
 	private double reinforcementRatio;
+	private boolean degreeExceeded = false;
 
 
 	// shearing
@@ -51,6 +52,16 @@ public class Reinforcement {
 	private double aSW2Diameter;
 	private double theta;
 	private double alfa;
+	
+	
+
+	public boolean isDegreeExceeded() {
+		return degreeExceeded;
+	}
+
+	public void setDegreeExceeded(boolean degreeExceeded) {
+		this.degreeExceeded = degreeExceeded;
+	}
 
 	public double getnS2Designed() {
 		return nS2Designed;

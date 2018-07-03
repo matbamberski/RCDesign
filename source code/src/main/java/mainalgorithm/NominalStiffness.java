@@ -13,7 +13,16 @@ public class NominalStiffness {
 	private double roS1;
 	private double m0Ed;
 	private double n0Ed;
+	private boolean aborted = false;
 	
+	public boolean isAborted() {
+		return aborted;
+	}
+
+	public void setAborted(boolean aborted) {
+		this.aborted = aborted;
+	}
+
 	public void setM0Ed(double m0Ed) {
 		this.m0Ed = m0Ed;
 	}
@@ -118,10 +127,10 @@ public class NominalStiffness {
 		}
 
 		double iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
-		double eI = kC * eCdEff * dimensions.getIc() + kS * eS * iS; // [kNm^2]
+		double eI = (kC * eCdEff * dimensions.getIc() + kS * eS * iS) * 1000; // [kNm^2]
 		
 		System.out.println("eI " + eI);
-		double nB = (Math.pow(Math.PI, 2) * eI * 1000) / (Math.pow(l0, 2));
+		double nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
 		
 		/// ta wartosæ momentu musi odpowiadaæ najwiêkszemu mimoœrodowi \|/
 		
@@ -134,6 +143,7 @@ public class NominalStiffness {
 
 	public double getmEd() {
 		System.out.println("Med w klasie nominalstiffness " + this.mEd);
+		System.err.println("Przy roS: " +roS1);
 		return mEd;
 	}
 

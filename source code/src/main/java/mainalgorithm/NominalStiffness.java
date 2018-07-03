@@ -14,7 +14,18 @@ public class NominalStiffness {
 	private double m0Ed;
 	private double n0Ed;
 	private boolean aborted = false;
+	private boolean nBExceeded = false;
 	
+	
+	
+	public boolean isnBExceeded() {
+		return nBExceeded;
+	}
+
+	public void setnBExceeded(boolean nBExceeded) {
+		this.nBExceeded = nBExceeded;
+	}
+
 	public boolean isAborted() {
 		return aborted;
 	}
@@ -81,6 +92,7 @@ public class NominalStiffness {
 		System.out.println("l0: "+ l0);
 		System.out.println("fit0: " + fiT0 );
 		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
+		System.out.println("RoS: " + String.format("%.05f", roS1));
 		
 
 
@@ -132,12 +144,23 @@ public class NominalStiffness {
 		System.out.println("eI " + eI);
 		double nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
 		
+		
+		
+		internalForces.setnEd(n0Ed);
+		
 		/// ta wartosæ momentu musi odpowiadaæ najwiêkszemu mimoœrodowi \|/
 		
 		//System.out.println("m0Ed " + m0Ed + " beta " + beta + " nB "+ nB + " n0Ed " + n0Ed);
 		this.mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
 		System.out.println(mEd);
 		//sprawdzenie
+		
+		if (n0Ed > 0.90*nB) {
+			nBExceeded = true;
+			mEd = m0Ed;
+		} else {
+			nBExceeded = false;
+		}
 		
 		}
 
@@ -150,6 +173,8 @@ public class NominalStiffness {
 	public void setmEd(double mEd) {
 		this.mEd = mEd;
 	}
+	
+	
 	
 	
 }

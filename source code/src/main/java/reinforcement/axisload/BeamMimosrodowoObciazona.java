@@ -35,7 +35,9 @@ abstract class BeamMimosrodowoObciazona {
 	protected boolean isMedLessThen0;
 
 	protected void setASMin(Steel steel, double nEd, double b, double h) {
-		aSMin = (Math.max(0.002 * b * h, 0.1 * nEd / (steel.getFYd() * 1000))) / 2;
+		double value1 = (0.002 * b * h)/2;
+		double value2 = (0.1 * nEd / (steel.getFYd() * 1000))/2;
+		aSMin = Math.max(value1, value2);
 		System.out.println("aSMin " + aSMin);
 	}
 

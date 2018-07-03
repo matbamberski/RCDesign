@@ -236,6 +236,14 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 			unsymmetricalAnalysisWhileASIsGreaterThenASMin(concrete, steel, nEd, b, h, d, a1, a2);
 
 		}
+		
+		if (aS1 <= aSMin) {
+			aS1 = aSMin;
+		}
+		
+		if (aS2 <= aSMin) {
+			aS2 = aSMin;
+		}
 		// changeAs1ToAsMinIfAs1IsLessThenAsMin();
 		// changeAs2ToAsMinIfAs2IsLessThenAsMin();
 		ifMedIsLessThenZeroSwapAs1WithAs2();

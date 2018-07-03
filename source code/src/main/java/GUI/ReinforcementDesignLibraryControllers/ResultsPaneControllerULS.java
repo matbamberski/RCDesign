@@ -95,6 +95,7 @@ public class ResultsPaneControllerULS {
 	private Label degreeLabel; 
 	private Label abortLabel1; 
 	private Label abortLabel2;
+	private Label abortLabel3;
 
 	private Label stanGranicznyNosnosciNequal0Label;
 	private Line leftSGNNequal0Line;
@@ -137,7 +138,7 @@ public class ResultsPaneControllerULS {
 			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label gridLabel019, Label gridLabel119,
 			Label gridLabel219, Label gridLabel120, Label gridLabel220, Label gridLabel020, 
 			/// NOWE!
-			NominalStiffness stiffness, Label warningLabel, Label degreeLabel, Label abortLabel1, Label abortLabel2 ) {
+			NominalStiffness stiffness, Label warningLabel, Label degreeLabel, Label abortLabel1, Label abortLabel2, Label abortLabel3 ) {
 
 		
 		this.reinforcement = reinforcement;
@@ -148,6 +149,7 @@ public class ResultsPaneControllerULS {
 		this.degreeLabel = degreeLabel;
 		this.abortLabel1 = abortLabel1;
 		this.abortLabel2 = abortLabel2;
+		this.abortLabel3 = abortLabel3;
 		
 		this.gridLabel00 = gridLabel00;
 		this.gridLabel01 = gridLabel01;
@@ -409,6 +411,7 @@ public class ResultsPaneControllerULS {
 		warningLabel.setVisible(false);
 		abortLabel1.setVisible(false);
 		abortLabel2.setVisible(false);
+		abortLabel3.setVisible(false);
 		degreeLabel.setVisible(false);
 		
 		if(reinforcement.getDegreeOfDesignedSymmetricalReinforcement() > 0.04 || 
@@ -421,11 +424,21 @@ public class ResultsPaneControllerULS {
 			degreeLabel.setVisible(true);
 		} 
 		
-		if (stiffness.isAborted()) {
+		if (stiffness.isnBExceeded()) {
+			warningLabel.setVisible(true);
+			abortLabel1.setVisible(true);
+			abortLabel2.setVisible(false);
+			abortLabel3.setVisible(true);
+						
+		} else if (stiffness.isAborted()) {
 			warningLabel.setVisible(true);
 			abortLabel1.setVisible(true);
 			abortLabel2.setVisible(true);
+			abortLabel3.setVisible(false);
 		} 
+		
+		stiffness.setAborted(false);
+		stiffness.setnBExceeded(false);
 		
 		
 		

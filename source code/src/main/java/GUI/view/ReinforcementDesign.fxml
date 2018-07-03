@@ -514,5 +514,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <Label fx:id="abortLabel3" layoutX="470.0" layoutY="535.0" text="   przekroczenie wartości siły krytycznej nB !" visible="false" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="525.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

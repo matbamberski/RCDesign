@@ -134,7 +134,7 @@ public class ResultsToPDF {
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(296, 628);
+		cb.moveText(296, 627);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(OutputFormatter.diagnosisVedAndNed(forces.getvEd()));
 		cb.endText();
@@ -159,13 +159,13 @@ public class ResultsToPDF {
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(110, 598);
+		cb.moveText(110, 597);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(110, 584);
+		cb.moveText(110, 583);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getlEff()));
 		cb.endText();
@@ -177,7 +177,7 @@ public class ResultsToPDF {
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(200, 598);
+		cb.moveText(200, 597);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA2()));
 		cb.endText();
@@ -185,49 +185,49 @@ public class ResultsToPDF {
 		// as1
 
 		cb.beginText();
-		cb.moveText(160, 468);
-		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.moveText(158, 464);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getRequiredSymmetricalAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(345, 468);
+		cb.moveText(345, 464);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(470, 468);
+		cb.moveText(470, 464);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(495, 468);
+		cb.moveText(495, 464);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
 		cb.endText();
 		// as2
 		cb.beginText();
-		cb.moveText(160, 448);
-		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.moveText(158, 444);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getRequiredSymmetricalAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(345, 448);
+		cb.moveText(345, 444);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(470, 448);
+		cb.moveText(470, 444);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(495, 448);
+		cb.moveText(495, 444);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
 		cb.endText();
@@ -235,38 +235,38 @@ public class ResultsToPDF {
 		// vertical sitruups
 
 		cb.beginText();
-		cb.moveText(255, 405);
+		cb.moveText(255, 400);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(382, 405);
+		cb.moveText(382, 400);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getnS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(450, 405);
+		cb.moveText(450, 400);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.s1s2(reinforcement.getS1Required()));
 		cb.endText();
 
 		// bent rods
 		cb.beginText();
-		cb.moveText(255, 378);
+		cb.moveText(255, 373);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(382, 378);
+		cb.moveText(382, 373);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(450, 378);
+		cb.moveText(450, 373);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.s1s2(reinforcement.getS2Required()));
 		cb.endText();
@@ -274,13 +274,13 @@ public class ResultsToPDF {
 		// sls
 
 		cb.beginText();
-		cb.moveText(175, 330);
+		cb.moveText(175, 325);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.wFormatter(sls.getwSymmetricalDesigned()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(330, 330);
+		cb.moveText(330, 325);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.fFormatter(sls.getfSymmetricalDesigned()));
 		cb.endText();
@@ -361,13 +361,13 @@ public class ResultsToPDF {
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(110, 599);
+		cb.moveText(110, 598);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.dimensionsPrintformatter(dimensions.getH()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(110, 585);
+		cb.moveText(110, 584);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA1()));
 		cb.endText();
@@ -379,19 +379,31 @@ public class ResultsToPDF {
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(200, 599);
+		cb.moveText(200, 598);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.gettW()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(110, 571);
+		cb.moveText(110, 570);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
-		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getlEff()));
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(200, 585);
+		cb.moveText(200, 584);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getBefft()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(200, 570);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getHft()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(110, 556);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getlEff()));
 		cb.endText();
@@ -399,49 +411,49 @@ public class ResultsToPDF {
 		// as1
 
 		cb.beginText();
-		cb.moveText(160, 464);
+		cb.moveText(160, 456);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getRequiredSymmetricalAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(345, 464);
+		cb.moveText(345, 456);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(470, 464);
+		cb.moveText(470, 456);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(495, 464);
+		cb.moveText(495, 456);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
 		cb.endText();
 		// as2
 		cb.beginText();
-		cb.moveText(160, 444);
+		cb.moveText(160, 435);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getRequiredSymmetricalAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(345, 444);
+		cb.moveText(345, 435);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(470, 444);
+		cb.moveText(470, 435);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(495, 444);
+		cb.moveText(495, 435);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
 		cb.endText();
@@ -449,38 +461,38 @@ public class ResultsToPDF {
 		// vertical sitruups
 
 		cb.beginText();
-		cb.moveText(255, 401);
+		cb.moveText(255, 392);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(382, 401);
+		cb.moveText(382, 392);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getnS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(450, 401);
+		cb.moveText(450, 392);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.s1s2(reinforcement.getS1Required()));
 		cb.endText();
 
 		// bent rods
 		cb.beginText();
-		cb.moveText(255, 374);
+		cb.moveText(255, 365);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(382, 374);
+		cb.moveText(382, 365);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(450, 374);
+		cb.moveText(450, 365);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.s1s2(reinforcement.getS2Required()));
 		cb.endText();
@@ -488,13 +500,13 @@ public class ResultsToPDF {
 		// sls
 
 		cb.beginText();
-		cb.moveText(175, 326);
+		cb.moveText(175, 316);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.wFormatter(sls.getwSymmetricalDesigned()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(330, 326);
+		cb.moveText(330, 316);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.fFormatter(sls.getfSymmetricalDesigned()));
 		cb.endText();
@@ -783,7 +795,7 @@ public class ResultsToPDF {
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(110, 483);
+		cb.moveText(110, 482);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(OutputFormatter.diagnosisVedAndNed(diagnosis.getvRdDesigned()));
 		cb.endText();
@@ -1000,11 +1012,23 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(110, 570);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
-		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getlEff()));
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA2()));
 		cb.endText();
 
 		cb.beginText();
 		cb.moveText(200, 584);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getBefft()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(200, 570);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getHft()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(110, 556);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getlEff()));
 		cb.endText();

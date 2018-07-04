@@ -19,6 +19,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import SLS.Sls;
 import diagnosis.DiagnosisMainAlgorithm;
+import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
 import materials.Concrete;
@@ -74,7 +75,7 @@ public class ResultsToPDF {
 
 	public static void saveDesingResultsToPDF(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls)
 			throws IOException, DocumentException {
-		if (dimensions.getisBeamRectangular()) {
+		if (dimensions.getisBeamRectangular() || dimensions.getIsColumn()) {
 			if (forces.getnEd() == 0) {
 				saveRectangularBeamReinforcement(concrete, steel, reinforcement, forces, dimensions, sls);
 			} else {
@@ -544,13 +545,13 @@ public class ResultsToPDF {
 		// forces
 
 		cb.beginText();
-		cb.moveText(296, 665);
+		cb.moveText(296, 670);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(OutputFormatter.diagnosisMed(forces.getmEd()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(296, 653);
+		cb.moveText(296, 655);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(OutputFormatter.diagnosisVedAndNed(forces.getnEd()));
 		cb.endText();
@@ -608,49 +609,49 @@ public class ResultsToPDF {
 		// as1
 
 		cb.beginText();
-		cb.moveText(160, 476);
+		cb.moveText(160, 479);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getRequiredSymmetricalAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(345, 476);
+		cb.moveText(345, 479);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(470, 476);
+		cb.moveText(470, 479);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(495, 476);
+		cb.moveText(495, 479);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
 		cb.endText();
 		// as2
 		cb.beginText();
-		cb.moveText(160, 456);
+		cb.moveText(160, 459);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getRequiredSymmetricalAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(345, 456);
+		cb.moveText(345, 459);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(470, 456);
+		cb.moveText(470, 459);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()));
 		cb.endText();
 
 		cb.beginText();
-		cb.moveText(495, 456);
+		cb.moveText(495, 459);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
 		cb.endText();
@@ -749,7 +750,23 @@ public class ResultsToPDF {
 
 	public static void saveDiagnosisResultsToPDF(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls,
 			DiagnosisMainAlgorithm diagnosis) throws IOException, DocumentException {
-		if (dimensions.getisBeamRectangular()) {
+		if (dimensions.getIsColumn()) {
+			int mAndN = forces.checkHowManyCombinationsWithMandN();
+			if (mAndN==1) {
+				saveAxisLoadBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
+			} else if(mAndN>1) {
+				saveAxisLoadColumnDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
+			} else {
+				int mOrN = forces.checkHowManyCombinationsWithMorN();
+				if (mOrN==1 && forces.getnEd()==0) {
+					saveRectangularBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
+				} else if (mOrN==1 && forces.getnEd()!=0) {
+					saveAxisLoadBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
+				} else if (mOrN>1) {
+					saveAxisLoadColumnDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
+				}
+			}
+		} else if (dimensions.getisBeamRectangular()) {
 			if (forces.getnEd() == 0) {
 				saveRectangularBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
 			} else {
@@ -1144,7 +1161,7 @@ public class ResultsToPDF {
 		// forces
 
 		cb.beginText();
-		cb.moveText(110, 500);
+		cb.moveText(110, 499);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(OutputFormatter.diagnosisMed(diagnosis.getmRdDesignedSymmetrical()));
 		cb.endText();
@@ -1161,6 +1178,211 @@ public class ResultsToPDF {
 		cb.showText(OutputFormatter.diagnosisVedAndNed(diagnosis.getvRdDesigned()));
 		cb.endText();
 
+		// concrete and steel
+		cb.beginText();
+		cb.moveText(110, 666);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(concrete.getConcreteClass());
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(124, 652);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(Integer.toString(steel.getFYk()));
+		cb.endText();
+		// geometry parameters
+		cb.beginText();
+		cb.moveText(110, 611);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.dimensionsPrintformatter(dimensions.getB()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(110, 598);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA1()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(110, 584);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getlEff()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(200, 611);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.dimensionsPrintformatter(dimensions.getH()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(200, 598);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(PrintFormatter.a1a2printformatter(dimensions.getA2()));
+		cb.endText();
+		// as1
+
+		cb.beginText();
+		cb.moveText(290, 666);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(346, 665);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(365, 665);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
+		cb.endText();
+
+		// as2
+		cb.beginText();
+		cb.moveText(290, 653);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(346, 652);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(365, 652);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
+		cb.endText();
+
+		// vertical sitruups
+
+		cb.beginText();
+		cb.moveText(365, 627);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(292, 613);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getnS1()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(330, 613);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(PrintFormatter.s1s2(reinforcement.getS1Required()));
+		cb.endText();
+
+		// bent rods
+		cb.beginText();
+		cb.moveText(365, 599);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(292, 585);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(330, 585);
+		cb.setFontAndSize(BaseFont.createFont(), 10);
+		cb.showText(PrintFormatter.s1s2(reinforcement.getS2Required()));
+		cb.endText();
+		// sls
+
+		document.close();
+	}
+	
+	public static void saveAxisLoadColumnDiagnosis(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls,
+			DiagnosisMainAlgorithm diagnosis) throws IOException, DocumentException {
+		String SRC = "plates/BeamAxisLoadDiagnosisManyForces.pdf";
+		File file = new File(SRC);
+		file.getParentFile().mkdirs();
+		printAxisLoadResultsColumnDiagnosis(SRC, GetExecutionPathDiagnosis(), concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
+	}
+
+	public static void printAxisLoadResultsColumnDiagnosis(String src, String dest, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
+			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, DiagnosisMainAlgorithm diagnosis) throws IOException, DocumentException {
+		Document document = new Document(PageSize.A4);
+		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
+		document.open();
+		PdfContentByte cb = writer.getDirectContent();
+		PdfReader reader = new PdfReader(src);
+		PdfImportedPage page = writer.getImportedPage(reader, 1);
+		document.newPage();
+		cb.addTemplate(page, 0, 0);
+		writer.setCompressionLevel(0);
+
+		Paragraph paragraph1 = new Paragraph("");
+		Paragraph paragraph2 = new Paragraph("           Nazwa zadania: " + pdfName);
+		paragraph2.setAlignment(Element.ALIGN_LEFT);
+
+		document.add(paragraph1);
+		document.add(paragraph2);
+		
+		ArrayList<ForcesCombination> combinations = forces.getPdfCombinations();
+		int height = 455;
+		for (ForcesCombination combination: combinations) {
+			//Med
+			cb.beginText();
+			cb.moveText(215, height);
+			cb.setFontAndSize(BaseFont.createFont(), 11);
+			cb.showText(String.format("%.3f", combination.getmStiff()));
+			cb.endText();
+			
+			//Ned
+			cb.beginText();
+			cb.moveText(280, height);
+			cb.setFontAndSize(BaseFont.createFont(), 11);
+			cb.showText(String.format("%.3f", combination.getN()));
+			cb.endText();
+			
+			//Mrd
+			cb.beginText();
+			cb.moveText(345, height);
+			cb.setFontAndSize(BaseFont.createFont(), 11);
+			cb.showText(String.format("%.3f", combination.getmRd()));
+			cb.endText();
+			
+			//Nrd
+			cb.beginText();
+			cb.moveText(410, height);
+			cb.setFontAndSize(BaseFont.createFont(), 11);
+			cb.showText(String.format("%.3f", combination.getnRd()));
+			cb.endText();
+			
+			height -= 20;
+		}
+		
+		// forces
+/*
+		cb.beginText();
+		cb.moveText(215, 415);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(String.format("%.3f", combinations.get(0).getM()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(210, 400);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(OutputFormatter.diagnosisVedAndNed(diagnosis.getnRdDesignedSymmetrical()));
+		cb.endText();
+
+		cb.beginText();
+		cb.moveText(210, 380);
+		cb.setFontAndSize(BaseFont.createFont(), 11);
+		cb.showText(OutputFormatter.diagnosisVedAndNed(diagnosis.getvRdDesigned()));
+		cb.endText();
+*/
 		// concrete and steel
 		cb.beginText();
 		cb.moveText(110, 666);

@@ -29,6 +29,7 @@ public class InternalForces {
 
 	ArrayList<ForcesCombination> combinations = new ArrayList<>();
 	ArrayList<ForcesCombination> combinationDiagnosis = new ArrayList<>();
+	ArrayList<ForcesCombination> pdfCombinations;
 
 	private double gPlusQForShearing;
 
@@ -334,4 +335,27 @@ public class InternalForces {
 		this.mEdStiff = mEdStiff;
 	}
 
+	public void saveCombinationToPdfCombination() {
+		pdfCombinations = new ArrayList<>(combinationDiagnosis);
+	}
+
+	public ArrayList<ForcesCombination> getPdfCombinations() {
+		return pdfCombinations;
+	}
+	
+	public int checkHowManyCombinationsWithMandN() {
+		int i = 0;
+		for (ForcesCombination fc : pdfCombinations) {
+			if (fc.getM()!=0 && fc.getN()!=0) i++;
+		}
+		return i;
+	}
+	
+	public int checkHowManyCombinationsWithMorN() {
+		int i = 0;
+		for (ForcesCombination fc : pdfCombinations) {
+			if (fc.getM()!=0 || fc.getN()!=0) i++;
+		}
+		return i;
+	}
 }

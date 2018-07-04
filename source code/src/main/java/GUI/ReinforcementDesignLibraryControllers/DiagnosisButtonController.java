@@ -200,6 +200,7 @@ public class DiagnosisButtonController {
 			normalneD.clear();
 			momentyD.clear();
 			
+			internalForces.saveCombinationToPdfCombination();
 			internalForces.getCombinations().clear();
 			internalForces.getCombinationDiagnosis().clear();
 			

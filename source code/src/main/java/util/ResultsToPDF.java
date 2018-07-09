@@ -752,17 +752,17 @@ public class ResultsToPDF {
 			DiagnosisMainAlgorithm diagnosis) throws IOException, DocumentException {
 		if (dimensions.getIsColumn()) {
 			int mAndN = forces.checkHowManyCombinationsWithMandN();
-			if (mAndN==1) {
+			if (mAndN==0) {
 				saveAxisLoadBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
-			} else if(mAndN>1) {
+			} else if(mAndN>0) {
 				saveAxisLoadColumnDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
 			} else {
 				int mOrN = forces.checkHowManyCombinationsWithMorN();
-				if (mOrN==1 && forces.getnEd()==0) {
+				if (mOrN==0 && forces.getnEd()==0) {
 					saveRectangularBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
-				} else if (mOrN==1 && forces.getnEd()!=0) {
+				} else if (mOrN==0 && forces.getnEd()!=0) {
 					saveAxisLoadBeamDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
-				} else if (mOrN>1) {
+				} else if (mOrN>0) {
 					saveAxisLoadColumnDiagnosis(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis);
 				}
 			}

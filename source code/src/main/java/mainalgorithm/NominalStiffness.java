@@ -15,9 +15,10 @@ public class NominalStiffness {
 	private double n0Ed;
 	private boolean aborted = false;
 	private boolean nBExceeded = false;
-	
-	
-	
+	private double iS;
+	private double eI;
+	private double nB;
+		
 	public boolean isnBExceeded() {
 		return nBExceeded;
 	}
@@ -67,7 +68,8 @@ public class NominalStiffness {
 
 	
 	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, 
-			DimensionsOfCrossSectionOfConcrete dimensions, Double m0Ed, Double nEd, Cement cement, CreepCoeficent creep) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Double m0Ed, Double nEd, Cement cement, 
+			CreepCoeficent creep) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 		
@@ -94,8 +96,8 @@ public class NominalStiffness {
 		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
 		System.out.println("RoS: " + String.format("%.05f", roS1));
 		
-
-
+		//roS1 = (aS1 + aS2)/dimensions.getAc();
+		
 		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
 		double eCm = concrete.getECm() * 1000; // [Gpa] -> [Mpa]
 		//double fCd = fCk / 1.40;
@@ -108,41 +110,38 @@ public class NominalStiffness {
 		double n = nEd / (dimensions.getAc() * fCd);
 		double k1 = Math.sqrt((fCk / 20000.0));
 		double k2 = n * (lambda / 170.0);
+		if (k2 > 0.2) {
+			k2 = 0.2;
+		}
 		double fiEf = fiT0 * 0.7;
 		double eCdEff = (eCd / (1 + fiEf));
-		double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
+		//double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
+		double beta = 1.0;
 		
 		double kS;
 		double kC;
 		
 		
 		if (roS1 >= 0.002) {
-			if (roS1 >= 0.01) {
-				kS = 0;
-			} else {
-				kS = 1;
-			}
+			kS = 1;
 		} else {
 			roS1 = 0.002;
 			kS = 1;
 		}
 
 		if (roS1 >= 0.002) {
-			if (roS1 >= 0.01) {
-				kC = 0.3 / (1 + (0.5 * fiEf));
-			} else {
 				kC = (k1 * k2) / (1 + fiEf);
-			}
 		} else {
 			roS1 = 0.002;
 			kC = (k1 * k2) / (1 + fiEf);
 		}
 
-		double iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
-		double eI = (kC * eCdEff * dimensions.getIc() + kS * eS * iS) * 1000; // [kNm^2]
+		iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
+		//iS = aS1*(Math.pow((0.5*dimensions.getH()-dimensions.getA1()), 2)) + aS2*(Math.pow((dimensions.getH()-dimensions.getA2()), 2));
+		eI = (kC * eCdEff * dimensions.getIc() + kS * eS * iS) * 1000; // [kNm^2]
 		
 		System.out.println("eI " + eI);
-		double nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
+		nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
 		
 		
 		

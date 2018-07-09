@@ -707,6 +707,26 @@ public class ResultsPaneControllerULS {
 		gridLabel313.setText("");
 		gridLabel314.setText("");
 		gridLabel315.setText("");
+		
+		if (internalForces.getMomentMmax() != 0 || internalForces.getMomentMmin() != 0 || internalForces.getMomentNmax() != 0
+				|| internalForces.getMomentNmin() != 0) {
+			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(false);
+			leftSGUNequal0Line1.setVisible(false);
+			rightSGUNequal0Line1.setVisible(false);
+			stanGranicznyUzytkowalnosciNequal0Label2.setVisible(false);
+			leftSGUNequal0Line2.setVisible(false);
+			rightSGUNequal0Line2.setVisible(false);
+			
+			gridLabel010.setText("");
+			gridLabel011.setText("");
+			gridLabel110.setText("");
+			gridLabel111.setText("");
+			gridLabel210.setText("");
+			gridLabel211.setText("");
+			gridLabel310.setText("");
+			gridLabel311.setText("");
+		}
+		
 	}
 
 }

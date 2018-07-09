@@ -169,7 +169,7 @@ abstract class BeamMimosrodowoObciazona {
 
 	protected double ifMedIsEqualZeroSetMedToVeryLowPercentOfNed(double mEd, double nEd) {
 		if (mEd == 0) {
-			mEd = nEd / 1000000;
+			mEd = nEd / 1000000000;
 		}
 		return mEd;
 	}

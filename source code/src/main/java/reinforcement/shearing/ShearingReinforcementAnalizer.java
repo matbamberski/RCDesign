@@ -1,5 +1,8 @@
 package reinforcement.shearing;
 
+import java.util.ArrayList;
+
+import mainalgorithm.ForcesCombination;
 //import diagnosis.ShearingDiagnosis;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
@@ -53,13 +56,32 @@ public class ShearingReinforcementAnalizer {
 
 
 	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel,
-			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		calculateCotTheta(reinforcement.getTheta());
 		calculateTanTheta(reinforcement.getTheta());
 		calculateSinAlfa(reinforcement.getAlfa());
 		calculateCotAlfa(reinforcement.getAlfa());
 		this.s2 = reinforcement.getS2Required();
 		setVRDC(concrete, forces, dimensions, reinforcement);
+		setVRdMax(concrete, dimensions, reinforcement);
+		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
+		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
+		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
+		reinforcement.setS1Required(s1);
+		reinforcement.setS(s1);
+		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
+		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
+		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+	}
+		
+	public void doFullShearingReinforcementAnalysisDiagnosis(Concrete concrete, Steel steel,
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		calculateCotTheta(reinforcement.getTheta());
+		calculateTanTheta(reinforcement.getTheta());
+		calculateSinAlfa(reinforcement.getAlfa());
+		calculateCotAlfa(reinforcement.getAlfa());
+		this.s2 = reinforcement.getS2Required();
+		setVRDCDiagnosis(concrete, forces, dimensions, reinforcement);
 		setVRdMax(concrete, dimensions, reinforcement);
 		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
 		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
@@ -87,7 +109,7 @@ public class ShearingReinforcementAnalizer {
 		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double s1, double s2) {
 		System.out.println("\n \n Scinanie \n \n");
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
-		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+		doFullShearingReinforcementAnalysisDiagnosis(concrete, steel, forces, dimensions, reinforcement);
 		setVrdDiagnosis(steel, s1, s2);
 	}
 
@@ -182,8 +204,52 @@ public class ShearingReinforcementAnalizer {
 	// shearingResistanceWithoutShearingReinforcement
 	// vRdc
 
+	private void setSigmaCpDiagnosis(DimensionsOfCrossSectionOfConcrete dimension, InternalForces forces, Concrete concrete) {
+		double nEd = 0;
+		if (forces.getMomentMmax() == 0 && forces.getNormalnaMmax() == 0 && forces.getMomentMmin() == 0
+				&& forces.getNormalnaMmin() == 0 && forces.getMomentNmax() == 0 && forces.getNormalnaNmax() == 0
+						&& forces.getMomentNmin() == 0 && forces.getNormalnaNmin() == 0) {
+			nEd = forces.getnEd();
+		} else {
+			ArrayList<Double> list = new ArrayList<>();
+			if(forces.getMomentMmax() != 0 && forces.getNormalnaMmax() != 0) {
+				list.add(forces.getNormalnaMmax());
+			}
+			if(forces.getMomentMmin() != 0 && forces.getNormalnaMmin() != 0) {
+				list.add(forces.getNormalnaMmin());
+			}
+			if(forces.getMomentNmax() != 0 && forces.getNormalnaNmax() != 0) {
+				list.add(forces.getNormalnaNmax());
+			}
+			if(forces.getMomentNmin() != 0 && forces.getNormalnaNmin() != 0) {
+				list.add(forces.getNormalnaNmin());
+			}
+			
+			if (forces.getNormalnaMmax() == 0 && forces.getNormalnaMmin() == 0 &&
+					forces.getNormalnaNmax() ==0 && forces.getNormalnaNmin() ==0) {
+				nEd = forces.getnEd();
+			} else {
+			double nMin = list.get(0);
+			
+			for (int i = 0; i < list.size(); i++) {
+				if (nMin >= list.get(i)) {
+					nMin = list.get(i);
+				}
+			}
+			list.clear();
+			nEd = nMin;
+			}
+			
+		}
+		System.out.println("Przyjeto NEd w scinaniu: " + nEd);
+		sigmaCp = Math.min(10 * nEd / (dimension.getB() * 100 * dimension.getD() * 100), 0.2*concrete.getFCd());
+		System.out.println("sigmaCp " + sigmaCp);
+
+	}
+	
 	private void setSigmaCp(DimensionsOfCrossSectionOfConcrete dimension, InternalForces forces, Concrete concrete) {
-		sigmaCp = Math.min(10*forces.getnEd() / (dimension.getB() * 100 * dimension.getD() * 100), 0.2*concrete.getFCd());
+		System.out.println("Przyjeto NEd w scinaniu: " + forces.getnEd());
+		sigmaCp = Math.min(10 * forces.getnEd() / (dimension.getB() * 100 * dimension.getD() * 100), 0.2*concrete.getFCd());
 		System.out.println("sigmaCp " + sigmaCp);
 
 	}
@@ -212,12 +278,38 @@ public class ShearingReinforcementAnalizer {
 		setNyMin(concrete);
 	}
 
+	private void setVRDCDependenciesDiagnosis(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		setK(dimensions);
+		setRoMin1(reinforcement, dimensions);
+		setSigmaCpDiagnosis(dimensions, forces, concrete);
+		setNyMin(concrete);
+	}
+	
 	private void setVRDC(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setVRDCDependencies(concrete, forces, dimensions, reinforcement);
 		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
 				(nyMin + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000);
 
 		vRDC = vRDC / 1000;
+		
+		if(vRDC <= 0) {
+			vRDC = 0;
+		}
+		
+		System.out.println("vRDC " + vRDC);
+	}
+	
+	private void setVRDCDiagnosis(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		setVRDCDependenciesDiagnosis(concrete, forces, dimensions, reinforcement);
+		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
+				(nyMin + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000);
+
+		vRDC = vRDC / 1000;
+		
+		if(vRDC <= 0) {
+			vRDC = 0;
+		}
+		
 		System.out.println("vRDC " + vRDC);
 	}
 

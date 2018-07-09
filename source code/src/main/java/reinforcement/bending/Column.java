@@ -183,7 +183,7 @@ public class Column extends ClearBendingBeam {
 					System.out.println("\nWez srednie zbrojenie\n");
 					reinforcement.setDegreeExceeded(false);
 				}
-
+				
 				double Ro = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
 				System.out.println("Moment: " + internalForces.getmEd());
 				System.out.println("Ro: " + Ro);
@@ -364,7 +364,7 @@ public class Column extends ClearBendingBeam {
 					System.out.println("\nWez srednie zbrojenie\n");
 					reinforcement.setDegreeExceeded(false);
 				}
-
+			
 				reinforcement.setReinforcementRatio(reinforcementRatio1);
 				stiffness.setRoS1(reinforcementRatio1);
 				// stiffness.setM0Ed(m0Ed);

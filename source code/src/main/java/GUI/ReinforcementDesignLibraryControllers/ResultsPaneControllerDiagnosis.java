@@ -570,7 +570,11 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel16.setText("");//MRd1R
 			gridLabel17.setText("");//NRd1R
 		} else {
-			gridLabel16.setText(OutputFormatter.diagnosisMed(diagnosisMainAlgorithm.getmRdRequiredSymmetrical()));
+			if (internalForces.getM0Ed() == 0) {
+				gridLabel16.setText(OutputFormatter.diagnosisMed(0.0));
+			} else {
+				gridLabel16.setText(OutputFormatter.diagnosisMed(diagnosisMainAlgorithm.getmRdRequiredSymmetrical()));
+			}
 			gridLabel17.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getnRdRequiredSymmetrical()));
 		}
 		
@@ -642,7 +646,11 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel26.setText("");//MRd1D
 			gridLabel27.setText("");//NRd1D
 		} else {
-			gridLabel26.setText(OutputFormatter.diagnosisMed(diagnosisMainAlgorithm.getmRdDesignedSymmetrical()));
+			if (internalForces.getM0Ed() == 0) {
+				gridLabel26.setText(OutputFormatter.diagnosisMed(0.0));
+			} else {
+				gridLabel26.setText(OutputFormatter.diagnosisMed(diagnosisMainAlgorithm.getmRdDesignedSymmetrical()));
+			}
 			gridLabel27.setText(OutputFormatter.diagnosisVedAndNed(diagnosisMainAlgorithm.getnRdDesignedSymmetrical()));
 		}
 		
@@ -879,5 +887,24 @@ public class ResultsPaneControllerDiagnosis {
 		gridLabel318.setText("");
 		gridLabel319.setText("");
 		gridLabel320.setText("");
+		
+		if (internalForces.getMomentMmax() != 0 || internalForces.getMomentMmin() != 0 || internalForces.getMomentNmax() != 0
+				|| internalForces.getMomentNmin() != 0) {
+			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(false);
+			leftSGUNequal0Line1.setVisible(false);
+			rightSGUNequal0Line1.setVisible(false);
+			stanGranicznyUzytkowalnosciNequal0Label2.setVisible(false);
+			leftSGUNequal0Line2.setVisible(false);
+			rightSGUNequal0Line2.setVisible(false);
+			
+			gridLabel012.setText("");
+			gridLabel013.setText("");
+			gridLabel112.setText("");
+			gridLabel113.setText("");
+			gridLabel212.setText("");
+			gridLabel213.setText("");
+			gridLabel312.setText("");
+			gridLabel313.setText("");
+		}
 	}
 }

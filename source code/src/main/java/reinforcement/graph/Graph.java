@@ -203,8 +203,13 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
 
-			sigmaS1 = (steel.getFYd() * 1000);
+			if ((ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000) < steel.getFYd()*1000) {
+				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+			} else {
+				sigmaS1 = (steel.getFYd() * 1000);
+			}
 			sigmaS2 = (steel.getFYd() * 1000);
+			
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -220,8 +225,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			System.out.println("Przedzial 5");
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
-
-			sigmaS1 = (steel.getFYd() * 1000);
+			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+			} else {
+				sigmaS1 = -(steel.getFYd() * 1000);
+			}
 			sigmaS2 = (steel.getFYd() * 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
@@ -240,7 +248,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
 
-			sigmaS1 = -(steel.getFYd() * 1000);
+			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+			} else {
+				sigmaS1 = -(steel.getFYd() * 1000);
+			}
 			sigmaS2 = (steel.getFYd() * 1000);
 			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
@@ -264,10 +276,18 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			while (n <= n71 & (1 - (n / n71)) > 0.0001 & mm < m) { // przedzial 7
 				System.out.println("Przedzial 7");
 				System.out.println("Krok = " + krok);
-
-				sigmaS1 = -(steel.getFYd() * 1000);
-				sigmaS2 = (steel.getFYd() * 1000);
 				
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				
+				if ((ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000) < steel.getFYd()*1000) {
+					sigmaS2 = (ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000);
+				} else {
+					sigmaS2 = (steel.getFYd() * 1000);
+				}
 				n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
@@ -393,7 +413,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
 
-			sigmaS1 = (steel.getFYd() * 1000);
+			if ((ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000) < steel.getFYd()*1000) {
+				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+			} else {
+				sigmaS1 = (steel.getFYd() * 1000);
+			}
 			sigmaS2 = (steel.getFYd() * 1000);
 			nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -411,7 +435,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
 
-			sigmaS1 = (steel.getFYd() * 1000);
+			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+			} else {
+				sigmaS1 = -(steel.getFYd() * 1000);
+			}
 			sigmaS2 = (steel.getFYd() * 1000);
 			nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
 			mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -430,7 +458,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			System.out.println("Krok = " + krok);
 			System.out.println("X = " + x);
 
-			sigmaS1 = -(steel.getFYd() * 1000);
+			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+			} else {
+				sigmaS1 = -(steel.getFYd() * 1000);
+			}
 			sigmaS2 = (steel.getFYd() * 1000);
 			nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 			mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
@@ -455,8 +487,18 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 				System.out.println("Przedzial 7");
 				System.out.println("Krok = " + krok);
 
-				sigmaS1 = -(steel.getFYd() * 1000);
-				sigmaS2 = (steel.getFYd() * 1000);
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				
+				if ((ypsilonC3*((x-dimensions.getA1())/(x-x0))*steel.getES()*1000000) < steel.getFYd()*1000) {
+					sigmaS2 = (ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000);
+				} else {
+					sigmaS2 = (steel.getFYd() * 1000);
+				}
+				
 				nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
 				mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
 						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1()));

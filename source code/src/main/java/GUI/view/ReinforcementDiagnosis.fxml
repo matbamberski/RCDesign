@@ -279,13 +279,8 @@
          </font>
       </Label>
       <Label layoutX="243.0" layoutY="421.0" prefHeight="16.0" prefWidth="92.0" text="t      [dni]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="421.0" />
-      <Label layoutX="243.0" layoutY="451.0" prefHeight="16.0" prefWidth="80.0" text="R      [%]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="451.0" />
+      <Label layoutX="243.0" layoutY="451.0" prefHeight="16.0" prefWidth="80.0" text="RH   [%]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="451.0" />
       <Label fx:id="bEffLowerLabel" layoutX="253.0" layoutY="427.0" text="0" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="427.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label layoutX="253.0" layoutY="457.0" text="H" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="457.0">
          <font>
             <Font size="10.0" />
          </font>
@@ -378,7 +373,7 @@
       </Label>
       <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.leftAnchor="695.0" AnchorPane.topAnchor="358.0" />
       <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="358.0" />
-      <Button fx:id="graphButton" layoutX="407.0" layoutY="625.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.leftAnchor="407.0" AnchorPane.topAnchor="625.0" />
+      <Button fx:id="graphButton" layoutX="407.0" layoutY="625.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="407.0" />
       <VBox fx:id="vBoxBeffHf" prefHeight="60.0" prefWidth="108.0" AnchorPane.leftAnchor="127.0" AnchorPane.topAnchor="415.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
@@ -535,7 +530,7 @@
             </HBox>
          </children>
       </VBox>
-      <TableView fx:id="tableViewCombinations" layoutX="328.0" layoutY="177.0" prefHeight="146.0" style="-fx-background-color: #91bfa0;" stylesheets="@DarkStyle.css" visible="false" AnchorPane.leftAnchor="455.0" AnchorPane.topAnchor="190.0">
+      <TableView fx:id="tableViewCombinations" layoutX="328.0" layoutY="177.0" prefHeight="150.0" prefWidth="355.0" style="-fx-background-color: #91bfa0; -fx-border-color: #91bfa0;" stylesheets="@DarkStyle.css" visible="false" AnchorPane.leftAnchor="455.0" AnchorPane.topAnchor="190.0">
         <columns>
           <TableColumn fx:id="combinationColumn" editable="false" prefWidth="50.0" resizable="false" styleClass="tablecolor" />
             <TableColumn fx:id="requiredColumn" editable="false" prefWidth="75.0" styleClass="tablecolor" text="Obliczeniowe">

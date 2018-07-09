@@ -249,12 +249,7 @@
       <Label layoutX="243.0" layoutY="361.0" prefHeight="16.0" prefWidth="96.0" text="L      [m]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="361.0" />
       <Label fx:id="alfaMLabel" layoutX="243.0" layoutY="391.0" prefHeight="17.0" prefWidth="71.0" text="alfa M" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="391.0" />
       <Label layoutX="243.0" layoutY="421.0" prefHeight="16.0" prefWidth="92.0" text="t      [dni]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="421.0" />
-      <Label layoutX="243.0" layoutY="451.0" prefHeight="16.0" prefWidth="80.0" text="R      [%]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="451.0" />
-      <Label layoutX="253.0" layoutY="457.0" text="H" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="457.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
+      <Label layoutX="243.0" layoutY="451.0" prefHeight="16.0" prefWidth="80.0" text="RH   [%]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="451.0" />
       <Label layoutX="253.0" layoutY="397.0" text="M" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="397.0">
          <font>
             <Font size="10.0" />

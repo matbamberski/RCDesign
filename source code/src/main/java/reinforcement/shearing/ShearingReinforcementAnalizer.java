@@ -111,6 +111,7 @@ public class ShearingReinforcementAnalizer {
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
 		doFullShearingReinforcementAnalysisDiagnosis(concrete, steel, forces, dimensions, reinforcement);
 		setVrdDiagnosis(steel, s1, s2);
+		designSheringReinforcement(reinforcement);
 	}
 
 	public void doFullSheringReinforcementWitDesign(Concrete concrete, Steel steel,
@@ -343,19 +344,10 @@ public class ShearingReinforcementAnalizer {
 		double Veds1 = 0;
 		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
 			double Vrds2 = (aSw2/s2)*z*steel.getFYd()*(cotTheta+cotAlfa)*sinAlfa;
-			
-			if(forces.getvEdRed() != 0) {
-				Veds1 = Math.max(forces.getvEdRed()-Vrds2, 0.5*forces.getvEdRed());
-			} else {
-				Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
-			}
-			Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
-		} else
-			if(forces.getvEdRed() != 0) {
-				Veds1 = forces.getvEdRed();
-			} else {
-				Veds1 = forces.getvEd();
-			}
+			Veds1 = Math.max(forces.getvEdRed()-Vrds2, 0.5*forces.getvEdRed());
+		} else {
+			Veds1 = forces.getvEdRed();
+		}
 		System.out.println("Veds1 " + Veds1);
 		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
 		double c = Math.min(b, sLMax);
@@ -390,10 +382,10 @@ public class ShearingReinforcementAnalizer {
 			Concrete concrete, InternalForces forces, Reinforcement reinforcement) {
 		a = aSw1 * steel.getFYk()/(0.08*dimensions.getB()*Math.sqrt(concrete.getFCk()));
 		System.out.println("a " + a);
-		if (forces.getvEd()<= vRDC) {
+		if (forces.getvEdRed()<= vRDC) {
 			System.out.println("Ved < Vrdc");
 			countS1WhenVedLessThanVrdc(steel, dimensions, concrete);
-		} else if (forces.getvEd() > vRDC && forces.getvEd()<= vRdMax) {
+		} else if (forces.getvEdRed() > vRDC && forces.getvEd()<= vRdMax) {
 			countS1WhenVedGreaterThanVrdcAndLessVrdMax(steel, forces, reinforcement);
 		} else {
 			s1 = 0.0;

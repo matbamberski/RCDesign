@@ -63,6 +63,23 @@ public class InternalForces {
 		System.out.println("liczy kombinacje si³");
 	}
 
+	public ArrayList<ForcesCombination> getForcesCombinations() {
+		ArrayList<ForcesCombination> combination = new ArrayList<>();
+		
+		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());
+
+		ForcesCombination Mmin = new ForcesCombination(getMomentMmin(), getNormalnaMmin());
+
+		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
+
+		ForcesCombination Nmin = new ForcesCombination(getMomentNmin(), getNormalnaNmin());
+
+		Collections.addAll(combination, Mmax, Mmin, Nmax, Nmin);
+		System.out.println("liczy kombinacje si³");
+		
+		return combination;
+	}
+	
 	public void setMedCombination() {
 		ForcesCombination Mmax = new ForcesCombination(Math.abs(getmEd()), getnEd());
 		if (getmEd() < 0)

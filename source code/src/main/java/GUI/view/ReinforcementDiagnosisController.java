@@ -598,6 +598,12 @@ public class ReinforcementDiagnosisController {
     
     @FXML
     private TableColumn<?,?> requiredColumn;
+    
+    @FXML
+    private Label capacityLabel;
+    
+    @FXML
+    private Label warningLabel;
 	
 	/////
 
@@ -733,9 +739,8 @@ public class ReinforcementDiagnosisController {
 				leftZbrojeniePoprzeczneNequal0Line, rightZbrojeniePoprzeczneNequal0Line,
 				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1,
 				stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
-
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
-				rightZbrojeniePoprzeczneNNotequal0Line);
+				rightZbrojeniePoprzeczneNNotequal0Line, warningLabel, capacityLabel);
 		
 		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,

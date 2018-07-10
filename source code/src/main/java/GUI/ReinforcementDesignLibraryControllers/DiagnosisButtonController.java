@@ -103,6 +103,7 @@ public class DiagnosisButtonController {
 		double nEd = 0;
 		@Override
 		public void handle(ActionEvent arg0) {
+			diagnosisMainAlgorithm.setmRdExceeded(false);
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
 					reinforcement, stiffness, cement, creep, checkbox);
@@ -158,6 +159,30 @@ public class DiagnosisButtonController {
 							internalForces.setMomentNmaxStiff(internalForces.getCombinationDiagnosis().get(2).getmStiff());
 						} else if (i==3) {
 							internalForces.setMomentNminStiff(internalForces.getCombinationDiagnosis().get(3).getmStiff());
+						}
+						
+						if(diagnosisMainAlgorithm.getmRdDesignedSymmetrical() != 0) {
+							if(Math.abs(mEd) > Math.abs(diagnosisMainAlgorithm.getmRdDesignedSymmetrical())) {
+								diagnosisMainAlgorithm.setmRdExceeded(true);
+							}
+						}
+						
+						if (diagnosisMainAlgorithm.getmRdDesignedUnsymmetrical() != 0) {
+							if (Math.abs(mEd) > Math.abs(diagnosisMainAlgorithm.getmRdDesignedUnsymmetrical())) {
+								diagnosisMainAlgorithm.setmRdExceeded(true);
+							}
+						}
+						
+						if(diagnosisMainAlgorithm.getnRdDesignedSymmetrical() != 0) {
+							if(Math.abs(nEd) > Math.abs(diagnosisMainAlgorithm.getnRdDesignedSymmetrical())) {
+								diagnosisMainAlgorithm.setmRdExceeded(true);
+							}
+						}
+						
+						if (diagnosisMainAlgorithm.getnRdDesignedUnsymmetrical() != 0) {
+							if (Math.abs(nEd) > Math.abs(diagnosisMainAlgorithm.getnRdDesignedUnsymmetrical())) {
+								diagnosisMainAlgorithm.setmRdExceeded(true);
+							}
 						}
 						
 					}	

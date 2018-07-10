@@ -23,18 +23,91 @@ public class DiagnosisMainAlgorithm {
 	// private double vRdDesignedUnsymmetrical;
 	private double vRdRequired;
 	private double vRdDesigned;
+	private boolean mRdExceeded;
+
+	public boolean ismRdExceeded() {
+		return mRdExceeded;
+	}
+
+	public void setmRdExceeded(boolean mRdExceeded) {
+		this.mRdExceeded = mRdExceeded;
+	}
 
 	public void runDiagnosis(Concrete concrete, Steel steel, double mEd, double nEd, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, InternalForces forces) {
+		double requiredUnSymmetricalAS1 = reinforcement.getRequiredUnsymmetricalAS1();
+		double requiredUnSymmetricalAS2 = reinforcement.getRequiredUnsymmetricalAS2();
+		double designedUnSymmetricalAS1 = reinforcement.getDesingedUnsymmetricalAS1();
+		double designedUnSymmetricalAS2 = reinforcement.getDesignedUnsymmetricalAS2();
+		double requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS1();
+		double requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS2();
+		double designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS1();
+		double designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS2();
+		
+		if (reinforcement.getDesignedSymmetricalAS1() < reinforcement.getDesignedSymmetricalAS2()) {
+			requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
+			requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS1();
+			designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS2();
+			designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS1();
+			requiredUnSymmetricalAS1 = reinforcement.getRequiredUnsymmetricalAS2();
+			requiredUnSymmetricalAS2 = reinforcement.getRequiredUnsymmetricalAS1();
+			designedUnSymmetricalAS1 = reinforcement.getDesignedUnsymmetricalAS2();
+			designedUnSymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
+			if (mEd <0) {
+				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS2);
+				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS1);
+				reinforcement.setRequiredUnsymmetricalAS1(requiredUnSymmetricalAS1);
+				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS2);
+			} else {
+				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS1);
+				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS2);
+				reinforcement.setRequiredUnsymmetricalAS1(requiredUnSymmetricalAS2);
+				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS1);
+			}
+		} else {
+			requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS1();
+			requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS2();
+			designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS1();
+			designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS2();
+			requiredUnSymmetricalAS1 = reinforcement.getRequiredUnsymmetricalAS1();
+			requiredUnSymmetricalAS2 = reinforcement.getRequiredUnsymmetricalAS2();
+			designedUnSymmetricalAS1 = reinforcement.getDesingedUnsymmetricalAS1();
+			designedUnSymmetricalAS2 = reinforcement.getDesignedUnsymmetricalAS2();
+			if (mEd <0) {
+				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS2);
+				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS1);
+				reinforcement.setRequiredUnsymmetricalAS1(requiredUnSymmetricalAS1);
+				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS2);
+			} else {
+				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS1);
+				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS2);
+				reinforcement.setRequiredUnsymmetricalAS1(requiredUnSymmetricalAS2);
+				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS1);
+			}
+		}
+		
+		
 		if (mEd == 0) {
 			mEd = nEd / 1000000;
 		}
+		/*
+		if (mEd <0) {
+			requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
+			requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS1();
+			designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS2();
+			designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS1();
+			
+		}
+		*/
 
 		if (nEd == 0) {
-			double requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS1();
-			double requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS2();
-			double designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS1();
-			double designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS2();
-
+			/*
+			if (mEd >= 0) {
+				requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS1();
+				requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS2();
+				designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS1();
+				designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS2();
+			}
+			 */
 			// if Ned = 0 reinforcement is only symmetrical
 			if (dimensions.getisBeamRectangular()) {
 				RectangularDiagnosis diagnosis = new RectangularDiagnosis();
@@ -70,40 +143,42 @@ public class DiagnosisMainAlgorithm {
 				}
 			}
 		}
+		
+		
 		if (nEd > 0) {
 			CompressingDiagnosis diagnosis = new CompressingDiagnosis();
 			// required symmetrical
-			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, reinforcement.getRequiredSymmetricalAS1(), reinforcement.getRequiredSymmetricalAS2(), mEd, nEd);
+			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, requiredSymmetricalAS1, requiredSymmetricalAS2, mEd, nEd);
 			mRdRequiredSymmetrical = diagnosis.getmRd();
 			nRdRequiredSymmetrical = diagnosis.getnRd();
 			// required unsymmetrical
-			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, reinforcement.getRequiredUnsymmetricalAS1(), reinforcement.getRequiredUnsymmetricalAS2(), mEd, nEd);
+			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, requiredUnSymmetricalAS1, requiredUnSymmetricalAS2, mEd, nEd);
 			mRdRequiredUnsymmetrical = diagnosis.getmRd();
 			nRdRequiredUnsymmetrical = diagnosis.getnRd();
 			// designed symmetrical
-			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, reinforcement.getDesignedSymmetricalAS1(), reinforcement.getDesignedSymmetricalAS2(), mEd, nEd);
+			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, designedSymmetricalAS1, designedSymmetricalAS2, mEd, nEd);
 			mRdDesignedSymmetrical = diagnosis.getmRd();
 			nRdDesignedSymmetrical = diagnosis.getnRd();
 			// designed unsymmetrical
-			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, reinforcement.getDesingedUnsymmetricalAS1(), reinforcement.getDesignedUnsymmetricalAS2(), mEd, nEd);
+			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, designedUnSymmetricalAS1, designedUnSymmetricalAS2, mEd, nEd);
 			mRdDesignedUnsymmetrical = diagnosis.getmRd();
 			nRdDesignedUnsymmetrical = diagnosis.getnRd();
 		}
 		if (nEd < 0) {
 			TensilingDiagnosis diagnosis = new TensilingDiagnosis();
-			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, reinforcement.getRequiredSymmetricalAS1(), reinforcement.getRequiredSymmetricalAS2());
+			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, requiredSymmetricalAS1, requiredSymmetricalAS2);
 			mRdRequiredSymmetrical = diagnosis.getmRd();
 			nRdRequiredSymmetrical = diagnosis.getnRd();
 			// required unsymmetrical
-			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, reinforcement.getRequiredUnsymmetricalAS1(), reinforcement.getRequiredUnsymmetricalAS2());
+			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, requiredUnSymmetricalAS1, requiredUnSymmetricalAS2);
 			mRdRequiredUnsymmetrical = diagnosis.getmRd();
 			nRdRequiredUnsymmetrical = diagnosis.getnRd();
 			// designed symmetrical
-			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, reinforcement.getDesignedSymmetricalAS1(), reinforcement.getDesignedSymmetricalAS2());
+			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, designedSymmetricalAS1, designedSymmetricalAS2);
 			mRdDesignedSymmetrical = diagnosis.getmRd();
 			nRdDesignedSymmetrical = diagnosis.getnRd();
 			// designed unsymmetrical
-			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, reinforcement.getDesingedUnsymmetricalAS1(), reinforcement.getDesignedUnsymmetricalAS2());
+			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, designedUnSymmetricalAS1, designedUnSymmetricalAS2);
 			mRdDesignedUnsymmetrical = diagnosis.getmRd();
 			nRdDesignedUnsymmetrical = diagnosis.getnRd();
 		}

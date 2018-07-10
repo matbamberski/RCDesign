@@ -550,5 +550,15 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Label fx:id="warningLabel" layoutX="420.0" layoutY="482.0" text="Uwagi:" visible="false" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="550.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="capacityLabel" layoutX="430.0" layoutY="485.0" text="- Warunek nośności niespełniony !" visible="false" AnchorPane.leftAnchor="460.0" AnchorPane.topAnchor="570.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

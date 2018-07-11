@@ -73,6 +73,7 @@ public class NominalStiffness {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 		
+		
 		System.out.println("");
 		System.out.println("");
 		System.out.println("*** Nominalna Sztywnosc ***");
@@ -96,6 +97,10 @@ public class NominalStiffness {
 		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
 		System.out.println("RoS: " + String.format("%.05f", roS1));
 		
+		if (roS1 >= 0.08) {
+			this.mEd = internalForces.getM0Ed();
+			setAborted(true);
+		} else {
 		//roS1 = (aS1 + aS2)/dimensions.getAc();
 		
 		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
@@ -153,7 +158,7 @@ public class NominalStiffness {
 		this.mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
 		System.out.println(mEd);
 		//sprawdzenie
-		
+		}
 		if (n0Ed > 0.90*nB) {
 			nBExceeded = true;
 			mEd = m0Ed;

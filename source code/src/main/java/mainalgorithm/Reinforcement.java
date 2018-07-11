@@ -31,6 +31,8 @@ public class Reinforcement {
 	private double degreeOfDesignedUnsymmetricalReinforcement;
 	
 	private double reinforcementRatio;
+	private boolean degreeExceededSymmetrical = false;
+	private boolean degreeExceededUnsymmetrical = false;
 	private boolean degreeExceeded = false;
 
 
@@ -61,6 +63,22 @@ public class Reinforcement {
 
 	public void setDegreeExceeded(boolean degreeExceeded) {
 		this.degreeExceeded = degreeExceeded;
+	}
+
+	public boolean isDegreeExceededUnsymmetrical() {
+		return degreeExceededUnsymmetrical;
+	}
+
+	public void setDegreeExceededUnsymmetrical(boolean degreeExceededUnsymmetrical) {
+		this.degreeExceededUnsymmetrical = degreeExceededUnsymmetrical;
+	}
+
+	public boolean isDegreeExceededSymmetrical() {
+		return degreeExceededSymmetrical;
+	}
+
+	public void setDegreeExceededSymmetrical(boolean degreeExceededSymmetrical) {
+		this.degreeExceededSymmetrical = degreeExceededSymmetrical;
 	}
 
 	public double getnS2Designed() {

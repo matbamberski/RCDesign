@@ -107,6 +107,8 @@
             <Label fx:id="gridLabel219" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="19" />
             <Label fx:id="gridLabel220" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="20" />
             <Label fx:id="gridLabel020" text="Label" GridPane.rowIndex="20" />
+            <Label fx:id="gridLabel319" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="19" />
+            <Label fx:id="gridLabel320" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="20" />
          </children>
          <columnConstraints>
             <ColumnConstraints fillWidth="false" hgrow="ALWAYS" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" />

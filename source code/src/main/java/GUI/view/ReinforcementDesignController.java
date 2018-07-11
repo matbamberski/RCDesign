@@ -681,7 +681,8 @@ public class ReinforcementDesignController {
 				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line, gridLabel019, gridLabel119, gridLabel219, gridLabel120,
-				gridLabel220, gridLabel020, stiffness, warningLabel, degreeLabel, abortLabel1, abortLabel2, abortLabel3);
+				gridLabel220, gridLabel020, stiffness, warningLabel, degreeLabel, abortLabel1, abortLabel2, abortLabel3, creep,
+				gridLabel319, gridLabel320, nominalCheckBox);
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,

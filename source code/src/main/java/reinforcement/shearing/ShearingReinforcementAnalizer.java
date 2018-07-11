@@ -16,7 +16,7 @@ public class ShearingReinforcementAnalizer {
 	private double vRdMax;
 	protected final double alfaCw = 1;
 	protected double z;
-	protected double ny1;
+	protected double ny1; 
 	protected double cotTheta;
 	protected double tanTheta;
 	protected double sinAlfa;
@@ -62,6 +62,11 @@ public class ShearingReinforcementAnalizer {
 		calculateSinAlfa(reinforcement.getAlfa());
 		calculateCotAlfa(reinforcement.getAlfa());
 		this.s2 = reinforcement.getS2Required();
+		calculateSBMax(dimensions);
+		if(s2 > sBMax) {
+			s2 = sBMax;
+			reinforcement.setS2Required(sBMax);
+		}
 		setVRDC(concrete, forces, dimensions, reinforcement);
 		setVRdMax(concrete, dimensions, reinforcement);
 		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
@@ -81,6 +86,11 @@ public class ShearingReinforcementAnalizer {
 		calculateSinAlfa(reinforcement.getAlfa());
 		calculateCotAlfa(reinforcement.getAlfa());
 		this.s2 = reinforcement.getS2Required();
+		calculateSBMax(dimensions);
+		if(s2 > sBMax) {
+			s2 = sBMax;
+			reinforcement.setS2Required(sBMax);
+		}
 		setVRDCDiagnosis(concrete, forces, dimensions, reinforcement);
 		setVRdMax(concrete, dimensions, reinforcement);
 		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
@@ -105,6 +115,8 @@ public class ShearingReinforcementAnalizer {
 		*/
 	}
 
+	
+	
 	public void doFullSheringReinforcementWithoutDesign(Concrete concrete, Steel steel,
 		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double s1, double s2) {
 		System.out.println("\n \n Scinanie \n \n");
@@ -147,7 +159,10 @@ public class ShearingReinforcementAnalizer {
 		reinforcement.setS2Required(s2);
 	}
 
-
+	protected void calculateSBMax(DimensionsOfCrossSectionOfConcrete dimensions) {
+		sBMax = 0.6*dimensions.getD()*(1+cotAlfa);
+	}
+	
 	protected void calculateCotTheta(double theta) {
 		cotTheta = theta;
 		System.out.println("cotTheta " + cotTheta);

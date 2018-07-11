@@ -1,6 +1,8 @@
 package GUI.ReinforcementDesignLibraryControllers;
 
 import SLS.Sls;
+import SLS.creepCoeficent.CreepCoeficent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 import mainalgorithm.ForcesCombination;
@@ -14,6 +16,7 @@ public class ResultsPaneControllerULS {
 	private Reinforcement reinforcement;
 	private InternalForces internalForces;
 	private Sls sls;
+	private CreepCoeficent creepCoeficent;
 	private NominalStiffness stiffness;
 
 	private Label gridLabel00;
@@ -89,6 +92,9 @@ public class ResultsPaneControllerULS {
 	private Label gridLabel313;
 	private Label gridLabel314;
 	private Label gridLabel315;
+	private Label gridLabel319;
+	private Label gridLabel320;
+	private CheckBox nominalCheckbox;
 	
 	//////// boolean na zwiekszenie przekroju
 	private Label warningLabel;
@@ -138,18 +144,21 @@ public class ResultsPaneControllerULS {
 			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label gridLabel019, Label gridLabel119,
 			Label gridLabel219, Label gridLabel120, Label gridLabel220, Label gridLabel020, 
 			/// NOWE!
-			NominalStiffness stiffness, Label warningLabel, Label degreeLabel, Label abortLabel1, Label abortLabel2, Label abortLabel3 ) {
+			NominalStiffness stiffness, Label warningLabel, Label degreeLabel, Label abortLabel1, Label abortLabel2, Label abortLabel3, CreepCoeficent creepCoeficent,
+			Label gridLabel319, Label gridLabel320, CheckBox nominalCheckbox) {
 
 		
 		this.reinforcement = reinforcement;
 		this.internalForces = internalForces;
 		this.sls = sls;
 		this.stiffness = stiffness;
+		this.creepCoeficent = creepCoeficent;
 		this.warningLabel = warningLabel;
 		this.degreeLabel = degreeLabel;
 		this.abortLabel1 = abortLabel1;
 		this.abortLabel2 = abortLabel2;
 		this.abortLabel3 = abortLabel3;
+		this.nominalCheckbox = nominalCheckbox;
 		
 		this.gridLabel00 = gridLabel00;
 		this.gridLabel01 = gridLabel01;
@@ -218,6 +227,9 @@ public class ResultsPaneControllerULS {
 		this.gridLabel313 = gridLabel313;
 		this.gridLabel314 = gridLabel314;
 		this.gridLabel315 = gridLabel315;
+		
+		this.gridLabel319 = gridLabel319;
+		this.gridLabel320 = gridLabel320;
 		this.gridLabel019 = gridLabel019;
 		this.gridLabel119 = gridLabel119;
 		this.gridLabel219 = gridLabel219;
@@ -328,6 +340,9 @@ public class ResultsPaneControllerULS {
 		gridLabel313.setText("");
 		gridLabel314.setText("");
 		gridLabel315.setText("");
+		gridLabel319.setText("");
+		gridLabel320.setText("");
+		
 
 		stanGranicznyNosnosciNequal0Label.setVisible(false);
 		leftSGNNequal0Line.setVisible(false);
@@ -413,7 +428,7 @@ public class ResultsPaneControllerULS {
 		abortLabel2.setVisible(false);
 		abortLabel3.setVisible(false);
 		degreeLabel.setVisible(false);
-		
+	
 		if(reinforcement.getDegreeOfDesignedSymmetricalReinforcement() > 0.04 || 
 				reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() > 0.04) {
 			reinforcement.setDegreeExceeded(true);
@@ -422,6 +437,12 @@ public class ResultsPaneControllerULS {
 		if (reinforcement.isDegreeExceeded()) {
 			warningLabel.setVisible(true);
 			degreeLabel.setVisible(true);
+		} 
+		
+		if (reinforcement.isDegreeExceededSymmetrical() || reinforcement.isDegreeExceededUnsymmetrical()) {
+			warningLabel.setVisible(true);
+			abortLabel1.setVisible(true);
+			abortLabel2.setVisible(true);
 		} 
 		
 		if (stiffness.isnBExceeded()) {
@@ -449,11 +470,12 @@ public class ResultsPaneControllerULS {
 			gridLabel019.setText("max E:");
 			gridLabel119.setText("MEd:");
 			gridLabel219.setText("NEd:");
-			
+						
 			ForcesCombination combination = internalForces.getMaxECombination();
 			gridLabel020.setText(String.format("%.2f", Math.abs((combination.getmStiff())/(combination.getN()))) + " m");
 			gridLabel120.setText(OutputFormatter.diagnosisMed(combination.getmStiff()));
 			gridLabel220.setText(OutputFormatter.diagnosisVedAndNed(combination.getN()));
+			
 			
 		} else {
 			gridLabel019.setText("");
@@ -557,7 +579,13 @@ public class ResultsPaneControllerULS {
 		}
 		gridLabel314.setText("");
 		gridLabel315.setText("");
-
+		if(nominalCheckbox.isSelected()) {
+			gridLabel319.setText("\u03C6" + "ef");
+			gridLabel320.setText(String.format("%.2f",creepCoeficent.getCreepCoeficent())); 
+		} else {
+			gridLabel319.setText("");
+			gridLabel320.setText(""); 
+		}
 	}
 
 	private void dispResultsWhenNedIsEqual0() {

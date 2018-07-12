@@ -199,5 +199,52 @@ public class TensilingDiagnosis extends BeamDiagnosis {
 		calculateMRd(concrete, dimensions, aS1, aS2, nEd);
 
 	}
+	
+	public void runDiagnosis(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double mEd, double nEd, double aS1, double aS2) {
+		nEd = ifNedIsLessThen0returnAbs(nEd);
+		nEd = checkIfNedIsCloseToZeroAndReplaceItWithHalfPercentOfMed(nEd, mEd);
+		setXLimits(concrete, steel, dimensions.getD(), dimensions.getA2());
+		calculateE(mEd, nEd, dimensions.getH());
+		calculateEmin(aS1, aS2, dimensions);
+		if (e < eMin) {
+			System.out.println("e<eMin");
+			System.out.println("aS1 = aS2 aS2=aS1");
+			double aS1Temporary = aS1;
+			aS1 = setAs1EqualtoAs2(aS2);
+			aS2 = setAs2EqualToAs1(aS1Temporary);
+		}
+		calculateES1(dimensions);
+		calculateES2(dimensions);
+		calculateInitialX(concrete, steel, dimensions, aS1, aS2);
+		if (x < xMinYd) {
+			System.out.println("x<xMinYd");
+			calculateCapitalAWhileXIsLessThenXMinYd(dimensions);
+			calculateCapitalBWhileXIsLessThenXMinYd(concrete, steel, dimensions, aS1, aS2);
+			calculateCapitalCWhileXIsLessThenXMinYd(concrete, steel, dimensions, aS2);
+			solvePolynominalABC();
+			if (x < xMinMinusYd) {
+				System.out.println("x<xMinMinusYd");
+				calculateXWhenXIsLessThenXMinMinusYd(concrete, steel, dimensions, aS1, aS2);
+			}
+		} else {
+			System.out.println("x>=xMinYd");
+		}
+		if (x > 0) {
+			System.out.println("x>0");
+			calculateSigmaS1(concrete, dimensions, steel);
+			ifSigmaS1IsGreaterThenFYdThenSigmaS1IsEqualFyd(steel);
+			calculateSigmaS2(concrete, dimensions, steel);
+			ifSigmaS2IsGreaterThenFYdThenSigmaS2IsEqualFyd(steel);
+			ifSigmaS2IsLessThenMinusFYdThenSigmaS2IsEqualMinusFyd(steel);
+		} else {
+			x = 0;
+			System.out.println("x<=0");
+			setSigmaS1EqualToFyd(steel);
+			setSigmaS2EqualToMinusFyd(steel);
+		}
+		calculateNRd(concrete, dimensions, aS1, aS2);
+		calculateMRd(concrete, dimensions, aS1, aS2, nEd);
+
+	}
 
 }

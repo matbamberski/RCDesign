@@ -1,9 +1,10 @@
 package diagnosis;
 
 import materials.Concrete;
+import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
 
-abstract class BeamDiagnosis {
+public abstract class BeamDiagnosis {
 
 	protected double xLim;
 	protected double xMinYd;
@@ -84,5 +85,10 @@ abstract class BeamDiagnosis {
 		}
 		return mEd;
 	}
+	
+	public void runDiagnosis(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double mEd, double nEd, double aS1, double aS2) {
+	
+	}
+	
 
 }

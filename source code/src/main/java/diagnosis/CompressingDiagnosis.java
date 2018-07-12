@@ -217,5 +217,63 @@ public class CompressingDiagnosis extends TensilingDiagnosis {
 		calculateMRd(concrete, dimensions, aS1, aS2, nEd);
 		System.out.println("aa");
 	}
+	
+	public void runDiagnosis(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double mEd, double nEd, double aS1, double aS2) {
+		nEd = checkIfNedIsCloseToZeroAndReplaceItWithHalfPercentOfMed(nEd, mEd);
+		calculateE(mEd, nEd, dimensions.getH());
+		setXLimits(concrete, steel, dimensions.getD(), dimensions.getA2());
+		setX0(concrete, steel, dimensions.getH());
+		setXMaxYd(concrete, steel, dimensions.getA2());
+		calculateEmin(concrete, steel, aS1, aS2, dimensions);
+		if (e < eMin) {
+			double aS1Temporary = aS1;
+			aS1 = setAs1EqualtoAs2(aS2);
+			aS2 = setAs2EqualToAs1(aS1Temporary);
+		}
+		calculateES1(dimensions);
+		calculateES2(dimensions);
+		calculateInitialX(concrete, steel, dimensions, aS1, aS2);
+		if (x > xLim) {
+			calculateCapitalAWhileXIsGreaterThenXLim(dimensions);
+			calculateCapitalBWhileXIsGreaterThenXLim(concrete, steel, dimensions, aS1, aS2);
+			calculateCapitalCWhileXIsGreaterThenXLim(concrete, steel, dimensions, aS1);
+			solvePolynominalABC();
+			if (x > dimensions.getH()) {
+				calculateCapitalAWhileXIsGreaterThenH(dimensions);
+				calculateCapitalBWhileXIsGreaterThenH(concrete, steel, dimensions, aS1, aS2);
+				calculateCapitalCWhileXIsGreaterThenH(concrete, steel, dimensions, aS1, aS2);
+				solvePolynominalABCAndReturnMaxX();
+				if (x > (dimensions.getH() / LAMBDA)) {
+					calculateXWhileXIsGreaterThenHDividedByLambda(concrete, steel, dimensions, aS1, aS2);
+					if (x <= xMaxYd) {
+						calculateXWhileXIsLessOrEqualToXMaxYd(concrete, steel, dimensions, aS1, aS2);
+					}
+				}
+				calculateSigmaS1WhenXIsLessOrEqualToXLim(concrete, steel, dimensions);
+				calculateSigmaS2WhenXIsLessOrEqualToXLim(concrete, steel, dimensions);
+				if (x > (dimensions.getH() / LAMBDA)) {
+					xIsEqualToHDividedByLambda(dimensions);
+				}
+			} else {
+				calculateSigmaS1WhileXIsGreaterThenH(concrete, steel, dimensions);
+				calculateSigmaS2WhileXIsGreaterThenH(concrete, steel, dimensions);
+			}
+		} else {
+			if (x < xMinYd) {
+				calculateCapitalAWhileXIsLessOrEqualToXLim(dimensions);
+				calculateCapitalBWhileXIsLessOrEqualToXLim(concrete, steel, dimensions, aS1, aS2);
+				calculateCapitalCWhileXIsLessOrEqualToXLim(concrete, steel, dimensions, aS2);
+				solvePolynominalABC();
+				if (x <= xMinMinusYd) {
+					calculateXWhenXIsLessOrEqualToXMinMinusYd(concrete, steel, dimensions, aS1, aS2);
+				}
+			}
+			calculateSigmaS1WhileXIsGreaterThenH(concrete, steel, dimensions);
+			calculateSigmaS2WhileXIsGreaterThenH(concrete, steel, dimensions);
+		}
+		calculateNRd(concrete, dimensions, aS1, aS2);
+		calculateMRd(concrete, dimensions, aS1, aS2, nEd);
+		System.out.println("aa");
+	}
 
 }

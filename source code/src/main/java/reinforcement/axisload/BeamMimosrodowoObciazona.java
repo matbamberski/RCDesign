@@ -33,6 +33,9 @@ abstract class BeamMimosrodowoObciazona {
 	protected double aSMin;
 
 	protected boolean isMedLessThen0;
+	
+	protected double eMinTensile;
+	protected double eMinCompression;
 
 	protected void setASMin(Steel steel, double nEd, double b, double h) {
 		double value1 = (0.002 * b * h)/2;
@@ -172,6 +175,18 @@ abstract class BeamMimosrodowoObciazona {
 			mEd = nEd / 1000000000;
 		}
 		return mEd;
+	}
+	
+	protected double setEMinTensile(double aS1, double aS2, double h, double a1, double a2) {
+		eMinTensile = (aS1*(0.5*h - a1) - aS2*(0.5*h - a2))/(aS1+aS2);
+		return eMinTensile;
+	}
+	
+	protected double setEMinCompress(double aS1, double aS2, double h, double a1, double a2,
+			double b, Steel steel, Concrete concrete) {
+		eMinCompression = concrete.getEpsilonC3()*steel.getES()*(aS2*(0.5*h-a2)-aS1*(0.5*h-a1))/
+				(concrete.getFCd()*b*h + concrete.getEpsilonC3()*steel.getES()*(aS1+aS2));
+		return eMinCompression;
 	}
 
 }

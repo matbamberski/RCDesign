@@ -2,7 +2,9 @@ package GUI.ReinforcementDesignLibraryControllers;
 
 import GUI.view.GraphScreenController;
 import SLS.Sls;
+import SLS.cracks.Scratch;
 import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -21,16 +23,19 @@ public class ReinforcementDesignButtonController {
 
 	public static void addPropertiesToDesignButton(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness, CheckBox checkbox ) {
+			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness, CheckBox checkbox,
+			Scratch scratch, DeflectionControl deflection) {
 		addListener(button, requiredReinforcement, concrete, steel, internalForces, dimensions, reinforcement, 
-				resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness, checkbox);
+				resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness, checkbox, scratch, deflection);
 	}
 
 	private static void addListener(Button button, RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, Cement cement, Sls sls, InternalForces forces,
-			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness, CheckBox checkbox) {
+			CreepCoeficent creep, boolean wasResultsGenerated, NominalStiffness stiffness, CheckBox checkbox, Scratch scratch,
+			DeflectionControl deflection) {
 		button.setOnAction(new onClick(requiredReinforcement, concrete, steel, internalForces, 
-				dimensions, reinforcement, resultsPaneControllerULS, cement, sls, forces, creep, wasResultsGenerated, stiffness, checkbox));
+				dimensions, reinforcement, resultsPaneControllerULS, cement, sls, 
+				forces, creep, wasResultsGenerated, stiffness, checkbox, scratch, deflection));
 	}
 
 	private static class onClick implements EventHandler<ActionEvent> {
@@ -48,12 +53,14 @@ public class ReinforcementDesignButtonController {
 		GraphScreenController graphController;
 		NominalStiffness stiffness;
 		CheckBox checkbox;
+		Scratch scratch;
+		DeflectionControl deflection;
 
 
 		protected onClick(RequiredReinforcement requiredReinforcement, Concrete concrete, Steel steel, InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions,
 				Reinforcement reinforcement, ResultsPaneControllerULS resultsPaneControllerULS, 
 				Cement cement, Sls sls, InternalForces forces, CreepCoeficent creep, boolean wasResultsGenerated,
-				NominalStiffness stiffness, CheckBox checkbox) {
+				NominalStiffness stiffness, CheckBox checkbox, Scratch scratch, DeflectionControl deflection) {
 			this.requiredReinforcement = requiredReinforcement;
 			this.concrete = concrete;
 			this.steel = steel;
@@ -67,6 +74,8 @@ public class ReinforcementDesignButtonController {
 			this.creep = creep;
 			this.stiffness = stiffness;
 			this.checkbox = checkbox;
+			this.scratch = scratch;
+			this.deflection = deflection;
 		}
 
 		@Override
@@ -74,7 +83,7 @@ public class ReinforcementDesignButtonController {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, 
 					dimensions, reinforcement, stiffness, cement, creep, checkbox);
-			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces);
+			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection);
 			resultsPaneControllerULS.dispResults();
 			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);
 			//graph.plotGraph();

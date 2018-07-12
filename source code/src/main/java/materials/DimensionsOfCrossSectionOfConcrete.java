@@ -40,6 +40,15 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double wLim;
 	private double aLim;
 
+	
+	public double getxC() {
+		return xC;
+	}
+
+	public double getX1() {
+		return x1;
+	}
+
 	public double getwLim() {
 		return wLim;
 	}

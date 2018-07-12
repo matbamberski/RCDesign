@@ -210,4 +210,14 @@ public class Scratch {
 		return wMax;
 	}
 
+	public double getsRMax() {
+		return sRMax;
+	}
+
+	public double getSigmaS() {
+		return sigmaS;
+	}
+	
+	
+
 }

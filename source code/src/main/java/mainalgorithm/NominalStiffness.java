@@ -177,6 +177,11 @@ public class NominalStiffness {
 	public void setmEd(double mEd) {
 		this.mEd = mEd;
 	}
+
+	public double getnB() {
+		return nB;
+	}
+	
 	
 	
 	

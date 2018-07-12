@@ -198,6 +198,7 @@ public class Column extends ClearBendingBeam {
 							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 								combination.getN(), cement, creep);
+						internalForces.setnCritSymmetrical(stiffness.getnB());
 						if (stiffness.isnBExceeded()) {
 							internalForces.setmEd(9999999.9);
 							internalForces.setnEd(combination.getN());
@@ -216,7 +217,7 @@ public class Column extends ClearBendingBeam {
 							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 								combination.getN(), cement, creep);
-
+						internalForces.setnCritSymmetrical(stiffness.getnB());
 						if (stiffness.isnBExceeded()) {
 							internalForces.setmEd(9999999.9);
 							internalForces.setnEd(combination.getN());
@@ -396,6 +397,7 @@ public class Column extends ClearBendingBeam {
 							&& reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 								combination.getN(), cement, creep);
+						internalForces.setnCritUnsymmetrical(stiffness.getnB());
 						/// Metoda nominalnej sztywnosci - nowy moment
 						if (stiffness.isnBExceeded()) {
 							internalForces.setmEd(9999999.9);
@@ -417,6 +419,7 @@ public class Column extends ClearBendingBeam {
 							&& reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
 								combination.getN(), cement, creep);
+						internalForces.setnCritUnsymmetrical(stiffness.getnB());
 						/// Metoda nominalnej sztywnosci - nowy moment
 						if (stiffness.isnBExceeded()) {
 							internalForces.setmEd(9999999.9);

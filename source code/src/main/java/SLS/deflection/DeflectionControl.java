@@ -194,6 +194,10 @@ public class DeflectionControl {
 		//	f = 1.3 * (dimensions.getH() - dimensions.getX2());
 		//}
 	}
+	
+	public double getEpsilonCD() {
+		return epsilonCD;
+	}
 
 	public double runDeflectionControlWithCalculatingDeflection(Concrete concrete, Steel steel, 
 			Cement cement, DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces, double mCr,

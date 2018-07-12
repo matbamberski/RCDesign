@@ -18,6 +18,9 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import SLS.Sls;
+import SLS.cracks.Scratch;
+import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import diagnosis.DiagnosisMainAlgorithm;
 import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
@@ -73,13 +76,15 @@ public class ResultsToPDF {
 		}
 	}
 
-	public static void saveDesingResultsToPDF(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls)
+	public static void saveDesingResultsToPDF(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, 
+			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, 
+			CreepCoeficent creep, DeflectionControl deflection)
 			throws IOException, DocumentException {
 		if (dimensions.getisBeamRectangular() || dimensions.getIsColumn()) {
 			if (forces.getnEd() == 0) {
 				saveRectangularBeamReinforcement(concrete, steel, reinforcement, forces, dimensions, sls);
 			} else {
-				saveBeamAxisLoadResulsts(concrete, steel, reinforcement, forces, dimensions, sls);
+				saveBeamAxisLoadResulsts(concrete, steel, reinforcement, forces, dimensions, sls, scratch, creep, deflection);
 			}
 		} else {
 			saveTShapedBeamResulsts(concrete, steel, reinforcement, forces, dimensions, sls);
@@ -515,16 +520,19 @@ public class ResultsToPDF {
 		document.close();
 	}
 
-	public static void saveBeamAxisLoadResulsts(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls)
+	public static void saveBeamAxisLoadResulsts(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, 
+			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep, DeflectionControl deflection)
 			throws IOException, DocumentException {
 		String SRC = "plates/BeamAxisLoad.pdf";
 		File file = new File(SRC);
 		file.getParentFile().mkdirs();
-		printBeamAxisLoadBeamResults(SRC, GetExecutionPathDesign(), concrete, steel, reinforcement, forces, dimensions, sls);
+		printBeamAxisLoadBeamResults(SRC, GetExecutionPathDesign(), concrete, steel, reinforcement, 
+				forces, dimensions, sls, scratch, creep, deflection);
 	}
 
 	private static void printBeamAxisLoadBeamResults(String src, String dest, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls) throws IOException, DocumentException {
+			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
+			DeflectionControl deflection) throws IOException, DocumentException {
 
 		Document document = new Document(PageSize.A4);
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(dest));
@@ -742,6 +750,67 @@ public class ResultsToPDF {
 		cb.moveText(450, 318);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		cb.showText(PrintFormatter.s1s2(reinforcement.getS2Required()));
+		cb.endText();
+		
+		///////////// PARAMETRY DODATKOWE /////////////
+		cb.beginText();
+		cb.moveText(96, 201);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", dimensions.getIc()*Math.pow(100,4)));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(240, 201);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", dimensions.getxC()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(96, 156);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", dimensions.getI1()*Math.pow(100,4)));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(240, 156);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", dimensions.getX1()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(96, 111);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", dimensions.getI2()*Math.pow(100,4)));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(240, 111);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", dimensions.getX2()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(106, 45);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.03f", scratch.getSigmaS()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(267, 45);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.02f", scratch.getsRMax()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(426, 45);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.03f", creep.getCreepCoeficent()));
+		cb.endText();
+		
+		cb.beginText();
+		cb.moveText(99, 21);
+		cb.setFontAndSize(BaseFont.createFont(), 12);
+		cb.showText(String.format("%.07f", deflection.getEpsilonCD()));
 		cb.endText();
 
 		//

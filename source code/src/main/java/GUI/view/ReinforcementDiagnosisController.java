@@ -19,7 +19,9 @@ import GUI.ReinforcementDesignLibraryControllers.SteelParametersController;
 import GUI.ReinforcementDesignLibraryControllers.UnicodeForLabels;
 import GUI.ReinforcementDesignLibraryControllers.UsersDesignedReinforcementController;
 import SLS.Sls;
+import SLS.cracks.Scratch;
 import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import diagnosis.DiagnosisMainAlgorithm;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -623,6 +625,8 @@ public class ReinforcementDiagnosisController {
 	protected ArrayList<TextField> list1 = ReinforcementDesignController.list1;
 	protected ArrayList<TextField> list2 = ReinforcementDesignController.list2;
 	protected ArrayList<TextField> list3 = ReinforcementDesignController.list3;
+	protected Scratch scratch = ReinforcementDesignController.scratch;	
+	protected DeflectionControl deflection = ReinforcementDesignController.deflection;
 	
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm = new DiagnosisMainAlgorithm();
 	
@@ -746,7 +750,7 @@ public class ReinforcementDiagnosisController {
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
 				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, 
-				nominalCheckBox, tableViewCombinations, columnCheckBox);
+				nominalCheckBox, tableViewCombinations, columnCheckBox, scratch, deflection);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);

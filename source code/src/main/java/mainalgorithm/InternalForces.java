@@ -10,6 +10,8 @@ public class InternalForces {
 	private double nEd;
 	private double vEd;
 	private double vEdRed;
+	private double nCritSymmetrical = 0;
+	private double nCritUnsymmetrical = 0;
 
 	protected double momentMmax;
 	protected double momentMmin;
@@ -343,6 +345,24 @@ public class InternalForces {
 		return pdfCombinations;
 	}
 	
+	
+	
+	public double getnCritSymmetrical() {
+		return nCritSymmetrical;
+	}
+
+	public void setnCritSymmetrical(double nCritSymmetrical) {
+		this.nCritSymmetrical = nCritSymmetrical;
+	}
+
+	public double getnCritUnsymmetrical() {
+		return nCritUnsymmetrical;
+	}
+
+	public void setnCritUnsymmetrical(double nCritUnsymmetrical) {
+		this.nCritUnsymmetrical = nCritUnsymmetrical;
+	}
+
 	public int checkHowManyCombinationsWithMandN() {
 		int i = 0;
 		for (ForcesCombination fc : pdfCombinations) {

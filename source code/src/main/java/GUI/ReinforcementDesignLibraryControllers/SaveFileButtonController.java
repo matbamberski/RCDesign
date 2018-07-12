@@ -5,6 +5,9 @@ import java.io.IOException;
 import com.itextpdf.text.DocumentException;
 
 import SLS.Sls;
+import SLS.cracks.Scratch;
+import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import diagnosis.DiagnosisMainAlgorithm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,10 +26,12 @@ public class SaveFileButtonController {
 	private static Button designSaveButton;
 
 	public static void addPropertiesToDesignSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
+			DeflectionControl deflection) {
 		designSaveButton = bt;
 		disableButtonDesign(bt);
-		addClickListenerToDesignSceneSaveButton(bt, concrete, steel, reinforcement, forces, dimensions, sls);
+		addClickListenerToDesignSceneSaveButton(bt, concrete, steel, reinforcement, forces, dimensions, sls, scratch, 
+				creep, deflection);
 	}
 
 	private static void disableButtonDesign(Button bt) {
@@ -38,8 +43,10 @@ public class SaveFileButtonController {
 	}
 
 	private static void addClickListenerToDesignSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
-			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls) {
-		bt.setOnAction(new SaveButtonListenerDesignScene(concrete, steel, reinforcement, forces, dimensions, sls));
+			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
+			DeflectionControl deflection) {
+		bt.setOnAction(new SaveButtonListenerDesignScene(concrete, steel, reinforcement, forces, 
+				dimensions, sls, scratch, creep, deflection));
 	}
 
 	private static class SaveButtonListenerDesignScene implements EventHandler<ActionEvent> {
@@ -49,20 +56,28 @@ public class SaveFileButtonController {
 		Concrete concrete;
 		Steel steel;
 		Sls sls;
+		Scratch scratch;
+		CreepCoeficent creep;
+		DeflectionControl deflection;
 
-		protected SaveButtonListenerDesignScene(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls) {
+		protected SaveButtonListenerDesignScene(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, 
+				DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep, DeflectionControl deflection) {
 			this.reinforcement = reinforcement;
 			this.forces = forces;
 			this.dimensions = dimensions;
 			this.concrete = concrete;
 			this.steel = steel;
 			this.sls = sls;
+			this.scratch = scratch;
+			this.creep = creep;
+			this.deflection = deflection;
 		}
 
 		@Override
 		public void handle(ActionEvent arg0) {
 			try {
-				ResultsToPDF.saveDesingResultsToPDF(concrete, steel, reinforcement, forces, dimensions, sls);
+				ResultsToPDF.saveDesingResultsToPDF(concrete, steel, reinforcement, forces, dimensions, 
+						sls, scratch, creep, deflection);
 			} catch (IOException | DocumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

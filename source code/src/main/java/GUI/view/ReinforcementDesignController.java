@@ -20,7 +20,9 @@ import GUI.ReinforcementDesignLibraryControllers.SteelParametersController;
 import GUI.ReinforcementDesignLibraryControllers.UnicodeForLabels;
 import GUI.ReinforcementDesignLibraryControllers.UsersDesignedReinforcementController;
 import SLS.Sls;
+import SLS.cracks.Scratch;
 import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -544,6 +546,8 @@ public class ReinforcementDesignController {
 	protected static Sls sls;
 	protected static CreepCoeficent creep;
 	protected static NominalStiffness stiffness;
+	protected static Scratch scratch;
+	protected static DeflectionControl deflection;
 	
 	protected static Graph graph;
 	
@@ -568,6 +572,8 @@ public class ReinforcementDesignController {
 		creep = new CreepCoeficent();
 		stiffness = new NominalStiffness();
 		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces, nominalCheckBox);
+		scratch = new Scratch();
+		DeflectionControl deflection = new DeflectionControl();
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -686,7 +692,8 @@ public class ReinforcementDesignController {
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness, nominalCheckBox);
+				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness, nominalCheckBox, 
+				scratch, deflection);
 
 		// CountButtonController.addPropertiesToDesignButton(countButton,
 		// requiredReinforcementSeter, concrete, steel, internalForces,
@@ -694,7 +701,7 @@ public class ReinforcementDesignController {
 		// resultsPaneControllerULS, cement, sls, internalForces, creep);
 
 		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement,
-				internalForces, dimensionsOfCrossSectionOfConcrete, sls);
+				internalForces, dimensionsOfCrossSectionOfConcrete, sls, scratch, creep, deflection);
 		
 		
 

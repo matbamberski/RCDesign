@@ -12,7 +12,9 @@ import diagnosis.DiagnosisMainAlgorithm;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -27,11 +29,11 @@ public class SaveFileButtonController {
 
 	public static void addPropertiesToDesignSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
-			DeflectionControl deflection) {
+			DeflectionControl deflection, CheckBox nominalCheckBox) {
 		designSaveButton = bt;
 		disableButtonDesign(bt);
 		addClickListenerToDesignSceneSaveButton(bt, concrete, steel, reinforcement, forces, dimensions, sls, scratch, 
-				creep, deflection);
+				creep, deflection, nominalCheckBox);
 	}
 
 	private static void disableButtonDesign(Button bt) {
@@ -44,9 +46,9 @@ public class SaveFileButtonController {
 
 	private static void addClickListenerToDesignSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
-			DeflectionControl deflection) {
+			DeflectionControl deflection, CheckBox nominalCheckBox) {
 		bt.setOnAction(new SaveButtonListenerDesignScene(concrete, steel, reinforcement, forces, 
-				dimensions, sls, scratch, creep, deflection));
+				dimensions, sls, scratch, creep, deflection, nominalCheckBox));
 	}
 
 	private static class SaveButtonListenerDesignScene implements EventHandler<ActionEvent> {
@@ -59,9 +61,11 @@ public class SaveFileButtonController {
 		Scratch scratch;
 		CreepCoeficent creep;
 		DeflectionControl deflection;
+		CheckBox nominalCheckBox;
 
 		protected SaveButtonListenerDesignScene(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, 
-				DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep, DeflectionControl deflection) {
+				DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, 
+				CreepCoeficent creep, DeflectionControl deflection, CheckBox nominalCheckBox) {
 			this.reinforcement = reinforcement;
 			this.forces = forces;
 			this.dimensions = dimensions;
@@ -71,13 +75,14 @@ public class SaveFileButtonController {
 			this.scratch = scratch;
 			this.creep = creep;
 			this.deflection = deflection;
+			this.nominalCheckBox = nominalCheckBox;
 		}
 
 		@Override
 		public void handle(ActionEvent arg0) {
 			try {
 				ResultsToPDF.saveDesingResultsToPDF(concrete, steel, reinforcement, forces, dimensions, 
-						sls, scratch, creep, deflection);
+						sls, scratch, creep, deflection, nominalCheckBox);
 			} catch (IOException | DocumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

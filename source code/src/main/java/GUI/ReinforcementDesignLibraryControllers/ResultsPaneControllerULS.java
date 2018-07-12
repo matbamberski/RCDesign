@@ -735,6 +735,8 @@ public class ResultsPaneControllerULS {
 		gridLabel313.setText("");
 		gridLabel314.setText("");
 		gridLabel315.setText("");
+		gridLabel319.setText("");
+		gridLabel320.setText(""); 
 		
 		if (internalForces.getMomentMmax() != 0 || internalForces.getMomentMmin() != 0 || internalForces.getMomentNmax() != 0
 				|| internalForces.getMomentNmin() != 0) {
@@ -753,6 +755,8 @@ public class ResultsPaneControllerULS {
 			gridLabel211.setText("");
 			gridLabel310.setText("");
 			gridLabel311.setText("");
+			gridLabel319.setText("");
+			gridLabel320.setText(""); 
 		}
 		
 	}

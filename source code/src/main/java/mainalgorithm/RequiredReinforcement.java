@@ -39,7 +39,7 @@ public class RequiredReinforcement {
 			Reinforcement reinforcement) {
 		reinforcement.setRequiredSymmetricalAS1(beam.getAS1());
 		reinforcement.setRequiredSymmetricalAS2(beam.getAS2());
-	}
+		}
 
 	private void setRequiredSymmetricalReinforcementForTrapeze(TrapezeBeam beam, Reinforcement reinforcement) {
 		reinforcement.setRequiredSymmetricalAS1(beam.getAS1());

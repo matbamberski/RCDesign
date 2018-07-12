@@ -389,21 +389,13 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(352, 156);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		if (forces.getnCritSymmetrical() != 0) {
-			cb.showText(String.format("%.02f", forces.getnCritSymmetrical()));
-		} else {
-			cb.showText("      -,--");
-		}
+		cb.showText("      -,--");
 		cb.endText();
 
 		cb.beginText();
 		cb.moveText(352, 111);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		if (forces.getnCritSymmetrical() != 0) {
-			cb.showText(String.format("%.02f", forces.getnCritUnsymmetrical()));
-		} else {
-			cb.showText("      -,--");
-		}
+		cb.showText("      -,--");
 		cb.endText();
 
 		cb.beginText();
@@ -415,7 +407,7 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(495, 111);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		cb.showText(String.format("%.02f", reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() * 100));
+		cb.showText("  -,--");
 		cb.endText();
 
 
@@ -740,21 +732,13 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(352, 156);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		if (forces.getnCritSymmetrical() != 0) {
-			cb.showText(String.format("%.02f", forces.getnCritSymmetrical()));
-		} else {
-			cb.showText("      -,--");
-		}
+		cb.showText("      -,--");
 		cb.endText();
 
 		cb.beginText();
 		cb.moveText(352, 111);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		if (forces.getnCritSymmetrical() != 0) {
-			cb.showText(String.format("%.02f", forces.getnCritUnsymmetrical()));
-		} else {
-			cb.showText("      -,--");
-		}
+		cb.showText("      -,--");
 		cb.endText();
 
 		cb.beginText();
@@ -1100,7 +1084,7 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(352, 156);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		if (forces.getnCritSymmetrical() != 0) {
+		if (nominalCheckBox.isSelected()) {
 			cb.showText(String.format("%.02f", forces.getnCritSymmetrical()));
 		} else {
 			cb.showText("      -,--");
@@ -1110,7 +1094,7 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(352, 111);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		if (forces.getnCritSymmetrical() != 0) {
+		if (nominalCheckBox.isSelected()) {
 			cb.showText(String.format("%.02f", forces.getnCritUnsymmetrical()));
 		} else {
 			cb.showText("      -,--");

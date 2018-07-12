@@ -106,7 +106,8 @@ public class Sls {
 	private void slsDesignedSymmetricalReinforcement(Concrete concrete, Steel steel, Cement cement, 
 			Reinforcement reinforcement, InternalForces forces, CreepCoeficent creepCoeficent,
 			DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2, double aSRozciagane, 
-			double aSTensiledDiameter, double mEd, double nEd, int nSSymmetrical, Scratch scratches, DeflectionControl deflection) {
+			double aSTensiledDiameter, double mEd, double nEd, int nSSymmetrical, 
+			Scratch scratches, DeflectionControl deflection) {
 		calculateReinforcementCrossSectionOfConcreteCharacteristics(dimensions, aS1, aS2);
 		//Scratch scratchess = new Scratch();
 		//phiMaxSymmetricalDesigned = scratchess.checkScratchesWithoutCalculatingCrackWidth(concrete, dimensions, mEd, alfaE, dimensions.getI2(), dimensions.getX2());
@@ -122,13 +123,14 @@ public class Sls {
 	private void slsRequiredUnsymmetricalReinforcement(Concrete concrete, Steel steel, Cement cement, 
 			Reinforcement reinforcement, InternalForces forces, CreepCoeficent creepCoeficent,
 			DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2, double aSRozciagane, 
-			double aSTensiledDiameter, double mEd, double nEd, int nSUnsymmetrical, Scratch scratches, DeflectionControl deflection) {
+			double aSTensiledDiameter, double mEd, double nEd, int nSUnsymmetrical, 
+			Scratch scratches, DeflectionControl deflection) {
 		calculateReinforcementCrossSectionOfConcreteCharacteristics(dimensions, aS1, aS2);
-		//Scratch scratches = new Scratch();
+		//Scratch scratchess = new Scratch();
 		//phiMaxUnsymmetricalRequired = scratches.checkScratchesWithoutCalculatingCrackWidth(concrete, dimensions, mEd, alfaE, dimensions.getI2(), dimensions.getX2());
 		wUnsymmetricalRequired = scratches.checkScratchesWithCalculatingCrackWidth(steel, concrete, dimensions, reinforcement, forces, dimensions.getX2(), alfaE, aSRozciagane, aSTensiledDiameter, mEd,
 				nEd, nSUnsymmetrical);
-		//DeflectionControl deflection = new DeflectionControl();
+		//DeflectionControl deflections = new DeflectionControl();
 		lDividedByDLimUnsymmetricalRequired = deflection.runDeflectionControlWithoutCalculating(concrete, steel, dimensions, aS1);
 		fUnsymmetricalRequired = deflection.runDeflectionControlWithCalculatingDeflection(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
 				aSTensiledDiameter, reinforcement.getaSW1Diameter());
@@ -138,7 +140,8 @@ public class Sls {
 	private void slsDesignedUnsymmetricalReinforcement(Concrete concrete, Steel steel, Cement cement, 
 			Reinforcement reinforcement, InternalForces forces, CreepCoeficent creepCoeficent,
 			DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2, double aSRozciagane, 
-			double aSTensiledDiameter, double mEd, double nEd, int nSSymmetrical, Scratch scratches, DeflectionControl deflection) {
+			double aSTensiledDiameter, double mEd, double nEd, int nSSymmetrical, 
+			Scratch scratches, DeflectionControl deflection) {
 		calculateReinforcementCrossSectionOfConcreteCharacteristics(dimensions, aS1, aS2);
 		//Scratch scratches = new Scratch();
 		//phiMaxUnsymmetricalDesigned = scratches.checkScratchesWithoutCalculatingCrackWidth(concrete, dimensions, mEd, alfaE, dimensions.getI2(), dimensions.getX2());
@@ -205,7 +208,7 @@ public class Sls {
 		slsDesignedSymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, DesignedSymmetricalAS1, DesignedSymmetricalAS2, DesignedSymmetricalAS1,
 				DesignedDiameterSymmetricalAS1, mEd, nEd, nSUnsymmetrical, scratches, deflection);
-		
+		if(nEd != 0) {
 		System.out.println("\nSLS REQUIRE UNSYMMETRICAL\n\n");
 		slsRequiredUnsymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, RequiredUnsymmetricalAS1, RequiredUnsymmetricalAS2, RequiredUnsymmetricalAS1,
@@ -215,7 +218,7 @@ public class Sls {
 		slsDesignedUnsymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, DesingedUnsymmetricalAS1, DesignedUnsymmetricalAS2, DesingedUnsymmetricalAS1,
 				DesignedDiameterSymmetricalAS1, mEd, nEd, nSUnsymmetrical, scratches, deflection);
-		
+		}
 	}
 
 	public double getPhiMaxSymmetricalRequired() {

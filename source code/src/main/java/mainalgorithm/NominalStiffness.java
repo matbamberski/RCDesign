@@ -157,6 +157,7 @@ public class NominalStiffness {
 		//System.out.println("m0Ed " + m0Ed + " beta " + beta + " nB "+ nB + " n0Ed " + n0Ed);
 		this.mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
 		System.out.println(mEd);
+		internalForces.setmEdStiff(mEd);
 		//sprawdzenie
 		}
 		if (n0Ed > 0.90*nB) {

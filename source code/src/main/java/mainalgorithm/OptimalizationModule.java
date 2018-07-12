@@ -22,12 +22,12 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions) {
 		super();
 		this.forces = forces;
-		this.combinations = forces.getForcesCombinations();
+		//this.combinations = forces.getForcesCombinations();
 		this.steel = steel;
 		this.concrete = concrete;
 		this.dimensions = dimensions;
 	}
-	
+	/*
 	public void findMaxAs() {
 		aS = 0;
 		for(ForcesCombination fc : combinations) {
@@ -35,7 +35,9 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				aS = fc.getaS1req()+fc.getaS2req();
 				selectedCombination = fc;
 		}
+		
 	}
+	*/
 	
 	
 	

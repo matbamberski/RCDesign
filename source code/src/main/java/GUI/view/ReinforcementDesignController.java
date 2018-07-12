@@ -573,7 +573,7 @@ public class ReinforcementDesignController {
 		stiffness = new NominalStiffness();
 		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces, nominalCheckBox);
 		scratch = new Scratch();
-		DeflectionControl deflection = new DeflectionControl();
+		deflection = new DeflectionControl();
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -701,7 +701,7 @@ public class ReinforcementDesignController {
 		// resultsPaneControllerULS, cement, sls, internalForces, creep);
 
 		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement,
-				internalForces, dimensionsOfCrossSectionOfConcrete, sls, scratch, creep, deflection);
+				internalForces, dimensionsOfCrossSectionOfConcrete, sls, scratch, creep, deflection, nominalCheckBox);
 		
 		
 

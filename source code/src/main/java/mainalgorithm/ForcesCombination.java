@@ -11,6 +11,10 @@ public class ForcesCombination {
 	private double mRd;
 	private double nRd;
 	private boolean medNegativ;
+	private double aS1req;
+	private double aS2req;
+	private double aS1prov;
+	private double aS2prov;
 	
 	private SimpleStringProperty Medtab;
 	private SimpleStringProperty Mrdtab;
@@ -31,6 +35,7 @@ public class ForcesCombination {
 	}
 
 	public double getE() {
+		countE();
 		return e;
 	}
 
@@ -129,6 +134,27 @@ public class ForcesCombination {
 		this.medNegativ = medNegativ;
 	}
 	
+	public double getaS1req() {
+		return aS1req;
+	}
+
+	public void setaS1req(double aS1req) {
+		this.aS1req = aS1req;
+	}
+
+	public double getaS2req() {
+		return aS2req;
+	}
+
+	public void setaS2req(double aS2req) {
+		this.aS2req = aS2req;
+	}
+	
+	public void swapAs1WithAs2() {
+		double tmpAs = aS1req;
+		setaS1req(aS2req);
+		setaS2req(tmpAs);
+	}
 	
 	
 }

@@ -26,11 +26,11 @@ public class CrossSectionTypeController {
 			DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination,
 			VBox befftHftVBox, AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1,
 			ArrayList<TextField> list2, ArrayList<TextField> list3, TextField befft, CheckBox columnCheckBox, InternalForces forces,
-			TextField momentMmax, TextField normalnaMmax) {
+			TextField momentMmax, TextField normalnaMmax, ChoiceBox<String> typeOfLoadChoiceBox) {
 		
 		ChoiceBoxListener choiceBox = new ChoiceBoxListener(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel, 
 				tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, 
-				list1, list2, list3, befft);
+				list1, list2, list3, befft, typeOfLoadChoiceBox);
 		initializeChoiceBox(crossSectionTypeChoiceBox);
 		addListenerToChoiceBox(crossSectionTypeChoiceBox, bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
 				dimensionsOfCrossSectionOfConcrete, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, list1, list2,
@@ -39,7 +39,7 @@ public class CrossSectionTypeController {
 		addListenerToCheckBox(choiceBox, befft, tW, bEffLabel, bEffLowerLabel, tWLabel, 
 				tWLowerLabel, hBoxCombination, dimensionsOfCrossSectionOfConcrete, 
 				befftHftVBox, mEdAnchorPane, nEdHBox, list1, list3, columnCheckBox, crossSectionTypeChoiceBox, forces,
-				momentMmax, normalnaMmax);
+				momentMmax, normalnaMmax, typeOfLoadChoiceBox);
 	}
 
 	public static void addPropertiesToBTextField(TextField b, TextField beff, TextField befft,
@@ -100,10 +100,11 @@ public class CrossSectionTypeController {
 	private static void addListenerToCheckBox(ChoiceBoxListener choiceBox, TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel,
     		Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete,
     		VBox befftHftVBox, AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list3, CheckBox cb, 
-    		ChoiceBox<String> crossSectionTypeChoiceBox, InternalForces forces, TextField momentMmax, TextField normalnaMmax) {
+    		ChoiceBox<String> crossSectionTypeChoiceBox, InternalForces forces, TextField momentMmax, 
+    		TextField normalnaMmax, ChoiceBox<String> typeOfLoadChoiceBox) {
 		cb.selectedProperty().addListener(new CheckBoxListener(choiceBox, bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, 
 				hBoxCombination, dimensionsOfCrossSectionOfConcrete, befftHftVBox, mEdAnchorPane, nEdHBox, 
-				list1, list3, crossSectionTypeChoiceBox, forces, momentMmax, normalnaMmax));
+				list1, list3, crossSectionTypeChoiceBox, forces, momentMmax, normalnaMmax, typeOfLoadChoiceBox));
 	}
 	
 	
@@ -480,12 +481,13 @@ public class CrossSectionTypeController {
 		private ArrayList<TextField> list2;
 		private ArrayList<TextField> list3;
 		private TextField befft;
+		private ChoiceBox<String> typeOfLoadChoiceBox;
 		
 		protected ChoiceBoxListener(ChoiceBox<String> crossSectionTypeChoiceBox, TextField bEff, TextField tW,
 				Label bEffLabel, Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel,
 				DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete, HBox hBoxCombination,
 				VBox befftHftVBox, AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1,
-				ArrayList<TextField> list2, ArrayList<TextField> list3, TextField befft) {
+				ArrayList<TextField> list2, ArrayList<TextField> list3, TextField befft, ChoiceBox<String> typeOfLoadChoiceBox) {
 			this.bEff = bEff;
 			this.tW = tW;
 			this.bEffLabel = bEffLabel;
@@ -502,13 +504,14 @@ public class CrossSectionTypeController {
 			this.list2 = list2;
 			this.list3 = list3;
 			this.befft = befft;
+			this.typeOfLoadChoiceBox = typeOfLoadChoiceBox;
 		}
 
 		
 		@Override
 		public void changed(ObservableValue<? extends Number> arg0, Number arg1, Number newValue) {
 			setTCrossSectionTextFields(bEff, tW, newValue.intValue(), bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-					hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, list1, list2, list3);
+					hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, list1, list2, list3, typeOfLoadChoiceBox);
 			/// arg0 - informacje co to itp System.out.println(arg0);
 			/// arg1 poprzedni wybor System.out.println(arg1);
 			/// newValue - nowy wybor System.out.println(newValue);
@@ -517,14 +520,14 @@ public class CrossSectionTypeController {
 		private void setTCrossSectionTextFields(TextField bEff, TextField tW, int choice, Label bEffLabel,
 				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
 				AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list2,
-				ArrayList<TextField> list3) {
+				ArrayList<TextField> list3, ChoiceBox<String> typeOfLoadChoiceBox) {
 			if (choice == 0) {
 				setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-						hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
+						hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, typeOfLoadChoiceBox);
 				setBeamToRectangular(dimensionsOfCrossSectionOfConcrete, list1);
 			} else if (choice == 1) {
 				setTCrossSectionTextFieldsVisible(bEff, tW, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel,
-						hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
+						hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, typeOfLoadChoiceBox);
 				setBeamToTrapeze(dimensionsOfCrossSectionOfConcrete, list2);
 			} else {
 				/*
@@ -564,7 +567,7 @@ public class CrossSectionTypeController {
 
 		private void setTCrossSectionTextFieldsVisible(TextField bEff, TextField tW, Label bEffLabel,
 				Label bEffLowerLabel, Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
-				AnchorPane mEdAnchorPane, HBox nEdHBox) {
+				AnchorPane mEdAnchorPane, HBox nEdHBox, ChoiceBox<String> typeOfLoadChoiceBox) {
 			bEff.setVisible(true);
 			tW.setVisible(true);
 			bEffLabel.setVisible(true);
@@ -576,11 +579,12 @@ public class CrossSectionTypeController {
 			mEdAnchorPane.setVisible(true);
 			nEdHBox.setVisible(false);
 			befft.setVisible(true);
+			typeOfLoadChoiceBox.setVisible(true);
 		}
 
 		private void setTCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel, Label tWLabel,
 				Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
-				AnchorPane mEdAnchorPane, HBox nEdHBox) {
+				AnchorPane mEdAnchorPane, HBox nEdHBox, ChoiceBox<String> typeOfLoadChoiceBox) {
 			bEff.setVisible(false);
 			tW.setVisible(false);
 			bEffLabel.setVisible(false);
@@ -591,11 +595,12 @@ public class CrossSectionTypeController {
 			befftHftVBox.setVisible(false);
 			mEdAnchorPane.setVisible(true);
 			nEdHBox.setVisible(true);
+			typeOfLoadChoiceBox.setVisible(true);
 		}
 
 		private void setColumnCrossSectionTextFieldsInvisible(TextField bEff, TextField tW, Label bEffLabel,
 				Label tWLabel, Label bEffLowerLabel, Label tWLowerLabel, HBox hBoxCombination, VBox befftHftVBox,
-				AnchorPane mEdAnchorPane, HBox nEdHBox) {
+				AnchorPane mEdAnchorPane, HBox nEdHBox, ChoiceBox<String> typeOfLoadChoiceBox) {
 			bEff.setVisible(false);
 			tW.setVisible(false);
 			bEffLabel.setVisible(false);
@@ -606,6 +611,7 @@ public class CrossSectionTypeController {
 			befftHftVBox.setVisible(false);
 			mEdAnchorPane.setVisible(false);
 			nEdHBox.setVisible(false);
+			typeOfLoadChoiceBox.setVisible(false);
 		}
 
 		private void setTextFieldsToZero(ArrayList<TextField> list) {
@@ -775,12 +781,14 @@ public class CrossSectionTypeController {
         private InternalForces forces;
         private TextField momentMmax;
         private TextField normalnaMmax;
+        private ChoiceBox<String> typeOfLoadChoiceBox;
 		
 		
         protected CheckBoxListener(ChoiceBoxListener choiceBox, TextField bEff, TextField tW, Label bEffLabel, Label bEffLowerLabel,
         		Label tWLabel, Label tWLowerLabel, HBox hBoxCombination, DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete,
         		VBox befftHftVBox, AnchorPane mEdAnchorPane, HBox nEdHBox, ArrayList<TextField> list1, ArrayList<TextField> list3, 
-        		ChoiceBox<String> crossSectionTypeChoiceBox, InternalForces forces, TextField momentMmax, TextField normalnaMmax) {
+        		ChoiceBox<String> crossSectionTypeChoiceBox, InternalForces forces, TextField momentMmax, TextField normalnaMmax,
+        		ChoiceBox<String> typeOfLoadChoiceBox) {
 			this.choiceBox = choiceBox;
 			this.bEff = bEff;
             this.tW = tW;
@@ -799,6 +807,7 @@ public class CrossSectionTypeController {
             this.forces = forces;
             this.normalnaMmax = normalnaMmax;
             this.momentMmax = momentMmax;
+            this.typeOfLoadChoiceBox = typeOfLoadChoiceBox;
 			
 		}
 
@@ -819,7 +828,8 @@ public class CrossSectionTypeController {
 				forces.setNormalnaNmin(0.0);
 				
 				choiceBox.setBeamToRectangular(dimensionsOfCrossSectionOfConcrete, list1);
-				choiceBox.setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
+				choiceBox.setTCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, 
+						tWLowerLabel, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, typeOfLoadChoiceBox);
 				forces.setmEd(forces.getM0Ed());
 			} else {
 				//momentMmax.setText(String.valueOf(forces.getmEd()));
@@ -838,7 +848,8 @@ public class CrossSectionTypeController {
 				forces.setNormalnaNmin(0.0);
 				
 				choiceBox.setColumn(dimensionsOfCrossSectionOfConcrete, list3);
-				choiceBox.setColumnCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, tWLowerLabel, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox);
+				choiceBox.setColumnCrossSectionTextFieldsInvisible(bEff, tW, bEffLabel, tWLabel, bEffLowerLabel, 
+						tWLowerLabel, hBoxCombination, befftHftVBox, mEdAnchorPane, nEdHBox, typeOfLoadChoiceBox);
 				forces.setmEd(forces.getM0Ed());
 			}
 			

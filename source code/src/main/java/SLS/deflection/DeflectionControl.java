@@ -133,7 +133,7 @@ public class DeflectionControl {
 	}
 
 	private void calculateEpsilonCS() {
-		epsilonCS = (epsilonCD + epsilonCA) * -1;
+		epsilonCS = epsilonCD + epsilonCA;
 	}
 
 	private void calculateB1(InternalForces forces, Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions) {
@@ -173,11 +173,11 @@ public class DeflectionControl {
 	}
 
 	private void calculateF1Cs(Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
-		f1Cs = -alfaM * steel.getES() * 1000 * epsilonCS * dimensions.getS1() * dimensions.getlEff() * dimensions.getlEff() / b1;
+		f1Cs = -alfaCS * steel.getES() * 1000 * epsilonCS * dimensions.getS1() * dimensions.getlEff() * dimensions.getlEff() / b1;
 	}
 
 	private void calculateF2Cs(Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
-		f2Cs = -alfaM * steel.getES() * 1000 * epsilonCS * dimensions.getS2() * dimensions.getlEff() * dimensions.getlEff() / b2;
+		f2Cs = -alfaCS * steel.getES() * 1000 * epsilonCS * dimensions.getS2() * dimensions.getlEff() * dimensions.getlEff() / b2;
 	}
 
 	private void calculateR(DimensionsOfCrossSectionOfConcrete dimensions, double aSTensiled, double aSTensiledDiameter, double aSW1) {

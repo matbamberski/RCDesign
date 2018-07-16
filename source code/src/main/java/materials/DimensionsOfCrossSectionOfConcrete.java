@@ -39,6 +39,7 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double cNom;
 	private double wLim;
 	private double aLim;
+	private double s1C;
 
 	
 	public double getxC() {
@@ -210,7 +211,7 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateX1() {
-		x1 = s1 / aC1;
+		x1 = s1C / aC1;
 	}
 
 	public void calculateAC1(double alfaE, double aS1, double aS2) {
@@ -226,6 +227,13 @@ public class DimensionsOfCrossSectionOfConcrete {
 		s1 = (bEff-b)*tW*tW/2 + (befft-b)*hft*(h-hft/2) + b*h*h/2 + alfaE*aS2*a2 + alfaE*aS1*d;
 		//s1 = b * h * h / 2 + (bEff - b) * tW * tW / 2 + alfaE * (aS1 * d + aS2 * a2);
 		System.out.println("s1 initial "+ s1);
+		
+	}
+	
+	public void calculateS1C(double alfaE, double aS1, double aS2) {
+		s1C = (bEff-b)*tW*tW/2 + (befft-b)*hft*(h-hft/2) + b*h*h/2 + alfaE*aS2*a2 + alfaE*aS1*d;
+		//s1 = b * h * h / 2 + (bEff - b) * tW * tW / 2 + alfaE * (aS1 * d + aS2 * a2);
+		System.out.println("s1C initial "+ s1C);
 		
 	}
 

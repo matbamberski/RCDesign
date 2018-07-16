@@ -367,20 +367,24 @@
                   <TextField fx:id="mEdCharDlugTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <HBox fx:id="NEdHBoxLine" prefHeight="30.0" prefWidth="200.0">
+            <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <AnchorPane prefHeight="29.0" prefWidth="75.0">
+                  <HBox fx:id="NEdHBoxLine" prefHeight="30.0" prefWidth="197.0">
                      <children>
-                        <Label fx:id="nEdLabel" text="N     [kN]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                        <Label text="Ed" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="8.0">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
+                        <AnchorPane prefHeight="29.0" prefWidth="75.0">
+                           <children>
+                              <Label fx:id="nEdLabel" text="N     [kN]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                              <Label text="Ed" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="8.0">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <TextField fx:id="nEdTextField" prefHeight="26.0" prefWidth="46.0" />
+                        <Region prefWidth="70.0" />
                      </children>
-                  </AnchorPane>
-                  <TextField fx:id="nEdTextField" prefHeight="26.0" prefWidth="46.0" />
-                  <Region prefWidth="75.0" />
+                  </HBox>
                   <ChoiceBox fx:id="typeOfLoadChoiceBox" prefHeight="25.0" prefWidth="175.0" />
                </children>
             </HBox>
@@ -397,7 +401,7 @@
                         <TextField fx:id="vEdTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="30.0" prefWidth="75.0">
+                  <AnchorPane prefHeight="30.0" prefWidth="76.0">
                      <children>
                         <Label text="V         [kN]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
                         <Label text="Ed,red" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="8.0">

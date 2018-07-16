@@ -66,7 +66,9 @@ public class Sls {
 	}
 
 	private void calculateCrossSectionPhase1(DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		dimensions.calculateInitialS1(alfaE, aS1, aS2);
+		System.out.println("*** FAZA I ***");
+		//dimensions.calculateInitialS1(alfaE, aS1, aS2);
+		dimensions.calculateS1C(alfaE, aS1, aS2);
 		dimensions.calculateAC1(alfaE, aS1, aS2);
 		dimensions.calculateX1();
 		dimensions.calculateI1(alfaE, aS1, aS2);
@@ -77,6 +79,7 @@ public class Sls {
 		//dimensions.calculateX2(alfaE, aS1, aS2);
 		//dimensions.calculateI2(alfaE, aS1, aS2);
 		//dimensions.claculateS2(aS1);
+		System.out.println("*** FAZA II ***");
 		dimensions.calculateX2AndS2AndI2(alfaE, aS1, aS2);
 	}
 

@@ -114,7 +114,7 @@ public class Scratch {
 	private void calculateACEff(DimensionsOfCrossSectionOfConcrete dimensions, double x2) {
 		double hcef = Math.min(((dimensions.getH()-x2)/3), (2.5*(dimensions.getH()-dimensions.getD())));
 		if (hcef > dimensions.getHft()) {
-			aCEff = (dimensions.getBefft() - dimensions.getB())*dimensions.getHft() + dimensions.getH()*hcef;
+			aCEff = (dimensions.getBefft() - dimensions.getB())*dimensions.getHft() + dimensions.getB()*hcef;
 		} else {
 			aCEff = dimensions.getBefft()*hcef;
 		}

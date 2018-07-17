@@ -120,9 +120,9 @@ public class Column extends ClearBendingBeam {
 				countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 						combination1, cement, creep, checkbox);
 				/*
-				 * countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions,
-				 * reinforcement, stiffness, combination1, cement, creep, checkbox);
-				 */
+				countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions,
+				reinforcement, stiffness, combination1, cement, creep, checkbox);
+				*/
 				if (checkbox.isSelected() && combination1.getN() >= 0
 						&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08)
 					combination1.setmStiff(stiffness.getmEd());

@@ -44,6 +44,7 @@ public class DiagnosisMainAlgorithm {
 		double designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS2();
 		
 		if (reinforcement.getDesignedSymmetricalAS1() < reinforcement.getDesignedSymmetricalAS2()) {
+			/*
 			requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
 			requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS1();
 			designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS2();
@@ -52,11 +53,19 @@ public class DiagnosisMainAlgorithm {
 			requiredUnSymmetricalAS2 = reinforcement.getRequiredUnsymmetricalAS1();
 			designedUnSymmetricalAS1 = reinforcement.getDesignedUnsymmetricalAS2();
 			designedUnSymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
+			  */
+			
 			if (mEd <0) {
 				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS2);
 				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS1);
 				reinforcement.setRequiredUnsymmetricalAS1(requiredUnSymmetricalAS1);
 				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS2);
+				
+				designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS2();
+				designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS1();
+				designedUnSymmetricalAS1 = reinforcement.getDesignedUnsymmetricalAS2();
+				designedUnSymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
+				
 			} else {
 				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS1);
 				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS2);
@@ -64,6 +73,7 @@ public class DiagnosisMainAlgorithm {
 				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS1);
 			}
 		} else {
+			/*
 			requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS1();
 			requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS2();
 			designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS1();
@@ -72,11 +82,17 @@ public class DiagnosisMainAlgorithm {
 			requiredUnSymmetricalAS2 = reinforcement.getRequiredUnsymmetricalAS2();
 			designedUnSymmetricalAS1 = reinforcement.getDesingedUnsymmetricalAS1();
 			designedUnSymmetricalAS2 = reinforcement.getDesignedUnsymmetricalAS2();
+			*/
 			if (mEd <0) {
 				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS2);
 				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS1);
 				reinforcement.setRequiredUnsymmetricalAS1(requiredUnSymmetricalAS1);
 				reinforcement.setRequiredUnsymmetricalAS2(requiredUnSymmetricalAS2);
+				
+				designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS2();
+				designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS1();
+				designedUnSymmetricalAS1 = reinforcement.getDesignedUnsymmetricalAS2();
+				designedUnSymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
 			} else {
 				reinforcement.setRequiredSymmetricalAS1(requiredSymmetricalAS1);
 				reinforcement.setRequiredSymmetricalAS2(requiredSymmetricalAS2);

@@ -35,12 +35,12 @@ public class OutputFormatter {
 	}
 
 	public static String diagnosisMed(double number) {
-		String formatterNumber = String.format("%.03f", number) + " kNm";
+		String formatterNumber = String.format("%.02f", number) + " kNm";
 		return formatterNumber;
 	}
 
 	public static String diagnosisVedAndNed(double number) {
-		String formatterNumber = String.format("%.03f", number) + " kN";
+		String formatterNumber = String.format("%.02f", number) + " kN";
 		return formatterNumber;
 	}
 

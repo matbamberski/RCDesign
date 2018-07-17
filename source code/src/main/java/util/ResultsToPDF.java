@@ -291,13 +291,13 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(175, 325);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		cb.showText(PrintFormatter.wFormatter(sls.getwSymmetricalDesigned()));
+		cb.showText(PrintFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
 		cb.endText();
 
 		cb.beginText();
 		cb.moveText(330, 325);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		cb.showText(PrintFormatter.fFormatter(sls.getfSymmetricalDesigned()));
+		cb.showText(PrintFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
 		cb.endText();
 		
 		cb.beginText();
@@ -633,13 +633,13 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(175, 316);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		cb.showText(PrintFormatter.wFormatter(sls.getwSymmetricalDesigned()));
+		cb.showText(PrintFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
 		cb.endText();
 
 		cb.beginText();
 		cb.moveText(330, 316);
 		cb.setFontAndSize(BaseFont.createFont(), 12);
-		cb.showText(PrintFormatter.fFormatter(sls.getfSymmetricalDesigned()));
+		cb.showText(PrintFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
 		cb.endText();
 
 		///////////// PARAMETRY DODATKOWE /////////////

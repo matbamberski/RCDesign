@@ -30,6 +30,14 @@ public class Sls {
 	private double fSymmetricalDesigned;
 	private double fUnsymmetricalRequired;
 	private double fUnsymmetricalDesigned;
+	private double fSymmetricalRequiredWithoutShrinkage;
+	private double fSymmetricalDesignedWithoutShrinkage;
+	private double fUnsymmetricalRequiredWithoutShrinkage;
+	private double fUnsymmetricalDesignedWithoutShrinkage;
+	private double wSymmetricalRequiredWithoutShrinkage;
+	private double wSymmetricalDesignedWithoutShrinkage;
+	private double wUnsymmetricalRequiredWithoutShrinkage;
+	private double wUnsymmetricalDesignedWithoutShrinkage;
 
 	private boolean isMedLessThen0;
 
@@ -103,6 +111,8 @@ public class Sls {
 		lDividedByDLimSymmetricalRequired = deflection.runDeflectionControlWithoutCalculating(concrete, steel, dimensions, aS1);
 		fSymmetricalRequired = deflection.runDeflectionControlWithCalculatingDeflection(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
 				aSTensiledDiameter, reinforcement.getaSW1Diameter());
+		fSymmetricalRequiredWithoutShrinkage = deflection.runDeflectionControlWithCalculatingDeflectionWithoutShrinkage(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
+				aSTensiledDiameter, reinforcement.getaSW1Diameter());
 		System.out.println("a");
 	}
 
@@ -120,6 +130,9 @@ public class Sls {
 		lDividedByDLimSymmetricalDesigned = deflection.runDeflectionControlWithoutCalculating(concrete, steel, dimensions, aS1);
 		fSymmetricalDesigned = deflection.runDeflectionControlWithCalculatingDeflection(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
 				aSTensiledDiameter, reinforcement.getaSW1Diameter());
+		fSymmetricalDesignedWithoutShrinkage = deflection.runDeflectionControlWithCalculatingDeflectionWithoutShrinkage(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
+				aSTensiledDiameter, reinforcement.getaSW1Diameter());
+		//fSymmetricalDesignedWithoutShrinkage = deflection.
 		System.out.println("a");
 	}
 
@@ -137,6 +150,8 @@ public class Sls {
 		lDividedByDLimUnsymmetricalRequired = deflection.runDeflectionControlWithoutCalculating(concrete, steel, dimensions, aS1);
 		fUnsymmetricalRequired = deflection.runDeflectionControlWithCalculatingDeflection(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
 				aSTensiledDiameter, reinforcement.getaSW1Diameter());
+		fUnsymmetricalRequiredWithoutShrinkage = deflection.runDeflectionControlWithCalculatingDeflectionWithoutShrinkage(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
+				aSTensiledDiameter, reinforcement.getaSW1Diameter());
 		System.out.println("a");
 	}
 
@@ -153,6 +168,8 @@ public class Sls {
 		//DeflectionControl deflection = new DeflectionControl();
 		lDividedByDLimUnsymmetricalDesigned = deflection.runDeflectionControlWithoutCalculating(concrete, steel, dimensions, aS1);
 		fUnsymmetricalDesigned = deflection.runDeflectionControlWithCalculatingDeflection(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
+				aSTensiledDiameter, reinforcement.getaSW1Diameter());
+		fUnsymmetricalDesignedWithoutShrinkage = deflection.runDeflectionControlWithCalculatingDeflectionWithoutShrinkage(concrete, steel, cement, dimensions, forces, scratches.getMCr(), forces.getAlfaM(), mEd, aSRozciagane,
 				aSTensiledDiameter, reinforcement.getaSW1Diameter());
 
 	}
@@ -287,5 +304,39 @@ public class Sls {
 	public double getfUnsymmetricalDesigned() {
 		return fUnsymmetricalDesigned;
 	}
+
+	public double getfSymmetricalRequiredWithoutShrinkage() {
+		return fSymmetricalRequiredWithoutShrinkage;
+	}
+
+	public double getfSymmetricalDesignedWithoutShrinkage() {
+		return fSymmetricalDesignedWithoutShrinkage;
+	}
+
+	public double getfUnsymmetricalRequiredWithoutShrinkage() {
+		return fUnsymmetricalRequiredWithoutShrinkage;
+	}
+
+	public double getfUnsymmetricalDesignedWithoutShrinkage() {
+		return fUnsymmetricalDesignedWithoutShrinkage;
+	}
+
+	public double getwSymmetricalRequiredWithoutShrinkage() {
+		return wSymmetricalRequiredWithoutShrinkage;
+	}
+
+	public double getwSymmetricalDesignedWithoutShrinkage() {
+		return wSymmetricalDesignedWithoutShrinkage;
+	}
+
+	public double getwUnsymmetricalRequiredWithoutShrinkage() {
+		return wUnsymmetricalRequiredWithoutShrinkage;
+	}
+
+	public double getwUnsymmetricalDesignedWithoutShrinkage() {
+		return wUnsymmetricalDesignedWithoutShrinkage;
+	}
+	
+	
 
 }

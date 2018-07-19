@@ -753,7 +753,8 @@ public class ReinforcementDiagnosisController {
 				nominalCheckBox, tableViewCombinations, columnCheckBox, scratch, deflection);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
-				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
+				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm,
+				scratch, creep, deflection, nominalCheckBox, stiffness);
 		
 		GraphButtonController.addPropertiesToDesignButton(graphButton, this, graph);
 		

@@ -701,7 +701,7 @@ public class ReinforcementDesignController {
 		// resultsPaneControllerULS, cement, sls, internalForces, creep);
 
 		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement,
-				internalForces, dimensionsOfCrossSectionOfConcrete, sls, scratch, creep, deflection, nominalCheckBox);
+				internalForces, dimensionsOfCrossSectionOfConcrete, sls, scratch, creep, deflection, nominalCheckBox, stiffness);
 		
 		
 

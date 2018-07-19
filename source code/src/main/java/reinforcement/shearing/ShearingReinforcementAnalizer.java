@@ -77,6 +77,9 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
 		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
 		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+		forces.setvRdCdesign(vRDC);
+		forces.setvRdSdesign(vRdS);
+		forces.setvRdMaxdesign(vRdMax);
 	}
 		
 	public void doFullShearingReinforcementAnalysisDiagnosis(Concrete concrete, Steel steel,
@@ -101,6 +104,9 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
 		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
 		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+		forces.setvRdCdiagnosis(vRDC);
+		forces.setvRdSdiagnosis(vRdS);
+		forces.setvRdMaxdiagnosis(vRdMax);
 		
 		/*
 		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
@@ -436,7 +442,20 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("roWMin " + roWMin);
 	}
 
+	
 
+
+	public double getvRdMax() {
+		return vRdMax;
+	}
+
+	public double getvRDC() {
+		return vRDC;
+	}
+
+	public double getvRdS() {
+		return vRdS;
+	}
 
 	private void pushResultsToPDFWhenS2WasGiven(InternalForces forces) {
 

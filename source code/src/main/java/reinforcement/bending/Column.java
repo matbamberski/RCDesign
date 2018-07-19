@@ -21,6 +21,8 @@ public class Column extends ClearBendingBeam {
 	private double reinforcementRatio;
 	private RequiredReinforcement requiredReinforcement;
 	private boolean withDesign;
+	private double aS1 = 0;
+	private double aS2 = 0;
 
 	public Column(RequiredReinforcement reqReinforcement, boolean withDesign) {
 		this.requiredReinforcement = reqReinforcement;
@@ -162,6 +164,7 @@ public class Column extends ClearBendingBeam {
 
 			reinforcementRatio1 = (0.08 + reinforcement.getDegreeOfDesignedSymmetricalReinforcement()) / 2;
 			reinforcementRatio3 = (0.08 + reinforcement.getDegreeOfDesignedSymmetricalReinforcement()) / 2;
+			
 
 			do {
 				if (reinforcementRatio1 == 0.0) {
@@ -184,7 +187,10 @@ public class Column extends ClearBendingBeam {
 				double Ro = reinforcement.getDegreeOfDesignedSymmetricalReinforcement();
 				System.out.println("Moment: " + internalForces.getmEd());
 				System.out.println("Ro: " + Ro);
-
+				
+				aS1 = reinforcement.getDesignedSymmetricalAS1();
+				aS2 = reinforcement.getDesignedSymmetricalAS2();
+				
 				reinforcement.setReinforcementRatio(reinforcementRatio1);
 				stiffness.setRoS1(reinforcementRatio1);
 				stiffness.setM0Ed(m0Ed);
@@ -197,7 +203,7 @@ public class Column extends ClearBendingBeam {
 					if (checkbox.isSelected() && combination.getN() >= 0
 							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-								combination.getN(), cement, creep);
+								combination.getN(), cement, creep, aS1, aS2, checkbox);
 						internalForces.setnCritSymmetrical(stiffness.getnB());
 						if (stiffness.isnBExceeded()) {
 							internalForces.setmEd(9999999.9);
@@ -216,7 +222,7 @@ public class Column extends ClearBendingBeam {
 					if (checkbox.isSelected() && combination.getN() >= 0
 							&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-								combination.getN(), cement, creep);
+								combination.getN(), cement, creep, aS1, aS2, checkbox);
 						internalForces.setnCritSymmetrical(stiffness.getnB());
 						if (stiffness.isnBExceeded()) {
 							internalForces.setmEd(9999999.9);
@@ -384,6 +390,15 @@ public class Column extends ClearBendingBeam {
 				}
 
 				reinforcement.setReinforcementRatio(reinforcementRatio1);
+				
+				if(withDesign) {
+					aS1 = reinforcement.getDesingedUnsymmetricalAS1();
+					aS2 = reinforcement.getDesignedUnsymmetricalAS2();
+				} else {
+					aS1 = reinforcement.getDesignedSymmetricalAS1();
+					aS2 = reinforcement.getDesignedSymmetricalAS2();
+				}
+				
 				stiffness.setRoS1(reinforcementRatio1);
 				stiffness.setM0Ed(m0Ed);
 				stiffness.setN0Ed(combination.getN());
@@ -396,7 +411,7 @@ public class Column extends ClearBendingBeam {
 					if (checkbox.isSelected() && combination.getN() >= 0
 							&& reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-								combination.getN(), cement, creep);
+								combination.getN(), cement, creep, aS1, aS2, checkbox);
 						internalForces.setnCritUnsymmetrical(stiffness.getnB());
 						/// Metoda nominalnej sztywnosci - nowy moment
 						if (stiffness.isnBExceeded()) {
@@ -418,7 +433,7 @@ public class Column extends ClearBendingBeam {
 					if (checkbox.isSelected() && combination.getN() >= 0
 							&& reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() < 0.08) {
 						stiffness.CountNominalStiffness(steel, concrete, internalForces, dimensions, m0Ed,
-								combination.getN(), cement, creep);
+								combination.getN(), cement, creep, aS1, aS2, checkbox);
 						internalForces.setnCritUnsymmetrical(stiffness.getnB());
 						/// Metoda nominalnej sztywnosci - nowy moment
 						if (stiffness.isnBExceeded()) {

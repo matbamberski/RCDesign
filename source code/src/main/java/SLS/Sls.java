@@ -175,7 +175,7 @@ public class Sls {
 	}
 
 	public void runSLS(Concrete concrete, Cement cement, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, CreepCoeficent creepCoeficent, Reinforcement reinforcement,
-			InternalForces forces, Scratch scratches, DeflectionControl deflection) {
+			InternalForces forces, Scratch scratches, DeflectionControl deflection, boolean withDesign) {
 		/*
 		if (forces.getCharacteristicMEdCalkowita()==0) {
 			forces.setCharacteristicMEdCalkowita(forces.getmEd()/1.45);
@@ -228,6 +228,8 @@ public class Sls {
 		slsDesignedSymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, DesignedSymmetricalAS1, DesignedSymmetricalAS2, DesignedSymmetricalAS1,
 				DesignedDiameterSymmetricalAS1, mEd, nEd, nSUnsymmetrical, scratches, deflection);
+
+		if(withDesign) {
 		if(nEd != 0) {
 		System.out.println("\nSLS REQUIRE UNSYMMETRICAL\n\n");
 		slsRequiredUnsymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
@@ -238,6 +240,9 @@ public class Sls {
 		slsDesignedUnsymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, DesingedUnsymmetricalAS1, DesignedUnsymmetricalAS2, DesingedUnsymmetricalAS1,
 				DesignedDiameterSymmetricalAS1, mEd, nEd, nSUnsymmetrical, scratches, deflection);
+		}
+		} else {
+			System.out.println("Sls sylko dla symetrycznego");
 		}
 	}
 

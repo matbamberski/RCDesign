@@ -41,7 +41,13 @@ public class InternalForces {
 	private double characteristicNEd;
 	private double characteristicVEd;
 	private double characteristicVEdRed;
-
+	private double vRdCdiagnosis;
+	private double vRdCdesign;
+	private double vRdSdiagnosis;
+	private double vRdSdesign;
+	private double vRdMaxdiagnosis;
+	private double vRdMaxdesign;
+	
 	private double alfaM;
 	private boolean isLoadSustained;
 
@@ -378,6 +384,54 @@ public class InternalForces {
 
 	public void setnCritUnsymmetrical(double nCritUnsymmetrical) {
 		this.nCritUnsymmetrical = nCritUnsymmetrical;
+	}
+	
+	public double getvRdCdiagnosis() {
+		return vRdCdiagnosis;
+	}
+
+	public void setvRdCdiagnosis(double vRdCdiagnosis) {
+		this.vRdCdiagnosis = vRdCdiagnosis;
+	}
+
+	public double getvRdCdesign() {
+		return vRdCdesign;
+	}
+
+	public void setvRdCdesign(double vRdCdesign) {
+		this.vRdCdesign = vRdCdesign;
+	}
+
+	public double getvRdSdiagnosis() {
+		return vRdSdiagnosis;
+	}
+
+	public void setvRdSdiagnosis(double vRdSdiagnosis) {
+		this.vRdSdiagnosis = vRdSdiagnosis;
+	}
+
+	public double getvRdSdesign() {
+		return vRdSdesign;
+	}
+
+	public void setvRdSdesign(double vRdSdesign) {
+		this.vRdSdesign = vRdSdesign;
+	}
+
+	public double getvRdMaxdiagnosis() {
+		return vRdMaxdiagnosis;
+	}
+
+	public void setvRdMaxdiagnosis(double vRdMaxdiagnosis) {
+		this.vRdMaxdiagnosis = vRdMaxdiagnosis;
+	}
+
+	public double getvRdMaxdesign() {
+		return vRdMaxdesign;
+	}
+
+	public void setvRdMaxdesign(double vRdMaxdesign) {
+		this.vRdMaxdesign = vRdMaxdesign;
 	}
 
 	public int checkHowManyCombinationsWithMandN() {

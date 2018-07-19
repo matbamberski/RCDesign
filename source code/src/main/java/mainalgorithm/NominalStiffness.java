@@ -1,5 +1,6 @@
 package mainalgorithm;
 import SLS.creepCoeficent.CreepCoeficent;
+import javafx.scene.control.CheckBox;
 import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -18,6 +19,12 @@ public class NominalStiffness {
 	private double iS;
 	private double eI;
 	private double nB;
+	private double fiEf;
+	private double s1;
+	private double s2;
+	private double eIs;
+	private double eIc;
+	private double mEklt;
 		
 	public boolean isnBExceeded() {
 		return nBExceeded;
@@ -69,7 +76,7 @@ public class NominalStiffness {
 	
 	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, 
 			DimensionsOfCrossSectionOfConcrete dimensions, Double m0Ed, Double nEd, Cement cement, 
-			CreepCoeficent creep) {
+			CreepCoeficent creep, double aS1, double aS2, CheckBox columnCheckbox) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
 		
@@ -118,7 +125,14 @@ public class NominalStiffness {
 		if (k2 > 0.2) {
 			k2 = 0.2;
 		}
-		double fiEf = fiT0 * 0.7;
+		
+		mEklt = internalForces.getCharacteristicMEdDlugotrwale();
+		
+		if(columnCheckbox.isSelected()) {
+			fiEf = fiT0 * (mEklt/m0Ed);
+		} else {
+			fiEf = fiT0 * (0.7);
+		}
 		double eCdEff = (eCd / (1 + fiEf));
 		//double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
 		double beta = 1.0;
@@ -140,9 +154,15 @@ public class NominalStiffness {
 			roS1 = 0.002;
 			kC = (k1 * k2) / (1 + fiEf);
 		}
+		
+		s1 = aS1 * Math.pow(((0.5*dimensions.getH())-dimensions.getA1()),2);
+		s2 = aS2 * Math.pow(((0.5*dimensions.getH())-dimensions.getA2()),2);
 
 		iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
-		//iS = aS1*(Math.pow((0.5*dimensions.getH()-dimensions.getA1()), 2)) + aS2*(Math.pow((dimensions.getH()-dimensions.getA2()), 2));
+		
+		eIs = kS * eS * iS * 10000000;
+		eIc = kC * eCd * dimensions.getIc() * 10000000;
+		
 		eI = (kC * eCdEff * dimensions.getIc() + kS * eS * iS) * 1000; // [kNm^2]
 		
 		System.out.println("eI " + eI);
@@ -181,6 +201,26 @@ public class NominalStiffness {
 
 	public double getnB() {
 		return nB;
+	}
+
+	public double getFiEf() {
+		return fiEf;
+	}
+
+	public double geteIs() {
+		return eIs;
+	}
+
+	public double geteIc() {
+		return eIc;
+	}
+
+	public double getS1() {
+		return s1;
+	}
+
+	public double getS2() {
+		return s2;
 	}
 	
 	

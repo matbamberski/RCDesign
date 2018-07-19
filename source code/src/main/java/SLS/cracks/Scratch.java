@@ -217,6 +217,19 @@ public class Scratch {
 	public double getSigmaS() {
 		return sigmaS;
 	}
+
+	public double getRoPEff() {
+		return roPEff;
+	}
+
+	public double getaCEff() {
+		return aCEff;
+	}
+
+	public double getEpsilonSmMinusEpsilonCm() {
+		return epsilonSmMinusEpsilonCm;
+	}
+	
 	
 	
 

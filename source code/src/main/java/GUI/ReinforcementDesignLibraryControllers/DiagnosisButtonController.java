@@ -110,11 +110,12 @@ public class DiagnosisButtonController {
 		double nEd = 0;
 		@Override
 		public void handle(ActionEvent arg0) {
+			boolean withDesign = false;
 			diagnosisMainAlgorithm.setmRdExceeded(false);
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
 					reinforcement, stiffness, cement, creep, checkbox);
-			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection);
+			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
 			
 			if (internalForces.getMomentMmax() == 0 && internalForces.getNormalnaMmax() == 0
 					&& internalForces.getMomentMmin() == 0 && internalForces.getNormalnaMmin() == 0

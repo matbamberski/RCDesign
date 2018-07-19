@@ -80,10 +80,11 @@ public class ReinforcementDesignButtonController {
 
 		@Override
 		public void handle(ActionEvent event) {
+			boolean withDesign = true;
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, 
 					dimensions, reinforcement, stiffness, cement, creep, checkbox);
-			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection);
+			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
 			resultsPaneControllerULS.dispResults();
 			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);
 			//graph.plotGraph();

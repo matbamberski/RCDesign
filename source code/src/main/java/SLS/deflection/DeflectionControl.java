@@ -241,6 +241,16 @@ public class DeflectionControl {
 	public double getEpsilonCA() {
 		return epsilonCA;
 	}
+	
+	
+
+	public double getB1() {
+		return b1;
+	}
+
+	public double getB2() {
+		return b2;
+	}
 
 	public double runDeflectionControlWithCalculatingDeflection(Concrete concrete, Steel steel, 
 			Cement cement, DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces, double mCr,
@@ -293,6 +303,8 @@ public class DeflectionControl {
 		}
 		return fws;
 	}
+	
+	
 	
 
 }

@@ -83,6 +83,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			} else {
 				System.out.println("\nKoniec obliczen!\n");
 			}
+			eraseFilter();
 		}
 
 	}
@@ -167,11 +168,21 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 	
 	private void combinationsFilter() {
 		for (int i = 0; i< combinations.size(); i++) {
-			if (combinations.get(i).getN()==0 && combinations.get(i).getM()==0) combinations.remove(i);
+			if (combinations.get(i).getN()==0 && combinations.get(i).getM()==0) {
+				combinations.remove(i);
+				i--;
+			}
 			else if (combinations.get(i).isMedNegativ()){
 				combinations.get(i).setM(-combinations.get(i).getM());
 			}
 		}
-		
+	}
+	
+	private void eraseFilter() {
+		for (int i=0; i< combinations.size(); i++) {
+			if (combinations.get(i).isMedNegativ()){
+				combinations.get(i).setM(-combinations.get(i).getM());
+			}
+		}
 	}
 }

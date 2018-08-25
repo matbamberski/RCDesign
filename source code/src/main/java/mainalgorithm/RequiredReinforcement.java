@@ -74,7 +74,7 @@ public class RequiredReinforcement {
 
 	}
 
-	private void designSymmetricalReinforcement(Reinforcement reinforcement) {
+	public void designSymmetricalReinforcement(Reinforcement reinforcement) {
 		double aS1Diameter = reinforcement.getDesignedDiameterSymmetricalAS1();
 		double aS2Diameter = reinforcement.getDesignedDiameterSymmetricalAS2();
 		double aS1Required = reinforcement.getRequiredSymmetricalAS1();
@@ -119,7 +119,7 @@ public class RequiredReinforcement {
 
 	}
 
-	private void designUnsymmetricalReinforcement(Reinforcement reinforcement) {
+	public void designUnsymmetricalReinforcement(Reinforcement reinforcement) {
 		double aS1Diameter = reinforcement.getDesignedDiameterSymmetricalAS1();
 		double aS2Diameter = reinforcement.getDesignedDiameterSymmetricalAS2();
 		double aS1Required = reinforcement.getRequiredUnsymmetricalAS1();
@@ -237,9 +237,14 @@ public class RequiredReinforcement {
 		} else {
 			
 			internalForces.getCombinations().clear();
+			/*
 			columnRequiredReinforcement(concrete, steel, internalForces, dimensions, 
 					reinforcement, stiffness, true, cement, creep, checkbox);
 			System.err.println("S³up");
+			*/
+			OptimalizationModule optimalization = new OptimalizationModule(internalForces, steel, concrete, dimensions, 
+					this, reinforcement, stiffness, cement, creep, checkbox);
+			optimalization.executeAlgorithm();
 			
 			
 		}

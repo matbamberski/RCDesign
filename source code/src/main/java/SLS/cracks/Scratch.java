@@ -22,7 +22,7 @@ public class Scratch {
 	private double c;
 	private double aS; // area of tensiling reinforcement
 	private double aCEff;
-
+	private double hcef;
 	// scratches without crack width
 	
 	private double a;
@@ -112,13 +112,19 @@ public class Scratch {
 	
 
 	private void calculateACEff(DimensionsOfCrossSectionOfConcrete dimensions, double x2) {
-		double hcef = Math.min(((dimensions.getH()-x2)/3), (2.5*(dimensions.getH()-dimensions.getD())));
+		hcef = Math.min(((dimensions.getH()-x2)/3), (2.5*(dimensions.getH()-dimensions.getD())));
 		if (hcef > dimensions.getHft()) {
 			aCEff = (dimensions.getBefft() - dimensions.getB())*dimensions.getHft() + dimensions.getB()*hcef;
 		} else {
 			aCEff = dimensions.getBefft()*hcef;
 		}
 		System.out.println("aCEff " + aCEff);
+	}
+
+	
+	
+	public double getHcef() {
+		return hcef;
 	}
 
 	private void calculateAs(double aSRozciagane) {

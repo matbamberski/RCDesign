@@ -1,5 +1,13 @@
 package SLS;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import SLS.cracks.Scratch;
 import SLS.creepCoeficent.CreepCoeficent;
 import SLS.deflection.DeflectionControl;
@@ -9,6 +17,7 @@ import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
+import util.CompyPdf;
 
 public class Sls {
 
@@ -244,6 +253,60 @@ public class Sls {
 		} else {
 			System.out.println("Sls sylko dla symetrycznego");
 		}
+	}
+	
+	public void printReport(DimensionsOfCrossSectionOfConcrete dimension, CreepCoeficent creep, Concrete concrete, DeflectionControl deflection, Scratch scratch) {
+		try {
+			int index = 0;
+			String file = CompyPdf.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+			file = file.substring(0, file.lastIndexOf("/"))
+					.replaceAll("%20", " ") + "/raport_czesciowy" + index +".pdf";
+			File f = new File(file);
+			while (f.exists()) {
+				index++;
+				file = CompyPdf.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+				file = file.substring(0, file.lastIndexOf("/"))
+						.replaceAll("%20", " ") + "/raport_czesciowy" + index +".pdf";
+				f = new File(file);
+			}
+			Font font = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.NORMAL);
+			Document document = new Document();
+			PdfWriter.getInstance(document, new FileOutputStream(file));
+			document.open();
+			Paragraph p = new Paragraph();
+			p.add(new Paragraph(" "));
+			p.add(new Paragraph("Ugiecie f", font));
+			p.add(new Paragraph(" "));
+			p.add(new Paragraph("Pelzanie   "+String.format("%.2f", creep.getCreepCoeficent())));
+			p.add(new Paragraph("Moduly   "+"Ecm:   "+String.format("%d", concrete.getECm()) + "[GPa]   Eceff:   " + String.format("%.2f",concrete.geteCEff()) + "[GPa]"));
+			p.add(new Paragraph("alfa   "+"alfa,e:   "+String.format("%.2f", alfaE)));
+			p.add(new Paragraph("bezwladnosci I   "+"I1:   "+String.format("%.2f", dimension.getI1()* Math.pow(100, 4)) 
+			+ "[cm4]   Ic:   " + String.format("%.2f", dimension.getIc()* Math.pow(100, 4)) + "[cm4]"));
+			p.add(new Paragraph("bezwladnosci II   "+ "I2:   " + String.format("%.2f", dimension.getI2()* Math.pow(100, 4)) + "[cm4]"));
+			p.add(new Paragraph("statyczny I   "+"s1:   "+String.format("%.2f", dimension.getS1()* Math.pow(100, 3))
+			+"[cm3]   s1c:   " + String.format("%.2f", dimension.getS1C()* Math.pow(100, 3)) + "[cm3]"));
+			p.add(new Paragraph("statyczny II   "+String.format("%.2f", dimension.getS2()* Math.pow(100, 3)) + "[cm3]"));
+			p.add(new Paragraph(" "));
+			p.add(new Paragraph(" "));
+			p.add(new Paragraph(" "));
+			p.add(new Paragraph("Zarysowanie wk"));
+			p.add(new Paragraph(" "));
+			p.add(new Paragraph("Pelzanie   "+String.format("%.2f", creep.getCreepCoeficent())));
+			p.add(new Paragraph("Moduly   "+"Ecm:   "+String.format("%d", concrete.getECm()) + "[GPa]   Eceff:   " + String.format("%.2f",concrete.geteCEff())+ "[GPa]"));
+			p.add(new Paragraph("alfa   "+"alfa,e:   "+String.format("%.2f", alfaE)));
+			p.add(new Paragraph("polozenie osi   "+ "x2:   " +String.format("%.2f", dimension.getX2()) + "[cm]"));
+			p.add(new Paragraph("wysokosc   hcef:   "+String.format("%.2f", scratch.getHcef()) + "[m]"));
+			p.add(new Paragraph("pole przekroju   Actef:   "+String.format("%.5f", scratch.getaCEff()) +"[m2]"));
+			p.add(new Paragraph("stopien zbrojenia   roPeff:   "+String.format("%.2f", scratch.getRoPEff())));
+			p.add(new Paragraph("rozstaw rys   Sr,max:   "+String.format("%.2f", scratch.getsRMax()) + "[m]"));
+			p.add(new Paragraph("roznica   Esm-Ecm:   "+String.format("%.7f", scratch.getEpsilonSmMinusEpsilonCm())));
+			document.add(p);
+			document.close();
+		} catch (Exception e) {
+			System.out.println("Nie udalo wygenerowac sie raportu!");
+			e.printStackTrace();
+		}
+
 	}
 
 	public double getPhiMaxSymmetricalRequired() {

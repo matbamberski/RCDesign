@@ -236,6 +236,11 @@ public class DimensionsOfCrossSectionOfConcrete {
 		System.out.println("s1C initial "+ s1C);
 		
 	}
+	
+
+	public double getS1C() {
+		return s1C;
+	}
 
 	public double getS1() {
 		return s1;

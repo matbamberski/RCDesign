@@ -210,6 +210,7 @@ public class Sls {
 		double DesingedUnsymmetricalAS1 = reinforcement.getDesingedUnsymmetricalAS1();
 		double DesignedUnsymmetricalAS2 = reinforcement.getDesignedUnsymmetricalAS2();
 		int nSUnsymmetrical = reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1();
+		int nSSymmetrical = reinforcement.getRequiredNumberOfSymmetricalRodsAS1();
 		if (mEd < 0) {
 			RequiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
 			RequiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS1();
@@ -221,6 +222,7 @@ public class Sls {
 			DesingedUnsymmetricalAS1 = reinforcement.getDesignedUnsymmetricalAS2();
 			DesignedUnsymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
 			nSUnsymmetrical = reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2();
+			nSSymmetrical = reinforcement.getRequiredNumberOfSymmetricalRodsAS2();
 		}
 		mEd = ifMedIsLessThenZeroReturnAbsAndSetBoolean(mEd);
 		calculateCrossSectionOfConcrete(dimensions);
@@ -231,12 +233,12 @@ public class Sls {
 		System.out.println("\nSLS REQUIRE SYMMETRICAL\n\n");
 		slsRequiredSymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, RequiredSymmetricalAS1, RequiredSymmetricalAS2, RequiredSymmetricalAS1,
-				DesignedDiameterSymmetricalAS1, mEd, nEd, nSUnsymmetrical, scratches, deflection);
+				DesignedDiameterSymmetricalAS1, mEd, nEd, nSSymmetrical, scratches, deflection);
 		
 		System.out.println("\nSLS DESIGNED SYMMETRICAL\n\n");
 		slsDesignedSymmetricalReinforcement(concrete, steel, cement, reinforcement, forces, creepCoeficent, 
 				dimensions, DesignedSymmetricalAS1, DesignedSymmetricalAS2, DesignedSymmetricalAS1,
-				DesignedDiameterSymmetricalAS1, mEd, nEd, nSUnsymmetrical, scratches, deflection);
+				DesignedDiameterSymmetricalAS1, mEd, nEd, nSSymmetrical, scratches, deflection);
 
 		if(withDesign) {
 		if(nEd != 0) {
@@ -255,18 +257,19 @@ public class Sls {
 		}
 	}
 	
-	public void printReport(DimensionsOfCrossSectionOfConcrete dimension, CreepCoeficent creep, Concrete concrete, DeflectionControl deflection, Scratch scratch) {
+	public void printReport(DimensionsOfCrossSectionOfConcrete dimension, CreepCoeficent creep, Concrete concrete, DeflectionControl deflection, Scratch scratch, 
+			String name) {
 		try {
 			int index = 0;
 			String file = CompyPdf.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 			file = file.substring(0, file.lastIndexOf("/"))
-					.replaceAll("%20", " ") + "/raport_czesciowy" + index +".pdf";
+					.replaceAll("%20", " ") + "/raport_czesciowy" + name +index +".pdf";
 			File f = new File(file);
 			while (f.exists()) {
 				index++;
 				file = CompyPdf.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 				file = file.substring(0, file.lastIndexOf("/"))
-						.replaceAll("%20", " ") + "/raport_czesciowy" + index +".pdf";
+						.replaceAll("%20", " ") + "/raport_czesciowy" + name + index +".pdf";
 				f = new File(file);
 			}
 			Font font = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.NORMAL);

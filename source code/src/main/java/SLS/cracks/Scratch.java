@@ -203,6 +203,7 @@ public class Scratch {
 			//calculateK2(mEd, nEd);
 			
 			calculateC(dimensions, reinforcement);
+			////nSUnsymmetrical =0 !!!!!!!! BUG madafaka
 			calculatea(dimensions.getbEff(), aSTensiledDiameter, nSUnsymmetrical);
 			calculateSRMax(aSTensiledDiameter, dimensions.getH(), x2);
 			calculateWMax();

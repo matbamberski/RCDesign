@@ -116,7 +116,7 @@ public class DiagnosisButtonController {
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
 					reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
-			
+			sls.printReport(dimensions, creep, concrete, deflection, scratch, "DIAG");
 			if (internalForces.getMomentMmax() == 0 && internalForces.getNormalnaMmax() == 0
 					&& internalForces.getMomentMmin() == 0 && internalForces.getNormalnaMmin() == 0
 							&& internalForces.getMomentNmax() == 0 && internalForces.getNormalnaNmin() == 0
@@ -149,15 +149,28 @@ public class DiagnosisButtonController {
 						System.err.println("MRd Deisgned Symmetrical = " + diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
 						normalneR.add(diagnosisMainAlgorithm.getnRdRequiredSymmetrical());
 						normalneD.add(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
+						/////////Czemu symetryczne przypisujemy? to chyba zalezy co wpisza
+						/////////Usunalem z momentem ujemnym, wiec jeszcze raz trzeba ogarnac
+						if (checkIfSymmetrical()) {
+							internalForces.getCombinationDiagnosis().get(i).setnRd(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
+							internalForces.getCombinationDiagnosis().get(i).newName(names.get(i));
+							
+							
+							momentyR.add(diagnosisMainAlgorithm.getmRdRequiredSymmetrical());
+							momentyD.add(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
+							
+							internalForces.getCombinationDiagnosis().get(i).setmRd(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
+						} else {
+							internalForces.getCombinationDiagnosis().get(i).setnRd(diagnosisMainAlgorithm.getnRdDesignedUnsymmetrical());
+							internalForces.getCombinationDiagnosis().get(i).newName(names.get(i));
+							
+							
+							momentyR.add(diagnosisMainAlgorithm.getmRdRequiredUnsymmetrical());
+							momentyD.add(diagnosisMainAlgorithm.getmRdDesignedUnsymmetrical());
+							
+							internalForces.getCombinationDiagnosis().get(i).setmRd(diagnosisMainAlgorithm.getmRdDesignedUnsymmetrical());
+						}
 						
-						internalForces.getCombinationDiagnosis().get(i).setnRd(diagnosisMainAlgorithm.getnRdDesignedSymmetrical());
-						internalForces.getCombinationDiagnosis().get(i).newName(names.get(i));
-						
-						
-						momentyR.add(diagnosisMainAlgorithm.getmRdRequiredSymmetrical());
-						momentyD.add(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
-						
-						internalForces.getCombinationDiagnosis().get(i).setmRd(diagnosisMainAlgorithm.getmRdDesignedSymmetrical());
 						
 						if (i==0) {
 							internalForces.setMomentMmaxStiff(internalForces.getCombinationDiagnosis().get(0).getmStiff());
@@ -253,6 +266,11 @@ public class DiagnosisButtonController {
 			        );
 			tableViewCombinations.setItems(data);
 			
+		}
+		
+		private boolean checkIfSymmetrical() {
+			if (reinforcement.getRequiredNumberOfSymmetricalRodsAS1()== reinforcement.getRequiredNumberOfSymmetricalRodsAS2()) return true;
+			else return false;
 		}
 	}
 

@@ -1064,6 +1064,12 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	cb.showText(String.format("%.02f", dimensions.getS2()* Math.pow(100, 3)));
 	cb.endText();
+	
+	cb.beginText();
+	cb.moveText(x2, y1 - (13 * ymin));
+	cb.setFontAndSize(BaseFont.createFont(), 12);
+	cb.showText("sigmaCp: " + String.format("%.02f", forces.getSigmaCP()) + " [MPa]");
+	cb.endText();
 	}
 	
 	

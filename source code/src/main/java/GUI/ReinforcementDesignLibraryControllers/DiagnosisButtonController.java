@@ -116,7 +116,7 @@ public class DiagnosisButtonController {
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
 					reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
-			sls.printReport(dimensions, creep, concrete, deflection, scratch, "DIAG");
+			//sls.printReport(dimensions, creep, concrete, deflection, scratch, "DIAG");
 			if (internalForces.getMomentMmax() == 0 && internalForces.getNormalnaMmax() == 0
 					&& internalForces.getMomentMmin() == 0 && internalForces.getNormalnaMmin() == 0
 							&& internalForces.getMomentNmax() == 0 && internalForces.getNormalnaNmin() == 0

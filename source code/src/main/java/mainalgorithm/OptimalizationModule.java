@@ -172,6 +172,9 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				combinations.remove(i);
 				i--;
 			}
+			else if (checkbox.isSelected() && Math.abs(combinations.get(i).getM())<Math.abs(combinations.get(i).getmStiff())) {
+				combinations.get(i).setM(combinations.get(i).getmStiff());
+			}
 			else if (combinations.get(i).isMedNegativ()){
 				combinations.get(i).setM(-combinations.get(i).getM());
 			}

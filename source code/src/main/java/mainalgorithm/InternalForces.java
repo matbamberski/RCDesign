@@ -48,6 +48,8 @@ public class InternalForces {
 	private double vRdMaxdiagnosis;
 	private double vRdMaxdesign;
 	
+	private double sigmaCP;
+	
 	private double alfaM;
 	private boolean isLoadSustained;
 
@@ -449,4 +451,14 @@ public class InternalForces {
 		}
 		return i;
 	}
+
+	public double getSigmaCP() {
+		return sigmaCP;
+	}
+
+	public void setSigmaCP(double sigmaCP) {
+		this.sigmaCP = sigmaCP;
+	}
+	
+	
 }

@@ -144,6 +144,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		pointsM.clear();
 		pointsN.clear();
 		points_M.clear();
+		points_N.clear();
+		n=0.0;
+		m=0.0;
+		nn=0.0;
+		mm=0.0;
 
 		while (x < xMinMinusYd) { // przedzial 1
 			krok = (xMinMinusYd) / dzielnik;

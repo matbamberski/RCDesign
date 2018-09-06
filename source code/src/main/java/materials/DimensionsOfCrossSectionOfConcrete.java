@@ -39,6 +39,16 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double cNom;
 	private double wLim;
 	private double aLim;
+	private double s1C;
+
+	
+	public double getxC() {
+		return xC;
+	}
+
+	public double getX1() {
+		return x1;
+	}
 
 	public double getwLim() {
 		return wLim;
@@ -92,7 +102,7 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private void calculateI2andS2WhenXLessThanHf(double alfaE, double aS1, double aS2) {
 		s2 = aS1*(d-x2) - aS2*(x2-a2);
 		System.out.println("s2 " + s2);
-		i2 = bEff*Math.pow(x2, 3)/12 + bEff*x2*Math.pow((x2/2), 2) + alfaE*aS2*Math.pow((x2-a2),2) + alfaE*aS1*Math.pow((h-x2*a1),2);
+		i2 = bEff*Math.pow(x2, 3)/12 + bEff*x2*Math.pow((x2/2), 2) + alfaE*aS2*Math.pow((x2-a2),2) + alfaE*aS1*Math.pow((h-x2-a1),2);
 		System.out.println("i2 " + i2);
 	}
 	
@@ -147,26 +157,39 @@ public class DimensionsOfCrossSectionOfConcrete {
 		}
 		*/
 		//PolynominalSolver solver = new PolynominalSolver();
-		double a1 = bEff/2;
-		double b1 = alfaE*aS2 + alfaE*aS1;
-		double c1 = -alfaE*aS2*a2 - alfaE*aS1*d;
-		x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a1, b1, c1);
+		double precision = 0.0001;
+		double a1eq = bEff/2;
+		double b1eq = alfaE*aS2 + alfaE*aS1;
+		double c1eq = -alfaE*aS2*a2 - alfaE*aS1*d;
+		x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a1eq, b1eq, c1eq);
+		double result = bEff*x2*x2/2+alfaE*aS2*(x2-a2)-alfaE*aS1*(d-x2);
+		
+		if (result < precision) System.err.println("Niby zero gdy x2 <=hf");
+		
 		if (x2<=tW) {
 			System.out.println("x2 <= hf");
 			calculateI2andS2WhenXLessThanHf(alfaE, aS1, aS2);
 		} else {
-			double a2 = b/2;
-			double b2 = (bEff-b)*tW + alfaE*aS2 + alfaE*aS1;
-			double c2 = -(bEff-b)*tW*tW/2 - alfaE*aS2*a2 - alfaE*aS1*d;
-			x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a2, b2, c2);
+			double a2eq = b/2;
+			double b2eq = (bEff-b)*tW + alfaE*aS2 + alfaE*aS1;
+			double c2eq = -(bEff-b)*tW*tW/2 - alfaE*aS2*a2 - alfaE*aS1*d;
+			x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a2eq, b2eq, c2eq);
+			result = (bEff-b)*tW*(x2-tW/2)+b*x2*x2/2+alfaE*aS2*(x2-a2)-alfaE*aS1*(d-x2);
+			
+			if (result < precision) System.err.println("Niby zero gdy h-hft > x2 >hf");
+			
 			if (x2>tW && x2<(h-hft)) {
 				System.out.println("(h-hft)> x2 >hf");
 				calculateI2andS2WhenXHigherThanHf(alfaE, aS1, aS2);
 			} else {
-				double a3 = b/2 + (befft-b)/2;
-				double b3 = (bEff-b)*tW + (-2*h+ 2*hft)*(befft-b)/2 + alfaE*aS2 + alfaE*aS1;
-				double c3 = -(bEff-b)*tW*tW/2 + (-2*h*hft+h*h+hft*hft)*(befft-b)/2 - alfaE*aS2*a2 - alfaE*aS1*d;
-				x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a3, b3, c3);
+				double a3eq = b/2 + (befft-b)/2;
+				double b3eq = (bEff-b)*tW + (-2*h+ 2*hft)*(befft-b)/2 + alfaE*aS2 + alfaE*aS1;
+				double c3eq = -(bEff-b)*tW*tW/2 + (-2*h*hft+h*h+hft*hft)*(befft-b)/2 - alfaE*aS2*a2 - alfaE*aS1*d;
+				x2 = PolynominalSolver.getMaximumRootofPolynominalSquare(a3eq, b3eq, c3eq);
+				result = (bEff-b)*tW*(x2-tW/2)+b*x2*x2/2+(befft-b)*Math.pow(x2-h+hft,2)/2+alfaE*aS2*(x2-a2)-alfaE*aS1*(d-x2);
+				
+				if (result < precision) System.err.println("Niby zero gdy h-hft < x2");
+				
 				if (x2>=(h-hft)) {
 					System.out.println("x2>=(h-hft)");
 					calculateI2andS2WhenXtheHighest(alfaE, aS1, aS2);
@@ -201,7 +224,7 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateX1() {
-		x1 = s1 / aC1;
+		x1 = s1C / aC1;
 	}
 
 	public void calculateAC1(double alfaE, double aS1, double aS2) {
@@ -218,6 +241,18 @@ public class DimensionsOfCrossSectionOfConcrete {
 		//s1 = b * h * h / 2 + (bEff - b) * tW * tW / 2 + alfaE * (aS1 * d + aS2 * a2);
 		System.out.println("s1 initial "+ s1);
 		
+	}
+	
+	public void calculateS1C(double alfaE, double aS1, double aS2) {
+		s1C = (bEff-b)*tW*tW/2 + (befft-b)*hft*(h-hft/2) + b*h*h/2 + alfaE*aS2*a2 + alfaE*aS1*d;
+		//s1 = b * h * h / 2 + (bEff - b) * tW * tW / 2 + alfaE * (aS1 * d + aS2 * a2);
+		System.out.println("s1C initial "+ s1C);
+		
+	}
+	
+
+	public double getS1C() {
+		return s1C;
 	}
 
 	public double getS1() {
@@ -345,7 +380,7 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateD() {
-		d = h - a1;
+		this.d = h - a1;
 		System.out.println("d " + d);
 	}
 

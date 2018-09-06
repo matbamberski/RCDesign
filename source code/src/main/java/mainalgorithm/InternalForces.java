@@ -10,6 +10,8 @@ public class InternalForces {
 	private double nEd;
 	private double vEd;
 	private double vEdRed;
+	private double nCritSymmetrical = 0;
+	private double nCritUnsymmetrical = 0;
 
 	protected double momentMmax;
 	protected double momentMmin;
@@ -29,6 +31,7 @@ public class InternalForces {
 
 	ArrayList<ForcesCombination> combinations = new ArrayList<>();
 	ArrayList<ForcesCombination> combinationDiagnosis = new ArrayList<>();
+	ArrayList<ForcesCombination> pdfCombinations;
 
 	private double gPlusQForShearing;
 
@@ -38,7 +41,15 @@ public class InternalForces {
 	private double characteristicNEd;
 	private double characteristicVEd;
 	private double characteristicVEdRed;
-
+	private double vRdCdiagnosis;
+	private double vRdCdesign;
+	private double vRdSdiagnosis;
+	private double vRdSdesign;
+	private double vRdMaxdiagnosis;
+	private double vRdMaxdesign;
+	
+	private double sigmaCP;
+	
 	private double alfaM;
 	private boolean isLoadSustained;
 
@@ -61,6 +72,23 @@ public class InternalForces {
 
 		Collections.addAll(combination, Mmax, Mmin, Nmax, Nmin);
 		System.out.println("liczy kombinacje si³");
+	}
+	
+	public ArrayList<ForcesCombination> getForcesCombinations() {
+		ArrayList<ForcesCombination> combination = new ArrayList<>();
+		
+		ForcesCombination Mmax = new ForcesCombination(getMomentMmax(), getNormalnaMmax());
+
+		ForcesCombination Mmin = new ForcesCombination(getMomentMmin(), getNormalnaMmin());
+
+		ForcesCombination Nmax = new ForcesCombination(getMomentNmax(), getNormalnaNmax());
+
+		ForcesCombination Nmin = new ForcesCombination(getMomentNmin(), getNormalnaNmin());
+
+		Collections.addAll(combination, Mmax, Mmin, Nmax, Nmin);
+		System.out.println("liczy kombinacje si³");
+		
+		return combination;
 	}
 
 	public ArrayList<ForcesCombination> getForcesCombinations() {
@@ -351,4 +379,103 @@ public class InternalForces {
 		this.mEdStiff = mEdStiff;
 	}
 
+	public void saveCombinationToPdfCombination() {
+		pdfCombinations = new ArrayList<>(combinationDiagnosis);
+	}
+
+	public ArrayList<ForcesCombination> getPdfCombinations() {
+		return pdfCombinations;
+	}
+	
+	
+	
+	public double getnCritSymmetrical() {
+		return nCritSymmetrical;
+	}
+
+	public void setnCritSymmetrical(double nCritSymmetrical) {
+		this.nCritSymmetrical = nCritSymmetrical;
+	}
+
+	public double getnCritUnsymmetrical() {
+		return nCritUnsymmetrical;
+	}
+
+	public void setnCritUnsymmetrical(double nCritUnsymmetrical) {
+		this.nCritUnsymmetrical = nCritUnsymmetrical;
+	}
+	
+	public double getvRdCdiagnosis() {
+		return vRdCdiagnosis;
+	}
+
+	public void setvRdCdiagnosis(double vRdCdiagnosis) {
+		this.vRdCdiagnosis = vRdCdiagnosis;
+	}
+
+	public double getvRdCdesign() {
+		return vRdCdesign;
+	}
+
+	public void setvRdCdesign(double vRdCdesign) {
+		this.vRdCdesign = vRdCdesign;
+	}
+
+	public double getvRdSdiagnosis() {
+		return vRdSdiagnosis;
+	}
+
+	public void setvRdSdiagnosis(double vRdSdiagnosis) {
+		this.vRdSdiagnosis = vRdSdiagnosis;
+	}
+
+	public double getvRdSdesign() {
+		return vRdSdesign;
+	}
+
+	public void setvRdSdesign(double vRdSdesign) {
+		this.vRdSdesign = vRdSdesign;
+	}
+
+	public double getvRdMaxdiagnosis() {
+		return vRdMaxdiagnosis;
+	}
+
+	public void setvRdMaxdiagnosis(double vRdMaxdiagnosis) {
+		this.vRdMaxdiagnosis = vRdMaxdiagnosis;
+	}
+
+	public double getvRdMaxdesign() {
+		return vRdMaxdesign;
+	}
+
+	public void setvRdMaxdesign(double vRdMaxdesign) {
+		this.vRdMaxdesign = vRdMaxdesign;
+	}
+
+	public int checkHowManyCombinationsWithMandN() {
+		int i = 0;
+		for (ForcesCombination fc : pdfCombinations) {
+			if (fc.getM()!=0 && fc.getN()!=0) i++;
+		}
+		return i;
+	}
+	
+	public int checkHowManyCombinationsWithMorN() {
+		int i = 0;
+		for (ForcesCombination fc : pdfCombinations) {
+			if (fc.getM()!=0 || fc.getN()!=0) i++;
+		}
+		return i;
+	}
+
+	public double getSigmaCP() {
+		return sigmaCP;
+	}
+
+	public void setSigmaCP(double sigmaCP) {
+		this.sigmaCP = sigmaCP;
+	}
+	
+	
 }

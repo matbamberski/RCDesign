@@ -19,7 +19,9 @@ import GUI.ReinforcementDesignLibraryControllers.SteelParametersController;
 import GUI.ReinforcementDesignLibraryControllers.UnicodeForLabels;
 import GUI.ReinforcementDesignLibraryControllers.UsersDesignedReinforcementController;
 import SLS.Sls;
+import SLS.cracks.Scratch;
 import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import diagnosis.DiagnosisMainAlgorithm;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -598,6 +600,12 @@ public class ReinforcementDiagnosisController {
     
     @FXML
     private TableColumn<?,?> requiredColumn;
+    
+    @FXML
+    private Label capacityLabel;
+    
+    @FXML
+    private Label warningLabel;
 	
 	/////
 
@@ -617,6 +625,8 @@ public class ReinforcementDiagnosisController {
 	protected ArrayList<TextField> list1 = ReinforcementDesignController.list1;
 	protected ArrayList<TextField> list2 = ReinforcementDesignController.list2;
 	protected ArrayList<TextField> list3 = ReinforcementDesignController.list3;
+	protected Scratch scratch = ReinforcementDesignController.scratch;	
+	protected DeflectionControl deflection = ReinforcementDesignController.deflection;
 	
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm = new DiagnosisMainAlgorithm();
 	
@@ -649,7 +659,7 @@ public class ReinforcementDiagnosisController {
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerrLabel, tWLabel, tWLowerrLabel, dimensionsOfCrossSectionOfConcrete,
 				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox, internalForces,
-				momentMmax, normalnaMmax);
+				momentMmax, normalnaMmax, typeOfLoadChoiceBox);
 		
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		CrossSectionTypeController.addPropertiesToBTextField(bTextField, bEffTextField, befftTextField, dimensionsOfCrossSectionOfConcrete);
@@ -733,18 +743,18 @@ public class ReinforcementDiagnosisController {
 				leftZbrojeniePoprzeczneNequal0Line, rightZbrojeniePoprzeczneNequal0Line,
 				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1,
 				stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
-
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
-				rightZbrojeniePoprzeczneNNotequal0Line);
+				rightZbrojeniePoprzeczneNNotequal0Line, warningLabel, capacityLabel);
 		
 		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,
 				steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
 				resultsPaneControllerDiagnosis, cement, sls, internalForces, creep, diagnosisMainAlgorithm, stiffness, 
-				nominalCheckBox, tableViewCombinations, columnCheckBox);
+				nominalCheckBox, tableViewCombinations, columnCheckBox, scratch, deflection);
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
-				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm);
+				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm,
+				scratch, creep, deflection, nominalCheckBox, stiffness);
 		
 		GraphButtonController.addPropertiesToDesignButton(graphButton, this, graph);
 		

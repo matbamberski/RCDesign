@@ -1,5 +1,6 @@
 package mainalgorithm;
 import SLS.creepCoeficent.CreepCoeficent;
+import javafx.scene.control.CheckBox;
 import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
@@ -13,7 +14,34 @@ public class NominalStiffness {
 	private double roS1;
 	private double m0Ed;
 	private double n0Ed;
-	
+	private boolean aborted = false;
+	private boolean nBExceeded = false;
+	private double iS;
+	private double eI;
+	private double nB;
+	private double fiEf;
+	private double s1;
+	private double s2;
+	private double eIs;
+	private double eIc;
+	private double mEklt;
+		
+	public boolean isnBExceeded() {
+		return nBExceeded;
+	}
+
+	public void setnBExceeded(boolean nBExceeded) {
+		this.nBExceeded = nBExceeded;
+	}
+
+	public boolean isAborted() {
+		return aborted;
+	}
+
+	public void setAborted(boolean aborted) {
+		this.aborted = aborted;
+	}
+
 	public void setM0Ed(double m0Ed) {
 		this.m0Ed = m0Ed;
 	}
@@ -47,9 +75,11 @@ public class NominalStiffness {
 
 	
 	public void CountNominalStiffness(Steel steel, Concrete concrete, InternalForces internalForces, 
-			DimensionsOfCrossSectionOfConcrete dimensions, Double m0Ed, Double nEd, Cement cement, CreepCoeficent creep) {
+			DimensionsOfCrossSectionOfConcrete dimensions, Double m0Ed, Double nEd, Cement cement, 
+			CreepCoeficent creep, double aS1, double aS2, CheckBox columnCheckbox) {
 
 		/// podstawowe jednostki zadania : kN, kNm, Mpa, m !
+		
 		
 		System.out.println("");
 		System.out.println("");
@@ -72,9 +102,14 @@ public class NominalStiffness {
 		System.out.println("l0: "+ l0);
 		System.out.println("fit0: " + fiT0 );
 		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
+		System.out.println("RoS: " + String.format("%.05f", roS1));
 		
-
-
+		if (roS1 >= 0.08) {
+			this.mEd = internalForces.getM0Ed();
+			setAborted(true);
+		} else {
+		//roS1 = (aS1 + aS2)/dimensions.getAc();
+		
 		double fCk = concrete.getFCk() * 1000; // [Gpa] -> [Mpa]
 		double eCm = concrete.getECm() * 1000; // [Gpa] -> [Mpa]
 		//double fCd = fCk / 1.40;
@@ -87,59 +122,109 @@ public class NominalStiffness {
 		double n = nEd / (dimensions.getAc() * fCd);
 		double k1 = Math.sqrt((fCk / 20000.0));
 		double k2 = n * (lambda / 170.0);
-		double fiEf = fiT0 * 0.7;
+		if (k2 > 0.2) {
+			k2 = 0.2;
+		}
+		
+		mEklt = internalForces.getCharacteristicMEdDlugotrwale();
+		
+		if(columnCheckbox.isSelected()) {
+			fiEf = fiT0 * (mEklt/m0Ed);
+		} else {
+			fiEf = fiT0 * (0.7);
+		}
 		double eCdEff = (eCd / (1 + fiEf));
-		double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
+		//double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
+		double beta = 1.0;
 		
 		double kS;
 		double kC;
 		
 		
 		if (roS1 >= 0.002) {
-			if (roS1 >= 0.01) {
-				kS = 0;
-			} else {
-				kS = 1;
-			}
+			kS = 1;
 		} else {
 			roS1 = 0.002;
 			kS = 1;
 		}
 
 		if (roS1 >= 0.002) {
-			if (roS1 >= 0.01) {
-				kC = 0.3 / (1 + (0.5 * fiEf));
-			} else {
 				kC = (k1 * k2) / (1 + fiEf);
-			}
 		} else {
 			roS1 = 0.002;
 			kC = (k1 * k2) / (1 + fiEf);
 		}
+		
+		s1 = aS1 * Math.pow(((0.5*dimensions.getH())-dimensions.getA1()),2);
+		s2 = aS2 * Math.pow(((0.5*dimensions.getH())-dimensions.getA2()),2);
 
-		double iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
-		double eI = kC * eCdEff * dimensions.getIc() + kS * eS * iS; // [kNm^2]
+		iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
+		
+		eIs = kS * eS * iS * 10000000;
+		eIc = kC * eCd * dimensions.getIc() * 10000000;
+		
+		eI = (kC * eCdEff * dimensions.getIc() + kS * eS * iS) * 1000; // [kNm^2]
 		
 		System.out.println("eI " + eI);
-		double nB = (Math.pow(Math.PI, 2) * eI * 1000) / (Math.pow(l0, 2));
+		nB = (Math.pow(Math.PI, 2) * eI) / (Math.pow(l0, 2));
+		
+		
+		
+		internalForces.setnEd(n0Ed);
 		
 		/// ta wartosæ momentu musi odpowiadaæ najwiêkszemu mimoœrodowi \|/
 		
 		//System.out.println("m0Ed " + m0Ed + " beta " + beta + " nB "+ nB + " n0Ed " + n0Ed);
 		this.mEd = m0Ed * (1 + (beta / ((nB / n0Ed) - 1))); // finalna wartoœæ momentu do projektowania zbrojenia [kNm]
 		System.out.println(mEd);
+		internalForces.setmEdStiff(mEd);
 		//sprawdzenie
+		}
+		if (n0Ed > 0.90*nB) {
+			nBExceeded = true;
+			mEd = m0Ed;
+		} else {
+			nBExceeded = false;
+		}
 		
 		}
 
 	public double getmEd() {
 		System.out.println("Med w klasie nominalstiffness " + this.mEd);
+		System.err.println("Przy roS: " +roS1);
 		return mEd;
 	}
 
 	public void setmEd(double mEd) {
 		this.mEd = mEd;
 	}
+
+	public double getnB() {
+		return nB;
+	}
+
+	public double getFiEf() {
+		return fiEf;
+	}
+
+	public double geteIs() {
+		return eIs;
+	}
+
+	public double geteIc() {
+		return eIc;
+	}
+
+	public double getS1() {
+		return s1;
+	}
+
+	public double getS2() {
+		return s2;
+	}
+	
+	
+	
 	
 	
 }

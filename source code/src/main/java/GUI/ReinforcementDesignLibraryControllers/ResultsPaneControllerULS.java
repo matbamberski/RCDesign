@@ -1,10 +1,13 @@
 package GUI.ReinforcementDesignLibraryControllers;
 
 import SLS.Sls;
+import SLS.creepCoeficent.CreepCoeficent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import util.OutputFormatter;
 
@@ -13,6 +16,8 @@ public class ResultsPaneControllerULS {
 	private Reinforcement reinforcement;
 	private InternalForces internalForces;
 	private Sls sls;
+	private CreepCoeficent creepCoeficent;
+	private NominalStiffness stiffness;
 
 	private Label gridLabel00;
 	private Label gridLabel01;
@@ -36,7 +41,7 @@ public class ResultsPaneControllerULS {
 	private Label gridLabel120;
 	private Label gridLabel220;
 	private Label gridLabel020;
-	
+
 	private Label gridLabel10;
 	private Label gridLabel11;
 	private Label gridLabel12;
@@ -87,6 +92,16 @@ public class ResultsPaneControllerULS {
 	private Label gridLabel313;
 	private Label gridLabel314;
 	private Label gridLabel315;
+	private Label gridLabel319;
+	private Label gridLabel320;
+	private CheckBox nominalCheckbox;
+
+	//////// boolean na zwiekszenie przekroju
+	private Label warningLabel;
+	private Label degreeLabel;
+	private Label abortLabel1;
+	private Label abortLabel2;
+	private Label abortLabel3;
 
 	private Label stanGranicznyNosnosciNequal0Label;
 	private Line leftSGNNequal0Line;
@@ -114,24 +129,49 @@ public class ResultsPaneControllerULS {
 	private Line leftZbrojeniePoprzeczneNNotequal0Line;
 	private Line rightZbrojeniePoprzeczneNNotequal0Line;
 
-	public ResultsPaneControllerULS(Reinforcement reinforcement, InternalForces internalForces, Sls sls, Label gridLabel00, Label gridLabel01, Label gridLabel02, Label gridLabel03, Label gridLabel04,
-			Label gridLabel05, Label gridLabel06, Label gridLabel07, Label gridLabel08, Label gridLabel09, Label gridLabel010, Label gridLabel011, Label gridLabel012, Label gridLabel013,
-			Label gridLabel014, Label gridLabel015, Label gridLabel10, Label gridLabel11, Label gridLabel12, Label gridLabel13, Label gridLabel14, Label gridLabel15, Label gridLabel16,
-			Label gridLabel17, Label gridLabel18, Label gridLabel19, Label gridLabel110, Label gridLabel111, Label gridLabel112, Label gridLabel113, Label gridLabel114, Label gridLabel115,
-			Label gridLabel20, Label gridLabel21, Label gridLabel22, Label gridLabel23, Label gridLabel24, Label gridLabel25, Label gridLabel26, Label gridLabel27, Label gridLabel28,
-			Label gridLabel29, Label gridLabel210, Label gridLabel211, Label gridLabel212, Label gridLabel213, Label gridLabel214, Label gridLabel215, Label gridLabel30, Label gridLabel31,
-			Label gridLabel32, Label gridLabel33, Label gridLabel34, Label gridLabel35, Label gridLabel36, Label gridLabel37, Label gridLabel38, Label gridLabel39, Label gridLabel310,
-			Label gridLabel311, Label gridLabel312, Label gridLabel313, Label gridLabel314, Label gridLabel315, Label stanGranicznyNosnosciNequal0Label, Line leftSGNNequal0Line,
-			Line rightSGNNequal0Line, Label zbrojeniePodluzneNequal0Label, Line leftZbrojeniePodluzneNequal0Line, Line rightZbrojeniePodluzneNequal0Line, Label zbrojeniePoprzeczneNequal0Label,
-			Line leftZbrojeniePoprzeczneNequal0Line, Line rightZbrojeniePoprzeczneNequal0Line, Label stanGranicznyUzytkowalnosciNequal0Label1, Line leftSGUNequal0Line1, Line rightSGUNequal0Line1,
-			Label stanGranicznyUzytkowalnosciNequal0Label2, Line leftSGUNequal0Line2, Line rightSGUNequal0Line2, Label zbrojeniePodluzneSymetryczneLabel, Line leftZbrojeniePodluzneSymetryczneLine,
-			Line rightZbrojeniePodluzneSymetryczneLine, Label zbrojeniePodluzneNiesymetryczneLabel, Line leftZbrojeniePodluzneNiesymetryczneLine, Line rightZbrojeniePodluzneNiesymetryczneLine,
-			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label gridLabel019, Label gridLabel119,
-			Label gridLabel219, Label gridLabel120, Label gridLabel220, Label gridLabel020) {
+	public ResultsPaneControllerULS(Reinforcement reinforcement, InternalForces internalForces, Sls sls,
+			Label gridLabel00, Label gridLabel01, Label gridLabel02, Label gridLabel03, Label gridLabel04,
+			Label gridLabel05, Label gridLabel06, Label gridLabel07, Label gridLabel08, Label gridLabel09,
+			Label gridLabel010, Label gridLabel011, Label gridLabel012, Label gridLabel013, Label gridLabel014,
+			Label gridLabel015, Label gridLabel10, Label gridLabel11, Label gridLabel12, Label gridLabel13,
+			Label gridLabel14, Label gridLabel15, Label gridLabel16, Label gridLabel17, Label gridLabel18,
+			Label gridLabel19, Label gridLabel110, Label gridLabel111, Label gridLabel112, Label gridLabel113,
+			Label gridLabel114, Label gridLabel115, Label gridLabel20, Label gridLabel21, Label gridLabel22,
+			Label gridLabel23, Label gridLabel24, Label gridLabel25, Label gridLabel26, Label gridLabel27,
+			Label gridLabel28, Label gridLabel29, Label gridLabel210, Label gridLabel211, Label gridLabel212,
+			Label gridLabel213, Label gridLabel214, Label gridLabel215, Label gridLabel30, Label gridLabel31,
+			Label gridLabel32, Label gridLabel33, Label gridLabel34, Label gridLabel35, Label gridLabel36,
+			Label gridLabel37, Label gridLabel38, Label gridLabel39, Label gridLabel310, Label gridLabel311,
+			Label gridLabel312, Label gridLabel313, Label gridLabel314, Label gridLabel315,
+			Label stanGranicznyNosnosciNequal0Label, Line leftSGNNequal0Line, Line rightSGNNequal0Line,
+			Label zbrojeniePodluzneNequal0Label, Line leftZbrojeniePodluzneNequal0Line,
+			Line rightZbrojeniePodluzneNequal0Line, Label zbrojeniePoprzeczneNequal0Label,
+			Line leftZbrojeniePoprzeczneNequal0Line, Line rightZbrojeniePoprzeczneNequal0Line,
+			Label stanGranicznyUzytkowalnosciNequal0Label1, Line leftSGUNequal0Line1, Line rightSGUNequal0Line1,
+			Label stanGranicznyUzytkowalnosciNequal0Label2, Line leftSGUNequal0Line2, Line rightSGUNequal0Line2,
+			Label zbrojeniePodluzneSymetryczneLabel, Line leftZbrojeniePodluzneSymetryczneLine,
+			Line rightZbrojeniePodluzneSymetryczneLine, Label zbrojeniePodluzneNiesymetryczneLabel,
+			Line leftZbrojeniePodluzneNiesymetryczneLine, Line rightZbrojeniePodluzneNiesymetryczneLine,
+			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line,
+			Line rightZbrojeniePoprzeczneNNotequal0Line, Label gridLabel019, Label gridLabel119, Label gridLabel219,
+			Label gridLabel120, Label gridLabel220, Label gridLabel020,
+			/// NOWE!
+			NominalStiffness stiffness, Label warningLabel, Label degreeLabel, Label abortLabel1, Label abortLabel2,
+			Label abortLabel3, CreepCoeficent creepCoeficent, Label gridLabel319, Label gridLabel320,
+			CheckBox nominalCheckbox) {
 
 		this.reinforcement = reinforcement;
 		this.internalForces = internalForces;
 		this.sls = sls;
+		this.stiffness = stiffness;
+		this.creepCoeficent = creepCoeficent;
+		this.warningLabel = warningLabel;
+		this.degreeLabel = degreeLabel;
+		this.abortLabel1 = abortLabel1;
+		this.abortLabel2 = abortLabel2;
+		this.abortLabel3 = abortLabel3;
+		this.nominalCheckbox = nominalCheckbox;
+
 		this.gridLabel00 = gridLabel00;
 		this.gridLabel01 = gridLabel01;
 		this.gridLabel02 = gridLabel02;
@@ -199,6 +239,9 @@ public class ResultsPaneControllerULS {
 		this.gridLabel313 = gridLabel313;
 		this.gridLabel314 = gridLabel314;
 		this.gridLabel315 = gridLabel315;
+
+		this.gridLabel319 = gridLabel319;
+		this.gridLabel320 = gridLabel320;
 		this.gridLabel019 = gridLabel019;
 		this.gridLabel119 = gridLabel119;
 		this.gridLabel219 = gridLabel219;
@@ -309,6 +352,8 @@ public class ResultsPaneControllerULS {
 		gridLabel313.setText("");
 		gridLabel314.setText("");
 		gridLabel315.setText("");
+		gridLabel319.setText("");
+		gridLabel320.setText("");
 
 		stanGranicznyNosnosciNequal0Label.setVisible(false);
 		leftSGNNequal0Line.setVisible(false);
@@ -381,29 +426,67 @@ public class ResultsPaneControllerULS {
 		zbrojeniePoprzeczneNNotequal0Label.setVisible(true);
 		leftZbrojeniePoprzeczneNNotequal0Line.setVisible(true);
 		rightZbrojeniePoprzeczneNNotequal0Line.setVisible(true);
-		
+
 		gridLabel019.setText("");
 		gridLabel119.setText("");
 		gridLabel219.setText("");
 		gridLabel120.setText("");
 		gridLabel220.setText("");
 		gridLabel020.setText("");
-		
-		
-		
-		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0 || internalForces.getMomentMmin() != 0
-				|| internalForces.getNormalnaMmin() != 0 || internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+
+		warningLabel.setVisible(false);
+		abortLabel1.setVisible(false);
+		abortLabel2.setVisible(false);
+		abortLabel3.setVisible(false);
+		degreeLabel.setVisible(false);
+
+		if (reinforcement.getDegreeOfDesignedSymmetricalReinforcement() > 0.04
+				|| reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() > 0.04) {
+			reinforcement.setDegreeExceeded(true);
+		}
+
+		if (reinforcement.isDegreeExceeded()) {
+			warningLabel.setVisible(true);
+			degreeLabel.setVisible(true);
+		}
+
+		if (reinforcement.isDegreeExceededSymmetrical() || reinforcement.isDegreeExceededUnsymmetrical()) {
+			warningLabel.setVisible(true);
+			abortLabel1.setVisible(true);
+			abortLabel2.setVisible(true);
+		}
+
+		if (stiffness.isnBExceeded()) {
+			warningLabel.setVisible(true);
+			abortLabel1.setVisible(true);
+			abortLabel2.setVisible(false);
+			abortLabel3.setVisible(true);
+
+		} else if (stiffness.isAborted()) {
+			warningLabel.setVisible(true);
+			abortLabel1.setVisible(true);
+			abortLabel2.setVisible(true);
+			abortLabel3.setVisible(false);
+		}
+
+		stiffness.setAborted(false);
+		stiffness.setnBExceeded(false);
+
+		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
 				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
-			
+
 			gridLabel019.setText("max E:");
 			gridLabel119.setText("MEd:");
 			gridLabel219.setText("NEd:");
-			
+
 			ForcesCombination combination = internalForces.getMaxECombination();
-			gridLabel020.setText(String.format("%.2f", Math.abs((combination.getmStiff())/(combination.getN()))) + " m");
+			gridLabel020
+					.setText(String.format("%.2f", Math.abs((combination.getmStiff()) / (combination.getN()))) + " m");
 			gridLabel120.setText(OutputFormatter.diagnosisMed(combination.getmStiff()));
 			gridLabel220.setText(OutputFormatter.diagnosisVedAndNed(combination.getN()));
-			
+
 		} else {
 			gridLabel019.setText("");
 			gridLabel119.setText("");
@@ -412,7 +495,7 @@ public class ResultsPaneControllerULS {
 			gridLabel220.setText("");
 			gridLabel020.setText("");
 		}
-		
+
 		gridLabel00.setText("");
 		gridLabel01.setText("");
 		gridLabel02.setText("");
@@ -440,14 +523,20 @@ public class ResultsPaneControllerULS {
 		gridLabel10.setText("");
 		gridLabel11.setText("");
 		gridLabel12.setText("Obliczeniowe");
-		gridLabel13.setText(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS1()));
-		gridLabel14.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS2())));
-		gridLabel15.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedSymmetricalReinforcement()));
+		gridLabel13.setText(
+				OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS1()));
+		gridLabel14.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS2())));
+		gridLabel15
+				.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedSymmetricalReinforcement()));
 		gridLabel16.setText("");
 		gridLabel17.setText("Obliczeniowe");
-		gridLabel18.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredUnsymmetricalAS1())));
-		gridLabel19.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredUnsymmetricalAS2())));
-		gridLabel110.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedUnsymmetricalReinforcement()));
+		gridLabel18.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredUnsymmetricalAS1())));
+		gridLabel19.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredUnsymmetricalAS2())));
+		gridLabel110.setText(
+				OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedUnsymmetricalReinforcement()));
 
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
 			gridLabel111.setText("");
@@ -472,14 +561,20 @@ public class ResultsPaneControllerULS {
 		gridLabel20.setText("");
 		gridLabel21.setText("");
 		gridLabel22.setText("Zastosowane");
-		gridLabel23.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS1())));
-		gridLabel24.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS2())));
-		gridLabel25.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedSymmetricalReinforcement()));
+		gridLabel23.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS1())));
+		gridLabel24.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS2())));
+		gridLabel25
+				.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedSymmetricalReinforcement()));
 		gridLabel26.setText("");
 		gridLabel27.setText("Zastosowane");
-		gridLabel28.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesingedUnsymmetricalAS1())));
-		gridLabel29.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedUnsymmetricalAS2())));
-		gridLabel210.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement()));
+		gridLabel28.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesingedUnsymmetricalAS1())));
+		gridLabel29.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedUnsymmetricalAS2())));
+		gridLabel210.setText(
+				OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement()));
 
 		gridLabel214.setText("");
 		gridLabel215.setText("");
@@ -487,26 +582,39 @@ public class ResultsPaneControllerULS {
 		gridLabel30.setText("");
 		gridLabel31.setText("");
 		gridLabel32.setText("Liczba prêtów");
-		gridLabel33.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
-		gridLabel34.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
+		gridLabel33.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()) + "\u03D5"
+				+ OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
+		gridLabel34.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()) + "\u03D5"
+				+ OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
 		gridLabel35.setText("");
 		gridLabel36.setText("");
 		gridLabel37.setText("Liczba prêtów");
-		gridLabel38.setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
-		gridLabel39.setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
+		gridLabel38.setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1()) + "\u03D5"
+				+ OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
+		gridLabel39.setText(Integer.toString(reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2()) + "\u03D5"
+				+ OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
 		gridLabel310.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
 			gridLabel311.setText(" ");
-			gridLabel312.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
-			gridLabel313.setText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
+			gridLabel312.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5"
+					+ OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+			gridLabel313.setText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()) + "\u03D5"
+					+ OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
 		} else {
 			gridLabel311.setText("");
-			gridLabel312.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+			gridLabel312.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5"
+					+ OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
 			gridLabel313.setText("");
 		}
 		gridLabel314.setText("");
 		gridLabel315.setText("");
-
+		if (nominalCheckbox.isSelected()) {
+			gridLabel319.setText("\u03C6" + "ef");
+			gridLabel320.setText(String.format("%.2f", creepCoeficent.getCreepCoeficent()));
+		} else {
+			gridLabel319.setText("");
+			gridLabel320.setText("");
+		}
 	}
 
 	private void dispResultsWhenNedIsEqual0() {
@@ -537,7 +645,7 @@ public class ResultsPaneControllerULS {
 		gridLabel04.setText("As2");
 		gridLabel05.setText("\u03C1");
 		gridLabel06.setText("");
-		
+
 		gridLabel019.setText("");
 		gridLabel119.setText("");
 		gridLabel219.setText("");
@@ -578,28 +686,41 @@ public class ResultsPaneControllerULS {
 		gridLabel013.setText("");
 		gridLabel014.setText("");
 		gridLabel015.setText("");
-		
+
 		gridLabel10.setText("");
 		gridLabel11.setText("");
 		gridLabel12.setText("Obliczeniowe");
-		gridLabel13.setText(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS1()));
-		gridLabel14.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS2())));
-		gridLabel15.setText(OutputFormatter.showPercentages((reinforcement.getDegreeOfComputedSymmetricalReinforcement())));
+		gridLabel13.setText(
+				OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS1()));
+		gridLabel14.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS2())));
+		gridLabel15.setText(
+				OutputFormatter.showPercentages((reinforcement.getDegreeOfComputedSymmetricalReinforcement())));
 		gridLabel16.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
 			gridLabel17.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
 			gridLabel18.setText(OutputFormatter.s1s2(reinforcement.getS2Required()));
 			gridLabel19.setText("");
 			gridLabel110.setText("");
-			gridLabel111.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
-			gridLabel112.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequired()));
+			if (internalForces.isLoadSustained()) {
+				gridLabel111.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
+				gridLabel112.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(), sls.getfSymmetricalRequired()));
+			} else {
+				gridLabel111.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalRequired()));
+				gridLabel112.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
+			}
 
 		} else {
 			gridLabel17.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
 			gridLabel18.setText("");
 			gridLabel19.setText("");
-			gridLabel110.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
-			gridLabel111.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequired()));
+			if (internalForces.isLoadSustained()) {
+				gridLabel110.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
+				gridLabel111.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(), sls.getfSymmetricalRequired()));
+			} else {
+				gridLabel110.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalRequired()));
+				gridLabel111.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
+			}
 			gridLabel112.setText("");
 		}
 		gridLabel113.setText("");
@@ -609,44 +730,61 @@ public class ResultsPaneControllerULS {
 		gridLabel20.setText("");
 		gridLabel21.setText("");
 		gridLabel22.setText("Zastosowane");
-		gridLabel23.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS1())));
-		gridLabel24.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS2())));
-		gridLabel25.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedSymmetricalReinforcement()));
+		gridLabel23.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS1())));
+		gridLabel24.setText(
+				(OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getDesignedSymmetricalAS2())));
+		gridLabel25
+				.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfDesignedSymmetricalReinforcement()));
 		gridLabel26.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
 			gridLabel27.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
 			gridLabel28.setText(OutputFormatter.s1s2(reinforcement.getS2Designed()));
 			gridLabel29.setText("");
 			gridLabel210.setText("");
+			if (internalForces.isLoadSustained()) {
 			gridLabel211.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
-			gridLabel212.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesigned()));
+			gridLabel212.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(), sls.getfSymmetricalDesigned()));
+			} else {
+				gridLabel211.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
+				gridLabel212.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
+			}
 
 		} else {
 			gridLabel27.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
 			gridLabel28.setText("");
 			gridLabel29.setText("");
+			if (internalForces.isLoadSustained()) {
 			gridLabel210.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
-			gridLabel211.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesigned()));
+			gridLabel211.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(), sls.getfSymmetricalDesigned()));
+			} else {
+				gridLabel210.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
+				gridLabel211.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
+			}
+				
 			gridLabel212.setText("");
 		}
 		gridLabel213.setText("");
 		gridLabel214.setText("");
 		gridLabel215.setText("");
-		
-		
-		
+
 		gridLabel30.setText("");
 		gridLabel31.setText("");
 		gridLabel32.setText("Liczba prêtów");
-		gridLabel33.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
-		gridLabel34.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
+		gridLabel33.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS1()) + "\u03D5"
+				+ OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS1()));
+		gridLabel34.setText(Integer.toString(reinforcement.getRequiredNumberOfSymmetricalRodsAS2()) + "\u03D5"
+				+ OutputFormatter.formatAs1As2(reinforcement.getDesignedDiameterSymmetricalAS2()));
 		gridLabel35.setText("");
 		gridLabel36.setText("");
 		if (reinforcement.getnS2Required() != 0 && reinforcement.getS2Designed() != 0) {
-			gridLabel37.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
-			gridLabel38.setText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
+			gridLabel37.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5"
+					+ OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+			gridLabel38.setText(OutputFormatter.formatAs1As2(reinforcement.getnS2Designed()) + "\u03D5"
+					+ OutputFormatter.formatAs1As2(reinforcement.getaSW2Diameter()));
 		} else {
-			gridLabel37.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5" + OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
+			gridLabel37.setText(OutputFormatter.formatAs1As2(reinforcement.getnS1()) + "\u03D5"
+					+ OutputFormatter.formatAs1As2(reinforcement.getaSW1Diameter()));
 			gridLabel38.setText("");
 		}
 		gridLabel39.setText("");
@@ -656,6 +794,30 @@ public class ResultsPaneControllerULS {
 		gridLabel313.setText("");
 		gridLabel314.setText("");
 		gridLabel315.setText("");
+		gridLabel319.setText("");
+		gridLabel320.setText("");
+
+		if (internalForces.getMomentMmax() != 0 || internalForces.getMomentMmin() != 0
+				|| internalForces.getMomentNmax() != 0 || internalForces.getMomentNmin() != 0) {
+			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(false);
+			leftSGUNequal0Line1.setVisible(false);
+			rightSGUNequal0Line1.setVisible(false);
+			stanGranicznyUzytkowalnosciNequal0Label2.setVisible(false);
+			leftSGUNequal0Line2.setVisible(false);
+			rightSGUNequal0Line2.setVisible(false);
+
+			gridLabel010.setText("");
+			gridLabel011.setText("");
+			gridLabel110.setText("");
+			gridLabel111.setText("");
+			gridLabel210.setText("");
+			gridLabel211.setText("");
+			gridLabel310.setText("");
+			gridLabel311.setText("");
+			gridLabel319.setText("");
+			gridLabel320.setText("");
+		}
+
 	}
 
 }

@@ -13,6 +13,14 @@ public class ForcesCombination {
 	private boolean medNegativ;
 	private double aS1req;
 	private double aS2req;
+	private double aS1reqUnsymmetrical;
+	private double aS2reqUnsymmetrical;
+	private double asSymmetricalReq;
+	private double asSymmetricalProv;
+	private double aS1prov;
+	private double aS2prov;
+	private double nRd_;
+	private double mRd_;
 	
 	private SimpleStringProperty Medtab;
 	private SimpleStringProperty Mrdtab;
@@ -33,6 +41,7 @@ public class ForcesCombination {
 	}
 
 	public double getE() {
+		countE();
 		return e;
 	}
 
@@ -146,6 +155,86 @@ public class ForcesCombination {
 	public void setaS2req(double aS2req) {
 		this.aS2req = aS2req;
 	}
+	
+	public void swapAs1WithAs2() {
+		double tmpAs = aS1reqUnsymmetrical;
+		setaS1reqUnsymmetrical(aS2reqUnsymmetrical);
+		setaS2reqUnsymmetrical(tmpAs);
+	}
+
+	public double getaS1reqUnsymmetrical() {
+		return aS1reqUnsymmetrical;
+	}
+
+	public void setaS1reqUnsymmetrical(double aS1reqUnsymmetrical) {
+		this.aS1reqUnsymmetrical = aS1reqUnsymmetrical;
+	}
+
+	public double getaS2reqUnsymmetrical() {
+		return aS2reqUnsymmetrical;
+	}
+
+	public void setaS2reqUnsymmetrical(double aS2reqUnsymmetrical) {
+		this.aS2reqUnsymmetrical = aS2reqUnsymmetrical;
+	}
+
+	public double getaS1prov() {
+		return aS1prov;
+	}
+
+	public void setaS1prov(double aS1prov) {
+		this.aS1prov = aS1prov;
+	}
+
+	public double getaS2prov() {
+		return aS2prov;
+	}
+
+	public void setaS2prov(double aS2prov) {
+		this.aS2prov = aS2prov;
+	}
+
+	public double getAsSymmetricalReq() {
+		return asSymmetricalReq;
+	}
+
+	public void setAsSymmetricalReq(double asSymmetricalReq) {
+		this.asSymmetricalReq = asSymmetricalReq;
+	}
+
+	public double getAsSymmetricalProv() {
+		return asSymmetricalProv;
+	}
+
+	public void setAsSymmetricalProv(double asSymmetricalProv) {
+		this.asSymmetricalProv = asSymmetricalProv;
+	}
+
+	public double getnRd_() {
+		return nRd_;
+	}
+
+	public void setnRd_(double nRd_) {
+		this.nRd_ = nRd_;
+	}
+
+	public double getmRd_() {
+		return mRd_;
+	}
+
+	public void setmRd_(double mRd_) {
+		this.mRd_ = mRd_;
+	}
+
+	public void setM(double m) {
+		M = m;
+	}
+
+	public void setN(double n) {
+		N = n;
+	}
+
+	
 	
 	
 	

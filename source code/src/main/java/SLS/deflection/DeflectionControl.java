@@ -33,11 +33,19 @@ public class DeflectionControl {
 	private double b2;
 	private double beta;
 	private double dzeta;
+	
 	private double f1;
 	private double f2;
 	private double f1Cs;
 	private double f2Cs;
 	private double f;
+	
+	private double fws;
+	private double f1ws;
+	private double f2ws;
+	private double f1Csws;
+	private double f2Csws;
+	
 	private double r;
 
 	// without calculating deflection
@@ -133,7 +141,7 @@ public class DeflectionControl {
 	}
 
 	private void calculateEpsilonCS() {
-		epsilonCS = (epsilonCD + epsilonCA) * -1;
+		epsilonCS = epsilonCD + epsilonCA;
 	}
 
 	private void calculateB1(InternalForces forces, Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions) {
@@ -173,11 +181,11 @@ public class DeflectionControl {
 	}
 
 	private void calculateF1Cs(Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
-		f1Cs = -alfaM * steel.getES() * 1000 * epsilonCS * dimensions.getS1() * dimensions.getlEff() * dimensions.getlEff() / b1;
+		f1Cs = -alfaCS * steel.getES() * 1000 * epsilonCS * dimensions.getS1() * dimensions.getlEff() * dimensions.getlEff() / b1;
 	}
 
 	private void calculateF2Cs(Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
-		f2Cs = -alfaM * steel.getES() * 1000 * epsilonCS * dimensions.getS2() * dimensions.getlEff() * dimensions.getlEff() / b2;
+		f2Cs = -alfaCS * steel.getES() * 1000 * epsilonCS * dimensions.getS2() * dimensions.getlEff() * dimensions.getlEff() / b2;
 	}
 
 	private void calculateR(DimensionsOfCrossSectionOfConcrete dimensions, double aSTensiled, double aSTensiledDiameter, double aSW1) {
@@ -193,6 +201,55 @@ public class DeflectionControl {
 		//} else {
 		//	f = 1.3 * (dimensions.getH() - dimensions.getX2());
 		//}
+	}
+	
+	
+	private void calculateFWithoutShrinkage(DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces) {
+		//if (r < 0) {
+		if (forces.isLoadSustained())
+			fws = dzeta * f2ws + (1 - dzeta) * f1ws;
+		else fws = dzeta * f2ws + (1-dzeta) * f1ws;
+		//} else {
+		//	f = 1.3 * (dimensions.getH() - dimensions.getX2());
+		//}
+	}
+	
+	private void calculateF1WithoutShrinkage(double mEd, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
+		f1ws = alfaM * mEd * dimensions.getlEff() * dimensions.getlEff() / (b1 * 1000);
+	}
+
+	private void calculateF2WithoutShrinkage(double mEd, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
+		f2ws = alfaM * mEd * dimensions.getlEff() * dimensions.getlEff() / (b2 * 1000);
+	}
+	/*
+	private void calculateF1CsWithoutShrinkage(Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
+		f1Csws = alfaM * steel.getES() * 1000 * epsilonCS * dimensions.getS1() * dimensions.getlEff() * dimensions.getlEff() / b1;
+	}
+
+	private void calculateF2CsWithoutShrinkage(Steel steel, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, double alfaM) {
+		f2Csws = alfaM * steel.getES() * 1000 * epsilonCS * dimensions.getS2() * dimensions.getlEff() * dimensions.getlEff() / b2;
+	}
+	*/
+	public double getEpsilonCD() {
+		return epsilonCD;
+	}
+
+	public double getEpsilonCS() {
+		return epsilonCS;
+	}
+
+	public double getEpsilonCA() {
+		return epsilonCA;
+	}
+	
+	
+
+	public double getB1() {
+		return b1;
+	}
+
+	public double getB2() {
+		return b2;
 	}
 
 	public double runDeflectionControlWithCalculatingDeflection(Concrete concrete, Steel steel, 
@@ -219,5 +276,35 @@ public class DeflectionControl {
 		}
 		return f;
 	}
+	
+	public double runDeflectionControlWithCalculatingDeflectionWithoutShrinkage(Concrete concrete, Steel steel, 
+			Cement cement, DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces, double mCr,
+			double alfaM, double mEd, double aSTensiled, double aSTensiledDiameter, double aSW1) {
+		calculateBetaRH(concrete);
+		calculateEpsilonCD0(concrete, cement);
+		calculateKh(dimensions);
+		calculateEpsilonCD();
+		calculateEpsilonCA(concrete);
+		calculateEpsilonCS();
+		calculateB1(forces, concrete, dimensions);
+		calculateB2(forces, concrete, dimensions);
+		calculateBeta(forces);
+		calculateDzeta(mEd, mCr);
+		calculateF1WithoutShrinkage(mEd, dimensions, alfaM);
+		calculateF2WithoutShrinkage(mEd, dimensions, alfaM);
+		/*
+		calculateF1CsWithoutShrinkage(steel, forces, dimensions, alfaCS);
+		calculateF2CsWithoutShrinkage(steel, forces, dimensions, alfaCS);
+		*/
+		//calculateR(dimensions, aSTensiled, aSTensiledDiameter, aSW1);
+		calculateFWithoutShrinkage(dimensions, forces);
+		if (mEd == 0) {
+			fws = 0;
+		}
+		return fws;
+	}
+	
+	
+	
 
 }

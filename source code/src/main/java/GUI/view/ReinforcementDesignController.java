@@ -20,7 +20,9 @@ import GUI.ReinforcementDesignLibraryControllers.SteelParametersController;
 import GUI.ReinforcementDesignLibraryControllers.UnicodeForLabels;
 import GUI.ReinforcementDesignLibraryControllers.UsersDesignedReinforcementController;
 import SLS.Sls;
+import SLS.cracks.Scratch;
 import SLS.creepCoeficent.CreepCoeficent;
+import SLS.deflection.DeflectionControl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -204,6 +206,21 @@ public class ReinforcementDesignController {
 	
 	@FXML
 	private CheckBox columnCheckBox;
+	
+	@FXML
+	private Label warningLabel;
+	
+	@FXML
+	private Label degreeLabel;
+	
+	@FXML
+	private Label abortLabel1;
+	
+	@FXML
+	private Label abortLabel2;
+	
+	@FXML
+	private Label abortLabel3;
 	
 	
 	/////
@@ -529,6 +546,8 @@ public class ReinforcementDesignController {
 	protected static Sls sls;
 	protected static CreepCoeficent creep;
 	protected static NominalStiffness stiffness;
+	protected static Scratch scratch;
+	protected static DeflectionControl deflection;
 	
 	protected static Graph graph;
 	
@@ -553,6 +572,8 @@ public class ReinforcementDesignController {
 		creep = new CreepCoeficent();
 		stiffness = new NominalStiffness();
 		graph = new Graph(steel, dimensionsOfCrossSectionOfConcrete, concrete, reinforcement, internalForces, nominalCheckBox);
+		scratch = new Scratch();
+		deflection = new DeflectionControl();
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -581,7 +602,7 @@ public class ReinforcementDesignController {
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
 				tWTextField, bEffLabel, bEffLowerLabel, tWLabel, tWLowerLabel, dimensionsOfCrossSectionOfConcrete,
 				columsCasesHBox, vBoxBeffHf, anchorPaneMLine, NEdHBoxLine, list1, list2, list3, befftTextField, columnCheckBox,
-				internalForces, momentMmax, normalnaMmax);
+				internalForces, momentMmax, normalnaMmax, typeOfLoadChoiceBox);
 		
 		CrossSectionTypeController.addPropertiesToBEffTextField(bEffTextField, bTextField, dimensionsOfCrossSectionOfConcrete);
 		
@@ -666,11 +687,13 @@ public class ReinforcementDesignController {
 				leftZbrojeniePodluzneNiesymetryczneLine, rightZbrojeniePodluzneNiesymetryczneLine,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line, gridLabel019, gridLabel119, gridLabel219, gridLabel120,
-				gridLabel220, gridLabel020);
+				gridLabel220, gridLabel020, stiffness, warningLabel, degreeLabel, abortLabel1, abortLabel2, abortLabel3, creep,
+				gridLabel319, gridLabel320, nominalCheckBox);
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,
-				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness, nominalCheckBox);
+				resultsPaneControllerULS, cement, sls, internalForces, creep, wasResultsGenerated, stiffness, nominalCheckBox, 
+				scratch, deflection);
 
 		// CountButtonController.addPropertiesToDesignButton(countButton,
 		// requiredReinforcementSeter, concrete, steel, internalForces,
@@ -678,7 +701,7 @@ public class ReinforcementDesignController {
 		// resultsPaneControllerULS, cement, sls, internalForces, creep);
 
 		SaveFileButtonController.addPropertiesToDesignSceneSaveButton(saveToPdfButton, concrete, steel, reinforcement,
-				internalForces, dimensionsOfCrossSectionOfConcrete, sls);
+				internalForces, dimensionsOfCrossSectionOfConcrete, sls, scratch, creep, deflection, nominalCheckBox, stiffness);
 		
 		
 

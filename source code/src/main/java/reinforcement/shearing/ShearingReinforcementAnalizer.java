@@ -1,5 +1,8 @@
 package reinforcement.shearing;
 
+import java.util.ArrayList;
+
+import mainalgorithm.ForcesCombination;
 //import diagnosis.ShearingDiagnosis;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
@@ -13,7 +16,7 @@ public class ShearingReinforcementAnalizer {
 	private double vRdMax;
 	protected final double alfaCw = 1;
 	protected double z;
-	protected double ny1;
+	protected double ny1; 
 	protected double cotTheta;
 	protected double tanTheta;
 	protected double sinAlfa;
@@ -53,12 +56,17 @@ public class ShearingReinforcementAnalizer {
 
 
 	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel,
-			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		calculateCotTheta(reinforcement.getTheta());
 		calculateTanTheta(reinforcement.getTheta());
 		calculateSinAlfa(reinforcement.getAlfa());
 		calculateCotAlfa(reinforcement.getAlfa());
 		this.s2 = reinforcement.getS2Required();
+		calculateSBMax(dimensions);
+		if(s2 > sBMax) {
+			s2 = sBMax;
+			reinforcement.setS2Required(sBMax);
+		}
 		setVRDC(concrete, forces, dimensions, reinforcement);
 		setVRdMax(concrete, dimensions, reinforcement);
 		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
@@ -69,7 +77,38 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
 		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
 		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+		forces.setvRdCdesign(vRDC);
+		forces.setvRdSdesign(vRdS);
+		forces.setvRdMaxdesign(vRdMax);
+		forces.setSigmaCP(sigmaCp);
+	}
 		
+	public void doFullShearingReinforcementAnalysisDiagnosis(Concrete concrete, Steel steel,
+			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		calculateCotTheta(reinforcement.getTheta());
+		calculateTanTheta(reinforcement.getTheta());
+		calculateSinAlfa(reinforcement.getAlfa());
+		calculateCotAlfa(reinforcement.getAlfa());
+		this.s2 = reinforcement.getS2Required();
+		calculateSBMax(dimensions);
+		if(s2 > sBMax) {
+			s2 = sBMax;
+			reinforcement.setS2Required(sBMax);
+		}
+		setVRDCDiagnosis(concrete, forces, dimensions, reinforcement);
+		setVRdMax(concrete, dimensions, reinforcement);
+		maxValueWhichCanBeSustainedByTheYieldingShearReinforcement(steel, forces, reinforcement, dimensions, concrete);
+		ResultsToPDF.addResults("vRdC", String.valueOf(vRDC));
+		ResultsToPDF.addResults("vRdMax", String.valueOf(vRdMax));
+		reinforcement.setS1Required(s1);
+		reinforcement.setS(s1);
+		System.out.println("Przekazana wartosc VEd = " + forces.getvEd());
+		System.out.println("Przekazana wartosc VEdRed = " + forces.getvEdRed());
+		setVrdDiagnosis(steel, reinforcement.getS1Designed(), reinforcement.getS2Designed());
+		forces.setvRdCdiagnosis(vRDC);
+		forces.setvRdSdiagnosis(vRdS);
+		forces.setvRdMaxdiagnosis(vRdMax);
+		forces.setSigmaCP(sigmaCp);
 		/*
 		if (reinforcement.getnS2Required() == 0 && reinforcement.getS2Designed() == 0) {
 			System.out.println(" projektowanie zbrojenia poprzecznego bez pretow odgietych");
@@ -83,11 +122,13 @@ public class ShearingReinforcementAnalizer {
 		*/
 	}
 
+	
+	
 	public void doFullSheringReinforcementWithoutDesign(Concrete concrete, Steel steel,
 		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double s1, double s2) {
 		System.out.println("\n \n Scinanie \n \n");
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
-		doFullShearingReinforcementAnalysis(concrete, steel, forces, dimensions, reinforcement);
+		doFullShearingReinforcementAnalysisDiagnosis(concrete, steel, forces, dimensions, reinforcement);
 		setVrdDiagnosis(steel, s1, s2);
 	}
 
@@ -112,9 +153,9 @@ public class ShearingReinforcementAnalizer {
 
 	private void designSheringReinforcement(Reinforcement reinforcement) {
 		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
-			reinforcement.setS2Designed(0.05*(Math.floor(Math.abs(s2/0.05))));
+			reinforcement.setS2Designed(0.01*(Math.floor(Math.abs(s2/0.01))));
 		}
-		reinforcement.setS1Designed(0.05*(Math.floor(Math.abs(s1/0.05))));
+		reinforcement.setS1Designed(0.01*(Math.floor(Math.abs(s1/0.01))));
 	}
 
 	protected void pushResultsToReinforcementClass(Reinforcement reinforcement) {
@@ -124,7 +165,10 @@ public class ShearingReinforcementAnalizer {
 		reinforcement.setS2Required(s2);
 	}
 
-
+	protected void calculateSBMax(DimensionsOfCrossSectionOfConcrete dimensions) {
+		sBMax = 0.6*dimensions.getD()*(1+cotAlfa);
+	}
+	
 	protected void calculateCotTheta(double theta) {
 		cotTheta = theta;
 		System.out.println("cotTheta " + cotTheta);
@@ -182,8 +226,52 @@ public class ShearingReinforcementAnalizer {
 	// shearingResistanceWithoutShearingReinforcement
 	// vRdc
 
+	private void setSigmaCpDiagnosis(DimensionsOfCrossSectionOfConcrete dimension, InternalForces forces, Concrete concrete) {
+		double nEd = 0;
+		if (forces.getMomentMmax() == 0 && forces.getNormalnaMmax() == 0 && forces.getMomentMmin() == 0
+				&& forces.getNormalnaMmin() == 0 && forces.getMomentNmax() == 0 && forces.getNormalnaNmax() == 0
+						&& forces.getMomentNmin() == 0 && forces.getNormalnaNmin() == 0) {
+			nEd = forces.getnEd();
+		} else {
+			ArrayList<Double> list = new ArrayList<>();
+			if(forces.getMomentMmax() != 0 && forces.getNormalnaMmax() != 0) {
+				list.add(forces.getNormalnaMmax());
+			}
+			if(forces.getMomentMmin() != 0 && forces.getNormalnaMmin() != 0) {
+				list.add(forces.getNormalnaMmin());
+			}
+			if(forces.getMomentNmax() != 0 && forces.getNormalnaNmax() != 0) {
+				list.add(forces.getNormalnaNmax());
+			}
+			if(forces.getMomentNmin() != 0 && forces.getNormalnaNmin() != 0) {
+				list.add(forces.getNormalnaNmin());
+			}
+			
+			if (forces.getNormalnaMmax() == 0 && forces.getNormalnaMmin() == 0 &&
+					forces.getNormalnaNmax() ==0 && forces.getNormalnaNmin() ==0) {
+				nEd = forces.getnEd();
+			} else {
+			double nMin = list.get(0);
+			
+			for (int i = 0; i < list.size(); i++) {
+				if (nMin >= list.get(i)) {
+					nMin = list.get(i);
+				}
+			}
+			list.clear();
+			nEd = nMin;
+			}
+			
+		}
+		System.out.println("Przyjeto NEd w scinaniu: " + nEd);
+		sigmaCp = Math.min(10 * nEd / (dimension.getB() * 100 * dimension.getH() * 100), 0.2*concrete.getFCd());
+		System.out.println("sigmaCp " + sigmaCp);
+
+	}
+	
 	private void setSigmaCp(DimensionsOfCrossSectionOfConcrete dimension, InternalForces forces, Concrete concrete) {
-		sigmaCp = Math.min(10*forces.getnEd() / (dimension.getB() * 100 * dimension.getD() * 100), 0.2*concrete.getFCd());
+		System.out.println("Przyjeto NEd w scinaniu: " + forces.getnEd());
+		sigmaCp = Math.min(10 * forces.getnEd() / (dimension.getB() * 100 * dimension.getH() * 100), 0.2*concrete.getFCd());
 		System.out.println("sigmaCp " + sigmaCp);
 
 	}
@@ -212,12 +300,38 @@ public class ShearingReinforcementAnalizer {
 		setNyMin(concrete);
 	}
 
+	private void setVRDCDependenciesDiagnosis(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		setK(dimensions);
+		setRoMin1(reinforcement, dimensions);
+		setSigmaCpDiagnosis(dimensions, forces, concrete);
+		setNyMin(concrete);
+	}
+	
 	private void setVRDC(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setVRDCDependencies(concrete, forces, dimensions, reinforcement);
-		vRDC = Math.min((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
+		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
 				(nyMin + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000);
 
 		vRDC = vRDC / 1000;
+		
+		if(vRDC <= 0) {
+			vRDC = 0;
+		}
+		
+		System.out.println("vRDC " + vRDC);
+	}
+	
+	private void setVRDCDiagnosis(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
+		setVRDCDependenciesDiagnosis(concrete, forces, dimensions, reinforcement);
+		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
+				(nyMin + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000);
+
+		vRDC = vRDC / 1000;
+		
+		if(vRDC <= 0) {
+			vRDC = 0;
+		}
+		
 		System.out.println("vRDC " + vRDC);
 	}
 
@@ -250,20 +364,11 @@ public class ShearingReinforcementAnalizer {
 	private void countS1WhenVedGreaterThanVrdcAndLessVrdMax(Steel steel, InternalForces forces, Reinforcement reinforcement) {
 		double Veds1 = 0;
 		if (reinforcement.getnS2Required()>0 && reinforcement.getS2Required()>0) {
-			double Vrds2 = (aSw2/s2)*z*steel.getFYd()*(cotTheta+cotAlfa)*sinAlfa;
-			
-			if(forces.getvEdRed() != 0) {
-				Veds1 = Math.max(forces.getvEdRed()-Vrds2, 0.5*forces.getvEdRed());
-			} else {
-				Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
-			}
-			Veds1 = Math.max(forces.getvEd()-Vrds2, 0.5*forces.getvEd());
-		} else
-			if(forces.getvEdRed() != 0) {
-				Veds1 = forces.getvEdRed();
-			} else {
-				Veds1 = forces.getvEd();
-			}
+			double Vrds2 = (aSw2/s2)*z*steel.getFYd()*1000*(cotTheta+cotAlfa)*sinAlfa;
+			Veds1 = Math.max(forces.getvEdRed()-Vrds2, 0.5*forces.getvEdRed());
+		} else {
+			Veds1 = forces.getvEdRed();
+		}
 		System.out.println("Veds1 " + Veds1);
 		double b = aSw1/Veds1*z*steel.getFYd()*1000*cotTheta;
 		double c = Math.min(b, sLMax);
@@ -298,10 +403,10 @@ public class ShearingReinforcementAnalizer {
 			Concrete concrete, InternalForces forces, Reinforcement reinforcement) {
 		a = aSw1 * steel.getFYk()/(0.08*dimensions.getB()*Math.sqrt(concrete.getFCk()));
 		System.out.println("a " + a);
-		if (forces.getvEd()<= vRDC) {
+		if (forces.getvEdRed()<= vRDC) {
 			System.out.println("Ved < Vrdc");
 			countS1WhenVedLessThanVrdc(steel, dimensions, concrete);
-		} else if (forces.getvEd() > vRDC && forces.getvEd()<= vRdMax) {
+		} else if (forces.getvEdRed() > vRDC && forces.getvEd()<= vRdMax) {
 			countS1WhenVedGreaterThanVrdcAndLessVrdMax(steel, forces, reinforcement);
 		} else {
 			s1 = 0.0;
@@ -337,7 +442,20 @@ public class ShearingReinforcementAnalizer {
 		System.out.println("roWMin " + roWMin);
 	}
 
+	
 
+
+	public double getvRdMax() {
+		return vRdMax;
+	}
+
+	public double getvRDC() {
+		return vRDC;
+	}
+
+	public double getvRdS() {
+		return vRdS;
+	}
 
 	private void pushResultsToPDFWhenS2WasGiven(InternalForces forces) {
 

@@ -22,7 +22,7 @@ public class Scratch {
 	private double c;
 	private double aS; // area of tensiling reinforcement
 	private double aCEff;
-
+	private double hcef;
 	// scratches without crack width
 	
 	private double a;
@@ -112,13 +112,19 @@ public class Scratch {
 	
 
 	private void calculateACEff(DimensionsOfCrossSectionOfConcrete dimensions, double x2) {
-		double hcef = Math.min(((dimensions.getH()-x2)/3), (2.5*(dimensions.getH()-dimensions.getD())));
+		hcef = Math.min(((dimensions.getH()-x2)/3), (2.5*(dimensions.getH()-dimensions.getD())));
 		if (hcef > dimensions.getHft()) {
-			aCEff = (dimensions.getBefft() - dimensions.getB())*dimensions.getHft() + dimensions.getH()*hcef;
+			aCEff = (dimensions.getBefft() - dimensions.getB())*dimensions.getHft() + dimensions.getB()*hcef;
 		} else {
 			aCEff = dimensions.getBefft()*hcef;
 		}
 		System.out.println("aCEff " + aCEff);
+	}
+
+	
+	
+	public double getHcef() {
+		return hcef;
 	}
 
 	private void calculateAs(double aSRozciagane) {
@@ -197,6 +203,7 @@ public class Scratch {
 			//calculateK2(mEd, nEd);
 			
 			calculateC(dimensions, reinforcement);
+			////nSUnsymmetrical =0 !!!!!!!! BUG madafaka
 			calculatea(dimensions.getbEff(), aSTensiledDiameter, nSUnsymmetrical);
 			calculateSRMax(aSTensiledDiameter, dimensions.getH(), x2);
 			calculateWMax();
@@ -209,5 +216,28 @@ public class Scratch {
 		}
 		return wMax;
 	}
+
+	public double getsRMax() {
+		return sRMax;
+	}
+
+	public double getSigmaS() {
+		return sigmaS;
+	}
+
+	public double getRoPEff() {
+		return roPEff;
+	}
+
+	public double getaCEff() {
+		return aCEff;
+	}
+
+	public double getEpsilonSmMinusEpsilonCm() {
+		return epsilonSmMinusEpsilonCm;
+	}
+	
+	
+	
 
 }

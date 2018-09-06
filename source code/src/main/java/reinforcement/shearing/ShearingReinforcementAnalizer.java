@@ -130,7 +130,6 @@ public class ShearingReinforcementAnalizer {
 		ResultsToPDF.addResults("Zbrojenie poprzeczne \n\n", "");
 		doFullShearingReinforcementAnalysisDiagnosis(concrete, steel, forces, dimensions, reinforcement);
 		setVrdDiagnosis(steel, s1, s2);
-		designSheringReinforcement(reinforcement);
 	}
 
 	public void doFullSheringReinforcementWitDesign(Concrete concrete, Steel steel,

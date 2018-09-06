@@ -812,40 +812,41 @@ public class ResultsToPDF {
 	double vRdS;
 	double vRdMax;
 	*/
+	String accuracy = "%.07f";
 	cb.beginText();
 	cb.moveText(x1, y1 - (0 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getIc() * Math.pow(100, 4)));
+	cb.showText(String.format(accuracy, dimensions.getIc() * Math.pow(100, 4)));
 	cb.endText();
 
 	cb.beginText();
 	cb.moveText(x1, y1 - (1 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getxC()));
+	cb.showText(String.format(accuracy, dimensions.getxC()));
 	cb.endText();
 
 	cb.beginText();
 	cb.moveText(x1, y1 - (2 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getI1() * Math.pow(100, 4)));
+	cb.showText(String.format(accuracy, dimensions.getI1() * Math.pow(100, 4)));
 	cb.endText();
 
 	cb.beginText();
 	cb.moveText(x1, y1 - (3 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getX1()));
+	cb.showText(String.format(accuracy, dimensions.getX1()));
 	cb.endText();
 
 	cb.beginText();
 	cb.moveText(x1, y1 - (4 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getI2() * Math.pow(100, 4)));
+	cb.showText(String.format(accuracy, dimensions.getI2() * Math.pow(100, 4)));
 	cb.endText();
 
 	cb.beginText();
 	cb.moveText(x1, y1 - (5 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getX2()));
+	cb.showText(String.format(accuracy, dimensions.getX2()));
 	cb.endText();
 
 	cb.beginText();
@@ -854,7 +855,7 @@ public class ResultsToPDF {
 
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.03f", scratch.getSigmaS()));
+			cb.showText(String.format(accuracy, scratch.getSigmaS()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -869,7 +870,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.02f", scratch.getsRMax()));
+			cb.showText(String.format(accuracy, scratch.getsRMax()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -881,7 +882,7 @@ public class ResultsToPDF {
 	cb.beginText();
 	cb.moveText(x2, y1 - (4 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.07f", creep.getCreepCoeficent()));
+	cb.showText(String.format(accuracy, creep.getCreepCoeficent()));
 	cb.endText();
 
 	cb.beginText();
@@ -889,7 +890,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.06f", deflection.getEpsilonCS()));
+			cb.showText(String.format(accuracy, deflection.getEpsilonCS()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -902,7 +903,7 @@ public class ResultsToPDF {
 	cb.moveText(x2, y1 - (0 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (nominalCheckBox.isSelected()) {
-		cb.showText(String.format("%.02f", forces.getnCritSymmetrical()));
+		cb.showText(String.format(accuracy, forces.getnCritSymmetrical()));
 	} else {
 		cb.showText("-,--");
 	}
@@ -912,7 +913,7 @@ public class ResultsToPDF {
 	cb.moveText(x2, y1 - (2 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (nominalCheckBox.isSelected()) {
-		cb.showText(String.format("%.02f", forces.getnCritUnsymmetrical()));
+		cb.showText(String.format(accuracy, forces.getnCritUnsymmetrical()));
 	} else {
 		cb.showText("-,--");
 	}
@@ -921,13 +922,13 @@ public class ResultsToPDF {
 	cb.beginText();
 	cb.moveText(x2, y1 - (1 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", reinforcement.getDegreeOfDesignedSymmetricalReinforcement() * 100));
+	cb.showText(String.format(accuracy, reinforcement.getDegreeOfDesignedSymmetricalReinforcement() * 100));
 	cb.endText();
 
 	cb.beginText();
 	cb.moveText(x2, y1 - (3 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() * 100));
+	cb.showText(String.format(accuracy, reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() * 100));
 	cb.endText();
 
 	cb.beginText();
@@ -935,7 +936,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.02f", deflection.getB1()));
+			cb.showText(String.format(accuracy, deflection.getB1()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -949,7 +950,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.02f", deflection.getB2()));
+			cb.showText(String.format(accuracy, deflection.getB2()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -964,7 +965,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.02f", scratch.getRoPEff()*100));
+			cb.showText(String.format(accuracy, scratch.getRoPEff()*100));
 		} else {
 			cb.showText("-,--");
 		}
@@ -978,7 +979,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.07f", scratch.getEpsilonSmMinusEpsilonCm()));
+			cb.showText(String.format(accuracy, scratch.getEpsilonSmMinusEpsilonCm()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -992,7 +993,7 @@ public class ResultsToPDF {
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (forces.getnEd() == 0) {
 		if (!dimensions.getIsColumn()) {
-			cb.showText(String.format("%.05f", scratch.getaCEff()));
+			cb.showText(String.format(accuracy, scratch.getaCEff()));
 		} else {
 			cb.showText("-,--");
 		}
@@ -1005,7 +1006,7 @@ public class ResultsToPDF {
 	cb.moveText(x1, y1 - (13 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (nominalCheckBox.isSelected()) {
-		cb.showText(String.format("%.02f", stiffness.geteIc()));
+		cb.showText(String.format(accuracy, stiffness.geteIc()));
 	} else {
 		cb.showText("-,--");
 	}
@@ -1015,7 +1016,7 @@ public class ResultsToPDF {
 	cb.moveText(x2, y1 - (12 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (nominalCheckBox.isSelected()) {
-		cb.showText(String.format("%.02f", stiffness.geteIs()));
+		cb.showText(String.format(accuracy, stiffness.geteIs()));
 	} else {
 		cb.showText("-,--");
 	}
@@ -1025,7 +1026,7 @@ public class ResultsToPDF {
 	cb.moveText(x2, y1 - (5 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
 	if (nominalCheckBox.isSelected()) {
-		cb.showText(String.format("%.07f", stiffness.getFiEf()));
+		cb.showText(String.format(accuracy, stiffness.getFiEf()));
 	} else {
 		cb.showText("-,--");
 	}
@@ -1034,13 +1035,13 @@ public class ResultsToPDF {
 	cb.beginText();
 	cb.moveText(x2, y1 - (7 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", vRdC));
+	cb.showText(String.format(accuracy, vRdC));
 	cb.endText();
 	
 	cb.beginText();
 	cb.moveText(x2, y1 - (8 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", vRdMax));
+	cb.showText(String.format(accuracy, vRdMax));
 	cb.endText();
 	
 	cb.beginText();
@@ -1049,26 +1050,26 @@ public class ResultsToPDF {
 	if(vRdS == 123456) {
 		cb.showText("-,--");
 	} else {
-		cb.showText(String.format("%.02f", vRdS));
+		cb.showText(String.format(accuracy, vRdS));
 	}
 	cb.endText();
 	
 	cb.beginText();
 	cb.moveText(x1, y1 - (10 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getS1()* Math.pow(100, 3)));
+	cb.showText(String.format(accuracy, dimensions.getS1()* Math.pow(100, 3)));
 	cb.endText();
 	
 	cb.beginText();
 	cb.moveText(x1, y1 - (11 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText(String.format("%.02f", dimensions.getS2()* Math.pow(100, 3)));
+	cb.showText(String.format(accuracy, dimensions.getS2()* Math.pow(100, 3)));
 	cb.endText();
 	
 	cb.beginText();
 	cb.moveText(x2, y1 - (13 * ymin));
 	cb.setFontAndSize(BaseFont.createFont(), 12);
-	cb.showText("sigmaCp: " + String.format("%.02f", forces.getSigmaCP()) + " [MPa]");
+	cb.showText("sigmaCp: " + String.format(accuracy, forces.getSigmaCP()) + " [MPa]");
 	cb.endText();
 	}
 	

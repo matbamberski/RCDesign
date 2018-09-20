@@ -73,8 +73,8 @@ public class Sls {
 
 	private void calculateCrossSectionOfConcrete(DimensionsOfCrossSectionOfConcrete dimensions) {
 		dimensions.calculateSc();
-		dimensions.calculateAc();
-		dimensions.calculateU();
+		//dimensions.calculateAc();
+		//dimensions.calculateU();
 		dimensions.calculateh0();
 		dimensions.calculateXc();
 		dimensions.calculateIc();
@@ -211,7 +211,10 @@ public class Sls {
 		double DesignedUnsymmetricalAS2 = reinforcement.getDesignedUnsymmetricalAS2();
 		int nSUnsymmetrical = reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1();
 		int nSSymmetrical = reinforcement.getRequiredNumberOfSymmetricalRodsAS1();
-		if (mEd < 0) {
+		
+		mEd = ifMedIsLessThenZeroReturnAbsAndSetBoolean(mEd);
+		
+		if (isMedLessThen0) {
 			RequiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
 			RequiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS1();
 			DesignedDiameterSymmetricalAS1 = reinforcement.getDesignedDiameterSymmetricalAS2();
@@ -223,8 +226,9 @@ public class Sls {
 			DesignedUnsymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
 			nSUnsymmetrical = reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2();
 			nSSymmetrical = reinforcement.getRequiredNumberOfSymmetricalRodsAS2();
+			setTensileDimensions(dimensions);
 		}
-		mEd = ifMedIsLessThenZeroReturnAbsAndSetBoolean(mEd);
+		
 		calculateCrossSectionOfConcrete(dimensions);
 		creepCoeficent.runCreepCoeficentCalculations(concrete, cement, dimensions);
 		calculateEffectiveModulusOfElasticityOfConcrete(concrete, creepCoeficent);
@@ -255,6 +259,20 @@ public class Sls {
 		} else {
 			System.out.println("Sls sylko dla symetrycznego");
 		}
+		
+		if (isMedLessThen0) {
+			setTensileDimensions(dimensions);
+		}
+	}
+	
+	public void setTensileDimensions(DimensionsOfCrossSectionOfConcrete dimension) {
+		double temp = dimension.getbEff();
+		dimension.setbEff(dimension.getBefft());
+		dimension.setBefft(temp);
+		temp = dimension.getHft();
+		dimension.setHft(dimension.gettW());
+		dimension.settW(temp);
+		
 	}
 	
 	public void printReport(DimensionsOfCrossSectionOfConcrete dimension, CreepCoeficent creep, Concrete concrete, DeflectionControl deflection, Scratch scratch, 

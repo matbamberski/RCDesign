@@ -87,6 +87,9 @@ public class Column extends ClearBendingBeam {
 		prepareForNominalStiffness(dimensions);
 		for (ForcesCombination combination : internalForces.getCombinations()) {
 			setM0EdWhenMIsNegative(combination);
+			double tempM = internalForces.getmEd();
+			double tempN = internalForces.getnEd();
+			setCombintionToInternalForces(internalForces, combination);
 			
 			if (combination.getN() != 0.0) {
 
@@ -105,6 +108,8 @@ public class Column extends ClearBendingBeam {
 
 			}
 			
+			setForcesForInternalForces(internalForces, tempM, tempN);
+			
 			combination.setaS1prov(reinforcement.getDesingedUnsymmetricalAS1());
 			combination.setaS2prov(reinforcement.getDesignedUnsymmetricalAS2());
 			combination.setAsSymmetricalProv(reinforcement.getDesignedSymmetricalAS1());
@@ -114,9 +119,19 @@ public class Column extends ClearBendingBeam {
 		}
 		
 	}
+	
+	
+	public void setCombintionToInternalForces(InternalForces forces, ForcesCombination combination) {
+		if (combination.isMedNegativ())
+			setForcesForInternalForces(forces, -combination.getM(), combination.getN());
+		else setForcesForInternalForces(forces, combination.getM(), combination.getN());
+	}
 
 	
-	
+	public void setForcesForInternalForces(InternalForces forces, double m, double n) {
+		forces.setmEd(m);
+		forces.setnEd(n);
+	}
 	
 
 

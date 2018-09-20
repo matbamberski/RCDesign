@@ -84,6 +84,7 @@ public class ReinforcementDesignButtonController {
 			ResultsToPDF.clearResults();
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, 
 					dimensions, reinforcement, stiffness, cement, creep, checkbox);
+			//if (!dimensions.getIsColumn())
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
 			//sls.printReport(dimensions, creep, concrete, deflection, scratch, "PROJ");
 			resultsPaneControllerULS.dispResults();

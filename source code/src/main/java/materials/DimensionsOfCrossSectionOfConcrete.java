@@ -317,7 +317,28 @@ public class DimensionsOfCrossSectionOfConcrete {
 		*/
 		
 		//u = 2 * bf + 2 * (h - tW);
-		u = 2*(h-tW-hft) + 2*hft + befft + (befft-b) + (bEff-b);
+		
+		
+		/*
+		u = 2*(h-tW-hft) + 2*hft;
+		if (befft>b && hft>0)
+			u += (befft-b) + befft;
+		else if (befft==b)
+			u += befft;
+		
+		if (bEff>b && tW>0)
+			u += bEff-b;
+		*/
+			
+		//u = 2*(h-tW-hft) + 2*hft + befft + (befft-b) + (bEff-b);
+		
+		
+		u = 2*h + b;
+		if (befft>b && hft>0)
+			u += (befft-b)*2;
+		if (bEff>b && tW>0)
+			u += (bEff-b) - 2*tW;
+		
 		System.out.println("u " + u);
 	}
 

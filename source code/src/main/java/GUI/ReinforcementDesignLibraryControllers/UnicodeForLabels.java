@@ -19,6 +19,6 @@ public class UnicodeForLabels {
 	}
 
 	private static void setTextAlfaM(Label label) {
-		label.setText("\u03B1      [-]");
+		label.setText("\u03B1");
 	}
 }

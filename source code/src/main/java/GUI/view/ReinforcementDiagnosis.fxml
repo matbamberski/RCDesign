@@ -22,7 +22,7 @@
 
 <AnchorPane minHeight="690.0" minWidth="890.0" prefHeight="685.0" prefWidth="895.0" styleClass="background" stylesheets="@DarkStyle.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.view.ReinforcementDiagnosisController">
    <children>
-      <ChoiceBox fx:id="concreteChoiceBox" layoutX="391.0" layoutY="250.0" prefHeight="26.0" prefWidth="74.0" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="65.0" />
+      <ChoiceBox fx:id="concreteChoiceBox" layoutX="391.0" layoutY="250.0" prefHeight="26.0" prefWidth="65.0" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="65.0" />
       <Button fx:id="diagnosisButton" layoutX="726.0" layoutY="624.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Licz" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="730.0" />
       <GridPane layoutX="679.0" layoutY="31.0" prefHeight="28.0" prefWidth="111.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="31.0">
         <columnConstraints>
@@ -35,7 +35,7 @@
       </GridPane>
       <Button fx:id="switchScenesButton" layoutX="578.0" layoutY="624.0" mnemonicParsing="false" onAction="#switchToDesignScene" prefHeight="26.0" prefWidth="130.0" text="Panel projektowy" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="578.0" />
       <Label layoutX="512.0" layoutY="16.0" prefHeight="16.0" prefWidth="47.0" text="STAL" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
-      <Label layoutX="704.0" layoutY="10.0" text="BETON" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="45.0" />
+      <Label layoutX="704.0" layoutY="10.0" text="BETON" AnchorPane.leftAnchor="125.0" AnchorPane.topAnchor="45.0" />
       <GridPane layoutX="80.0" layoutY="366.0" prefHeight="120.0" prefWidth="191.0" AnchorPane.leftAnchor="500.0" AnchorPane.topAnchor="500.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -170,157 +170,87 @@
             <Insets left="10.0" />
          </padding>
       </GridPane>
-      <Label fx:id="fYkLabel" layoutX="10.0" layoutY="10.0" text="f    [MPa]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
-      <TextField fx:id="fYkTextField" layoutX="93.0" layoutY="29.0" maxWidth="50.0" minWidth="35.0" prefHeight="26.0" prefWidth="35.0" text="100" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="65.0" />
-      <Label layoutX="30.0" layoutY="84.0" text="yk" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="76.0">
+      <TextField fx:id="fYkTextField" layoutX="93.0" layoutY="29.0" maxWidth="50.0" minWidth="35.0" prefHeight="26.0" prefWidth="35.0" text="100" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="65.0" />
+      <Label layoutX="11.0" layoutY="111.0" prefHeight="16.0" prefWidth="139.0" text="Zbrojenie podłużne" AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="111.0" />
+      <TextField fx:id="aS1TextField" layoutX="41.0" layoutY="149.0" prefHeight="26.0" prefWidth="38.0" text="12" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="149.0" />
+      <TextField fx:id="aS2TextField" layoutX="41.0" layoutY="179.0" prefHeight="26.0" prefWidth="38.0" AnchorPane.leftAnchor="41.0" AnchorPane.topAnchor="179.0" />
+      <TextField fx:id="a1DimensionTextField" layoutX="131.0" layoutY="149.0" prefHeight="26.0" prefWidth="45.0" text="0,054" AnchorPane.leftAnchor="131.0" AnchorPane.topAnchor="149.0" />
+      <TextField fx:id="a2DimensionTextField" layoutX="131.0" layoutY="179.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="131.0" AnchorPane.topAnchor="179.0" />
+      <Label layoutX="9.0" layoutY="226.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="226.0" />
+      <Label fx:id="ctgThetaLabel" layoutX="139.0" layoutY="226.0" text="ctg" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="226.0" />
+      <TextField fx:id="thetaTextField" layoutX="169.0" layoutY="221.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="169.0" AnchorPane.topAnchor="221.0" />
+      <Label fx:id="alfaLabel" layoutX="219.0" layoutY="226.0" prefHeight="17.0" prefWidth="26.0" text="a" AnchorPane.leftAnchor="219.0" AnchorPane.topAnchor="226.0" />
+      <Label layoutX="9.0" layoutY="251.0" text="Średnica [mm]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="251.0" />
+      <Label layoutX="119.0" layoutY="251.0" text="Liczba" AnchorPane.leftAnchor="119.0" AnchorPane.topAnchor="251.0" />
+      <Label layoutX="204.0" layoutY="251.0" text="Rozstaw [m]" AnchorPane.leftAnchor="204.0" AnchorPane.topAnchor="251.0" />
+      <Label fx:id="nS1Label" layoutX="99.0" layoutY="276.0" prefHeight="17.0" prefWidth="80.0" text="n   " AnchorPane.leftAnchor="99.0" AnchorPane.topAnchor="276.0" />
+      <Label layoutX="107.0" layoutY="282.0" text="sw1" AnchorPane.leftAnchor="107.0" AnchorPane.topAnchor="282.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="510.0" layoutY="106.0" prefHeight="16.0" prefWidth="139.0" text="Zbrojenie podłużne" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="95.0" />
-      <Label layoutX="76.0" layoutY="122.0" text="Średnica" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="120.0" />
-      <Label fx:id="aS1Label" layoutX="21.0" layoutY="150.0" text="A    [mm]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="145.0" />
-      <Label layoutX="30.0" layoutY="159.0" text="s1" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="151.0">
+      <TextField fx:id="nS1TextField" layoutX="139.0" layoutY="271.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="271.0" />
+      <TextField fx:id="nS2TextField" layoutX="139.0" layoutY="301.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="139.0" AnchorPane.topAnchor="301.0" />
+      <Label layoutX="107.0" layoutY="312.0" text="sw2" AnchorPane.leftAnchor="107.0" AnchorPane.topAnchor="312.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="aS2Label" layoutX="151.0" layoutY="238.0" text="A    [mm]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="175.0" />
-      <Label layoutX="26.0" layoutY="190.0" text="s2" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="181.0">
+      <Label fx:id="nS2Label" layoutX="99.0" layoutY="306.0" text="n   " AnchorPane.leftAnchor="99.0" AnchorPane.topAnchor="306.0" />
+      <Label layoutX="205.0" layoutY="306.0" prefHeight="17.0" prefWidth="28.0" text="s   " AnchorPane.leftAnchor="205.0" AnchorPane.topAnchor="306.0" />
+      <Label layoutX="211.0" layoutY="312.0" text="2" AnchorPane.leftAnchor="211.0" AnchorPane.topAnchor="312.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <TextField fx:id="aS1TextField" layoutX="102.0" layoutY="149.0" prefHeight="26.0" prefWidth="38.0" text="12" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="140.0" />
-      <TextField fx:id="aS2TextField" layoutX="123.0" layoutY="186.0" prefHeight="26.0" prefWidth="38.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="170.0" />
-      <Label fx:id="a1Label" layoutX="157.0" layoutY="155.0" text="a   [m]" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="145.0" />
-      <Label fx:id="a2Label" layoutX="340.0" layoutY="182.0" text="a   [m]" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="175.0" />
-      <Label layoutX="165.0" layoutY="122.0" text="Lokalizacja" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="120.0" />
-      <TextField fx:id="a1DimensionTextField" layoutX="153.0" layoutY="156.0" prefHeight="26.0" prefWidth="45.0" text="0,054" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="140.0" />
-      <TextField fx:id="a2DimensionTextField" layoutX="160.0" layoutY="177.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="170.0" />
-      <Label layoutX="520.0" layoutY="197.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="210.0" />
-      <Label fx:id="ctgThetaLabel" layoutX="636.0" layoutY="197.0" text="Cot" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="210.0" />
-      <TextField fx:id="thetaTextField" layoutX="686.0" layoutY="193.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="205.0" />
-      <Label fx:id="alfaLabel" layoutX="731.0" layoutY="197.0" prefHeight="16.0" prefWidth="50.0" text="a" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="210.0" />
-      <Label layoutX="55.0" layoutY="259.0" text="Średnica" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="235.0" />
-      <Label layoutX="141.0" layoutY="245.0" text="Liczba" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="235.0" />
-      <Label layoutX="151.0" layoutY="255.0" text="Rozstaw" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="235.0" />
-      <Label layoutX="10.0" layoutY="308.0" prefHeight="17.0" prefWidth="218.0" text="A       [mm]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="260.0" />
-      <Label layoutX="76.0" layoutY="344.0" text="sw1" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="266.0">
+      <Label layoutX="205.0" layoutY="276.0" prefHeight="17.0" prefWidth="28.0" text="s   " AnchorPane.leftAnchor="205.0" AnchorPane.topAnchor="276.0" />
+      <Label layoutX="211.0" layoutY="282.0" text="1" AnchorPane.leftAnchor="211.0" AnchorPane.topAnchor="282.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="16.0" layoutY="300.0" prefHeight="17.0" prefWidth="74.0" text="A       [mm]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="290.0" />
-      <Label layoutX="86.0" layoutY="354.0" text="sw2" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="296.0">
+      <TextField fx:id="s2TextField" layoutX="235.0" layoutY="301.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="301.0" />
+      <TextField fx:id="s1TextField" layoutX="235.0" layoutY="271.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="271.0" />
+      <TextField fx:id="alfaTextField" layoutX="235.0" layoutY="221.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="235.0" AnchorPane.topAnchor="221.0" />
+      <ChoiceBox fx:id="crossSectionTypeChoiceBox" layoutX="243.0" layoutY="356.0" prefHeight="25.0" prefWidth="122.0" AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="356.0" />
+      <Label layoutX="243.0" layoutY="385.0" text="Parametry dodatkowe" AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="390.0" />
+      <TextField fx:id="bTextField" layoutX="621.0" layoutY="226.0" prefHeight="26.0" prefWidth="45.0" text="0,30" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="355.0" />
+      <TextField fx:id="hTextField" layoutX="627.0" layoutY="275.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="385.0" />
+      <TextField fx:id="bEffTextField" layoutX="616.0" layoutY="314.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="415.0" />
+      <TextField fx:id="tWTextField" layoutX="568.0" layoutY="355.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="445.0" />
+      <Label layoutX="243.0" layoutY="421.0" prefHeight="16.0" prefWidth="96.0" text="L      " AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="421.0" />
+      <Label layoutX="253.0" layoutY="425.0" text="eff" AnchorPane.leftAnchor="247.0" AnchorPane.topAnchor="425.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="nS1Label" layoutX="109.0" layoutY="271.0" prefHeight="17.0" prefWidth="80.0" text="n   " AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="260.0" />
-      <Label layoutX="86.0" layoutY="354.0" text="sw1" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="266.0">
+      <Label fx:id="alfaMLabel" layoutX="243.0" layoutY="451.0" prefHeight="17.0" prefWidth="67.0" text="alfa M" AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="451.0" />
+      <Label layoutX="253.0" layoutY="457.0" text="M" AnchorPane.leftAnchor="247.0" AnchorPane.topAnchor="457.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <TextField fx:id="nS1TextField" layoutX="161.0" layoutY="272.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="255.0" />
-      <TextField fx:id="nS2TextField" layoutX="161.0" layoutY="302.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="176.0" AnchorPane.topAnchor="285.0" />
-      <Label layoutX="96.0" layoutY="364.0" text="sw2" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="296.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label fx:id="nS2Label" layoutX="109.0" layoutY="303.0" text="n   " AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="290.0" />
-      <Label layoutX="214.0" layoutY="298.0" prefHeight="17.0" prefWidth="57.0" text="s   [m] " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="290.0" />
-      <Label layoutX="106.0" layoutY="374.0" text="2" AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="296.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label layoutX="224.0" layoutY="308.0" prefHeight="17.0" prefWidth="57.0" text="s   [m] " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="260.0" />
-      <Label layoutX="116.0" layoutY="384.0" text="1" AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="266.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <TextField fx:id="s2TextField" layoutX="276.0" layoutY="295.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="285.0" />
-      <TextField fx:id="s1TextField" layoutX="283.0" layoutY="258.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="255.0" />
-      <TextField fx:id="alfaTextField" layoutX="772.0" layoutY="193.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="245.0" AnchorPane.topAnchor="205.0" />
-      <ChoiceBox fx:id="crossSectionTypeChoiceBox" layoutX="310.0" layoutY="301.0" prefWidth="150.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="320.0" />
-      <Label layoutX="243.0" layoutY="325.0" text="Parametry dodatkowe" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="325.0" />
-      <Label fx:id="bLabel" layoutX="26.0" layoutY="373.0" text="b     [m]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="360.0" />
-      <Label fx:id="hLabel" layoutX="42.0" layoutY="409.0" text="h     [m]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="390.0" />
-      <Label fx:id="bEffLabel" layoutX="44.0" layoutY="431.0" text="b     [m]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="420.0" />
-      <Label fx:id="bEffLowerrLabel" layoutX="86.0" layoutY="354.0" text="eff" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="426.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label fx:id="tWLabel" layoutX="61.0" layoutY="481.0" text="h     [m]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="450.0" />
-      <Label fx:id="tWLowerrLabel" layoutX="96.0" layoutY="364.0" text="f" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="456.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <TextField fx:id="bTextField" layoutX="621.0" layoutY="226.0" prefHeight="26.0" prefWidth="45.0" text="0,30" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="355.0" />
-      <TextField fx:id="hTextField" layoutX="627.0" layoutY="275.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="385.0" />
-      <TextField fx:id="bEffTextField" layoutX="616.0" layoutY="314.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="415.0" />
-      <TextField fx:id="tWTextField" layoutX="568.0" layoutY="355.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="445.0" />
-      <Label layoutX="243.0" layoutY="361.0" prefHeight="16.0" prefWidth="96.0" text="L      [m]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="361.0" />
-      <Label layoutX="253.0" layoutY="365.0" text="eff" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="365.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label fx:id="alfaMLabel" layoutX="243.0" layoutY="391.0" prefHeight="17.0" prefWidth="67.0" text="alfa M" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="391.0" />
-      <Label layoutX="253.0" layoutY="397.0" text="M" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="397.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label layoutX="243.0" layoutY="421.0" prefHeight="16.0" prefWidth="92.0" text="t      [dni]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="421.0" />
-      <Label layoutX="243.0" layoutY="451.0" prefHeight="16.0" prefWidth="80.0" text="RH   [%]" AnchorPane.leftAnchor="243.0" AnchorPane.topAnchor="451.0" />
-      <Label fx:id="bEffLowerLabel" layoutX="253.0" layoutY="427.0" text="0" AnchorPane.leftAnchor="253.0" AnchorPane.topAnchor="427.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <TextField fx:id="lEffTextField" layoutX="323.0" layoutY="356.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="323.0" AnchorPane.topAnchor="356.0" />
-      <TextField fx:id="alfaMTextField" layoutX="323.0" layoutY="386.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="323.0" AnchorPane.topAnchor="386.0" />
-      <TextField fx:id="t0TextField" layoutX="323.0" layoutY="416.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="323.0" AnchorPane.topAnchor="416.0" />
-      <TextField fx:id="rHTextField" layoutX="323.0" layoutY="446.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="323.0" AnchorPane.topAnchor="446.0" />
-      <Label layoutX="27.0" layoutY="512.0" text="Siły wewnętrzne" AnchorPane.leftAnchor="148.0" AnchorPane.topAnchor="480.0" />
-      <ChoiceBox fx:id="cementClassChoiceBox" layoutX="229.0" layoutY="29.0" prefHeight="25.0" prefWidth="65.0" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="65.0" />
-      <TextField fx:id="aS1SymmetricalNumberOfRodsTextField" layoutX="335.0" layoutY="123.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="140.0" />
-      <TextField fx:id="aS2SymmetricalNumberOfRodsTextField" layoutX="367.0" layoutY="190.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="170.0" />
-      <Label layoutX="322.0" layoutY="87.0" text="Liczba prętów" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="120.0" />
-      <Label fx:id="nS1Label" layoutX="119.0" layoutY="281.0" prefHeight="17.0" prefWidth="38.0" text="n   " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="145.0" />
-      <Label fx:id="nS1Label" layoutX="129.0" layoutY="291.0" prefHeight="17.0" prefWidth="34.0" text="n   " AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="175.0" />
-      <TextField fx:id="aSW1TextField" layoutX="58.0" layoutY="260.0" prefHeight="26.0" prefWidth="38.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="255.0" />
-      <TextField fx:id="aSW2TextFIeld" layoutX="104.0" layoutY="325.0" prefHeight="26.0" prefWidth="38.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="285.0" />
+      <TextField fx:id="lEffTextField" layoutX="323.0" layoutY="416.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="416.0" />
+      <TextField fx:id="alfaMTextField" layoutX="323.0" layoutY="446.0" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="280.0" AnchorPane.topAnchor="446.0" />
+      <ChoiceBox fx:id="cementClassChoiceBox" layoutX="229.0" layoutY="29.0" prefHeight="25.0" prefWidth="65.0" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="65.0" />
+      <TextField fx:id="aS1SymmetricalNumberOfRodsTextField" layoutX="237.0" layoutY="149.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="237.0" AnchorPane.topAnchor="149.0" />
+      <TextField fx:id="aS2SymmetricalNumberOfRodsTextField" layoutX="237.0" layoutY="179.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="237.0" AnchorPane.topAnchor="179.0" />
+      <Label layoutX="206.0" layoutY="131.0" text="Liczba prętów" AnchorPane.leftAnchor="206.0" AnchorPane.topAnchor="131.0" />
+      <Label fx:id="nS1Label" layoutX="207.0" layoutY="153.0" prefHeight="17.0" prefWidth="38.0" text="n   " AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="153.0" />
+      <Label fx:id="nS1Label" layoutX="207.0" layoutY="183.0" prefHeight="17.0" prefWidth="34.0" text="n   " AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="183.0" />
+      <TextField fx:id="aSW1TextField" layoutX="39.0" layoutY="271.0" prefHeight="26.0" prefWidth="38.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="271.0" />
+      <TextField fx:id="aSW2TextFIeld" layoutX="39.0" layoutY="301.0" prefHeight="26.0" prefWidth="38.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="301.0" />
       <TextField fx:id="pdfName" layoutX="226.0" layoutY="197.0" prefHeight="26.0" prefWidth="350.0" promptText="Wpisz nazwę pliku" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-      <Label layoutX="159.0" layoutY="160.0" text="1" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="151.0">
+      <Label layoutX="217.0" layoutY="189.0" text="s2" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="189.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="138.0" layoutY="212.0" text="2" AnchorPane.leftAnchor="128.0" AnchorPane.topAnchor="181.0">
+      <Label layoutX="217.0" layoutY="159.0" text="s1" AnchorPane.leftAnchor="217.0" AnchorPane.topAnchor="159.0">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
-      <Label layoutX="148.0" layoutY="222.0" text="s2" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="181.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Label layoutX="158.0" layoutY="232.0" text="s1" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="151.0">
-         <font>
-            <Font size="10.0" />
-         </font>
-      </Label>
-      <Line endX="30.0" layoutX="526.0" layoutY="528.0" startX="-100.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="489.0" />
-      <Line endX="30.0" layoutX="487.0" layoutY="481.0" startX="-100.0" AnchorPane.leftAnchor="240.0" AnchorPane.topAnchor="489.0" />
       <Button fx:id="saveToPdfButton" layoutX="461.0" layoutY="625.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Zapisz wyniki " AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="461.0" />
       <Line fx:id="leftSGNNequal0Line" endX="-20.0" layoutX="441.0" layoutY="34.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="25.0" />
       <Line fx:id="rightSGNNequal0Line" endX="-20.0" layoutX="740.0" layoutY="516.0" startX="-100.0" AnchorPane.rightAnchor="89.0" AnchorPane.topAnchor="25.0" />
@@ -345,6 +275,11 @@
             </RadialGradient>
          </stroke>
       </Line>
+      <Label text="Program edukacyjny. Wykorzystanie komercyjne na odpowiedzialność Użytkownika." textFill="#d30606" AnchorPane.leftAnchor="400.0" AnchorPane.topAnchor="667.0">
+         <font>
+            <Font name="System Bold Italic" size="12.0" />
+         </font>
+      </Label>
       <Label fx:id="zbrojeniePoprzeczneNequal0Label" layoutX="427.0" layoutY="145.0" prefHeight="28.0" prefWidth="145.0" text="Zbrojenie poprzeczne" AnchorPane.leftAnchor="565.0" AnchorPane.topAnchor="205.0">
          <font>
             <Font name="System Bold" size="12.0" />
@@ -374,25 +309,23 @@
       <Line fx:id="rightZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="758.0" layoutY="607.0" startX="-100.0" AnchorPane.leftAnchor="695.0" AnchorPane.topAnchor="358.0" />
       <Line fx:id="leftZbrojeniePoprzeczneNNotequal0Line" endX="10.0" layoutX="500.0" layoutY="606.0" startX="-100.0" AnchorPane.leftAnchor="450.0" AnchorPane.topAnchor="358.0" />
       <Button fx:id="graphButton" layoutX="407.0" layoutY="625.0" mnemonicParsing="false" onAction="#switchToGraphScene" text="KNG" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="407.0" />
-      <VBox fx:id="vBoxBeffHf" prefHeight="60.0" prefWidth="108.0" AnchorPane.leftAnchor="127.0" AnchorPane.topAnchor="415.0">
+      <VBox fx:id="vBoxBeffHf" prefHeight="60.0" prefWidth="108.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="415.0">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="50.0" text="beff,t [m]" />
+                  <Label prefHeight="26.0" prefWidth="40.0" text="beff,t " />
                   <TextField fx:id="befftTextField" prefHeight="26.0" prefWidth="45.0" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label prefHeight="26.0" prefWidth="50.0" text="hf,t [m]" />
+                  <Label prefHeight="26.0" prefWidth="40.0" text="hf,t " />
                   <TextField fx:id="hftTextField" prefHeight="26.0" prefWidth="45.0" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <Label layoutX="231.0" layoutY="46.0" text="CEMENT" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="45.0" />
-      <Label layoutX="311.0" layoutY="45.0" text="Cnom [mm]" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="45.0" />
-      <TextField fx:id="cNomTextField" layoutX="306.0" layoutY="65.0" prefHeight="26.0" prefWidth="45.0" AnchorPane.leftAnchor="313.0" AnchorPane.topAnchor="65.0" />
+      <Label layoutX="231.0" layoutY="46.0" text="CEMENT" AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="45.0" />
       <VBox layoutX="10.0" layoutY="10.0" prefHeight="185.0" prefWidth="380.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="500.0">
          <children>
             <AnchorPane fx:id="anchorPaneMLine" prefHeight="30.0" prefWidth="220.0">
@@ -402,31 +335,31 @@
                         <Font size="10.0" />
                      </font>
                   </Label>
-                  <Label fx:id="mEdLabel" text="M     [kNm]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                  <TextField fx:id="mEdObliczenioweTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="0.0" />
-                  <Label text="M     [kNm]" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="5.0" />
+                  <Label fx:id="mEdLabel" text="M     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                  <TextField fx:id="mEdObliczenioweTextField" layoutX="42.0" prefHeight="26.0" prefWidth="70.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="0.0" />
+                  <Label text="M     " AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="5.0" />
                   <Label text="Ek" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="8.0">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="mEdCharCalkTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="197.0" AnchorPane.topAnchor="0.0" />
-                  <Label text="M        [kNm]" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="5.0" />
-                  <Label text="Ek,lt" AnchorPane.leftAnchor="261.0" AnchorPane.topAnchor="8.0">
+                  <TextField fx:id="mEdCharCalkTextField" prefHeight="26.0" prefWidth="70.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="0.0" />
+                  <Label text="M        " AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="5.0" />
+                  <Label text="Ek,lt" AnchorPane.leftAnchor="276.0" AnchorPane.topAnchor="8.0">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="mEdCharDlugTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="325.0" AnchorPane.topAnchor="0.0" />
+                  <TextField fx:id="mEdCharDlugTextField" prefHeight="26.0" prefWidth="70.0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
-                  <HBox fx:id="NEdHBoxLine" prefHeight="30.0" prefWidth="197.0">
+                  <HBox fx:id="NEdHBoxLine" prefHeight="30.0" prefWidth="170.0">
                      <children>
-                        <AnchorPane prefHeight="29.0" prefWidth="75.0">
+                        <AnchorPane prefHeight="30.0" prefWidth="41.0">
                            <children>
-                              <Label fx:id="nEdLabel" text="N     [kN]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                              <Label fx:id="nEdLabel" text="N     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
                               <Label text="Ed" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="8.0">
                                  <font>
                                     <Font size="10.0" />
@@ -434,37 +367,37 @@
                               </Label>
                            </children>
                         </AnchorPane>
-                        <TextField fx:id="nEdTextField" prefHeight="26.0" prefWidth="46.0" />
-                        <Region prefWidth="70.0" />
+                        <TextField fx:id="nEdTextField" prefHeight="26.0" prefWidth="70.0" />
+                        <Region prefWidth="61.0" />
                      </children>
                   </HBox>
-                  <ChoiceBox fx:id="typeOfLoadChoiceBox" prefHeight="25.0" prefWidth="175.0" />
+                  <ChoiceBox fx:id="typeOfLoadChoiceBox" prefHeight="25.0" prefWidth="170.0" />
                </children>
             </HBox>
             <HBox prefHeight="30.0">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="75.0">
+                  <AnchorPane prefHeight="30.0" prefWidth="95.0">
                      <children>
-                        <Label fx:id="vEdLabel" text="V     [kN]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                        <Label fx:id="vEdLabel" text="V     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
                         <Label text="Ed" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="8.0">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="vEdTextField" prefHeight="26.0" prefWidth="46.0" AnchorPane.leftAnchor="75.0" AnchorPane.topAnchor="0.0" />
+                        <TextField fx:id="vEdTextField" prefHeight="26.0" prefWidth="70.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="30.0" prefWidth="76.0">
+                  <AnchorPane prefHeight="30.0" prefWidth="60.0">
                      <children>
-                        <Label text="V         [kN]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
-                        <Label text="Ed,red" AnchorPane.leftAnchor="18.0" AnchorPane.topAnchor="8.0">
+                        <Label text="V         " AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="5.0" />
+                        <Label text="Ed,red" AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="8.0">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Label>
                      </children>
                   </AnchorPane>
-                  <TextField fx:id="VEdRedTextField" prefWidth="46.0" />
+                  <TextField fx:id="VEdRedTextField" prefWidth="70.0" />
                </children>
             </HBox>
             <HBox fx:id="columsCasesHBox" prefHeight="75.0" spacing="5.0">
@@ -564,5 +497,86 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
+      <TextField fx:id="t0TextField" layoutX="345.0" layoutY="66.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="66.0" />
+      <TextField fx:id="rHTextField" layoutX="345.0" layoutY="96.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="315.0" AnchorPane.topAnchor="96.0" />
+      <Label layoutX="294.0" layoutY="69.0" prefHeight="17.0" prefWidth="33.0" text="t      " AnchorPane.leftAnchor="293.0" AnchorPane.topAnchor="69.0" />
+      <Label layoutX="293.0" layoutY="102.0" prefHeight="17.0" prefWidth="30.0" text="RH" AnchorPane.leftAnchor="293.0" AnchorPane.topAnchor="100.0" />
+      <Label layoutX="299.0" layoutY="75.0" text="0" AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="75.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="294.0" layoutY="131.0" text="Cnom [mm]" AnchorPane.leftAnchor="294.0" AnchorPane.topAnchor="131.0" />
+      <TextField fx:id="cNomTextField" layoutX="316.0" layoutY="149.0" prefHeight="26.0" prefWidth="30.0" AnchorPane.leftAnchor="316.0" AnchorPane.topAnchor="149.0" />
+      <Label layoutX="11.0" layoutY="131.0" text="Średnica [mm]" AnchorPane.leftAnchor="11.0" />
+      <Label layoutX="106.0" layoutY="131.0" text="Lokalizacja [m]" AnchorPane.leftAnchor="106.0" AnchorPane.topAnchor="131.0" />
+      <Label fx:id="aS1Label" layoutX="11.0" layoutY="154.0" text="A    " AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="154.0" />
+      <Label fx:id="aS2Label" layoutX="11.0" layoutY="184.0" text="A    " AnchorPane.leftAnchor="11.0" AnchorPane.topAnchor="184.0" />
+      <Label layoutX="21.0" layoutY="159.0" text="s1" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="159.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="21.0" layoutY="189.0" text="s2" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="189.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="9.0" layoutY="276.0" prefHeight="17.0" prefWidth="35.0" text="A       " AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="276.0" />
+      <Label layoutX="19.0" layoutY="281.0" text="sw1" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="281.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="9.0" layoutY="306.0" prefHeight="17.0" prefWidth="31.0" text="A       " AnchorPane.leftAnchor="9.0" AnchorPane.topAnchor="306.0" />
+      <Label layoutX="19.0" layoutY="311.0" text="sw2" AnchorPane.leftAnchor="19.0" AnchorPane.topAnchor="311.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="fYkLabel" layoutX="14.0" layoutY="70.0" text="f    " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
+      <Label layoutX="18.0" layoutY="80.0" text="yk" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="75.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="bLabel" layoutX="9.0" layoutY="359.0" text="b     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="360.0" />
+      <Label fx:id="hLabel" layoutX="11.0" layoutY="391.0" text="h     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="390.0" />
+      <Label fx:id="bEffLabel" layoutX="11.0" layoutY="420.0" text="b     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="420.0" />
+      <Label fx:id="bEffLowerrLabel" layoutX="22.0" layoutY="430.0" text="eff" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="425.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="tWLabel" layoutX="11.0" layoutY="450.0" text="h     " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="450.0" />
+      <Label fx:id="tWLowerrLabel" layoutX="21.0" layoutY="460.0" text="f" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="455.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="328.0" text="Parametry geometryczne [m]" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="335.0" />
+      <Label layoutX="241.0" layoutY="328.0" text="PRZEKRÓJ" AnchorPane.leftAnchor="236.0" AnchorPane.topAnchor="335.0" />
+      <Label layoutX="27.0" layoutY="512.0" text="Siły wewnętrzne [kN]/[kNm]" AnchorPane.leftAnchor="118.0" AnchorPane.topAnchor="480.0" />
+      <Line endX="30.0" layoutX="487.0" layoutY="481.0" startX="-70.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="489.0" />
+      <Line endX="30.0" layoutX="526.0" layoutY="528.0" startX="-70.0" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="489.0" />
+      <Label fx:id="a1Label" layoutX="101.0" layoutY="154.0" text="a   " AnchorPane.leftAnchor="101.0" />
+      <Label layoutX="109.0" layoutY="161.0" text="1" AnchorPane.leftAnchor="109.0" AnchorPane.topAnchor="161.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="a2Label" layoutX="101.0" layoutY="184.0" text="a   " AnchorPane.leftAnchor="101.0" />
+      <Label layoutX="109.0" layoutY="189.0" text="2" AnchorPane.leftAnchor="109.0" AnchorPane.topAnchor="189.0">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label layoutX="86.0" layoutY="70.0" text="[MPa]" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="70.0" />
+      <Label layoutX="331.0" layoutY="421.0" text="[m]" AnchorPane.leftAnchor="331.0" AnchorPane.topAnchor="421.0" />
+      <Label layoutX="331.0" layoutY="449.0" text="[-]" AnchorPane.leftAnchor="331.0" AnchorPane.topAnchor="451.0" />
+      <Label fx:id="fiInfinityT0" layoutX="210.0" layoutY="103.0" text="   " AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="103.0" />
+      <Label fx:id="fiEffLabel" layoutX="371.0" layoutY="643.0" text="   " AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="635.0" />
+      <Label layoutX="346.0" layoutY="67.0" text="[dni]" AnchorPane.leftAnchor="348.0" AnchorPane.topAnchor="70.0" />
+      <Label layoutX="347.0" layoutY="102.0" text="[%]" AnchorPane.leftAnchor="348.0" AnchorPane.topAnchor="100.0" />
    </children>
 </AnchorPane>

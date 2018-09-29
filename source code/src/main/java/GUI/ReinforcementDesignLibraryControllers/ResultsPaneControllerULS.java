@@ -5,6 +5,8 @@ import SLS.creepCoeficent.CreepCoeficent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import mainalgorithm.ForcesCombination;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
@@ -643,8 +645,13 @@ public class ResultsPaneControllerULS {
 		gridLabel00.setText("");
 		gridLabel01.setText("");
 		gridLabel02.setText("");
-		gridLabel03.setText("As1");
-		gridLabel04.setText("As2");
+/*
+		gridLabel03.setText("A" + "\u209b" + "\u2081");
+		gridLabel04.setText("A" + "\u209b" + "\u2082");
+		*/
+		gridLabel03.setText("A" + "s" + "\u2081");
+		gridLabel04.setText("A" + "s" + "\u2082");
+		
 		gridLabel05.setText("\u03C1");
 		gridLabel06.setText("");
 
@@ -706,7 +713,8 @@ public class ResultsPaneControllerULS {
 			gridLabel110.setText("");
 			if (internalForces.isLoadSustained()) {
 				gridLabel111.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
-				gridLabel112.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(), sls.getfSymmetricalRequired()));
+				gridLabel112.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(),
+						sls.getfSymmetricalRequired()));
 			} else {
 				gridLabel111.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalRequired()));
 				gridLabel112.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
@@ -718,7 +726,8 @@ public class ResultsPaneControllerULS {
 			gridLabel19.setText("");
 			if (internalForces.isLoadSustained()) {
 				gridLabel110.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
-				gridLabel111.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(), sls.getfSymmetricalRequired()));
+				gridLabel111.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(),
+						sls.getfSymmetricalRequired()));
 			} else {
 				gridLabel110.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalRequired()));
 				gridLabel111.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
@@ -745,8 +754,9 @@ public class ResultsPaneControllerULS {
 			gridLabel29.setText("");
 			gridLabel210.setText("");
 			if (internalForces.isLoadSustained()) {
-			gridLabel211.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
-			gridLabel212.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(), sls.getfSymmetricalDesigned()));
+				gridLabel211.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
+				gridLabel212.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(),
+						sls.getfSymmetricalDesigned()));
 			} else {
 				gridLabel211.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
 				gridLabel212.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
@@ -757,13 +767,14 @@ public class ResultsPaneControllerULS {
 			gridLabel28.setText("");
 			gridLabel29.setText("");
 			if (internalForces.isLoadSustained()) {
-			gridLabel210.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
-			gridLabel211.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(), sls.getfSymmetricalDesigned()));
+				gridLabel210.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
+				gridLabel211.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(),
+						sls.getfSymmetricalDesigned()));
 			} else {
 				gridLabel210.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
 				gridLabel211.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
 			}
-				
+
 			gridLabel212.setText("");
 		}
 		gridLabel213.setText("");
@@ -834,9 +845,7 @@ public class ResultsPaneControllerULS {
 			warningLabel.setVisible(false);
 			degreeLabel.setVisible(false);
 		}
-		
+
 	}
-	
-	
 
 }

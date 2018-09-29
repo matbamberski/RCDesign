@@ -92,7 +92,7 @@ public class CrossSectionTypeController {
 	}
 
 	private static void initializeChoiceBox(ChoiceBox<String> cb) {
-		cb.setItems((FXCollections.observableArrayList("Przekrój prostok¹tny", "Przekrój teowy"
+		cb.setItems((FXCollections.observableArrayList("Prostok¹tny", "Teowy"
 				//,"S³up"
 				)));
 	}
@@ -444,7 +444,7 @@ public class CrossSectionTypeController {
 	// rest
 
 	private static void setCrossSectionTypeCBInitialValue(ChoiceBox<String> crossSectionTypeChoiceBox) {
-		crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
+		crossSectionTypeChoiceBox.setValue("Prostok¹tny");
 	}
 
 	private static void setBEffInitialValue(TextField bEff, TextField b) {

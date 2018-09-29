@@ -534,6 +534,13 @@ public class ReinforcementDesignController {
 
 	@FXML
 	private Button saveToPdfButton;
+	
+	@FXML
+    private Label fiInfinityT0;
+
+    @FXML
+    private Label fiEffLabel;
+	
 	private boolean wasResultsGenerated = false;
 
 	protected static DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete;
@@ -576,6 +583,7 @@ public class ReinforcementDesignController {
 		deflection = new DeflectionControl();
 		
 		dimensionsOfCrossSectionOfConcrete.setIsAs1Tensiled(true);
+		//pleaseWaitLabel.setVisible(false);
 		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -1023,4 +1031,5 @@ public class ReinforcementDesignController {
 	private void bindBidirectionalPdfName() {
 		pdfName.textProperty().bindBidirectional(diagnosis.getPdfNameTF().textProperty());
 	}
+
 }

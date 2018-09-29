@@ -7,9 +7,10 @@ public class OutputFormatter {
 
 	public static String metersToCentimetersForReinforcement(double number) {
 		number = number * 10000.0;
-		String formattedNumber = String.format("%.03f", number) + " cm2";
+		String formattedNumber = String.format("%.03f", number) + " cm" + "\u00B2";
 		return formattedNumber;
 	}
+	
 
 	public static String showPercentages(double number) {
 		number = number * 100.0;
@@ -17,10 +18,10 @@ public class OutputFormatter {
 		return formattedNumber;
 	}
 
-	public static AttributedString test(String string) {
+	public static String test(String string) {
 		AttributedString attributed = new AttributedString(string);
-		attributed.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER, 1, 2);
-		return attributed;
+		attributed.addAttribute(TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUPER, 0, 1);
+		return attributed.toString();
 	}
 	
 	public static String wFormatterSingle(double number) {

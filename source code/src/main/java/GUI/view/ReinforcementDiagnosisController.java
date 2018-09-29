@@ -606,8 +606,17 @@ public class ReinforcementDiagnosisController {
     
     @FXML
     private Label warningLabel;
+    
+    @FXML
+	private Label pleaseWaitLabel;
 	
 	/////
+    
+    @FXML
+    private Label fiInfinityT0;
+
+    @FXML
+    private Label fiEffLabel;
 
 
 	private DimensionsOfCrossSectionOfConcrete dimensionsOfCrossSectionOfConcrete = ReinforcementDesignController.dimensionsOfCrossSectionOfConcrete;

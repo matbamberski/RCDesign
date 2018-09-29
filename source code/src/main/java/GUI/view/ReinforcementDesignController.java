@@ -575,6 +575,8 @@ public class ReinforcementDesignController {
 		scratch = new Scratch();
 		deflection = new DeflectionControl();
 		
+		dimensionsOfCrossSectionOfConcrete.setIsAs1Tensiled(true);
+		
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
 		PdfController.addPropertiesToPdfNameTextField(pdfName);
@@ -620,7 +622,7 @@ public class ReinforcementDesignController {
 		CrossSectionTypeController.addPropertiesToTWTextField(tWTextField, dimensionsOfCrossSectionOfConcrete);
 
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
-				mEdCharCalkTextField, mEdCharDlugTextField);
+				mEdCharCalkTextField, mEdCharDlugTextField, dimensionsOfCrossSectionOfConcrete);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField, VEdRedTextField);
 		InternalForcesController.addPropertiesToVEdRedTextField(internalForces, VEdRedTextField);

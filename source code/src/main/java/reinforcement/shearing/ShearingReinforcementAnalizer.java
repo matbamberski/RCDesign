@@ -53,6 +53,7 @@ public class ShearingReinforcementAnalizer {
 	protected double sMin;
 	protected double a;
 	protected double vRdS;
+	
 
 
 	public void doFullShearingReinforcementAnalysis(Concrete concrete, Steel steel,
@@ -82,6 +83,7 @@ public class ShearingReinforcementAnalizer {
 		forces.setvRdMaxdesign(vRdMax);
 		forces.setSigmaCP(sigmaCp);
 	}
+	
 		
 	public void doFullShearingReinforcementAnalysisDiagnosis(Concrete concrete, Steel steel,
 			InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
@@ -122,7 +124,6 @@ public class ShearingReinforcementAnalizer {
 		*/
 	}
 
-	
 	
 	public void doFullSheringReinforcementWithoutDesign(Concrete concrete, Steel steel,
 		InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double s1, double s2) {
@@ -282,9 +283,9 @@ public class ShearingReinforcementAnalizer {
 
 	}
 
-	private void setRoMin1(Reinforcement reinforcement, DimensionsOfCrossSectionOfConcrete dimensions) {
-		roMin1 = Math.min(reinforcement.getRequiredSymmetricalAS1() * 10000 / (dimensions.getB() * 100 * dimensions.getD() * 100), 0.02);
-		System.out.println("Pole zbrojenia do scinania: " + reinforcement.getRequiredSymmetricalAS1());
+	private void setRoMin1(Reinforcement reinforcement, DimensionsOfCrossSectionOfConcrete dimensions, double Asl) {
+		roMin1 = Math.min(Asl * 10000 / (dimensions.getB() * 100 * dimensions.getD() * 100), 0.02);
+		System.out.println("Pole zbrojenia do scinania: " + Asl);
 		System.out.println("roMin1 " + roMin1);
 	}
 
@@ -295,14 +296,20 @@ public class ShearingReinforcementAnalizer {
 
 	private void setVRDCDependencies(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setK(dimensions);
-		setRoMin1(reinforcement, dimensions);
+		double Asl;
+		if (forces.getmEd()<0)	Asl = reinforcement.getRequiredSymmetricalAS2();
+		else Asl = reinforcement.getRequiredSymmetricalAS1();
+		setRoMin1(reinforcement, dimensions, Asl);
 		setSigmaCp(dimensions, forces, concrete);
 		setNyMin(concrete);
 	}
 
 	private void setVRDCDependenciesDiagnosis(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setK(dimensions);
-		setRoMin1(reinforcement, dimensions);
+		double Asl;
+		if (forces.getmEd()<0)	Asl = reinforcement.getRequiredSymmetricalAS2();
+		else Asl = reinforcement.getRequiredSymmetricalAS1();
+		setRoMin1(reinforcement, dimensions, Asl);
 		setSigmaCpDiagnosis(dimensions, forces, concrete);
 		setNyMin(concrete);
 	}
@@ -323,7 +330,8 @@ public class ShearingReinforcementAnalizer {
 	
 	private void setVRDCDiagnosis(Concrete concrete, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		setVRDCDependenciesDiagnosis(concrete, forces, dimensions, reinforcement);
-		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), (double) 1 / 3) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
+		double power = 1.0/3.0;
+		vRDC = Math.max((CRDC * k * Math.pow((100 * roMin1 * concrete.getFCk()), power) + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000,
 				(nyMin + K1 * sigmaCp) * dimensions.getB() * 1000 * dimensions.getD() * 1000);
 
 		vRDC = vRDC / 1000;

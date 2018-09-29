@@ -11,6 +11,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
+import materials.DimensionsOfCrossSectionOfConcrete;
 import util.InputValidation;
 import util.StringToDouble;
 
@@ -28,8 +29,8 @@ public class InternalForcesController {
 	///////
 
 	public static void addPropertiesToMEdTextField(InternalForces internalForces, TextField mEd, TextField mEdCharCalk,
-			TextField mEdCharDlug) {
-		addInputMEdListener(internalForces, mEd);
+			TextField mEdCharDlug, DimensionsOfCrossSectionOfConcrete dimensions) {
+		addInputMEdListener(internalForces, mEd, dimensions);
 		addFocusMEdListener(mEd, mEdCharCalk, mEdCharDlug);
 		setMedInitialValue(mEd);
 	}
@@ -72,8 +73,8 @@ public class InternalForcesController {
 
 	// mEd text field
 
-	private static void addInputMEdListener(InternalForces internalForces, TextField mEd) {
-		mEd.textProperty().addListener(new MEdInputListener(internalForces));
+	private static void addInputMEdListener(InternalForces internalForces, TextField mEd, DimensionsOfCrossSectionOfConcrete dimensions) {
+		mEd.textProperty().addListener(new MEdInputListener(internalForces, dimensions));
 	}
 
 	private static boolean isMEdInputCorrect;
@@ -86,9 +87,11 @@ public class InternalForcesController {
 
 	private static class MEdInputListener implements ChangeListener<String> {
 		private InternalForces internalForces;
+		private DimensionsOfCrossSectionOfConcrete dimensions;
 
-		private MEdInputListener(InternalForces internalForces) {
+		private MEdInputListener(InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions) {
 			this.internalForces = internalForces;
+			this.dimensions = dimensions;
 		}
 
 		@Override
@@ -108,6 +111,11 @@ public class InternalForcesController {
 				mEdStringValue = arg2;
 				mEdToCharacteristicString = String.format("%.2f", mEdValueToCharacteristic);
 				mEkToMEkLtString = String.format("%.2f", mEkToMEkLtValue);
+				
+				if (mEdValue<0) dimensions.setIsAs1Tensiled(false);
+				else dimensions.setIsAs1Tensiled(true);
+				
+				dimensions.calculateD();
 			} else {
 				isMEdInputCorrect = false;
 				

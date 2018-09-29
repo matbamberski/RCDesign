@@ -113,9 +113,12 @@ public class DiagnosisButtonController {
 			boolean withDesign = false;
 			diagnosisMainAlgorithm.setmRdExceeded(false);
 			ResultsToPDF.clearResults();
+			if (sls.isMedLessThanZero(internalForces.getmEd()))
+				dimensions.setTensileDimensions();
 			requiredReinforcement.checkWhatIsRequiredReinforcement(concrete, steel, internalForces, dimensions,
 					reinforcement, stiffness, cement, creep, checkbox);
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
+			if (sls.isMedLessThen0) dimensions.setTensileDimensions();
 			//sls.printReport(dimensions, creep, concrete, deflection, scratch, "DIAG");
 			if (internalForces.getMomentMmax() == 0 && internalForces.getNormalnaMmax() == 0
 					&& internalForces.getMomentMmin() == 0 && internalForces.getNormalnaMmin() == 0

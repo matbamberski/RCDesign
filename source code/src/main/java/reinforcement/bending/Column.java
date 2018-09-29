@@ -393,7 +393,7 @@ public class Column extends ClearBendingBeam {
 					reinforcement.setDegreeExceededSymmetrical(false);
 				}
 			} while (((Math.min(reinforcementRatio3, reinforcementRatio2)
-					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.95) && reinforcementRatio1 <= 0.08
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99) && reinforcementRatio1 <= 0.08
 					&& reinforcementRatio2 <= 0.08 && reinforcementRatio3 <= 0.08);
 
 			// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
@@ -605,7 +605,7 @@ public class Column extends ClearBendingBeam {
 				System.out.println("mianownik " + Math.max(reinforcementRatio3, reinforcementRatio2) + "\n");
 				
 			} while (((Math.min(reinforcementRatio3, reinforcementRatio2)
-					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.95) && reinforcementRatio1 <= 0.08
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99) && reinforcementRatio1 <= 0.08
 					&& reinforcementRatio2 <= 0.08 && reinforcementRatio3 <= 0.08);
 			// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
 

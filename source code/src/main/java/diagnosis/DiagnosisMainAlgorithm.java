@@ -115,24 +115,28 @@ public class DiagnosisMainAlgorithm {
 		if (mEd == 0) {
 			mEd = nEd / 1000000;
 		}
-		/*
+		
 		if (mEd <0) {
 			requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
 			requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS1();
 			designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS2();
 			designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS1();
-			
+			requiredUnSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS2();
+			requiredUnSymmetricalAS2 = reinforcement.getRequiredUnsymmetricalAS1();
+			designedUnSymmetricalAS1 = reinforcement.getDesignedUnsymmetricalAS2();
+			designedUnSymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
 		}
-		*/
+		
 
 		if (nEd == 0) {
-			
+			/*
 			if (mEd >= 0) {
 				requiredSymmetricalAS1 = reinforcement.getRequiredSymmetricalAS1();
 				requiredSymmetricalAS2 = reinforcement.getRequiredSymmetricalAS2();
 				designedSymmetricalAS1 = reinforcement.getDesignedSymmetricalAS1();
 				designedSymmetricalAS2 = reinforcement.getDesignedSymmetricalAS2();
 			}
+			*/
 			// if Ned = 0 reinforcement is only symmetrical
 			if (dimensions.getisBeamRectangular()) {
 				RectangularDiagnosis diagnosis = new RectangularDiagnosis();

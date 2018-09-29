@@ -145,8 +145,8 @@ public class InputValidation {
 	}
 
 	public static boolean s1S2TextFieldInputValidation(String string) {
-		boolean isCorrect = false;
-		Pattern pattern1 = Pattern.compile("[0]{1}[\\.]{1}[0-9]{1}[0-9]?");
+		boolean isCorrect = false;//"[0]{1}[\\.]{1}[0-9]{1}[0-9]?"
+		Pattern pattern1 = Pattern.compile("[0]{1}[\\.\\,]*[0-9]*");
 		Pattern pattern2 = Pattern.compile("[0]{1}");
 		if (pattern1.matcher(string).matches() || pattern2.matcher(string).matches()) {
 			isCorrect = true;

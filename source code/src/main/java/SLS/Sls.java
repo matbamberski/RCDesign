@@ -48,7 +48,7 @@ public class Sls {
 	private double wUnsymmetricalRequiredWithoutShrinkage;
 	private double wUnsymmetricalDesignedWithoutShrinkage;
 
-	private boolean isMedLessThen0;
+	public boolean isMedLessThen0;
 
 	private double ifMedIsLessThenZeroReturnAbsAndSetBoolean(double mEd) {
 		isMedLessThen0 = false;
@@ -57,6 +57,14 @@ public class Sls {
 			mEd = Math.abs(mEd);
 		}
 		return mEd;
+	}
+	
+	public boolean isMedLessThanZero(double mEd) {
+		isMedLessThen0 = false;
+		if (mEd < 0) {
+			isMedLessThen0 = true;
+		}
+		return isMedLessThen0;
 	}
 
 	private void calculateEffectiveModulusOfElasticityOfConcrete(Concrete concrete, CreepCoeficent creepCoeficent) {
@@ -226,7 +234,7 @@ public class Sls {
 			DesignedUnsymmetricalAS2 = reinforcement.getDesingedUnsymmetricalAS1();
 			nSUnsymmetrical = reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2();
 			nSSymmetrical = reinforcement.getRequiredNumberOfSymmetricalRodsAS2();
-			setTensileDimensions(dimensions);
+			//setTensileDimensions(dimensions);
 		}
 		
 		calculateCrossSectionOfConcrete(dimensions);
@@ -260,20 +268,8 @@ public class Sls {
 			System.out.println("Sls sylko dla symetrycznego");
 		}
 		
-		if (isMedLessThen0) {
-			setTensileDimensions(dimensions);
-		}
 	}
 	
-	public void setTensileDimensions(DimensionsOfCrossSectionOfConcrete dimension) {
-		double temp = dimension.getbEff();
-		dimension.setbEff(dimension.getBefft());
-		dimension.setBefft(temp);
-		temp = dimension.getHft();
-		dimension.setHft(dimension.gettW());
-		dimension.settW(temp);
-		
-	}
 	
 	public void printReport(DimensionsOfCrossSectionOfConcrete dimension, CreepCoeficent creep, Concrete concrete, DeflectionControl deflection, Scratch scratch, 
 			String name) {

@@ -82,10 +82,13 @@ public class ReinforcementDesignButtonController {
 		public void handle(ActionEvent event) {
 			boolean withDesign = true;
 			ResultsToPDF.clearResults();
+			if (sls.isMedLessThanZero(internalForces.getmEd()))
+				dimensions.setTensileDimensions();
 			requiredReinforcement.checkWhatIsRequiredReinforcementAndDesign(concrete, steel, internalForces, 
 					dimensions, reinforcement, stiffness, cement, creep, checkbox);
 			//if (!dimensions.getIsColumn())
 			sls.runSLS(concrete, cement, steel, dimensions, creep, reinforcement, forces, scratch, deflection, withDesign);
+			if (sls.isMedLessThen0) dimensions.setTensileDimensions();
 			//sls.printReport(dimensions, creep, concrete, deflection, scratch, "PROJ");
 			resultsPaneControllerULS.dispResults();
 			//Graph graph = new Graph(graphController.getLineChart(), steel, dimensions, concrete, reinforcement);

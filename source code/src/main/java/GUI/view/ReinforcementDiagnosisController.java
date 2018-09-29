@@ -693,7 +693,7 @@ public class ReinforcementDiagnosisController {
 		////////
 
 		InternalForcesController.addPropertiesToMEdTextField(internalForces, mEdObliczenioweTextField,
-				mEdCharCalkTextField, mEdCharDlugTextField);
+				mEdCharCalkTextField, mEdCharDlugTextField, dimensionsOfCrossSectionOfConcrete);
 		InternalForcesController.addPropertiesToNEdTextField(internalForces, nEdTextField, crossSectionTypeChoiceBox);
 		InternalForcesController.addPropertiesToVEdTextField(internalForces, vEdTextField, VEdRedTextField);
 		InternalForcesController.addPropertiesToMEdCharCalk(internalForces, mEdObliczenioweTextField,

@@ -228,61 +228,132 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			pointsM.add(m);
 			x = x + krok;
 		}
-
-		while (x <= (dimensions.getH() / LAMBDA) && n <= n51) { // przedzial 5
-			krok = ((dimensions.getH() / LAMBDA) - dimensions.getH()) / dzielnik;
-			System.out.println("Przedzial 5");
-			System.out.println("Krok = " + krok);
-			System.out.println("X = " + x);
-			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
-				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
-			} else {
-				sigmaS1 = -(steel.getFYd() * 1000);
-			}
-			sigmaS2 = (steel.getFYd() * 1000);
-			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
-			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
-					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
-					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
-
-			pointsN.add(n);
-			pointsM.add(m);
-			x = x + krok;
-
-		}
-
-		while (x <= xMaxYd && n <= n61) { // przedzial 6
-			krok = (xMaxYd - (dimensions.getH() / LAMBDA)) / dzielnik;
-			System.out.println("Przedzial 6");
-			System.out.println("Krok = " + krok);
-			System.out.println("X = " + x);
-
-			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
-				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
-			} else {
-				sigmaS1 = -(steel.getFYd() * 1000);
-			}
-			sigmaS2 = (steel.getFYd() * 1000);
-			n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
-			m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
-					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
+		
+		if (n51<=n71) {
 			
-			pointsN.add(n);
-			pointsM.add(m);
-			x = x + krok;
-			System.out.println("N = " + n);
+			while (x <= (dimensions.getH() / LAMBDA) && n <= n51) { // przedzial 5
+				krok = ((dimensions.getH() / LAMBDA) - dimensions.getH()) / dzielnik;
+				System.out.println("Przedzial 5");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				sigmaS2 = (steel.getFYd() * 1000);
+				n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
+				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+						+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+
+				pointsN.add(n);
+				pointsM.add(m);
+				x = x + krok;
+
+			}
+			
+		} else {
+			
+			while (x <= (dimensions.getH() / LAMBDA) && n <= n51) { // przedzial 5
+				krok = ((dimensions.getH() / LAMBDA) - dimensions.getH()) / dzielnik;
+				System.out.println("Przedzial 5");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				//sigmaS2 = (steel.getFYd() * 1000);
+				if ((ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000) < steel.getFYd()*1000) {
+					sigmaS2 = (ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000);
+				} else {
+					sigmaS2 = (steel.getFYd() * 1000);
+				}
+				n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
+				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2())
+						+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x);
+
+				x = x + krok;
+				if (n>n51) break;
+				
+				pointsN.add(n);
+				pointsM.add(m);
+				
+
+			}
+			
 		}
 
-		double xN7 = ((ypsilonC3 * steel.getES() * 1000000 * ((aS1 * dimensions.getD()) + (aS2 * dimensions.getA2()))
-				+ (x0 * ((concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
-				/ ((ypsilonC3 * ((steel.getES() * 1000000 * aS1) + (steel.getES() * 1000000 * aS2))) - (n71 - 0.0001)
-						+ (concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH())));
+
+		if (n61<=n71) {
+			while (x <= xMaxYd && n <= n61) { // przedzial 6
+				krok = (xMaxYd - (dimensions.getH() / LAMBDA)) / dzielnik;
+				System.out.println("Przedzial 6");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				sigmaS2 = (steel.getFYd() * 1000);
+				n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
+				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
+				
+				pointsN.add(n);
+				pointsM.add(m);
+				x = x + krok;
+				System.out.println("N = " + n);
+			}
+		} else {
+			while (x <= xMaxYd && n <= n61) { // przedzial 6
+				krok = (xMaxYd - (dimensions.getH() / LAMBDA)) / dzielnik;
+				System.out.println("Przedzial 6");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				//sigmaS2 = (steel.getFYd() * 1000);
+				if ((ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000) < steel.getFYd()*1000) {
+					sigmaS2 = (ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000);
+				} else {
+					sigmaS2 = (steel.getFYd() * 1000);
+				}
+				n = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
+				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
+				
+				x = x + krok;
+				if (n>n61) break;
+				
+				pointsN.add(n);
+				pointsM.add(m);
+				
+				System.out.println("N = " + n);
+			}
+		}
+
+
+
+		double xN7 = ((ypsilonC3 * steel.getES() * 1000 * ((aS1 *100 * dimensions.getD()) + (aS2*100 * dimensions.getA2()))
+				+ (x0 * ((concrete.getFCd() * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
+				/ ((ypsilonC3 * ((steel.getES() * 1000 * aS1*100) + (steel.getES() * 1000 * aS2*100))) - (n71 - 0.0001)
+						+ (concrete.getFCd() * dimensions.getB() * dimensions.getH())));
 		System.err.println("XN7 = " + xN7);
 
 		krok = Math.abs((xN7 - x) / dzielnik);
 
-		if (n <= n71max) {
-			while (n <= n71max & (1 - (n / n71max)) > 0.0001 & mm < m) { // przedzial 7
+		if (n <= n71) {
+			while (n <= n71 & (1 - (n / n71)) > 0.0001 & mm < m) { // przedzial 7
 				System.out.println("Przedzial 7");
 				System.out.println("Krok = " + krok);
 				
@@ -301,6 +372,8 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 				m = sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA1())
 						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA2());
 
+				if (n>n71) break;
+				
 				System.out.println("X = " + x);
 				System.out.println("N7 = " + n71);
 				System.out.println("N = " + n);
@@ -440,61 +513,131 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			x = x + krok;
 		}
 
-		while (x <= (dimensions.getH() / LAMBDA) && nn <= n52) { // przedzial 5
-			krok = ((dimensions.getH() / LAMBDA) - dimensions.getH()) / dzielnik;
-			System.out.println("Przedzial 5");
-			System.out.println("Krok = " + krok);
-			System.out.println("X = " + x);
+		if (n52<=n72) {
+			while (x <= (dimensions.getH() / LAMBDA) && nn <= n52) { // przedzial 5
+				krok = ((dimensions.getH() / LAMBDA) - dimensions.getH()) / dzielnik;
+				System.out.println("Przedzial 5");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
 
-			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
-				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
-			} else {
-				sigmaS1 = -(steel.getFYd() * 1000);
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				sigmaS2 = (steel.getFYd() * 1000);
+				nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
+				mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+		
+				points_N.add(nn);
+				points_M.add(mm);
+				x = x + krok;
+
 			}
-			sigmaS2 = (steel.getFYd() * 1000);
-			nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
-			mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
-					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1())
-					+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
-	
-			points_N.add(nn);
-			points_M.add(mm);
-			x = x + krok;
-
-		}
-
-		while (x <= xMaxYd && nn <= n62) { // przedzial 6
-			krok = (xMaxYd - (dimensions.getH() / LAMBDA)) / dzielnik;
-			System.out.println("Przedzial 6");
-			System.out.println("Krok = " + krok);
-			System.out.println("X = " + x);
-
-			if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
-				sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
-			} else {
-				sigmaS1 = -(steel.getFYd() * 1000);
-			}
-			sigmaS2 = (steel.getFYd() * 1000);
-			nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
-			mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
-					+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1()));
+		} else {
 			
-			points_N.add(nn);
-			points_M.add(mm);
-			x = x + krok;
-			System.out.println("N = " + n);
+			while (x <= (dimensions.getH() / LAMBDA) && nn <= n52) { // przedzial 5
+				krok = ((dimensions.getH() / LAMBDA) - dimensions.getH()) / dzielnik;
+				System.out.println("Przedzial 5");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				//sigmaS2 = (steel.getFYd() * 1000);
+				if ((ypsilonC3*((x-dimensions.getA1())/(x-x0))*steel.getES()*1000000) < steel.getFYd()*1000) {
+					sigmaS2 = (ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000);
+				} else {
+					sigmaS2 = (steel.getFYd() * 1000);
+				}
+				
+				nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcX * x;
+				mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1())
+						+ fcX * x * 0.5 * (dimensions.getH() - LAMBDA * x));
+		
+				x = x + krok;
+				if (nn>n52) 
+					break;
+				
+				points_N.add(nn);
+				points_M.add(mm);
+				
+
+			}
+		}
+		
+
+		if (n62<n72) {
+			while (x <= xMaxYd && nn <= n62) { // przedzial 6
+				krok = (xMaxYd - (dimensions.getH() / LAMBDA)) / dzielnik;
+				System.out.println("Przedzial 6");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				sigmaS2 = (steel.getFYd() * 1000);
+				nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
+				mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1()));
+				
+				points_N.add(nn);
+				points_M.add(mm);
+				x = x + krok;
+				System.out.println("N = " + n);
+			}	
+		} else {
+			while (x <= xMaxYd && nn <= n62) { // przedzial 6
+				krok = (xMaxYd - (dimensions.getH() / LAMBDA)) / dzielnik;
+				System.out.println("Przedzial 6");
+				System.out.println("Krok = " + krok);
+				System.out.println("X = " + x);
+
+				if ((ypsilonC3*((dimensions.getD()-x)/(x-x0))*steel.getES()*1000000) > -steel.getFYd()*1000) {
+					sigmaS1 = (ypsilonCu3*((dimensions.getD()-x)/x)*steel.getES()*1000000);
+				} else {
+					sigmaS1 = -(steel.getFYd() * 1000);
+				}
+				//sigmaS2 = (steel.getFYd() * 1000);
+				if ((ypsilonC3*((x-dimensions.getA1())/(x-x0))*steel.getES()*1000000) < steel.getFYd()*1000) {
+					sigmaS2 = (ypsilonC3*((x-dimensions.getA2())/(x-x0))*steel.getES()*1000000);
+				} else {
+					sigmaS2 = (steel.getFYd() * 1000);
+				}
+				nn = -sigmaS1 * aS1 + sigmaS2 * aS2 + fcH;
+				mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
+						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1()));
+				
+				x = x + krok;
+				if (nn>n62) 
+					break;
+				
+				points_N.add(nn);
+				points_M.add(mm);
+				
+				System.out.println("N = " + n);
+			}
 		}
 
-		xN7 = ((ypsilonC3 * steel.getES() * 1000000 * ((aS1 * dimensions.getD()) + (aS2 * dimensions.getA1()))
-				+ (x0 * ((concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
-				/ ((ypsilonC3 * ((steel.getES() * 1000000 * aS1) + (steel.getES() * 1000000 * aS2))) - (n71 - 0.0001)
-						+ (concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH())));
-		System.err.println("XN7 = " + xN7);
 
+		xN7 = ((ypsilonC3 * steel.getES() * 1000 * ((aS1*100 * dimensions.getD()) + (aS2*100 * dimensions.getA1()))
+				+ (x0 * ((concrete.getFCd() * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
+				/ ((ypsilonC3 * ((steel.getES() * 1000 * aS1*100) + (steel.getES() * 1000 * aS2*100))) - (n71 - 0.0001)
+						+ (concrete.getFCd() * dimensions.getB() * dimensions.getH())));
+		System.err.println("XN7 = " + xN7);
 		krok = Math.abs((xN7 - x) / dzielnik);
 
-		if (nn <= n72max) {
-			while (nn <= n72max & (1 - (nn / n72max)) > 0.0001 & mm < m) { // przedzial 7
+		if (nn < n72) {
+			while (nn <= n72 && (1 - (nn / n72)) > 0.0001 && mm < m) { // przedzial 7
 				System.out.println("Przedzial 7");
 				System.out.println("Krok = " + krok);
 
@@ -514,10 +657,14 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 				mm = -(sigmaS1 * aS1 * (0.5 * dimensions.getH() - dimensions.getA2())
 						+ sigmaS2 * aS2 * (0.5 * dimensions.getH() - dimensions.getA1()));
 			
+				if (nn>n72max) 
+					break;
 				System.out.println("X = " + x);
 				System.out.println("N7 = " + n71);
 				System.out.println("N = " + n);
 
+				
+				
 				points_N.add(nn);
 				points_M.add(mm);
 
@@ -526,7 +673,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 			}
 
 		} else {
-			System.err.println("N wi�ksze ni� N7");
+			System.err.println("N wieksze niz N7");
 
 		}
 		

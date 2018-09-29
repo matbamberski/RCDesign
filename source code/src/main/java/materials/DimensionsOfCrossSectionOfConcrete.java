@@ -40,7 +40,16 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double wLim;
 	private double aLim;
 	private double s1C;
+	
+	private boolean isAs1Tensiled;
+	
+	public void setIsAs1Tensiled(boolean isSet) {
+		isAs1Tensiled = isSet;
+	}
 
+	public boolean getIsAs1Tensiled() {
+		return isAs1Tensiled;
+	}
 	
 	public double getxC() {
 		return xC;
@@ -341,6 +350,19 @@ public class DimensionsOfCrossSectionOfConcrete {
 		
 		System.out.println("u " + u);
 	}
+	
+	public void setTensileDimensions() {
+		double temp = getbEff();
+		setbEff(getBefft());
+		setBefft(temp);
+		temp = getHft();
+		setHft(gettW());
+		settW(temp);
+		temp = getA2();
+		setA2(getA1());
+		setA1(temp);
+		calculateD();
+	}
 
 	public double getU() {
 		return u;
@@ -401,10 +423,12 @@ public class DimensionsOfCrossSectionOfConcrete {
 	}
 
 	public void calculateD() {
-		this.d = h - a1;
+		if (isAs1Tensiled)
+			this.d = h - a1;
+		else this.d = h - a2;
 		System.out.println("d " + d);
 	}
-
+	
 	public void setbEff(double bEff) {
 		this.bEff = bEff;
 		System.out.println("bEff " + bEff);

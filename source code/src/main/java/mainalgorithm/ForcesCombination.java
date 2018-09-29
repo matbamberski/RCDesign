@@ -22,6 +22,9 @@ public class ForcesCombination {
 	private double nRd_;
 	private double mRd_;
 	
+	private double mRdSym;
+	private double nRdSym;
+	
 	private SimpleStringProperty Medtab;
 	private SimpleStringProperty Mrdtab;
 	private SimpleStringProperty Nedtab;
@@ -157,9 +160,12 @@ public class ForcesCombination {
 	}
 	
 	public void swapAs1WithAs2() {
-		double tmpAs = aS1reqUnsymmetrical;
-		setaS1reqUnsymmetrical(aS2reqUnsymmetrical);
+		double tmpAs = aS1req;
+		setaS1reqUnsymmetrical(aS2req);
 		setaS2reqUnsymmetrical(tmpAs);
+		tmpAs = aS1prov;
+		setaS1prov(aS2prov);
+		setaS2prov(tmpAs);
 	}
 
 	public double getaS1reqUnsymmetrical() {
@@ -232,6 +238,22 @@ public class ForcesCombination {
 
 	public void setN(double n) {
 		N = n;
+	}
+
+	public double getmRdSym() {
+		return mRdSym;
+	}
+
+	public void setmRdSym(double mRdSym) {
+		this.mRdSym = mRdSym;
+	}
+
+	public double getnRdSym() {
+		return nRdSym;
+	}
+
+	public void setnRdSym(double nRdSym) {
+		this.nRdSym = nRdSym;
 	}
 
 	

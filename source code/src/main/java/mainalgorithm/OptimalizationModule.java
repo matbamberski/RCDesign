@@ -61,8 +61,8 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			prepareEmin();
 			changeAsIfEisLessThanEMin();
 			countNrd();
-			if (!checkIfNrdIsGreaterThanNed()) {
-				System.out.println("\nTrzeba uruchomic algorytm KNG!\n");
+			if (!checkIfNrdIsGreaterThanNedUnSym()) {
+				System.out.println("\nTrzeba uruchomic algorytm KNG! - unsymmetrical\n");
 				KNGAlgorithm algorithm = new KNGAlgorithm(concrete, steel, dimensions);
 				algorithm.setAsBase(selectedCombination.getaS1req(), selectedCombination.getaS2req());
 				algorithm.mainKNGAlgorithm(combinations);
@@ -70,8 +70,18 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				reinforcement.setRequiredUnsymmetricalAS2(algorithm.getAS2());
 				requireReinforcement.designUnsymmetricalReinforcement(reinforcement);
 				reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
-				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
+				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);	
 				
+			} else {
+				reinforcement.setRequiredUnsymmetricalAS1(selectedCombination.getaS1req());
+				reinforcement.setRequiredUnsymmetricalAS2(selectedCombination.getaS2req());
+				requireReinforcement.designUnsymmetricalReinforcement(reinforcement);
+				reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
+				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
+			}
+			
+			if (!checkIfNrdIsGreaterThanNedSym()) {
+				System.out.println("\nTrzeba uruchomic algorytm KNG! - symmetrical\n");
 				KNGAlgorithmSymmetrical symAlgorithm = new KNGAlgorithmSymmetrical(concrete, steel, dimensions);
 				symAlgorithm.setAsBase(selectedCombination.getAsSymmetricalReq(), selectedCombination.getAsSymmetricalReq());
 				symAlgorithm.mainKNGAlgorithm(combinations);
@@ -82,17 +92,12 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
 			} else {
 				System.out.println("\nKoniec obliczen!\n");
-				reinforcement.setRequiredSymmetricalAS1(selectedCombination.getAsSymmetricalProv());
-				reinforcement.setRequiredSymmetricalAS2(selectedCombination.getAsSymmetricalProv());
+				reinforcement.setRequiredSymmetricalAS1(selectedCombination.getAsSymmetricalReq());
+				reinforcement.setRequiredSymmetricalAS2(selectedCombination.getAsSymmetricalReq());
 				requireReinforcement.designSymmetricalReinforcement(reinforcement);
 				reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
-				
-				reinforcement.setRequiredUnsymmetricalAS1(selectedCombination.getaS1req());
-				reinforcement.setRequiredUnsymmetricalAS2(selectedCombination.getaS2req());
-				requireReinforcement.designUnsymmetricalReinforcement(reinforcement);
-				reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
-				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
+
 			}
 			eraseFilter();
 		}
@@ -153,16 +158,39 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 
 	public void countNrd() {
 		setCurrentForces(selectedCombination);
-		decideCompressOrTensile();
+		//decideCompressOrTensile();
 		for (ForcesCombination fc : combinations) {
-			diagnosis.runDiagnosis(concrete, steel, dimensions,
-					fc.getmStiff(), fc.getN(), selectedCombination.getaS1req(), selectedCombination.getaS2req());
-			fc.setnRd(diagnosis.getnRd());
-			fc.setmRd(diagnosis.getmRd());
+			if (fc.getN()<0) {
+				TensilingDiagnosis tensile = new TensilingDiagnosis();
+				tensile.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, 
+						fc.getM(), fc.getN(), selectedCombination.getaS1prov(), selectedCombination.getaS2prov());
+				fc.setnRd(tensile.getnRd());
+				fc.setmRd(tensile.getmRd());
+				tensile.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, 
+						fc.getM(), fc.getN(), selectedCombination.getAsSymmetricalProv(), selectedCombination.getAsSymmetricalProv());
+				fc.setmRdSym(tensile.getmRd());
+				fc.setnRdSym(tensile.getnRd());
+			} else {
+				CompressingDiagnosis compression = new CompressingDiagnosis();
+				compression.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions,
+						selectedCombination.getaS1prov(), selectedCombination.getaS2prov(), fc.getmStiff(), fc.getN());
+				fc.setnRd(compression.getnRd());
+				fc.setmRd(compression.getmRd());
+				compression.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions,
+						selectedCombination.getAsSymmetricalProv(), selectedCombination.getAsSymmetricalProv(), fc.getmStiff(), fc.getN());
+				fc.setnRdSym(compression.getnRd());
+				fc.setmRdSym(compression.getmRd());
+			}
+		}
+	}
+	
+	private void prepareCombinationForDiagnosis(ForcesCombination fc) {
+		if (fc.isMedNegativ()) {
+			fc.swapAs1WithAs2();
 		}
 	}
 
-	public boolean checkIfNrdIsGreaterThanNed() {
+	public boolean checkIfNrdIsGreaterThanNedUnSym() {
 		for (ForcesCombination fc : combinations) {
 			if (Math.abs(fc.getM())>Math.abs(fc.getmRd()) || Math.abs(fc.getN())>Math.abs(fc.getnRd())) {
 				return false;
@@ -171,6 +199,15 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 		return true;
 	}
 
+	public boolean checkIfNrdIsGreaterThanNedSym() {
+		for (ForcesCombination fc : combinations) {
+			if (Math.abs(fc.getM())>Math.abs(fc.getmRdSym()) || Math.abs(fc.getN())>Math.abs(fc.getnRdSym())) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void setCurrentForces(ForcesCombination combination) {
 		forces.setM0Ed(combination.getM());
 		forces.setmEd(combination.getmStiff());

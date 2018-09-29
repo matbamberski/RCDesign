@@ -443,6 +443,8 @@ public class ResultsPaneControllerULS {
 		if (reinforcement.getDegreeOfDesignedSymmetricalReinforcement() > 0.04
 				|| reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() > 0.04) {
 			reinforcement.setDegreeExceeded(true);
+		} else {
+			reinforcement.setDegreeExceeded(false);
 		}
 
 		if (reinforcement.isDegreeExceeded()) {
@@ -818,6 +820,23 @@ public class ResultsPaneControllerULS {
 			gridLabel320.setText("");
 		}
 
+		if (reinforcement.getDegreeOfDesignedSymmetricalReinforcement() > 0.04
+				|| reinforcement.getDegreeOfDesignedUnsymmetricalReinforcement() > 0.04) {
+			reinforcement.setDegreeExceeded(true);
+		} else {
+			reinforcement.setDegreeExceeded(false);
+		}
+
+		if (reinforcement.isDegreeExceeded()) {
+			warningLabel.setVisible(true);
+			degreeLabel.setVisible(true);
+		} else {
+			warningLabel.setVisible(false);
+			degreeLabel.setVisible(false);
+		}
+		
 	}
+	
+	
 
 }

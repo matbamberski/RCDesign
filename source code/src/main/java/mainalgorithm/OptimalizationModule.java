@@ -163,10 +163,16 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			double as1 = selectedCombination.getaS1prov();
 			double as2 = selectedCombination.getaS2prov();
 			
-			if (!selectedCombination.equals(fc) && fc.isMedNegativ()) {
+			if (!selectedCombination.equals(fc) && fc.isMedNegativ() && !selectedCombination.isMedNegativ()) {
 				as1 = selectedCombination.getaS2prov();
 				as2 = selectedCombination.getaS1prov();
 			}
+			
+			if (!selectedCombination.equals(fc) && !fc.isMedNegativ() && selectedCombination.isMedNegativ()) {
+				as1 = selectedCombination.getaS2prov();
+				as2 = selectedCombination.getaS1prov();
+			}
+			
 			if (fc.getN()<0) {
 				TensilingDiagnosis tensile = new TensilingDiagnosis();
 				tensile.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, 

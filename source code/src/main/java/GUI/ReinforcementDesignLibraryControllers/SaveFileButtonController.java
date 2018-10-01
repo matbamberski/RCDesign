@@ -16,6 +16,7 @@ import javafx.scene.control.CheckBox;
 import mainalgorithm.InternalForces;
 import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
+import materials.Cement;
 import materials.Concrete;
 import materials.DimensionsOfCrossSectionOfConcrete;
 import materials.Steel;
@@ -30,11 +31,11 @@ public class SaveFileButtonController {
 
 	public static void addPropertiesToDesignSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
-			DeflectionControl deflection, CheckBox nominalCheckBox, NominalStiffness stiffness) {
+			DeflectionControl deflection, CheckBox nominalCheckBox, NominalStiffness stiffness, Cement cement) {
 		designSaveButton = bt;
 		disableButtonDesign(bt);
 		addClickListenerToDesignSceneSaveButton(bt, concrete, steel, reinforcement, forces, dimensions, sls, scratch, 
-				creep, deflection, nominalCheckBox, stiffness);
+				creep, deflection, nominalCheckBox, stiffness, cement);
 	}
 
 	private static void disableButtonDesign(Button bt) {
@@ -47,9 +48,9 @@ public class SaveFileButtonController {
 
 	private static void addClickListenerToDesignSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, CreepCoeficent creep,
-			DeflectionControl deflection, CheckBox nominalCheckBox, NominalStiffness stiffness) {
+			DeflectionControl deflection, CheckBox nominalCheckBox, NominalStiffness stiffness, Cement cement) {
 		bt.setOnAction(new SaveButtonListenerDesignScene(concrete, steel, reinforcement, forces, 
-				dimensions, sls, scratch, creep, deflection, nominalCheckBox, stiffness));
+				dimensions, sls, scratch, creep, deflection, nominalCheckBox, stiffness, cement));
 	}
 
 	private static class SaveButtonListenerDesignScene implements EventHandler<ActionEvent> {
@@ -64,12 +65,13 @@ public class SaveFileButtonController {
 		DeflectionControl deflection;
 		CheckBox nominalCheckBox;
 		NominalStiffness stiffness;
+		Cement cement;
 		
 
 		protected SaveButtonListenerDesignScene(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, 
 				DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, Scratch scratch, 
 				CreepCoeficent creep, DeflectionControl deflection, CheckBox nominalCheckBox
-				,NominalStiffness stiffness) {
+				,NominalStiffness stiffness, Cement cement) {
 			this.reinforcement = reinforcement;
 			this.forces = forces;
 			this.dimensions = dimensions;
@@ -81,6 +83,8 @@ public class SaveFileButtonController {
 			this.deflection = deflection;
 			this.nominalCheckBox = nominalCheckBox;
 			this.stiffness = stiffness;
+			this.reinforcement = reinforcement;
+			this.cement = cement;
 			
 		}
 
@@ -88,7 +92,7 @@ public class SaveFileButtonController {
 		public void handle(ActionEvent arg0) {
 			try {
 				ResultsToPDF.saveDesingResultsToPDF(concrete, steel, reinforcement, forces, dimensions, 
-						sls, scratch, creep, deflection, nominalCheckBox, stiffness);
+						sls, scratch, creep, deflection, nominalCheckBox, stiffness, cement);
 			} catch (IOException | DocumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -105,11 +109,11 @@ public class SaveFileButtonController {
 	public static void addPropertiesToDiagnosisSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, DiagnosisMainAlgorithm diagnosis, 
 			Scratch scratch, CreepCoeficent creep, DeflectionControl deflection, 
-			CheckBox nominalCheckBox,NominalStiffness stiffness) {
+			CheckBox nominalCheckBox,NominalStiffness stiffness, Cement cement) {
 		diagnosisSaveButton = bt;
 		disableButtonDiagnosis(bt);
 		addClickListenerToDiagnosisSceneSaveButton(bt, concrete, steel, reinforcement, forces, dimensions, sls, diagnosis,
-				scratch, creep, deflection, nominalCheckBox, stiffness);
+				scratch, creep, deflection, nominalCheckBox, stiffness, cement);
 	}
 
 	private static void disableButtonDiagnosis(Button bt) {
@@ -125,9 +129,9 @@ public class SaveFileButtonController {
 	private static void addClickListenerToDiagnosisSceneSaveButton(Button bt, Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Sls sls, DiagnosisMainAlgorithm diagnosis,
 			Scratch scratch, CreepCoeficent creep, DeflectionControl deflection, 
-			CheckBox nominalCheckBox,NominalStiffness stiffness) {
+			CheckBox nominalCheckBox,NominalStiffness stiffness, Cement cement) {
 		bt.setOnAction(new SaveButtonListenerDiagnosisScene(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis, 
-				scratch, creep, deflection, nominalCheckBox, stiffness));
+				scratch, creep, deflection, nominalCheckBox, stiffness, cement));
 	}
 
 	private static class SaveButtonListenerDiagnosisScene implements EventHandler<ActionEvent> {
@@ -143,10 +147,11 @@ public class SaveFileButtonController {
 		DeflectionControl deflection;
 		CheckBox nominalCheckBox;
 		NominalStiffness stiffness;
+		Cement cement;
 
 		protected SaveButtonListenerDiagnosisScene(Concrete concrete, Steel steel, Reinforcement reinforcement, InternalForces forces, DimensionsOfCrossSectionOfConcrete dimensions, Sls sls,
 				DiagnosisMainAlgorithm diagnosis, Scratch scratch, CreepCoeficent creep, DeflectionControl deflection, 
-				CheckBox nominalCheckBox,NominalStiffness stiffness) {
+				CheckBox nominalCheckBox,NominalStiffness stiffness, Cement cement) {
 			this.reinforcement = reinforcement;
 			this.forces = forces;
 			this.dimensions = dimensions;
@@ -159,6 +164,7 @@ public class SaveFileButtonController {
 			this.deflection = deflection;
 			this.nominalCheckBox = nominalCheckBox;
 			this.stiffness = stiffness;
+			this.cement = cement;
 		}
 
 		@Override
@@ -166,7 +172,7 @@ public class SaveFileButtonController {
 
 			try {
 				ResultsToPDF.saveDiagnosisResultsToPDF(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis, 
-						scratch, creep, deflection, nominalCheckBox, stiffness);
+						scratch, creep, deflection, nominalCheckBox, stiffness, cement);
 			} catch (IOException | DocumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

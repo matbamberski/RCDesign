@@ -41,4 +41,18 @@ public class Cement {
 	public double getAlfa() {
 		return alfa[cementType];
 	}
+	
+	public String getCementTypeName(int i) {
+		String name = "";
+		if (i == 0) {
+			name= "S";
+		}
+		else if (i == 1) {
+			name = "N";
+		}
+		else if (i == 2) {
+			name = "R";
+		}
+		return name;
+	}
 }

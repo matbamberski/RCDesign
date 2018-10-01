@@ -814,7 +814,7 @@ public class CrossSectionTypeController {
 		@Override
 		public void changed(ObservableValue<? extends Boolean> arg0, Boolean arg1, Boolean arg2) {
 			if (arg2 == false) {
-				crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
+				crossSectionTypeChoiceBox.setValue("Prostok¹tny");
 				forces.setmEd(0.0);
 				forces.setM0Ed(0.0);
 				forces.setnEd(0.0);
@@ -834,7 +834,7 @@ public class CrossSectionTypeController {
 			} else {
 				//momentMmax.setText(String.valueOf(forces.getmEd()));
 				//normalnaMmax.setText(String.valueOf(forces.getnEd()));
-				crossSectionTypeChoiceBox.setValue("Przekrój prostok¹tny");
+				crossSectionTypeChoiceBox.setValue("Prostok¹tny");
 				forces.setmEd(0.0);
 				forces.setM0Ed(0.0);
 				forces.setnEd(0.0);

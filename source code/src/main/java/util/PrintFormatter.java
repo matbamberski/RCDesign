@@ -22,4 +22,34 @@ public class PrintFormatter extends OutputFormatter {
 		String formattedNumber = String.format("%.03f", number) + " m";
 		return formattedNumber;
 	}
+	
+	public static String cNomPrintFormatter(double number) {
+		Double cnom = new Double(number);
+		int value = cnom.intValue();
+		String formattedNumber = String.format("%d", value) + " mm";
+		return formattedNumber;
+	}
+	
+	public static String alfaMFormatter(double number) {
+		String formattedNumber = String.format("%.03f", number);
+		return formattedNumber;
+	}
+	
+	public static String doubletoIntPrintFormatter(double number) {
+		Double cnom = new Double(number);
+		int value = cnom.intValue();
+		String formattedNumber = String.format("%d", value);
+		return formattedNumber;
+	}
+	
+	public static String momentFormatter(double m) {
+		String out = String.format("%.02f", m) + " kNm";
+		return out;
+	}
+
+
+	public static String forcesFormatter(double m) {
+		String out = String.format("%.02f", m) + " kN";
+		return out;
+	}
 }

@@ -763,7 +763,7 @@ public class ReinforcementDiagnosisController {
 
 		SaveFileButtonController.addPropertiesToDiagnosisSceneSaveButton(saveToPdfButton, concrete, steel,
 				reinforcement, internalForces, dimensionsOfCrossSectionOfConcrete, sls, diagnosisMainAlgorithm,
-				scratch, creep, deflection, nominalCheckBox, stiffness);
+				scratch, creep, deflection, nominalCheckBox, stiffness, cement);
 		
 		GraphButtonController.addPropertiesToDesignButton(graphButton, this, graph);
 		

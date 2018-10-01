@@ -31,7 +31,7 @@ public class OutputFormatter {
 
 	public static String fFormatterSingle(double number) {
 		number = number * 100;
-		String formatterNumber = String.format("%.03f", number) + " cm";
+		String formatterNumber = String.format("%.02f", number) + " cm";
 		return formatterNumber;
 	}
 	
@@ -56,7 +56,7 @@ public class OutputFormatter {
 	public static String fFormatter(double number1, double number2) {
 		number1 = number1 * 100;
 		number2 = number2 * 100;
-		String formatterNumber = String.format("%.03f", number1) + "/" + String.format("%.03f", number2) + " cm";
+		String formatterNumber = String.format("%.02f", number1) + "/" + String.format("%.02f", number2) + " cm";
 		return formatterNumber;
 	}
 
@@ -72,7 +72,7 @@ public class OutputFormatter {
 	}
 
 	public static String s1s2(double number) {
-		String formattedNumber = String.format("%.05f", number) + " m";
+		String formattedNumber = String.format("%.03f", number) + " m";
 		return formattedNumber;
 	}
 

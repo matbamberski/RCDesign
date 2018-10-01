@@ -704,7 +704,7 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel011.setText("");
 			gridLabel012.setText("");
 			gridLabel013.setText("w");
-			gridLabel014.setText("f");
+			gridLabel014.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
 			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(false);
 			leftSGUNequal0Line1.setVisible(false);
 			rightSGUNequal0Line1.setVisible(false);
@@ -717,7 +717,7 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel010.setText("");
 			gridLabel011.setText("");
 			gridLabel012.setText("w");
-			gridLabel013.setText("f");
+			gridLabel013.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
 			gridLabel014.setText("");
 			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(true);
 			leftSGUNequal0Line1.setVisible(true);

@@ -652,6 +652,8 @@ public class ResultsPaneControllerULS {
 		gridLabel03.setText("A" + "s" + "\u2081");
 		gridLabel04.setText("A" + "s" + "\u2082");
 		
+		
+		
 		gridLabel05.setText("\u03C1");
 		gridLabel06.setText("");
 
@@ -668,7 +670,7 @@ public class ResultsPaneControllerULS {
 			gridLabel09.setText("");
 			gridLabel010.setText("");
 			gridLabel011.setText("w");
-			gridLabel012.setText("f");
+			gridLabel012.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
 			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(false);
 			leftSGUNequal0Line1.setVisible(false);
 			rightSGUNequal0Line1.setVisible(false);
@@ -682,7 +684,7 @@ public class ResultsPaneControllerULS {
 			gridLabel08.setText("");
 			gridLabel09.setText("");
 			gridLabel010.setText("w");
-			gridLabel011.setText("f");
+			gridLabel011.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
 			gridLabel012.setText("");
 			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(true);
 			leftSGUNequal0Line1.setVisible(true);

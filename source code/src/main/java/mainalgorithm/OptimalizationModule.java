@@ -160,10 +160,17 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 		setCurrentForces(selectedCombination);
 		//decideCompressOrTensile();
 		for (ForcesCombination fc : combinations) {
+			double as1 = selectedCombination.getaS1prov();
+			double as2 = selectedCombination.getaS2prov();
+			
+			if (!selectedCombination.equals(fc) && fc.isMedNegativ()) {
+				as1 = selectedCombination.getaS2prov();
+				as2 = selectedCombination.getaS1prov();
+			}
 			if (fc.getN()<0) {
 				TensilingDiagnosis tensile = new TensilingDiagnosis();
 				tensile.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, 
-						fc.getM(), fc.getN(), selectedCombination.getaS1prov(), selectedCombination.getaS2prov());
+						fc.getM(), fc.getN(), as1, as2);
 				fc.setnRd(tensile.getnRd());
 				fc.setmRd(tensile.getmRd());
 				tensile.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, 
@@ -173,7 +180,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			} else {
 				CompressingDiagnosis compression = new CompressingDiagnosis();
 				compression.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions,
-						selectedCombination.getaS1prov(), selectedCombination.getaS2prov(), fc.getmStiff(), fc.getN());
+						as1, as2, fc.getmStiff(), fc.getN());
 				fc.setnRd(compression.getnRd());
 				fc.setmRd(compression.getmRd());
 				compression.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions,

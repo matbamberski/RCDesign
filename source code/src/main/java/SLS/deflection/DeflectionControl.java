@@ -262,16 +262,21 @@ public class DeflectionControl {
 		calculateEpsilonCA(concrete);
 		calculateEpsilonCS();
 		calculateB1(forces, concrete, dimensions);
-		calculateB2(forces, concrete, dimensions);
-		calculateBeta(forces);
-		calculateDzeta(mEd, mCr);
 		calculateF1(mEd, dimensions, alfaM);
-		calculateF2(mEd, dimensions, alfaM);
 		calculateF1Cs(steel, forces, dimensions, alfaCS);
-		calculateF2Cs(steel, forces, dimensions, alfaCS);
-		//calculateR(dimensions, aSTensiled, aSTensiledDiameter, aSW1);
-		calculateF(dimensions, forces);
-		if (mEd == 0) {
+		f = f1 + f1Cs;
+		if (mCr<mEd) {
+			calculateB2(forces, concrete, dimensions);
+			calculateBeta(forces);
+			calculateDzeta(mEd, mCr);
+			calculateF2(mEd, dimensions, alfaM);
+			calculateF2Cs(steel, forces, dimensions, alfaCS);
+			//calculateR(dimensions, aSTensiled, aSTensiledDiameter, aSW1);
+			calculateF(dimensions, forces);
+		}
+		
+
+		if (mEd == 0 || f<0) {
 			f = 0;
 		}
 		return f;
@@ -280,25 +285,30 @@ public class DeflectionControl {
 	public double runDeflectionControlWithCalculatingDeflectionWithoutShrinkage(Concrete concrete, Steel steel, 
 			Cement cement, DimensionsOfCrossSectionOfConcrete dimensions, InternalForces forces, double mCr,
 			double alfaM, double mEd, double aSTensiled, double aSTensiledDiameter, double aSW1) {
-		calculateBetaRH(concrete);
-		calculateEpsilonCD0(concrete, cement);
-		calculateKh(dimensions);
-		calculateEpsilonCD();
-		calculateEpsilonCA(concrete);
-		calculateEpsilonCS();
+		//calculateBetaRH(concrete);
+		//calculateEpsilonCD0(concrete, cement);
+		//calculateKh(dimensions);
+		//calculateEpsilonCD();
+		//calculateEpsilonCA(concrete);
+		//calculateEpsilonCS();
 		calculateB1(forces, concrete, dimensions);
-		calculateB2(forces, concrete, dimensions);
-		calculateBeta(forces);
-		calculateDzeta(mEd, mCr);
 		calculateF1WithoutShrinkage(mEd, dimensions, alfaM);
-		calculateF2WithoutShrinkage(mEd, dimensions, alfaM);
+		fws = f1;
+		if (mCr<mEd) {
+			calculateB2(forces, concrete, dimensions);
+			calculateBeta(forces);
+			calculateDzeta(mEd, mCr);
+			calculateF2WithoutShrinkage(mEd, dimensions, alfaM);
+			calculateFWithoutShrinkage(dimensions, forces);
+		}
+
 		/*
 		calculateF1CsWithoutShrinkage(steel, forces, dimensions, alfaCS);
 		calculateF2CsWithoutShrinkage(steel, forces, dimensions, alfaCS);
 		*/
 		//calculateR(dimensions, aSTensiled, aSTensiledDiameter, aSW1);
-		calculateFWithoutShrinkage(dimensions, forces);
-		if (mEd == 0) {
+		
+		if (mEd == 0 || fws<0) {
 			fws = 0;
 		}
 		return fws;

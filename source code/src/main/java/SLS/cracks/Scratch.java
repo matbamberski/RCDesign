@@ -208,7 +208,7 @@ public class Scratch {
 			calculateSRMax(aSTensiledDiameter, dimensions.getH(), x2);
 			calculateWMax();
 		} else {
-			setMCrEqualTo0();
+			//setMCrEqualTo0();
 			wMax = 0;
 		}
 		if (mEd == 0) {

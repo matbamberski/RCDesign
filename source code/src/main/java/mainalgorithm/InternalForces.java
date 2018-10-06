@@ -48,10 +48,16 @@ public class InternalForces {
 	private double vRdMaxdiagnosis;
 	private double vRdMaxdesign;
 	
+	private double vrds1design;
+	private double vrds1diagnosis;
+	private double vrds2design;
+	private double vrds2diagnosis;
+	
 	private double sigmaCP;
 	
 	private double alfaM;
 	private boolean isLoadSustained;
+	private ForcesCombination axisLoadToPdf;
 
 	public void countECombinations(ArrayList<ForcesCombination> combination) {
 		ForcesCombination Mmax = new ForcesCombination(Math.abs(getMomentMmax()), getNormalnaMmax());
@@ -459,6 +465,47 @@ public class InternalForces {
 	public void setSigmaCP(double sigmaCP) {
 		this.sigmaCP = sigmaCP;
 	}
+
+	public ForcesCombination getAxisLoadToPdf() {
+		return axisLoadToPdf;
+	}
+
+	public void setAxisLoadToPdf(ForcesCombination axisLoadToPdf) {
+		this.axisLoadToPdf = axisLoadToPdf;
+	}
+
+	public double getVrds1design() {
+		return vrds1design;
+	}
+
+	public void setVrds1design(double vrds1design) {
+		this.vrds1design = vrds1design;
+	}
+
+	public double getVrds1diagnosis() {
+		return vrds1diagnosis;
+	}
+
+	public void setVrds1diagnosis(double vrds1diagnosis) {
+		this.vrds1diagnosis = vrds1diagnosis;
+	}
+
+	public double getVrds2design() {
+		return vrds2design;
+	}
+
+	public void setVrds2design(double vrds2design) {
+		this.vrds2design = vrds2design;
+	}
+
+	public double getVrds2diagnosis() {
+		return vrds2diagnosis;
+	}
+
+	public void setVrds2diagnosis(double vrds2diagnosis) {
+		this.vrds2diagnosis = vrds2diagnosis;
+	}
+	
 	
 	
 }

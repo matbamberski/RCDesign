@@ -41,6 +41,8 @@ public class DimensionsOfCrossSectionOfConcrete {
 	private double aLim;
 	private double s1C;
 	
+	private double x;
+	
 	private boolean isAs1Tensiled;
 	
 	public void setIsAs1Tensiled(boolean isSet) {
@@ -492,6 +494,14 @@ public class DimensionsOfCrossSectionOfConcrete {
 	public void setHft(double hft) {
 		this.hft = hft;
 		System.out.println("hft " + hft);
+	}
+
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
 	}
 	
 	

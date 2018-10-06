@@ -2,6 +2,7 @@ package GUI.ReinforcementDesignLibraryControllers;
 
 import SLS.Sls;
 import diagnosis.DiagnosisMainAlgorithm;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
@@ -125,6 +126,7 @@ public class ResultsPaneControllerDiagnosis {
 	private Line rightZbrojeniePoprzeczneNNotequal0Line;
 
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm;
+	private CheckBox checkbox;
 
 	public ResultsPaneControllerDiagnosis(Reinforcement reinforcement, InternalForces internalForces, Sls sls, Label gridLabel00, Label gridLabel01, Label gridLabel02, Label gridLabel03,
 			Label gridLabel04, Label gridLabel05, Label gridLabel06, Label gridLabel07, Label gridLabel08, Label gridLabel09, Label gridLabel010, Label gridLabel011, Label gridLabel012,
@@ -140,8 +142,9 @@ public class ResultsPaneControllerDiagnosis {
 			Line leftZbrojeniePodluzneNequal0Line, Line rightZbrojeniePodluzneNequal0Line, Label zbrojeniePoprzeczneNequal0Label, Line leftZbrojeniePoprzeczneNequal0Line,
 			Line rightZbrojeniePoprzeczneNequal0Line, Label stanGranicznyUzytkowalnosciNequal0Label1, Line leftSGUNequal0Line1, Line rightSGUNequal0Line1,
 			Label stanGranicznyUzytkowalnosciNequal0Label2, Line leftSGUNequal0Line2, Line rightSGUNequal0Line2,
-			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label warningLabel, Label capacityLabel) {
-
+			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label warningLabel, Label capacityLabel,
+			CheckBox checkbox) {
+		this.checkbox = checkbox;
 		this.reinforcement = reinforcement;
 		this.internalForces = internalForces;
 		this.sls = sls;
@@ -500,6 +503,8 @@ public class ResultsPaneControllerDiagnosis {
 			} else {
 				if(internalForces.getM0Ed() < 0) {
 					gridLabel16.setText("-" + OutputFormatter.diagnosisMed(-internalForces.getmEd()));
+				} else if (checkbox.isSelected()) {
+					gridLabel16.setText(OutputFormatter.diagnosisMed(internalForces.getmEdStiff()));
 				} else {
 					gridLabel16.setText(OutputFormatter.diagnosisMed(internalForces.getmEd()));
 				}

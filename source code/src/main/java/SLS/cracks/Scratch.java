@@ -204,7 +204,9 @@ public class Scratch {
 			
 			calculateC(dimensions, reinforcement);
 			////nSUnsymmetrical =0 !!!!!!!! BUG madafaka
-			calculatea(dimensions.getbEff(), aSTensiledDiameter, nSUnsymmetrical);
+			double beffttemp = forces.getmEd()<0 ? dimensions.getbEff() : dimensions.getBefft();
+			//double beffttemp = dimensions.getBefft();
+			calculatea(beffttemp, aSTensiledDiameter, nSUnsymmetrical);
 			calculateSRMax(aSTensiledDiameter, dimensions.getH(), x2);
 			calculateWMax();
 		} else {

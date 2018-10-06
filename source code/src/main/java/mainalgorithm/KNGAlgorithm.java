@@ -400,6 +400,7 @@ public class KNGAlgorithm extends SymmetricalTensilingBeamReinforcement{
 			for (ForcesCombination combination: combinations) {
 				findUpParts(combination);
 				findDownParts(combination);
+				
 			}
 			
 			if (isConditionMet(combinations)) {

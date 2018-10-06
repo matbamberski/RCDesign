@@ -71,7 +71,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				requireReinforcement.designUnsymmetricalReinforcement(reinforcement);
 				reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);	
-				
+				selectedCombination.getRs().setXunsym(algorithm.getX());
 			} else {
 				reinforcement.setRequiredUnsymmetricalAS1(selectedCombination.getaS1req());
 				reinforcement.setRequiredUnsymmetricalAS2(selectedCombination.getaS2req());
@@ -90,6 +90,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				requireReinforcement.designSymmetricalReinforcement(reinforcement);
 				reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
+				selectedCombination.getRs().setXsym(symAlgorithm.getX());
 			} else {
 				System.out.println("\nKoniec obliczen!\n");
 				reinforcement.setRequiredSymmetricalAS1(selectedCombination.getAsSymmetricalReq());

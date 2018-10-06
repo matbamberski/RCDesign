@@ -95,8 +95,31 @@ public class Column extends ClearBendingBeam {
 
 				countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 						combination, cement, creep, checkbox);
+				
+				if (checkbox.isSelected() && combination.getN() > 0
+						&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < MAX_REINFORCEMENT_DEGREE) {
+					combination.setmStiff(stiffness.getmEd());
+					combination.getRs().setEIcsym(stiffness.geteIc());
+					combination.getRs().setEIssym(stiffness.geteIs());
+					combination.getRs().setNbsym(stiffness.getnB());
+					
+				} else
+					combination.setmStiff(m0Ed);
+				combination.getRs().setXsym(dimensions.getX());
+				
 				countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 						combination, cement, creep, checkbox);
+				if (checkbox.isSelected() && combination.getN() > 0
+						&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < MAX_REINFORCEMENT_DEGREE) {
+					combination.setmStiff(stiffness.getmEd());
+					combination.getRs().setEIcunsym(stiffness.geteIc());
+					combination.getRs().setEIsunsym(stiffness.geteIs());
+					combination.getRs().setNbunsym(stiffness.getnB());
+					
+				} else
+					combination.setmStiff(m0Ed);
+				combination.getRs().setXunsym(dimensions.getX());
+				
 
 				setMAfterNomialStiffness(combination, checkbox, reinforcement, stiffness);
 			} else {
@@ -163,14 +186,33 @@ public class Column extends ClearBendingBeam {
 
 			countSymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination, cement, creep, checkbox);
+			
+			if (checkbox.isSelected() && combination.getN() > 0
+					&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
+				combination.setmStiff(stiffness.getmEd());
+				combination.getRs().setEIcsym(stiffness.geteIc());
+				combination.getRs().setEIssym(stiffness.geteIs());
+				combination.getRs().setNbsym(stiffness.getnB());
+				
+			} else
+				combination.setmStiff(m0Ed);
+			combination.getRs().setXsym(dimensions.getX());
+			
 			countUnsymmetricalReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness,
 					combination, cement, creep, checkbox);
 
 			if (checkbox.isSelected() && combination.getN() > 0
-					&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08)
+					&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
 				combination.setmStiff(stiffness.getmEd());
-			else
+				combination.getRs().setEIcunsym(stiffness.geteIc());
+				combination.getRs().setEIsunsym(stiffness.geteIs());
+				combination.getRs().setNbunsym(stiffness.getnB());
+				
+			} else
 				combination.setmStiff(m0Ed);
+			combination.getRs().setXunsym(dimensions.getX());
+			
+			internalForces.setAxisLoadToPdf(combination);
 		} else {
 			requiredReinforcement.rectangularColumnBeamBendingReinforcementWithDesign(concrete, steel, dimensions,
 					reinforcement, m0Ed);
@@ -216,10 +258,20 @@ public class Column extends ClearBendingBeam {
 				reinforcement, stiffness, combination1, cement, creep, checkbox);
 				*/
 				if (checkbox.isSelected() && combination1.getN() >= 0
-						&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08)
+						&& reinforcement.getDegreeOfDesignedSymmetricalReinforcement() < 0.08) {
 					combination1.setmStiff(stiffness.getmEd());
+					combination1.getRs().setNbsym(stiffness.getnB());
+					combination1.getRs().setEIcsym(stiffness.geteIc());
+					combination1.getRs().setEIcunsym(stiffness.geteIc());
+					combination1.getRs().setEIssym(stiffness.geteIs());
+					combination1.getRs().setEIsunsym(stiffness.geteIs());
+					combination1.getRs().setNbunsym(stiffness.getnB());
+					
+				}
 				else
 					combination1.setmStiff(m0Ed);
+				combination1.getRs().setXunsym(dimensions.getX());
+				combination1.getRs().setXsym(dimensions.getX());
 			} else {
 				requiredReinforcement.rectangularColumnBeamBendingReinforcement(concrete, steel, dimensions,
 						reinforcement, m0Ed);
@@ -393,7 +445,7 @@ public class Column extends ClearBendingBeam {
 					reinforcement.setDegreeExceededSymmetrical(false);
 				}
 			} while (((Math.min(reinforcementRatio3, reinforcementRatio2)
-					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99) && reinforcementRatio1 <= 0.08
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.95) && reinforcementRatio1 <= 0.08
 					&& reinforcementRatio2 <= 0.08 && reinforcementRatio3 <= 0.08);
 
 			// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
@@ -605,7 +657,7 @@ public class Column extends ClearBendingBeam {
 				System.out.println("mianownik " + Math.max(reinforcementRatio3, reinforcementRatio2) + "\n");
 				
 			} while (((Math.min(reinforcementRatio3, reinforcementRatio2)
-					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.99) && reinforcementRatio1 <= 0.08
+					/ Math.max(reinforcementRatio3, reinforcementRatio2)) <= 0.95) && reinforcementRatio1 <= 0.08
 					&& reinforcementRatio2 <= 0.08 && reinforcementRatio3 <= 0.08);
 			// while ((reinforcementRatio1-reinforcementRatio2)/reinforcementRatio1 > 0.1);
 

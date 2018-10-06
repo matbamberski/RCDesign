@@ -189,4 +189,14 @@ abstract class BeamMimosrodowoObciazona {
 		return eMinCompression;
 	}
 
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+	
+	
+
 }

@@ -1,6 +1,7 @@
 package mainalgorithm;
 
 import javafx.beans.property.SimpleStringProperty;
+import util.ResultsStorage;
 
 public class ForcesCombination {
 	private SimpleStringProperty name;
@@ -30,9 +31,12 @@ public class ForcesCombination {
 	private SimpleStringProperty Nedtab;
 	private SimpleStringProperty Nrdtab;
 	
+	private ResultsStorage rs;
+	
 	public ForcesCombination(double M, double N) {
 		this.M = M;
 		this.N = N;
+		rs = new ResultsStorage();
 		countE();
 		setMedNegativ(false);
 	}
@@ -256,7 +260,11 @@ public class ForcesCombination {
 		this.nRdSym = nRdSym;
 	}
 
-	
+	public ResultsStorage getRs() {
+		return rs;
+	}
+
+
 	
 	
 	

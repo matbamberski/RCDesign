@@ -421,6 +421,14 @@ public class Sls {
 	public double getwUnsymmetricalDesignedWithoutShrinkage() {
 		return wUnsymmetricalDesignedWithoutShrinkage;
 	}
+
+	public double getAlfaE() {
+		return alfaE;
+	}
+
+	public void setAlfaE(double alfaE) {
+		this.alfaE = alfaE;
+	}
 	
 	
 

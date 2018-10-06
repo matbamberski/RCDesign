@@ -160,8 +160,10 @@ public class NominalStiffness {
 
 		iS = roS1 * dimensions.getB() * dimensions.getH() * Math.pow((0.5 * dimensions.getH() - dimensions.getA1()), 2); // [m^4]
 		
-		eIs = kS * eS * iS * 10000000;
-		eIc = kC * eCd * dimensions.getIc() * 10000000;
+		//eIs = kS * eS * iS * 10000000;
+		eIs = kS * eS * iS;
+		//eIc = kC * eCd * dimensions.getIc() * 10000000;
+		eIc = kC * eCd * dimensions.getIc();
 		
 		eI = (kC * eCdEff * dimensions.getIc() + kS * eS * iS) * 1000; // [kNm^2]
 		

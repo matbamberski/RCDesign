@@ -753,7 +753,7 @@ public class ReinforcementDiagnosisController {
 				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1,
 				stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
-				rightZbrojeniePoprzeczneNNotequal0Line, warningLabel, capacityLabel);
+				rightZbrojeniePoprzeczneNNotequal0Line, warningLabel, capacityLabel, nominalCheckBox);
 		
 		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,

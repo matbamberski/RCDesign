@@ -91,7 +91,7 @@ public class SaveFileButtonController {
 		@Override
 		public void handle(ActionEvent arg0) {
 			try {
-				ResultsToPDF.saveDesingResultsToPDF(concrete, steel, reinforcement, forces, dimensions, 
+				ResultsToPDF.saveDesingResultsToPDF(false, concrete, steel, reinforcement, forces, dimensions, 
 						sls, scratch, creep, deflection, nominalCheckBox, stiffness, cement);
 			} catch (IOException | DocumentException e) {
 				// TODO Auto-generated catch block
@@ -171,7 +171,7 @@ public class SaveFileButtonController {
 		public void handle(ActionEvent arg0) {
 
 			try {
-				ResultsToPDF.saveDiagnosisResultsToPDF(concrete, steel, reinforcement, forces, dimensions, sls, diagnosis, 
+				ResultsToPDF.saveDiagnosisResultsToPDF(false, concrete, steel, reinforcement, forces, dimensions, sls, diagnosis, 
 						scratch, creep, deflection, nominalCheckBox, stiffness, cement);
 			} catch (IOException | DocumentException e) {
 				// TODO Auto-generated catch block

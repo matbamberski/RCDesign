@@ -127,6 +127,7 @@ public class ReinforcementDesignButtonController {
 							public void run() {
 								//pleaseWaitLabel.setVisible(true);
 								//pleaseWaitLabel.setText("Obliczenia trwaj¹...");
+								cleanUp();
 								updateProgress(0, N_ITERATIONS);
 								boolean withDesign = true;
 								ResultsToPDF.clearResults();
@@ -249,5 +250,12 @@ public class ReinforcementDesignButtonController {
 			
 		}
 		
+		public void cleanUp() {
+			dimensions.cleanUp();
+			stiffness.cleanUp();
+		}
+		
 	}
+	
+	
 }

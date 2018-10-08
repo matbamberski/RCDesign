@@ -133,8 +133,6 @@
             <Label fx:id="gridLabel316" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="16" />
             <Label fx:id="gridLabel317" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="17" />
             <Label fx:id="gridLabel318" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="18" />
-            <Label fx:id="gridLabel319" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="19" />
-            <Label fx:id="gridLabel320" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="20" />
             <Label fx:id="gridLabel00" prefHeight="21.0" prefWidth="46.0" text="Label" textOverrun="CLIP" wrapText="true" />
          </children>
          <columnConstraints>
@@ -574,9 +572,20 @@
       <Label layoutX="86.0" layoutY="70.0" text="[MPa]" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="70.0" />
       <Label layoutX="331.0" layoutY="421.0" text="[m]" AnchorPane.leftAnchor="331.0" AnchorPane.topAnchor="421.0" />
       <Label layoutX="331.0" layoutY="449.0" text="[-]" AnchorPane.leftAnchor="331.0" AnchorPane.topAnchor="451.0" />
-      <Label fx:id="fiInfinityT0" layoutX="210.0" layoutY="103.0" text="   " AnchorPane.leftAnchor="210.0" AnchorPane.topAnchor="103.0" />
       <Label fx:id="fiEffLabel" layoutX="371.0" layoutY="643.0" text="   " AnchorPane.leftAnchor="300.0" AnchorPane.topAnchor="635.0" />
       <Label layoutX="346.0" layoutY="67.0" text="[dni]" AnchorPane.leftAnchor="348.0" AnchorPane.topAnchor="70.0" />
       <Label layoutX="347.0" layoutY="102.0" text="[%]" AnchorPane.leftAnchor="348.0" AnchorPane.topAnchor="100.0" />
+      <HBox fx:id="hBoxFiT0" layoutX="110.0" layoutY="71.0" prefHeight="20.0" prefWidth="90.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Label fx:id="fiInfinityT0" minWidth="52.0" prefWidth="52.0" text="φ(∞,t0)=" />
+            <Label fx:id="fit0ValueLabel" prefHeight="17.0" prefWidth="38.0" />
+         </children>
+      </HBox>
+      <HBox layoutX="358.0" layoutY="625.0" prefHeight="20.0" prefWidth="90.0" AnchorPane.leftAnchor="310.0" AnchorPane.topAnchor="610.0">
+         <children>
+            <Label fx:id="gridLabel319" />
+            <Label fx:id="gridLabel320" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

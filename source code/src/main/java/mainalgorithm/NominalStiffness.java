@@ -87,20 +87,11 @@ public class NominalStiffness {
 		System.out.println("");
 		System.out.println("");
 		
-		dimensions.calculateSc();
-		dimensions.calculateAc();
-		dimensions.calculateU();
-		dimensions.calculateh0();
-		dimensions.calculateXc();
-		dimensions.calculateIc();
-		dimensions.calculateWc();
+		preCalculations(dimensions);
 		
-		creep.runCreepCoeficentCalculations(concrete, cement, dimensions);
-		System.out.println("FiT0 z creep'a : " + creep.getCreepCoeficent());
-		fiT0 = creep.getCreepCoeficent();
 		l0 = dimensions.getlEff();
 		System.out.println("l0: "+ l0);
-		System.out.println("fit0: " + fiT0 );
+		
 		System.err.println("M0Ed przekazane do nominal stiffness: " + m0Ed);
 		System.out.println("RoS: " + String.format("%.05f", roS1));
 		
@@ -128,11 +119,8 @@ public class NominalStiffness {
 		
 		mEklt = internalForces.getCharacteristicMEdDlugotrwale();
 		
-		if(columnCheckbox.isSelected()) {
-			fiEf = fiT0 * (mEklt/m0Ed);
-		} else {
-			fiEf = fiT0 * (0.7);
-		}
+		setfiEff(columnCheckbox, m0Ed, concrete, cement, dimensions, creep);
+
 		double eCdEff = (eCd / (1 + fiEf));
 		//double beta = Math.pow((Math.PI),2) / 12; // c0 = 12 - przyjêta najbardziej niekorzystna wartoœæ normowa !
 		double beta = 1.0;
@@ -225,8 +213,38 @@ public class NominalStiffness {
 		return s2;
 	}
 	
+	public void cleanUp() {
+		eIs = 0;
+		eIc = 0;
+		fiEf = 0;
+		nB = 0;
+	}
 	
+	public void setfiEff(CheckBox columnCheckbox, double m0Ed, 
+			Concrete concrete, Cement cement, DimensionsOfCrossSectionOfConcrete dimensions,
+			CreepCoeficent creep) {
+		if (!columnCheckbox.isSelected())
+			preCalculations(dimensions);
+		creep.runCreepCoeficentCalculations(concrete, cement, dimensions);
+		System.out.println("FiT0 z creep'a : " + creep.getCreepCoeficent());
+		fiT0 = creep.getCreepCoeficent();
+		System.out.println("fit0: " + fiT0 );
+		//if(columnCheckbox.isSelected()) {
+		//	fiEf = fiT0 * (mEklt/m0Ed);
+		//} else {
+			fiEf = fiT0 * (0.7);
+		//}
+	}
 	
+	public void preCalculations(DimensionsOfCrossSectionOfConcrete dimensions) {
+		dimensions.calculateSc();
+		dimensions.calculateAc();
+		dimensions.calculateU();
+		dimensions.calculateh0();
+		dimensions.calculateXc();
+		dimensions.calculateIc();
+		dimensions.calculateWc();
+	}
 	
 	
 }

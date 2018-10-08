@@ -4,6 +4,7 @@ import SLS.Sls;
 import SLS.creepCoeficent.CreepCoeficent;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -130,6 +131,8 @@ public class ResultsPaneControllerULS {
 	private Label zbrojeniePoprzeczneNNotequal0Label;
 	private Line leftZbrojeniePoprzeczneNNotequal0Line;
 	private Line rightZbrojeniePoprzeczneNNotequal0Line;
+	private HBox hBoxFiT0;
+	private Label fiT0Value;
 
 	public ResultsPaneControllerULS(Reinforcement reinforcement, InternalForces internalForces, Sls sls,
 			Label gridLabel00, Label gridLabel01, Label gridLabel02, Label gridLabel03, Label gridLabel04,
@@ -160,8 +163,11 @@ public class ResultsPaneControllerULS {
 			/// NOWE!
 			NominalStiffness stiffness, Label warningLabel, Label degreeLabel, Label abortLabel1, Label abortLabel2,
 			Label abortLabel3, CreepCoeficent creepCoeficent, Label gridLabel319, Label gridLabel320,
-			CheckBox nominalCheckbox) {
+			CheckBox nominalCheckbox, HBox hBoxFiT0, Label fiT0Value) {
 
+		this.hBoxFiT0 = hBoxFiT0;
+		this.fiT0Value = fiT0Value;
+		
 		this.reinforcement = reinforcement;
 		this.internalForces = internalForces;
 		this.sls = sls;
@@ -280,6 +286,8 @@ public class ResultsPaneControllerULS {
 	}
 
 	private void hideResults() {
+		hBoxFiT0.setVisible(false);
+		
 		gridLabel00.setText("");
 		gridLabel01.setText("");
 		gridLabel02.setText("");
@@ -403,6 +411,9 @@ public class ResultsPaneControllerULS {
 	}
 
 	private void dispResultsWhenNedIsNotEqual0() {
+		hBoxFiT0.setVisible(true);
+		fiT0Value.setText(String.format("%.4f", creepCoeficent.getCreepCoeficent()));
+		
 		stanGranicznyNosnosciNequal0Label.setVisible(true);
 		leftSGNNequal0Line.setVisible(true);
 		rightSGNNequal0Line.setVisible(true);
@@ -613,8 +624,8 @@ public class ResultsPaneControllerULS {
 		gridLabel314.setText("");
 		gridLabel315.setText("");
 		if (nominalCheckbox.isSelected()) {
-			gridLabel319.setText("\u03C6" + "ef");
-			gridLabel320.setText(String.format("%.2f", creepCoeficent.getCreepCoeficent()));
+			gridLabel319.setText("\u03C6" + "ef=");
+			gridLabel320.setText(String.format("%.2f", stiffness.getFiEf()));
 		} else {
 			gridLabel319.setText("");
 			gridLabel320.setText("");
@@ -622,6 +633,8 @@ public class ResultsPaneControllerULS {
 	}
 
 	private void dispResultsWhenNedIsEqual0() {
+		hBoxFiT0.setVisible(false);
+		
 		stanGranicznyNosnosciNequal0Label.setVisible(true);
 		leftSGNNequal0Line.setVisible(true);
 		rightSGNNequal0Line.setVisible(true);

@@ -536,7 +536,13 @@ public class ReinforcementDesignController {
 	private Button saveToPdfButton;
 	
 	@FXML
+    private HBox hBoxFiT0;
+
+    @FXML
     private Label fiInfinityT0;
+
+    @FXML
+    private Label fit0ValueLabel;
 
     @FXML
     private Label fiEffLabel;
@@ -607,6 +613,8 @@ public class ReinforcementDesignController {
 		list3 = new ArrayList<>(Arrays.asList(hftTextField, tWTextField,
 				mEdObliczenioweTextField, nEdTextField, 
 				mEdCharCalkTextField, mEdCharDlugTextField));
+		
+		hBoxFiT0.setVisible(false);
 		
 
 		CrossSectionTypeController.addPorpertiesToCrossSectionTypeChoiceBox(crossSectionTypeChoiceBox, bEffTextField,
@@ -698,7 +706,7 @@ public class ReinforcementDesignController {
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
 				rightZbrojeniePoprzeczneNNotequal0Line, gridLabel019, gridLabel119, gridLabel219, gridLabel120,
 				gridLabel220, gridLabel020, stiffness, warningLabel, degreeLabel, abortLabel1, abortLabel2, abortLabel3, creep,
-				gridLabel319, gridLabel320, nominalCheckBox);
+				gridLabel319, gridLabel320, nominalCheckBox, hBoxFiT0, fit0ValueLabel);
 
 		ReinforcementDesignButtonController.addPropertiesToDesignButton(countButton, requiredReinforcementSeter,
 				concrete, steel, internalForces, dimensionsOfCrossSectionOfConcrete, reinforcement,

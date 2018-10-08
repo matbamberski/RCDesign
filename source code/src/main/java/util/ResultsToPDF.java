@@ -141,12 +141,12 @@ public class ResultsToPDF {
 		
 		addParamGeom(cb, dimensions, forces);
 		addParamMaterials(cb, concrete, steel, cement);
-		addReinforcementDesign(cb, reinforcement, 50, true);
+		addReinforcementDesign(cb, reinforcement, 55, true);
 		addManyForces(cb, forces, 0);
 		if(withTable)
 		additionalParametersAxisLoad(src, dest, concrete, steel, reinforcement, forces, dimensions,
 				sls, scratch, creep, deflection, nominalCheckBox, stiffness, cb,
-				forces.getvRdCdesign(), forces.getvRdSdesign(), forces.getvRdMaxdesign(), 350, 288, forces.getCombinations());
+				forces.getvRdCdesign(), forces.getvRdSdesign(), forces.getvRdMaxdesign(), 350, 279, forces.getCombinations());
 		
 		document.close();
 	}
@@ -236,13 +236,13 @@ public class ResultsToPDF {
 		addForces(cb, forces);
 		addParamGeom(cb, dimensions, forces);
 		addParamMaterials(cb, concrete, steel, cement);
-		addReinforcementDesignClearBending(cb, reinforcement, 0, true);
-		addWFtoTable(cb, sls, 5);
+		addReinforcementDesignClearBending(cb, reinforcement, 2, true);
+		addWFtoTable(cb, sls, 8);
 		if (withTable)
 		addTableDesign(cb, concrete, steel, reinforcement, forces, dimensions,
 				sls, scratch, creep, deflection, nominalCheckBox, stiffness,
 				forces.getvRdCdesign(), forces.getvRdSdesign(), forces.getvRdMaxdesign(), forces.getVrds1design(), forces.getVrds2design(),
-				125, 289);
+				125, 287);
 
 		///////////// PARAMETRY DODATKOWE /////////////
 		//additionalParameters(src, dest, concrete, steel, reinforcement, forces, dimensions, sls, scratch, creep,
@@ -290,12 +290,12 @@ public class ResultsToPDF {
 		addParamGeomTshaped(cb, dimensions, forces);
 		addParamMaterials(cb, concrete, steel, cement);
 		addReinforcementDesignClearBending(cb, reinforcement, 1, true);
-		addWFtoTable(cb, sls, 7);
+		addWFtoTable(cb, sls, 8);
 		if(withTable)
 		addTableDesign(cb, concrete, steel, reinforcement, forces, dimensions, sls, scratch,
 				creep, deflection, nominalCheckBox, stiffness,
 				forces.getvRdCdesign(), forces.getvRdSdesign(), forces.getvRdMaxdesign(), forces.getVrds1design(), forces.getVrds2design(),
-				125, 302);
+				125, 298);
 
 		///////////// PARAMETRY DODATKOWE /////////////
 		//additionalParameters(src, dest, concrete, steel, reinforcement, forces, dimensions, sls, scratch, creep,
@@ -342,11 +342,11 @@ public class ResultsToPDF {
 		addForces(cb, forces);
 		addParamGeom(cb, dimensions, forces);
 		addParamMaterials(cb, concrete, steel, cement);
-		addReinforcementDesign(cb, reinforcement, 0, forces.getmEd()>0 ? true : false);
+		addReinforcementDesign(cb, reinforcement, 2, forces.getmEd()>0 ? true : false);
 		if(withTable)
 		additionalParametersAxisLoad(src, dest, concrete, steel, reinforcement, forces,
 				dimensions, sls, scratch, creep, deflection, nominalCheckBox, stiffness, cb,
-				forces.getvRdCdesign(), forces.getvRdSdesign(), forces.getvRdMaxdesign(), 350, 300, forces.getPdfCombinations());
+				forces.getvRdCdesign(), forces.getvRdSdesign(), forces.getvRdMaxdesign(), 350, 296, forces.getPdfCombinations());
 		
 	
 		///////////// PARAMETRY DODATKOWE /////////////
@@ -410,7 +410,9 @@ public class ResultsToPDF {
 		cb.setFontAndSize(BaseFont.createFont(), 12);
 		if (nominalCheckBox.isSelected() && stiffness.getFiEf()!=0.0) {
 			cb.showText(String.format(accuracy, stiffness.getFiEf()));
-		} else cb.showText(String.format(accuracy,creep.getCreepCoeficent()));
+		} else if (stiffness.getFiEf()!=0.0)
+			cb.showText(String.format(accuracy, stiffness.getFiEf()));
+		else cb.showText(String.format(accuracy, creep.getCreepCoeficent()));
 		cb.endText();
 		if (combinations != null && combinations.size()>0)
 			for (int i = 0; i<combinations.size(); i++) {
@@ -1020,7 +1022,7 @@ public class ResultsToPDF {
 		addForces(cb, forces);
 		addParamGeomTshaped(cb, dimensions, forces);
 		addParamMaterials(cb, concrete, steel, cement);
-		addWFtoTable(cb, sls, 25);
+		addWFtoTable(cb, sls, 26);
 		addReinforcementDiagnosis(cb, reinforcement, 25);
 		if(withTable)
 		addTableDesign(cb, concrete, steel, reinforcement, forces, dimensions,
@@ -1210,7 +1212,7 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
-		cb.showText(PrintFormatter.cNomPrintFormatter(dimensions.getcNom()));
+		cb.showText(PrintFormatter.cNomPrintFormatter(dimensions.getcNom()*1000));
 		cb.endText();
 		
 		startY-=lineWidth;
@@ -1343,7 +1345,7 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(String.format("%.03f", reinforcement.getDesingedUnsymmetricalAS1()*10000) + " cm" + "\u00B2" 
-		+ "  (" + reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1() + "fi\u03A6" 
+		+ "  (" + reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1() + "    \u03A6   " 
 				+ PrintFormatter.doubletoIntPrintFormatter(reinforcement.getDesignedDiameterSymmetricalAS1()) + ")");
 		cb.endText();
 		
@@ -1352,8 +1354,8 @@ public class ResultsToPDF {
 		cb.beginText();
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
-		cb.showText(String.format("%.03f", reinforcement.getDesignedUnsymmetricalAS2()*1000) + " cm" + "\u00B2" 
-		+ "  (" + reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2() + "fi\u03D5" 
+		cb.showText(String.format("%.03f", reinforcement.getDesignedUnsymmetricalAS2()*10000) + " cm" + "\u00B2" 
+		+ "  (" + reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2() + "    \u03D5   " 
 				+ PrintFormatter.doubletoIntPrintFormatter(reinforcement.getDesignedDiameterSymmetricalAS2()) + ")");
 		cb.endText();
 		
@@ -1364,7 +1366,7 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.doubletoIntPrintFormatter(reinforcement.getnS1()) 
-				+ "fi\u03C6" + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW1Diameter()) + " /"
+				+ "    \u03C6" + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW1Diameter()) + " /"
 				+ " s1" +"\u2081" + " = " 
 				+ PrintFormatter.s1s2PrintFormatter(reinforcement.getS1Designed()));
 
@@ -1375,10 +1377,10 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.doubletoIntPrintFormatter(reinforcement.getnS2Designed())
-				+ "fi\u0278" + 
+				+ "    \u0278" + 
 				PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW2Diameter()) + " /" 
 				+ " s2 = " + PrintFormatter.s1s2PrintFormatter(reinforcement.getS2Designed()) + " /"
-				+ " " + "\u0251" + "alfa = " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getAlfa()) + "\u00B0");
+				+ " " + "\u0251" + "     = " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getAlfa()) + "\u00B0");
 		cb.endText();
 
 		return cb;
@@ -1444,7 +1446,7 @@ public class ResultsToPDF {
 	}
 	
 	public static PdfContentByte addReinforcementDesignClearBending(PdfContentByte cb, Reinforcement reinforcement, float offset, boolean as1Tensile) throws DocumentException, IOException {
-		float lineWidth = (float) 12.5;
+		float lineWidth = (float) 13;
 		int fontSize = 11;
 		float startY = (float) 498 - offset;
 		float startX = 190;
@@ -1465,7 +1467,7 @@ public class ResultsToPDF {
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()) 
 					+ " cm" + "\u00B2" 
 					+ " (" + reinforcement.getRequiredNumberOfSymmetricalRodsAS1() + 
-					"fi" + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
+					"       " + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
 		cb.endText();
 		
 		startY-=lineWidth;
@@ -1486,7 +1488,7 @@ public class ResultsToPDF {
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()) 
 					+ " cm" + "\u00B2" 
 					+ " (" + reinforcement.getRequiredNumberOfSymmetricalRodsAS2() + 
-					"fi" + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
+					"       " + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
 		cb.endText();
 		
 		startY-=3*lineWidth;
@@ -1498,7 +1500,7 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.doubletoIntPrintFormatter(reinforcement.getnS1()) 
-				+ "fi\u03C6" + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW1Diameter()) + " /"
+				+ "    \u03C6 " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW1Diameter()) + " /"
 				+ " s1" +"\u2081" + " = " 
 				+ PrintFormatter.s1s2PrintFormatter(reinforcement.getS1Designed()));
 		cb.endText();
@@ -1509,10 +1511,10 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.doubletoIntPrintFormatter(reinforcement.getnS2Designed())
-				+ "fi\u0278" + 
+				+ "    \u0278 " + 
 				PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW2Diameter()) + " /" 
 				+ " s2 = " + PrintFormatter.s1s2PrintFormatter(reinforcement.getS2Designed()) + " /"
-				+ " " + "\u0251" + "alfa = " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getAlfa()) + "\u00B0");
+				+ " " + "\u0251" + "     = " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getAlfa()) + "\u00B0");
 		cb.endText();
 		
 		return cb;
@@ -1520,7 +1522,7 @@ public class ResultsToPDF {
 	
 	
 	public static PdfContentByte addReinforcementDesign(PdfContentByte cb, Reinforcement reinforcement, float offset, boolean as1Tensile) throws DocumentException, IOException {
-		float lineWidth = (float) 12.5;
+		float lineWidth = (float) 13;
 		int fontSize = 11;
 		float startY = (float) 498 - offset;
 		float startX = 190;
@@ -1546,12 +1548,12 @@ public class ResultsToPDF {
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()) 
 					+ " cm" + "\u00B2" 
 					+ " (" + reinforcement.getRequiredNumberOfSymmetricalRodsAS1() + 
-					"fi" + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
+					"      " + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
 		else
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()) 
 						+ " cm" + "\u00B2" 
 						+ " (" + reinforcement.getRequiredNumberOfSymmetricalRodsAS2() + 
-						"fi" + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
+						"      " + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
 		cb.endText();
 		
 		startY-=lineWidth;
@@ -1577,12 +1579,12 @@ public class ResultsToPDF {
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS2()) 
 					+ " cm" + "\u00B2" 
 					+ " (" + reinforcement.getRequiredNumberOfSymmetricalRodsAS2() + 
-					"fi" + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
+					"      " + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
 		else
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedSymmetricalAS1()) 
 						+ " cm" + "\u00B2" 
 						+ " (" + reinforcement.getRequiredNumberOfSymmetricalRodsAS1() + 
-						"fi" + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
+						"      " + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
 		cb.endText();
 		
 		
@@ -1610,7 +1612,7 @@ public class ResultsToPDF {
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesingedUnsymmetricalAS1()) 
 					+ " cm" + "\u00B2" 
 					+ " (" + reinforcement.getRequiredNumberOfUnsymmetricalRodsAS1() + 
-					"fi" + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
+					"      " + reinforcement.getDesignedDiameterSymmetricalAS1() + ")");
 		cb.endText();
 		
 		startY-=lineWidth;
@@ -1631,7 +1633,7 @@ public class ResultsToPDF {
 			cb.showText(PrintFormatter.as1as2PrintFormatter(reinforcement.getDesignedUnsymmetricalAS2()) 
 					+ " cm" + "\u00B2" 
 					+ " (" + reinforcement.getRequiredNumberOfUnsymmetricalRodsAS2() + 
-					"fi" + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
+					"      " + reinforcement.getDesignedDiameterSymmetricalAS2() + ")");
 		cb.endText();
 		
 		startY-=3*lineWidth;
@@ -1643,7 +1645,7 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.doubletoIntPrintFormatter(reinforcement.getnS1()) 
-				+ "fi\u03C6" + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW1Diameter()) + " /"
+				+ "    \u03C6" + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW1Diameter()) + " /"
 				+ " s1" +"\u2081" + " = " 
 				+ PrintFormatter.s1s2PrintFormatter(reinforcement.getS1Designed()));
 		cb.endText();
@@ -1654,10 +1656,10 @@ public class ResultsToPDF {
 		cb.moveText(startX, startY);
 		cb.setFontAndSize(BaseFont.createFont(), 11);
 		cb.showText(PrintFormatter.doubletoIntPrintFormatter(reinforcement.getnS2Designed())
-				+ "fi\u0278" + 
+				+ "    \u0278" + 
 				PrintFormatter.doubletoIntPrintFormatter(reinforcement.getaSW2Diameter()) + " /" 
 				+ " s2 = " + PrintFormatter.s1s2PrintFormatter(reinforcement.getS2Designed()) + " /"
-				+ " " + "\u0251" + "alfa = " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getAlfa()) + "\u00B0");
+				+ " " + "\u0251" + "     = " + PrintFormatter.doubletoIntPrintFormatter(reinforcement.getAlfa()) + "\u00B0");
 		cb.endText();
 		
 		return cb;
@@ -1812,8 +1814,8 @@ public class ResultsToPDF {
 		printOneValue(cb, x1, y1-9*lineWidth, stiffness.geteIc(), "%.7f");
 		printOneValue(cb, x1, y1-10*lineWidth, stiffness.geteIs(), "%.7f");
 		printOneValue(cb, x1, y1-11*lineWidth, stiffness.getnB(), "%.2f");
-		printOneValue(cb, x1, y1-12*lineWidth, stiffness.getFiEf(), "%.4f");
-		printOneValue(cb, x1, y1-13*lineWidth, stiffness.geteIc(), "%.7f");
+		printOneValue(cb, x1, y1-12*lineWidth, stiffness.geteIc(), "%.7f");
+		printOneValue(cb, x1, y1-13*lineWidth, stiffness.geteIs(), "%.7f");
 		printOneValue(cb, x1, y1-14*lineWidth, stiffness.getnB(), "%.2f");
 		
 		x1 += step;
@@ -1843,8 +1845,8 @@ public class ResultsToPDF {
 		printOneValue(cb, x1, y1-5*lineWidth, scratch.getsRMax(), "%.5f");
 		
 		printOneValue(cb, x1, y1-9*lineWidth, creep.getCreepCoeficent(), "%.4f");
-		printOneValue(cb, x1, y1-10*lineWidth, sls.getAlfaE(), "%.4f");
-		printOneValue(cb, x1, y1-11*lineWidth, sls.getAlfaE(), "%.4f");
+		printOneValue(cb, x1, y1-10*lineWidth, sls.getAlfae(), "%.4f");
+		printOneValue(cb, x1, y1-11*lineWidth, sls.getAlfaEeff(), "%.4f");
 		printOneValue(cb, x1, y1-12*lineWidth, deflection.getEpsilonCS(), "%.8f");
 		
 		

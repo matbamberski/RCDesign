@@ -151,7 +151,7 @@ public class DiagnosisButtonController {
 
 						@Override
 						public void run() {
-
+							cleanUp();
 							boolean withDesign = false;
 							diagnosisMainAlgorithm.setmRdExceeded(false);
 							ResultsToPDF.clearResults();
@@ -330,6 +330,11 @@ public class DiagnosisButtonController {
 				return true;
 			else
 				return false;
+		}
+		
+		public void cleanUp() {
+			dimensions.cleanUp();
+			stiffness.cleanUp();
 		}
 
 	}

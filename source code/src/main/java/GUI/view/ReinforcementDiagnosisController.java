@@ -493,6 +493,16 @@ public class ReinforcementDiagnosisController {
 	private Label l0Label;
 	@FXML
 	private Label fit0Label;
+	
+	@FXML
+    private HBox hBoxFiT0;
+
+    @FXML
+    private Label fiInfinityT0;
+
+    @FXML
+    private Label fit0ValueLabel;
+	
 	/*
 	@FXML
 	private CheckBox nominalCheckBox;
@@ -611,9 +621,7 @@ public class ReinforcementDiagnosisController {
 	private Label pleaseWaitLabel;
 	
 	/////
-    
-    @FXML
-    private Label fiInfinityT0;
+   
 
     @FXML
     private Label fiEffLabel;
@@ -653,7 +661,9 @@ public class ReinforcementDiagnosisController {
 		medColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("Medtab"));
 		combinationColumn.setCellValueFactory(new PropertyValueFactory<ForcesCombination, String>("name"));
 		
+		hBoxFiT0.setVisible(false);
 
+		
 		PdfController.addPropertiesToPdfNameTextField(pdfName);
 		UnicodeForLabels.addUnicodeForLabels(ctgThetaLabel, alfaLabel, alfaMLabel);
 
@@ -753,7 +763,8 @@ public class ReinforcementDiagnosisController {
 				stanGranicznyUzytkowalnosciNequal0Label1, leftSGUNequal0Line1, rightSGUNequal0Line1,
 				stanGranicznyUzytkowalnosciNequal0Label2, leftSGUNequal0Line2, rightSGUNequal0Line2,
 				zbrojeniePoprzeczneNNotequal0Label, leftZbrojeniePoprzeczneNNotequal0Line,
-				rightZbrojeniePoprzeczneNNotequal0Line, warningLabel, capacityLabel, nominalCheckBox);
+				rightZbrojeniePoprzeczneNNotequal0Line, warningLabel, capacityLabel, nominalCheckBox,
+				hBoxFiT0, fit0ValueLabel, creep);
 		
 		
 		DiagnosisButtonController.addPropertiesToDiagnosisButton(diagnosisButton, requiredReinforcementSeter, concrete,

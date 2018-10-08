@@ -22,6 +22,8 @@ import util.CompyPdf;
 public class Sls {
 
 	private double alfaE;
+	private double alfaEeff;
+	private double alfae;
 
 	private double phiMaxSymmetricalRequired;
 	private double phiMaxSymmetricalDesigned;
@@ -72,6 +74,8 @@ public class Sls {
 	}
 
 	private void calculateAlfaE(Concrete concrete, Steel steel, InternalForces forces) {
+		alfae = steel.getES() / concrete.getECm();
+		alfaEeff = steel.getES() / concrete.geteCEff();
 		if (forces.isLoadSustained()) {
 			alfaE = steel.getES() / concrete.geteCEff();
 		} else {
@@ -428,6 +432,14 @@ public class Sls {
 
 	public void setAlfaE(double alfaE) {
 		this.alfaE = alfaE;
+	}
+
+	public double getAlfaEeff() {
+		return alfaEeff;
+	}
+
+	public double getAlfae() {
+		return alfae;
 	}
 	
 	

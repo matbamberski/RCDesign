@@ -504,6 +504,8 @@ public class DimensionsOfCrossSectionOfConcrete {
 		this.x = x;
 	}
 	
-	
+	public void cleanUp() {
+		x=0;
+	}
 
 }

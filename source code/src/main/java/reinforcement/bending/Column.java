@@ -356,6 +356,7 @@ public class Column extends ClearBendingBeam {
 						}
 						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
 					} else {
+						stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 						internalForces.setmEd(m0Ed);
 						internalForces.setnEd(combination.getN());
 						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
@@ -376,6 +377,7 @@ public class Column extends ClearBendingBeam {
 						}
 						System.out.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
 					} else {
+						stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 						internalForces.setmEd(internalForces.getM0Ed());
 						internalForces.setnEd(combination.getN());
 						System.out.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
@@ -395,6 +397,7 @@ public class Column extends ClearBendingBeam {
 						reinforcement.setDegreeExceededSymmetrical(false);
 					}
 				} else {
+					stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 					stiffness.setAborted(false);
 					reinforcement.setDegreeExceededSymmetrical(false);
 				}
@@ -441,6 +444,7 @@ public class Column extends ClearBendingBeam {
 						reinforcement.setDegreeExceededSymmetrical(false);
 					}
 				} else {
+					stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 					stiffness.setAborted(false);
 					reinforcement.setDegreeExceededSymmetrical(false);
 				}
@@ -566,6 +570,7 @@ public class Column extends ClearBendingBeam {
 						}
 						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
 					} else {
+						stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 						internalForces.setmEd(m0Ed);
 						internalForces.setnEd(combination.getN());
 						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
@@ -587,6 +592,7 @@ public class Column extends ClearBendingBeam {
 						}
 						System.err.println("Moment po nominalnej sztywnosci: " + internalForces.getmEd());
 					} else {
+						stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 						internalForces.setmEd(internalForces.getM0Ed());
 						internalForces.setnEd(combination.getN());
 						System.err.println("Moment bez nominalnej sztywnosci: " + internalForces.getmEd());
@@ -607,6 +613,7 @@ public class Column extends ClearBendingBeam {
 						reinforcement.setDegreeExceededUnsymmetrical(false);
 					}
 				} else {
+					stiffness.setfiEff(checkbox, m0Ed, concrete, cement, dimensions, creep);
 					stiffness.setAborted(false);
 					reinforcement.setDegreeExceededUnsymmetrical(false);
 				}

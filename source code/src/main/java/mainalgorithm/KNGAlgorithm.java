@@ -156,7 +156,7 @@ public class KNGAlgorithm extends SymmetricalTensilingBeamReinforcement{
 		x = (combination.getN() + FYD*(AS1+AS2))/(FCD*dimensions.getB()*L);
 		sigmaS1 = FYD;
 		double ss2 = concrete.getEpsilonCU3()*(x-dimensions.getA2())*ES/x;
-		sigmaS2 = ss2 <= -FYD ? ss2 : -FYD;
+		sigmaS2 = ss2 <= -FYD ? -FYD : ss2;
 	}
 	
 	protected void case1UpPart(ForcesCombination combination, double AS1, double AS2) {

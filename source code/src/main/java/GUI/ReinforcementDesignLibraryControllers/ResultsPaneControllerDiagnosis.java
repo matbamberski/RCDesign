@@ -1,9 +1,11 @@
 package GUI.ReinforcementDesignLibraryControllers;
 
 import SLS.Sls;
+import SLS.creepCoeficent.CreepCoeficent;
 import diagnosis.DiagnosisMainAlgorithm;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
 import mainalgorithm.Reinforcement;
@@ -13,6 +15,7 @@ public class ResultsPaneControllerDiagnosis {
 	private Reinforcement reinforcement;
 	private InternalForces internalForces;
 	private Sls sls;
+	private CreepCoeficent creep;
 	
 	private Label gridLabel00;
 	private Label gridLabel01;
@@ -127,6 +130,9 @@ public class ResultsPaneControllerDiagnosis {
 
 	private DiagnosisMainAlgorithm diagnosisMainAlgorithm;
 	private CheckBox checkbox;
+	
+	private HBox hBoxFiT0;
+	private Label fiT0Value;
 
 	public ResultsPaneControllerDiagnosis(Reinforcement reinforcement, InternalForces internalForces, Sls sls, Label gridLabel00, Label gridLabel01, Label gridLabel02, Label gridLabel03,
 			Label gridLabel04, Label gridLabel05, Label gridLabel06, Label gridLabel07, Label gridLabel08, Label gridLabel09, Label gridLabel010, Label gridLabel011, Label gridLabel012,
@@ -143,7 +149,11 @@ public class ResultsPaneControllerDiagnosis {
 			Line rightZbrojeniePoprzeczneNequal0Line, Label stanGranicznyUzytkowalnosciNequal0Label1, Line leftSGUNequal0Line1, Line rightSGUNequal0Line1,
 			Label stanGranicznyUzytkowalnosciNequal0Label2, Line leftSGUNequal0Line2, Line rightSGUNequal0Line2,
 			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label warningLabel, Label capacityLabel,
-			CheckBox checkbox) {
+			CheckBox checkbox, HBox hBoxFiT0, Label fiT0Value, CreepCoeficent creep) {
+		this.creep = creep;
+		this.hBoxFiT0 = hBoxFiT0;
+		this.fiT0Value = fiT0Value;
+		
 		this.checkbox = checkbox;
 		this.reinforcement = reinforcement;
 		this.internalForces = internalForces;
@@ -264,6 +274,8 @@ public class ResultsPaneControllerDiagnosis {
 	}
 
 	private void hideResults() {
+		hBoxFiT0.setVisible(false);
+		
 		gridLabel00.setText("");
 		gridLabel01.setText("");
 		gridLabel02.setText("");
@@ -393,6 +405,9 @@ public class ResultsPaneControllerDiagnosis {
 	}
 
 	private void dispResultsWhenNedIsNotEqual0() {
+		hBoxFiT0.setVisible(true);
+		fiT0Value.setText(String.format("%.4f", creep.getCreepCoeficent()));
+		
 		stanGranicznyNosnosciNequal0Label.setVisible(true);
 		leftSGNNequal0Line.setVisible(true);
 		rightSGNNequal0Line.setVisible(true);
@@ -681,6 +696,8 @@ public class ResultsPaneControllerDiagnosis {
 	}
 
 	private void dispResultsWhenNedIsEqual0() {
+		hBoxFiT0.setVisible(false);
+		
 		stanGranicznyNosnosciNequal0Label.setVisible(true);
 		leftSGNNequal0Line.setVisible(true);
 		rightSGNNequal0Line.setVisible(true);

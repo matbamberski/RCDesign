@@ -726,7 +726,9 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel011.setText("");
 			gridLabel012.setText("");
 			gridLabel013.setText("w");
-			gridLabel014.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
+			//gridLabel014.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
+			gridLabel014.setText("f(M)");
+			gridLabel015.setText("f(M)+f(cs)");
 			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(false);
 			leftSGUNequal0Line1.setVisible(false);
 			rightSGUNequal0Line1.setVisible(false);
@@ -739,17 +741,18 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel010.setText("");
 			gridLabel011.setText("");
 			gridLabel012.setText("w");
-			gridLabel013.setText("f" + "\u2098" + "/(f"+"\u2098"+"+f"+"\u209b)");
-			gridLabel014.setText("");
+			gridLabel013.setText("f(M)");
+			gridLabel014.setText("f(cs)");
 			stanGranicznyUzytkowalnosciNequal0Label1.setVisible(true);
 			leftSGUNequal0Line1.setVisible(true);
 			rightSGUNequal0Line1.setVisible(true);
 			stanGranicznyUzytkowalnosciNequal0Label2.setVisible(false);
 			leftSGUNequal0Line2.setVisible(false);
 			rightSGUNequal0Line2.setVisible(false);
+			gridLabel015.setText("");
 		}
 		
-		gridLabel015.setText("");
+		//gridLabel015.setText("");
 		gridLabel016.setText("");
 		gridLabel017.setText("");
 		gridLabel018.setText("");
@@ -775,10 +778,12 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel112.setText("");
 			if (internalForces.isLoadSustained()) {
 			gridLabel113.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
-			gridLabel114.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(), sls.getfSymmetricalRequired()));
+			gridLabel114.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequiredWithoutShrinkage()));
+			gridLabel115.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
 			} else {
 				gridLabel113.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalRequired()));
-				gridLabel114.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));	
+				gridLabel114.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
+				gridLabel115.setText("");
 			}
 		} else {
 			gridLabel18.setText(OutputFormatter.s1s2(reinforcement.getS1Required()));
@@ -787,16 +792,18 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel111.setText("");
 			if (internalForces.isLoadSustained()) {
 			gridLabel112.setText(OutputFormatter.wFormatter(sls.getwSymmetricalRequired()));
-			gridLabel113.setText(OutputFormatter.fFormatter(sls.getfSymmetricalRequiredWithoutShrinkage(), sls.getfSymmetricalRequired()));
+			gridLabel113.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequiredWithoutShrinkage()));
+			gridLabel114.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
 			} else {
 				gridLabel112.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalRequired()));
 				gridLabel113.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalRequired()));
+				gridLabel114.setText("");
 			}
-			gridLabel114.setText("");
+			//gridLabel114.setText("");
 			
-			
+			gridLabel115.setText("");
 		}
-		gridLabel115.setText("");
+		//gridLabel115.setText("");
 		gridLabel116.setText("");
 		gridLabel117.setText("");
 		gridLabel118.setText("");
@@ -824,10 +831,12 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel212.setText("");
 			if (internalForces.isLoadSustained()) {
 			gridLabel213.setText(OutputFormatter.wFormatter(sls.getwSymmetricalDesigned()));
-			gridLabel214.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(), sls.getfSymmetricalDesigned()));
+			gridLabel214.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesignedWithoutShrinkage()));
+			gridLabel215.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
 			} else {
 				gridLabel213.setText(OutputFormatter.wFormatterSingle(sls.getwSymmetricalDesigned()));
 				gridLabel214.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
+				gridLabel215.setText("");
 			}
 		} else {
 			gridLabel28.setText(OutputFormatter.s1s2(reinforcement.getS1Designed()));
@@ -836,14 +845,17 @@ public class ResultsPaneControllerDiagnosis {
 			gridLabel211.setText("");
 			if (internalForces.isLoadSustained()) {
 			gridLabel212.setText((OutputFormatter.wFormatter(sls.getwSymmetricalDesigned())));
-			gridLabel213.setText(OutputFormatter.fFormatter(sls.getfSymmetricalDesignedWithoutShrinkage(), sls.getfSymmetricalDesigned()));
+			gridLabel213.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesignedWithoutShrinkage()));
+			gridLabel214.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
 			} else {
 				gridLabel212.setText((OutputFormatter.wFormatterSingle(sls.getwSymmetricalDesigned())));
 				gridLabel213.setText(OutputFormatter.fFormatterSingle(sls.getfSymmetricalDesigned()));
+				gridLabel214.setText("");
 			}
-			gridLabel214.setText("");
+			//gridLabel214.setText("");
+			gridLabel215.setText("");
 		}
-		gridLabel215.setText("");
+		//gridLabel215.setText("");
 		gridLabel216.setText("");
 		gridLabel217.setText("");
 		gridLabel218.setText("");

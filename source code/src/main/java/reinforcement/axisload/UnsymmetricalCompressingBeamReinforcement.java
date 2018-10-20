@@ -93,7 +93,8 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 	}
 
 	private void setXWhenF2MinusF1IsGreaterThen0(double a2, double d) {
-		x = (-f1 * a2 + f2 * d + Math.sqrt(f1 * f2) * (d - a2)) / (f2 - f1);
+		double x_1 = (-f1 * a2 + f2 * d + Math.sqrt(f1 * f2) * (d - a2)) / (f2 - f1);
+		x = Math.max(x_1, xMaxYd);
 		System.out.println("x " + x);
 
 	}

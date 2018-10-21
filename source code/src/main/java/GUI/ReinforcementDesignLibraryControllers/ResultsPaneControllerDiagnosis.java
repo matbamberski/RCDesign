@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import mainalgorithm.InternalForces;
+import mainalgorithm.NominalStiffness;
 import mainalgorithm.Reinforcement;
 import util.OutputFormatter;
 
@@ -16,6 +17,7 @@ public class ResultsPaneControllerDiagnosis {
 	private InternalForces internalForces;
 	private Sls sls;
 	private CreepCoeficent creep;
+	private NominalStiffness stiffness;
 	
 	private Label gridLabel00;
 	private Label gridLabel01;
@@ -149,10 +151,11 @@ public class ResultsPaneControllerDiagnosis {
 			Line rightZbrojeniePoprzeczneNequal0Line, Label stanGranicznyUzytkowalnosciNequal0Label1, Line leftSGUNequal0Line1, Line rightSGUNequal0Line1,
 			Label stanGranicznyUzytkowalnosciNequal0Label2, Line leftSGUNequal0Line2, Line rightSGUNequal0Line2,
 			Label zbrojeniePoprzeczneNNotequal0Label, Line leftZbrojeniePoprzeczneNNotequal0Line, Line rightZbrojeniePoprzeczneNNotequal0Line, Label warningLabel, Label capacityLabel,
-			CheckBox checkbox, HBox hBoxFiT0, Label fiT0Value, CreepCoeficent creep) {
+			CheckBox checkbox, HBox hBoxFiT0, Label fiT0Value, CreepCoeficent creep, NominalStiffness stiffness) {
 		this.creep = creep;
 		this.hBoxFiT0 = hBoxFiT0;
 		this.fiT0Value = fiT0Value;
+		this.stiffness = stiffness;
 		
 		this.checkbox = checkbox;
 		this.reinforcement = reinforcement;
@@ -693,10 +696,30 @@ public class ResultsPaneControllerDiagnosis {
 		}
 		
 		diagnosisMainAlgorithm.setmRdExceeded(false);
+		
+		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+			if (checkbox.isSelected()) {
+				gridLabel319.setText("\u03C6" + "ef=");
+				gridLabel320.setText(String.format("%.2f", stiffness.getFiEf()));
+			} else {
+				gridLabel319.setText("");
+				gridLabel320.setText("");
+			}
+		} else if (checkbox.isSelected() && internalForces.getnEd()>0) {
+			gridLabel319.setText("\u03C6" + "ef=");
+			gridLabel320.setText(String.format("%.2f", stiffness.getFiEf()));
+		} else {
+			gridLabel319.setText("");
+			gridLabel320.setText("");
+		}
 	}
 
 	private void dispResultsWhenNedIsEqual0() {
-		hBoxFiT0.setVisible(false);
+		hBoxFiT0.setVisible(true);
+		fiT0Value.setText(String.format("%.4f", creep.getCreepCoeficent()));
 		
 		stanGranicznyNosnosciNequal0Label.setVisible(true);
 		leftSGNNequal0Line.setVisible(true);

@@ -623,7 +623,18 @@ public class ResultsPaneControllerULS {
 		}
 		gridLabel314.setText("");
 		gridLabel315.setText("");
-		if (nominalCheckbox.isSelected()) {
+		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0) {
+			if (nominalCheckbox.isSelected()) {
+				gridLabel319.setText("\u03C6" + "ef=");
+				gridLabel320.setText(String.format("%.2f", stiffness.getFiEf()));
+			} else {
+				gridLabel319.setText("");
+				gridLabel320.setText("");
+			}
+		} else if (nominalCheckbox.isSelected() && internalForces.getnEd()>0) {
 			gridLabel319.setText("\u03C6" + "ef=");
 			gridLabel320.setText(String.format("%.2f", stiffness.getFiEf()));
 		} else {
@@ -633,7 +644,9 @@ public class ResultsPaneControllerULS {
 	}
 
 	private void dispResultsWhenNedIsEqual0() {
-		hBoxFiT0.setVisible(false);
+		//hBoxFiT0.setVisible(false);
+		hBoxFiT0.setVisible(true);
+		fiT0Value.setText(String.format("%.4f", creepCoeficent.getCreepCoeficent()));
 		
 		stanGranicznyNosnosciNequal0Label.setVisible(true);
 		leftSGNNequal0Line.setVisible(true);

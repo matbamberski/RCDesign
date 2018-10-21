@@ -486,7 +486,7 @@ public class ResultsPaneControllerULS {
 
 		stiffness.setAborted(false);
 		stiffness.setnBExceeded(false);
-
+/*
 		if (internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
 				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
 				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
@@ -511,6 +511,13 @@ public class ResultsPaneControllerULS {
 			gridLabel020.setText("");
 		}
 
+*/
+		gridLabel019.setText("");
+		gridLabel119.setText("");
+		gridLabel219.setText("");
+		gridLabel120.setText("");
+		gridLabel220.setText("");
+		gridLabel020.setText("");
 		gridLabel00.setText("");
 		gridLabel01.setText("");
 		gridLabel02.setText("");

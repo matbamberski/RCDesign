@@ -505,9 +505,21 @@ public class ResultsPaneControllerDiagnosis {
 		gridLabel10.setText("");
 		gridLabel11.setText("");
 		gridLabel12.setText("Obliczeniowe");
-		gridLabel13.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS1())));
-		gridLabel14.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS2())));
-		gridLabel15.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedSymmetricalReinforcement()));
+		
+		if ((internalForces.getMomentMmax() != 0 || internalForces.getNormalnaMmax() != 0
+				|| internalForces.getMomentMmin() != 0 || internalForces.getNormalnaMmin() != 0
+				|| internalForces.getMomentNmax() != 0 || internalForces.getNormalnaNmax() != 0
+				|| internalForces.getMomentNmin() != 0 || internalForces.getNormalnaNmin() != 0 )
+				&& (reinforcement.getRequiredAS1ManyForces()!=0 && reinforcement.getRequiredAS2ManyForces()!=0)) {
+			gridLabel13.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredAS1ManyForces())));
+			gridLabel14.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredAS2ManyForces())));
+			gridLabel15.setText(OutputFormatter.showPercentages(reinforcement.getDegreeManyForces()));
+		} else {
+			gridLabel13.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS1())));
+			gridLabel14.setText((OutputFormatter.metersToCentimetersForReinforcement(reinforcement.getRequiredSymmetricalAS2())));
+			gridLabel15.setText(OutputFormatter.showPercentages(reinforcement.getDegreeOfComputedSymmetricalReinforcement()));
+		}
+		
 		
 		if (internalForces.getMomentMmax() != 0) {
 			gridLabel16.setText("");//MRd1R

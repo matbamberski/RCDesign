@@ -12,7 +12,10 @@ public abstract class BeamDiagnosis {
 	protected double xMaxYd;
 	protected double x0;
 	protected double x;
-	protected final double LAMBDA = 0.8;
+	
+	protected double LAMBDA = 0.8;
+	protected double ETA = 1.0;
+	
 	protected double sigmaS1;
 	protected double sigmaS2;
 	protected double capitalA; // to jest A
@@ -22,6 +25,14 @@ public abstract class BeamDiagnosis {
 	protected double nRd;
 	protected boolean isMedLessThen0;
 	protected double e;
+
+
+
+	public BeamDiagnosis(double lAMBDA, double eTA) {
+		super();
+		LAMBDA = lAMBDA;
+		ETA = eTA;
+	}
 
 	protected double checkIfNedIsCloseToZeroAndReplaceItWithHalfPercentOfMed(double nEd, double mEd) {
 		double arg = 0.05 / 100 * mEd;

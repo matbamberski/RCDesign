@@ -25,7 +25,8 @@ public class Column extends ClearBendingBeam {
 	private double aS2 = 0;
 	private static final double MAX_REINFORCEMENT_DEGREE = 0.08;
 
-	public Column(RequiredReinforcement reqReinforcement, boolean withDesign) {
+	public Column(RequiredReinforcement reqReinforcement, boolean withDesign, Concrete concrete) {
+		super(concrete.getLAMBDA(), concrete.getETA());
 		this.requiredReinforcement = reqReinforcement;
 		this.withDesign = withDesign;
 	}

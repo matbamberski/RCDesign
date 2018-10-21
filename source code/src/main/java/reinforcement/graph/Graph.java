@@ -23,7 +23,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	// private GraphScreenController graphCont;
 	private double ypsilonCu3;
 	private double ypsilonC3;
-	private double LAMBDA;
+	//private double LAMBDA;
 	private double sigmaS1;
 	private double sigmaS2;
 	private double x;
@@ -68,10 +68,11 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	private XYChart<Number, Number> newGraph;
 	
 	private CheckBox nominalCheckBox;
-
+	/*
 	public Graph() {
+		
 	};
-/*
+
 	public Graph(final XYChart<Number, Number> newGraph, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions,
 			Concrete concrete, Reinforcement reinforcement) {
 		this.steel = steel;
@@ -84,6 +85,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 */
 	public Graph(Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, Concrete concrete,
 			Reinforcement reinforcement, InternalForces forces, CheckBox nominalCheckBox) {
+		super(concrete.getLAMBDA(), concrete.getETA());
 		this.steel = steel;
 		this.dimensions = dimensions;
 		this.concrete = concrete;
@@ -95,7 +97,7 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 	private void init() {
 		ypsilonCu3 = concrete.getEpsilonCU3();
 		ypsilonC3 = concrete.getEpsilonC3();
-		LAMBDA = 0.8;
+		//LAMBDA = 0.8;
 		sigmaS1 = 0.0;
 		sigmaS2 = 0.0;
 		setX0(concrete, steel, dimensions.getH());
@@ -108,8 +110,8 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		m = 0;
 		krok = 0.0;
 		dzielnik = 10;
-		fcH = concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH();
-		fcX = concrete.getFCd() * 1000 * dimensions.getB() * LAMBDA;
+		fcH = ETA*concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH();
+		fcX = ETA*concrete.getFCd() * 1000 * dimensions.getB() * LAMBDA;
 		aS1 = reinforcement.getDesignedSymmetricalAS1();
 		aS2 = reinforcement.getDesignedSymmetricalAS2();
 		System.out.println("As1: " + aS1);
@@ -118,20 +120,20 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 		
 		n01 = (-steel.getFYd() * 1000) * (aS1 + aS2);
 		n11 = ((-steel.getFYd() * 1000) * (aS1 + aS2))
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinMinusYd);
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinMinusYd);
 		n21 = ((steel.getFYd() * 1000) * (aS2 - aS1))
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinYd);
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinYd);
 		n31 = ((steel.getFYd() * 1000) * (aS2 - aS1))
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xLim);
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xLim);
 		n41 = (((-ypsilonCu3) * ((dimensions.getD() - dimensions.getH()) / dimensions.getH()) * steel.getES() * 1000000
 				* aS1) + (steel.getFYd() * 1000 * aS2)
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * dimensions.getH()));
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * dimensions.getH()));
 		n51 = (((-ypsilonC3)
 				* ((dimensions.getD() - (dimensions.getH() / LAMBDA)) / ((dimensions.getH() / LAMBDA) - x0))
 				* steel.getES() * 1000000 * aS1) + (steel.getFYd() * 1000 * aS2)
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
 		n61 = (((-ypsilonC3) * ((dimensions.getD() - xMaxYd) / (xMaxYd - x0)) * steel.getES() * 1000000 * aS1)
-				+ (steel.getFYd() * 1000 * aS2) + ((concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
+				+ (steel.getFYd() * 1000 * aS2) + ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
 		n71 = ypsilonC3 * (steel.getES() * 1000000) * (aS1 + aS2) + fcH;
 		
 		n71max = Math.max(n71,(Math.max(n51, n61)));
@@ -345,9 +347,9 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 
 
 		double xN7 = ((ypsilonC3 * steel.getES() * 1000 * ((aS1 *100 * dimensions.getD()) + (aS2*100 * dimensions.getA2()))
-				+ (x0 * ((concrete.getFCd() * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
+				+ (x0 * ((ETA*concrete.getFCd() * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
 				/ ((ypsilonC3 * ((steel.getES() * 1000 * aS1*100) + (steel.getES() * 1000 * aS2*100))) - (n71 - 0.0001)
-						+ (concrete.getFCd() * dimensions.getB() * dimensions.getH())));
+						+ (ETA*concrete.getFCd() * dimensions.getB() * dimensions.getH())));
 		System.err.println("XN7 = " + xN7);
 
 		krok = Math.abs((xN7 - x) / dzielnik);
@@ -409,20 +411,20 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 
 		n02 = (-steel.getFYd() * 1000) * (aS1 + aS2);
 		n12 = ((-steel.getFYd() * 1000) * (aS1 + aS2))
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinMinusYd);
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinMinusYd);
 		n22 = ((steel.getFYd() * 1000) * (aS2 - aS1))
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinYd);
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xMinYd);
 		n32 = ((steel.getFYd() * 1000) * (aS2 - aS1))
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xLim);
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * xLim);
 		n42 = (((-ypsilonCu3) * ((dimensions.getD() - dimensions.getH()) / dimensions.getH()) * steel.getES() * 1000000
 				* aS1) + (steel.getFYd() * 1000 * aS2)
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * dimensions.getH()));
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * LAMBDA * dimensions.getH()));
 		n52 = (((-ypsilonC3)
 				* ((dimensions.getD() - (dimensions.getH() / LAMBDA)) / ((dimensions.getH() / LAMBDA) - x0))
 				* steel.getES() * 1000000 * aS1) + (steel.getFYd() * 1000 * aS2)
-				+ ((concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
+				+ ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
 		n62 = (((-ypsilonC3) * ((dimensions.getD() - xMaxYd) / (xMaxYd - x0)) * steel.getES() * 1000000 * aS1)
-				+ (steel.getFYd() * 1000 * aS2) + ((concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
+				+ (steel.getFYd() * 1000 * aS2) + ((ETA*concrete.getFCd() * 1000) * dimensions.getB() * dimensions.getH()));
 		n72 = ypsilonC3 * (steel.getES() * 1000000) * (aS1 + aS2) + fcH;
 		
 		n72max = Math.max(n72,(Math.max(n52, n62)));
@@ -630,9 +632,9 @@ public class Graph extends reinforcement.axisload.SymmetricalTensilingBeamReinfo
 
 
 		xN7 = ((ypsilonC3 * steel.getES() * 1000 * ((aS1*100 * dimensions.getD()) + (aS2*100 * dimensions.getA1()))
-				+ (x0 * ((concrete.getFCd() * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
+				+ (x0 * ((ETA*concrete.getFCd() * dimensions.getB() * dimensions.getH()) - (n71 - 0.0001))))
 				/ ((ypsilonC3 * ((steel.getES() * 1000 * aS1*100) + (steel.getES() * 1000 * aS2*100))) - (n71 - 0.0001)
-						+ (concrete.getFCd() * dimensions.getB() * dimensions.getH())));
+						+ (ETA*concrete.getFCd() * dimensions.getB() * dimensions.getH())));
 		System.err.println("XN7 = " + xN7);
 		krok = Math.abs((xN7 - x) / dzielnik);
 

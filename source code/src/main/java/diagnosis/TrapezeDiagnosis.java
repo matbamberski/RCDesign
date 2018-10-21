@@ -5,6 +5,12 @@ import materials.Steel;
 
 public class TrapezeDiagnosis extends RectangularDiagnosis {
 
+
+	public TrapezeDiagnosis(double lAMBDA, double eTA) {
+		super(lAMBDA, eTA);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected double aC1;
 
 	private void setAC1(double bEff, double b, double hF) {
@@ -12,27 +18,27 @@ public class TrapezeDiagnosis extends RectangularDiagnosis {
 	}
 
 	private void setXFirstConditionTrapeze(Steel steel, Concrete concrete, double aS1, double aS2, double b) {
-		x = (1 / LAMBDA) * ((steel.getFYd() * 1000 * (aS1 - aS2) / concrete.getFCd() * 1000 * b) - aC1 / b);
+		x = (1 / LAMBDA) * ((steel.getFYd() * 1000 * (aS1 - aS2) / ETA*concrete.getFCd() * 1000 * b) - aC1 / b);
 	}
 
 	private void setXThridConditionTrapeze(Steel steel, Concrete concrete, double aS1, double aS2, double b) {
-		x = (1 / LAMBDA) * ((steel.getFYd() * 1000 * (aS1 + aS2) / concrete.getFCd() * 1000 * b) - aC1 / b);
+		x = (1 / LAMBDA) * ((steel.getFYd() * 1000 * (aS1 + aS2) / ETA*concrete.getFCd() * 1000 * b) - aC1 / b);
 	}
 
 	private void setCapitalATrapeze(Concrete concrete, Steel steel, double aS1, double aS2, double b) {
-		capitalA = (aC1 / b) + (concrete.getEpsilonCU3() * steel.getES() * 1000 * aS2 - steel.getFYd() * 1000 * aS1) / (concrete.getFCd() * 1000 * b);
+		capitalA = (aC1 / b) + (concrete.getEpsilonCU3() * steel.getES() * 1000 * aS2 - steel.getFYd() * 1000 * aS1) / (ETA*concrete.getFCd() * 1000 * b);
 	}
 
 	private void setCapitalBTrapeze(Concrete concrete, Steel steel, double aS2, double a2, double b) {
-		capitalB = 4 * LAMBDA * concrete.getEpsilonCU3() * steel.getES() * 1000000 * aS2 / (concrete.getFCd() * 1000 * b) * a2;
+		capitalB = 4 * LAMBDA * concrete.getEpsilonCU3() * steel.getES() * 1000000 * aS2 / (ETA*concrete.getFCd() * 1000 * b) * a2;
 	}
 
 	private void setSigmaS1Trapeze(Concrete concrete, Steel steel, double aS2, double aS1, double b) {
-		sigmaS1 = (concrete.getFCd() * 1000 * (aC1 + b * LAMBDA * x) + steel.getFYd() * 1000 * aS2) / aS1;
+		sigmaS1 = (ETA*concrete.getFCd() * 1000 * (aC1 + b * LAMBDA * x) + steel.getFYd() * 1000 * aS2) / aS1;
 	}
 
 	private void setMRdTrapeze(Concrete concrete, double aS2, double a2, double b, double d, double hF) {
-		mRd = concrete.getFCd() * 1000 * (aC1 * (d - 0.5 * hF) + b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) + sigmaS2 * 1000 * aS2 * (d - a2);
+		mRd = ETA*concrete.getFCd() * 1000 * (aC1 * (d - 0.5 * hF) + b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) + sigmaS2 * 1000 * aS2 * (d - a2);
 		System.out.println("mRd " + mRd);
 	}
 

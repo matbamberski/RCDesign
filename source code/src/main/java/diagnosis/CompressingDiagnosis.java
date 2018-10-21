@@ -7,13 +7,19 @@ import util.PolynominalSolver;
 
 public class CompressingDiagnosis extends TensilingDiagnosis {
 
+
+	public CompressingDiagnosis(double lAMBDA, double eTA) {
+		super(lAMBDA, eTA);
+		// TODO Auto-generated constructor stub
+	}
+
 	private void eIsEqualMinusMedDividedByNed(double mEd, double nEd) {
 		e = -mEd / nEd;
 	}
 
 	private void calculateEmin(Concrete concrete, Steel steel, double aS1, double aS2, DimensionsOfCrossSectionOfConcrete dimensions) {
 		double nominator = concrete.getEpsilonC3() * steel.getES() * 1000000 * (aS2 * (0.5 * dimensions.getH() - dimensions.getA2()) - aS1 * (0.5 * dimensions.getH() - dimensions.getA1()));
-		double denominator = (concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() + concrete.getEpsilonC3() * steel.getES() * 1000000 * (aS1 + aS2));
+		double denominator = (ETA*concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() + concrete.getEpsilonC3() * steel.getES() * 1000000 * (aS1 + aS2));
 		eMin = nominator / denominator;
 
 		System.out.println("eMin " + eMin);
@@ -32,7 +38,7 @@ public class CompressingDiagnosis extends TensilingDiagnosis {
 
 	private void calculateInitialX(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
 		x = (1 / LAMBDA) * (-(eS2 - dimensions.getA2())
-				+ Math.sqrt((eS2 - dimensions.getA2()) * (eS2 - dimensions.getA2()) + (2 * steel.getFYd() * 1000 * (aS1 * eS1 - aS2 * eS2)) / (concrete.getFCd() * 1000 * dimensions.getB())));
+				+ Math.sqrt((eS2 - dimensions.getA2()) * (eS2 - dimensions.getA2()) + (2 * steel.getFYd() * 1000 * (aS1 * eS1 - aS2 * eS2)) / (ETA*concrete.getFCd() * 1000 * dimensions.getB())));
 		System.out.println("x " + x);
 	}
 
@@ -42,12 +48,12 @@ public class CompressingDiagnosis extends TensilingDiagnosis {
 	}
 
 	protected void calculateCapitalBWhileXIsGreaterThenXLim(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		capitalB = 2 * (aS2 * steel.getFYd() * 1000 * eS2 + aS1 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS1) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * dimensions.getB());
+		capitalB = 2 * (aS2 * steel.getFYd() * 1000 * eS2 + aS1 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS1) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * dimensions.getB());
 		System.out.println("capitalB " + capitalB);
 	}
 
 	protected void calculateCapitalCWhileXIsGreaterThenXLim(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1) {
-		capitalC = -2 * aS1 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS1 * dimensions.getD() / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * dimensions.getB());
+		capitalC = -2 * aS1 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS1 * dimensions.getD() / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * dimensions.getB());
 		System.out.println("capitalC " + capitalC);
 	}
 
@@ -67,7 +73,7 @@ public class CompressingDiagnosis extends TensilingDiagnosis {
 	}
 
 	private void calculateCapitalBWhileXIsGreaterThenH(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		double firstHalf = (steel.getFYd() * 1000 * aS2 * eS2 + concrete.getEpsilonC3() * steel.getES() * 1000000 * aS1 * eS1) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * dimensions.getB());
+		double firstHalf = (steel.getFYd() * 1000 * aS2 * eS2 + concrete.getEpsilonC3() * steel.getES() * 1000000 * aS1 * eS1) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * dimensions.getB());
 		double secondHalf = -(eS2 - dimensions.getA2()) / LAMBDA * x0;
 		// cuz it might be out of memory
 		capitalB = 2 * (firstHalf + secondHalf);
@@ -75,20 +81,20 @@ public class CompressingDiagnosis extends TensilingDiagnosis {
 
 	private void calculateCapitalCWhileXIsGreaterThenH(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
 		capitalC = -2 * (steel.getFYd() * 1000 * aS2 * x0 * eS2 + concrete.getEpsilonC3() * steel.getES() * 1000000 * aS1 * eS1 * dimensions.getD())
-				/ (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * dimensions.getB());
+				/ (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * dimensions.getB());
 	}
 
 	private void calculateXWhileXIsGreaterThenHDividedByLambda(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		double counter = concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e * x0
+		double counter = ETA*concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e * x0
 				+ concrete.getEpsilonC3() * steel.getES() * 1000000 * (aS1 * eS1 * dimensions.getD() + aS2 * eS2 * dimensions.getA2());
-		double denominator = concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e + concrete.getEpsilonC3() * steel.getES() * 1000000 * (aS1 * eS1 + aS2 * eS2);
+		double denominator = ETA*concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e + concrete.getEpsilonC3() * steel.getES() * 1000000 * (aS1 * eS1 + aS2 * eS2);
 		x = counter / denominator;
 	}
 
 	private void calculateXWhileXIsLessOrEqualToXMaxYd(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		double counter = (concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e + steel.getFYd() * 1000 * eS2 * aS2) * x0
+		double counter = (ETA*concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e + steel.getFYd() * 1000 * eS2 * aS2) * x0
 				+ concrete.getEpsilonC3() * steel.getES() * 1000000 * aS1 * eS1 * dimensions.getD();
-		double denominator = concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e + steel.getFYd() * 1000 * eS2 * aS2 + concrete.getEpsilonC3() * steel.getES() * 1000000 * aS1 * eS1;
+		double denominator = ETA*concrete.getFCd() * 1000 * dimensions.getB() * dimensions.getH() * e + steel.getFYd() * 1000 * eS2 * aS2 + concrete.getEpsilonC3() * steel.getES() * 1000000 * aS1 * eS1;
 		x = counter / denominator;
 	}
 
@@ -133,29 +139,29 @@ public class CompressingDiagnosis extends TensilingDiagnosis {
 	}
 
 	protected void calculateCapitalBWhileXIsLessOrEqualToXLim(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		capitalB = -2 * (aS1 * steel.getFYd() * 1000 * eS1 - aS2 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS2) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * dimensions.getB());
+		capitalB = -2 * (aS1 * steel.getFYd() * 1000 * eS1 - aS2 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS2) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * dimensions.getB());
 		System.out.println("capitalB " + capitalB);
 	}
 
 	protected void calculateCapitalCWhileXIsLessOrEqualToXLim(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS2) {
-		capitalC = -2 * aS2 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS2 * dimensions.getA2() / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * dimensions.getB());
+		capitalC = -2 * aS2 * concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS2 * dimensions.getA2() / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * dimensions.getB());
 		System.out.println("capitalC " + capitalC);
 	}
 
 	private void calculateXWhenXIsLessOrEqualToXMinMinusYd(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
 		x = 1 / LAMBDA * (-(eS2 - dimensions.getA2())
-				+ Math.sqrt((eS2 - dimensions.getA2()) * (eS2 - dimensions.getA2()) + 2 * steel.getFYd() * (aS1 * eS1 + aS2 * eS2) / (concrete.getFCd() * dimensions.getB())));
+				+ Math.sqrt((eS2 - dimensions.getA2()) * (eS2 - dimensions.getA2()) + 2 * steel.getFYd() * (aS1 * eS1 + aS2 * eS2) / (ETA*concrete.getFCd() * dimensions.getB())));
 	}
 
 	@Override
 	protected void calculateNRd(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2) {
-		nRd = concrete.getFCd() * 1000 * dimensions.getB() * LAMBDA * x - sigmaS1 * 1000 * aS1 + sigmaS2 * 1000 * aS2;
+		nRd = ETA*concrete.getFCd() * 1000 * dimensions.getB() * LAMBDA * x - sigmaS1 * 1000 * aS1 + sigmaS2 * 1000 * aS2;
 		System.out.println("nRd " + nRd);
 	}
 
 	@Override
 	protected void calculateMRd(Concrete concrete, DimensionsOfCrossSectionOfConcrete dimensions, double aS1, double aS2, double nEd) {
-		mRd = concrete.getFCd() * 1000 * dimensions.getB() * LAMBDA * x * (dimensions.getD() - 0.5 * LAMBDA * x) + sigmaS2 * 1000 * aS2 * (dimensions.getD() - dimensions.getA2())
+		mRd = ETA*concrete.getFCd() * 1000 * dimensions.getB() * LAMBDA * x * (dimensions.getD() - 0.5 * LAMBDA * x) + sigmaS2 * 1000 * aS2 * (dimensions.getD() - dimensions.getA2())
 				- nRd * (0.5 * dimensions.getH() - dimensions.getA1());
 		System.out.println("mRd " + mRd);
 	}

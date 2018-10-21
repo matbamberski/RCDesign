@@ -139,7 +139,7 @@ public class DiagnosisMainAlgorithm {
 			*/
 			// if Ned = 0 reinforcement is only symmetrical
 			if (dimensions.getisBeamRectangular()) {
-				RectangularDiagnosis diagnosis = new RectangularDiagnosis();
+				RectangularDiagnosis diagnosis = new RectangularDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 				// required
 				diagnosis.fullRectangularBeamReinforcementDiagnosis(concrete, steel, dimensions.getB(), dimensions.getA1(), dimensions.getA2(), requiredSymmetricalAS1, requiredSymmetricalAS2,
 						dimensions.getD());
@@ -150,7 +150,7 @@ public class DiagnosisMainAlgorithm {
 				mRdDesignedSymmetrical = diagnosis.getmRd();
 			} else {
 				if (dimensions.gettW() == 0) {
-					RectangularDiagnosis diagnosis = new RectangularDiagnosis();
+					RectangularDiagnosis diagnosis = new RectangularDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 					// required
 					diagnosis.fullRectangularBeamReinforcementDiagnosis(concrete, steel, dimensions.getB(), dimensions.getA1(), dimensions.getA2(), requiredSymmetricalAS1, requiredSymmetricalAS2,
 							dimensions.getD());
@@ -160,7 +160,7 @@ public class DiagnosisMainAlgorithm {
 							dimensions.getD());
 					mRdDesignedSymmetrical = diagnosis.getmRd();
 				} else {
-					TrapezeDiagnosis diagnosis = new TrapezeDiagnosis();
+					TrapezeDiagnosis diagnosis = new TrapezeDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 					// required
 					diagnosis.fullTrapezeBeamReinforcementDiagnosis(concrete, steel, dimensions.getB(), dimensions.getbEff(), dimensions.getA1(), dimensions.getA2(), requiredSymmetricalAS1,
 							requiredSymmetricalAS2, dimensions.gettW(), dimensions.getD());
@@ -175,7 +175,7 @@ public class DiagnosisMainAlgorithm {
 		
 		
 		if (nEd > 0) {
-			CompressingDiagnosis diagnosis = new CompressingDiagnosis();
+			CompressingDiagnosis diagnosis = new CompressingDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 			// required symmetrical
 			diagnosis.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions, requiredSymmetricalAS1, requiredSymmetricalAS2, mEd, nEd);
 			mRdRequiredSymmetrical = diagnosis.getmRd();
@@ -194,7 +194,7 @@ public class DiagnosisMainAlgorithm {
 			nRdDesignedUnsymmetrical = diagnosis.getnRd();
 		}
 		if (nEd < 0) {
-			TensilingDiagnosis diagnosis = new TensilingDiagnosis();
+			TensilingDiagnosis diagnosis = new TensilingDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 			diagnosis.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, mEd, nEd, requiredSymmetricalAS1, requiredSymmetricalAS2);
 			mRdRequiredSymmetrical = diagnosis.getmRd();
 			nRdRequiredSymmetrical = diagnosis.getnRd();

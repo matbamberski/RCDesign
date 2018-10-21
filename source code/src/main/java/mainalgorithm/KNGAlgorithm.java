@@ -40,13 +40,13 @@ public class KNGAlgorithm extends SymmetricalTensilingBeamReinforcement{
 	protected double FYD;
 	protected double FCD;
 	protected double ES;
-	protected double L = 0.8;
+	protected double L;
 	
 	protected int IST;
 	
 	
 	public KNGAlgorithm(Concrete concrete, Steel steel, DimensionsOfCrossSectionOfConcrete dimensions) {
-		super();
+		super(concrete.getLAMBDA(), concrete.getETA());
 		this.concrete = concrete;
 		this.steel = steel;
 		this.dimensions = dimensions;
@@ -54,9 +54,10 @@ public class KNGAlgorithm extends SymmetricalTensilingBeamReinforcement{
 
 	protected void prepareValues() {
 		FYD = steel.getFYd()*1000.0;
-		FCD = concrete.getFCd()*1000.0;
+		FCD = ETA*concrete.getFCd()*1000.0;
 		ES = steel.getES() * 1000000.0;
 		IST = 1;
+		L=LAMBDA;
 	}
 	
 	protected void setSValues() {

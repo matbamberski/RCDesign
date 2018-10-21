@@ -6,13 +6,20 @@ import util.ResultsToPDF;
 
 public class SymmetricalCompressingBeamReinforcement extends SymmetricalTensilingBeamReinforcement {
 
+
+
+	public SymmetricalCompressingBeamReinforcement(double lAMBDA, double ETA) {
+		super(lAMBDA, ETA);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected double mS1;
 	protected double mS2;
 	protected double f1;
 	protected double f2;
 
 	private void setXFirstCondition(Concrete concrete, double nEd, double b) {
-		x = (1 / LAMBDA) * nEd / (concrete.getFCd() * 1000 * b);
+		x = (1 / LAMBDA) * nEd / (ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("x" + x);
 
 	}
@@ -30,14 +37,14 @@ public class SymmetricalCompressingBeamReinforcement extends SymmetricalTensilin
 	}
 
 	private void setCapitalCFirstCondition(Concrete concrete, Steel steel, double d, double b, double nEd) {
-		capitalC = 2 * ((nEd * (steel.getFYd() * 1000 * eS2 + concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS1) / (LAMBDA * concrete.getFCd() * 1000 * b))
+		capitalC = 2 * ((nEd * (steel.getFYd() * 1000 * eS2 + concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS1) / (LAMBDA * ETA*concrete.getFCd() * 1000 * b))
 				+ concrete.getEpsilonCU3() * steel.getES() * 1000000 * d * d);
 		System.out.println("capitalC" + capitalC);
 
 	}
 
 	private void setCapitalDFirstCondition(Concrete concrete, Steel steel, double nEd, double b, double d) {
-		capitalD = -(2 * nEd / (LAMBDA * concrete.getFCd() * 1000 * b)) * concrete.getEpsilonCU3() * steel.getES() * 1000000 * d * eS1;
+		capitalD = -(2 * nEd / (LAMBDA * ETA*concrete.getFCd() * 1000 * b)) * concrete.getEpsilonCU3() * steel.getES() * 1000000 * d * eS1;
 		System.out.println("capitalD" + capitalD);
 
 	}
@@ -56,7 +63,7 @@ public class SymmetricalCompressingBeamReinforcement extends SymmetricalTensilin
 
 	private void setCapitalCSecondCondition(Concrete concrete, Steel steel, double d, double b, double nEd, double a2) {
 		double licznik = (nEd * (steel.getFYd() * 1000 * eS2 + concrete.getEpsilonC3() * steel.getES() * 1000000 * eS1));
-		double mianownik = (LAMBDA * concrete.getFCd() * 1000 * b);
+		double mianownik = (LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		double part1 = concrete.getEpsilonC3() * steel.getES() * 1000000 * d * d;
 		double part2 = steel.getFYd() * 1000 * a2 * x0;
 		capitalC = 2 * ((licznik / mianownik) + part1 + part2);
@@ -65,19 +72,19 @@ public class SymmetricalCompressingBeamReinforcement extends SymmetricalTensilin
 	}
 
 	private void setCapitalDSecondCondition(Concrete concrete, Steel steel, double nEd, double b, double d) {
-		capitalD = -(2 * nEd / (LAMBDA * concrete.getFCd() * 1000 * b)) * (concrete.getEpsilonC3() * steel.getES() * 1000000 * d * eS1 + steel.getFYd() * 1000 * x0 * eS2);
+		capitalD = -(2 * nEd / (LAMBDA * ETA*concrete.getFCd() * 1000 * b)) * (concrete.getEpsilonC3() * steel.getES() * 1000000 * d * eS1 + steel.getFYd() * 1000 * x0 * eS2);
 		System.out.println("capitalD " + capitalD);
 
 	}
 
 	private void setF1FirstCondition(Concrete concrete, double nEd, double b, double h, double a1) {
-		f1 = nEd * eS1 - concrete.getFCd() * 1000 * b * h * (0.5 * h - a1);
+		f1 = nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * h * (0.5 * h - a1);
 		System.out.println("f1 " + f1);
 
 	}
 
 	private void setF2FirstCondition(Concrete concrete, double nEd, double b, double h, double a2) {
-		f2 = nEd * eS2 + concrete.getFCd() * 1000 * b * h * (0.5 * h - a2);
+		f2 = nEd * eS2 + ETA*concrete.getFCd() * 1000 * b * h * (0.5 * h - a2);
 		System.out.println("f2 " + f2);
 
 	}
@@ -91,13 +98,13 @@ public class SymmetricalCompressingBeamReinforcement extends SymmetricalTensilin
 	}
 
 	private void setF1SecondCondition(Concrete concrete, double nEd, double d, double a2, double b, double h, double a1) {
-		f1 = nEd * (eS1 * d + eS2 * a2) + concrete.getFCd() * 1000 * b * h * 0.5 * ((a1 - a2) * (d + a2) - (d - a2) * (d - a2));
+		f1 = nEd * (eS1 * d + eS2 * a2) + ETA*concrete.getFCd() * 1000 * b * h * 0.5 * ((a1 - a2) * (d + a2) - (d - a2) * (d - a2));
 		System.out.println("f1 " + f1);
 
 	}
 
 	private void setF2SecondCondition(Concrete concrete, double nEd, double b, double h, double a1, double a2) {
-		f2 = nEd * (eS1 + eS2) + concrete.getFCd() * 1000 * b * h * (a1 - a2);
+		f2 = nEd * (eS1 + eS2) + ETA*concrete.getFCd() * 1000 * b * h * (a1 - a2);
 		System.out.println("f2 " + f2);
 
 	}

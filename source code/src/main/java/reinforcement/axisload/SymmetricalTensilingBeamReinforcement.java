@@ -9,6 +9,12 @@ public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciaz
 	
 	
 	
+
+	public SymmetricalTensilingBeamReinforcement(double lAMBDA, double ETA) {
+		super(lAMBDA, ETA);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected void setCapitalA(Concrete concrete, Steel steel) {
 		capitalA = LAMBDA * (steel.getFYd() * 1000 - concrete.getEpsilonCU3() * steel.getES() * 1000000);
 		System.out.println("capitalA " + capitalA);
@@ -23,7 +29,7 @@ public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciaz
 
 	protected void setCapitalC(Concrete concrete, Steel steel, double nEd, double b, double a2) {
 		double licznik = nEd * (steel.getFYd() * 1000 * eS1 - concrete.getEpsilonCU3() * steel.getES() * 1000000 * eS2);
-		double mianownik = (concrete.getFCd() * 1000 * LAMBDA * b);
+		double mianownik = (ETA*concrete.getFCd() * 1000 * LAMBDA * b);
 		double part1 = concrete.getEpsilonCU3() * steel.getES() * 1000000 * a2 * a2;
 		capitalC = 2 * (licznik / mianownik - part1);
 		System.out.println("capitalC " + capitalC);
@@ -32,7 +38,7 @@ public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciaz
 
 	protected void setCapitalD(Concrete concrete, Steel steel, double nEd, double a2, double b) {
 		double licznik = (2 * nEd * concrete.getEpsilonCU3() * steel.getES() * 1000000 * a2 * eS2);
-		double mianownik = (LAMBDA * concrete.getFCd() * 1000 * b);
+		double mianownik = (LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		capitalD = licznik / mianownik;
 		System.out.println("capitalD " + capitalD);
 
@@ -45,14 +51,14 @@ public class SymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciaz
 	}
 
 	protected void setX(Concrete concrete, double nEd, double d, double a2, double b) {
-		x = (1 / (2 * LAMBDA)) * ((d + a2) - Math.sqrt((d + a2) * (d + a2) - 4 * nEd * (eS1 + eS2) / (concrete.getFCd() * 1000 * b)));
+		x = (1 / (2 * LAMBDA)) * ((d + a2) - Math.sqrt((d + a2) * (d + a2) - 4 * nEd * (eS1 + eS2) / (ETA*concrete.getFCd() * 1000 * b)));
 		System.out.println("x  " + x);
 	}
 
 	protected void setAS(Concrete concrete, double nEd, double b, double a2, double d) {
-		double aSv1 = (nEd * eS2 + concrete.getFCd() * 1000 * b * LAMBDA * x * (0.5 * LAMBDA * x - a2)) / (sigmaS1 * 1000 * (d - a2));
+		double aSv1 = (nEd * eS2 + ETA*concrete.getFCd() * 1000 * b * LAMBDA * x * (0.5 * LAMBDA * x - a2)) / (sigmaS1 * 1000 * (d - a2));
 		System.out.println("aS v1 " + aSv1);
-		double aSv2 = (nEd * eS1 - concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (sigmaS2 * 1000 * (d - a2));
+		double aSv2 = (nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (sigmaS2 * 1000 * (d - a2));
 		System.out.println("aS v2 " + aSv2);
 		aS = Math.max(aSv1, aSv2);
 		System.out.println("aS " + aS);

@@ -261,7 +261,7 @@ public class RequiredReinforcement {
 
 	public void columnCompressingForcesSymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
-		SymmetricalCompressingBeamReinforcement column = new SymmetricalCompressingBeamReinforcement();
+		SymmetricalCompressingBeamReinforcement column = new SymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullSymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getD(), dimensions.getB(), dimensions.getH());
 		dimensions.setX(column.getX());
@@ -273,7 +273,7 @@ public class RequiredReinforcement {
 
 	public void columnTensilingForcesSymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
-		SymmetricalTensilingBeamReinforcement column = new SymmetricalTensilingBeamReinforcement();
+		SymmetricalTensilingBeamReinforcement column = new SymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullSymetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getD(), dimensions.getB(), dimensions.getH());
 		dimensions.setX(column.getX());
@@ -285,7 +285,7 @@ public class RequiredReinforcement {
 
 	public void columnCompressingForcesUnSymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
-		UnsymmetricalCompressingBeamReinforcement column = new UnsymmetricalCompressingBeamReinforcement();
+		UnsymmetricalCompressingBeamReinforcement column = new UnsymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getB(),
 				dimensions.getH(), dimensions.getD(), dimensions.getA1(), dimensions.getA2());
 		dimensions.setX(column.getX());
@@ -298,7 +298,7 @@ public class RequiredReinforcement {
 	public void columnTensilingForcesUnsymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 
-		UnsymmetricalTensilingBeamReinforcement column = new UnsymmetricalTensilingBeamReinforcement();
+		UnsymmetricalTensilingBeamReinforcement column = new UnsymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getD(),
 				dimensions.getA1(), dimensions.getA2(), dimensions.getB(), dimensions.getH());
 		dimensions.setX(column.getX());
@@ -311,7 +311,7 @@ public class RequiredReinforcement {
 	// without design
 	public void columnCompressingForcesSymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
-		SymmetricalCompressingBeamReinforcement column = new SymmetricalCompressingBeamReinforcement();
+		SymmetricalCompressingBeamReinforcement column = new SymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullSymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getD(), dimensions.getB(), dimensions.getH());
 		dimensions.setX(column.getX());
@@ -322,7 +322,7 @@ public class RequiredReinforcement {
 
 	public void columnTensilingForcesSymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
-		SymmetricalTensilingBeamReinforcement column = new SymmetricalTensilingBeamReinforcement();
+		SymmetricalTensilingBeamReinforcement column = new SymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullSymetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getD(), dimensions.getB(), dimensions.getH());
 		dimensions.setX(column.getX());
@@ -333,7 +333,7 @@ public class RequiredReinforcement {
 
 	public void columnCompressingForcesUnSymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
-		UnsymmetricalCompressingBeamReinforcement column = new UnsymmetricalCompressingBeamReinforcement();
+		UnsymmetricalCompressingBeamReinforcement column = new UnsymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getB(),
 				dimensions.getH(), dimensions.getD(), dimensions.getA1(), dimensions.getA2());
 		dimensions.setX(column.getX());
@@ -345,7 +345,7 @@ public class RequiredReinforcement {
 	public void columnTensilingForcesUnsymmetricalReinforcement(Concrete concrete, Steel steel,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd, double nEd) {
 
-		UnsymmetricalTensilingBeamReinforcement column = new UnsymmetricalTensilingBeamReinforcement();
+		UnsymmetricalTensilingBeamReinforcement column = new UnsymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		column.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel, mEd, nEd, dimensions.getD(),
 				dimensions.getA1(), dimensions.getA2(), dimensions.getB(), dimensions.getH());
 		dimensions.setX(column.getX());
@@ -358,7 +358,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamBendingReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		RectangularBeam beam = new RectangularBeam();
+		RectangularBeam beam = new RectangularBeam(concrete.getLAMBDA(), concrete.getETA());
 		beam.fullRectangularBeamReinforcementAnalysis(internalForces.getmEd(), concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
 		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
@@ -370,7 +370,7 @@ public class RequiredReinforcement {
 	
 	public void rectangularColumnBeamBendingReinforcementWithDesign(Concrete concrete, Steel steel,
 			 DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd) {
-		RectangularBeam beam = new RectangularBeam();
+		RectangularBeam beam = new RectangularBeam(concrete.getLAMBDA(), concrete.getETA());
 		beam.fullRectangularBeamReinforcementAnalysis(mEd, concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
 		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
@@ -382,7 +382,7 @@ public class RequiredReinforcement {
 
 	private void traptezeBeamBendingReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		TrapezeBeam beam = new TrapezeBeam();
+		TrapezeBeam beam = new TrapezeBeam(concrete.getLAMBDA(), concrete.getETA());
 		beam.fullTrapezeBeamReinforcementAnalysis(internalForces.getmEd(), concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getbEff(), dimensions.gettW(),
 				dimensions.getD());
@@ -394,7 +394,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamCompressingForcesSymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		SymmetricalCompressingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalCompressingBeamReinforcement();
+		SymmetricalCompressingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamSymmetricalReinforcement.fullSymmetricalCompressingBeamReinforcement(concrete, steel,
 				internalForces.getmEd(), internalForces.getnEd(), dimensions.getA1(), dimensions.getA2(),
 				dimensions.getD(), dimensions.getB(), dimensions.getH());
@@ -406,7 +406,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamCompressingForcesUnsymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		UnsymmetricalCompressingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalCompressingBeamReinforcement();
+		UnsymmetricalCompressingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamUnsymmetricalReinforcement.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel,
 				internalForces.getmEd(), internalForces.getnEd(), dimensions.getB(), dimensions.getH(),
 				dimensions.getD(), dimensions.getA1(), dimensions.getA2());
@@ -422,7 +422,7 @@ public class RequiredReinforcement {
 	private void rectangularBeamTensilingForcesSymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
 		
-		SymmetricalTensilingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalTensilingBeamReinforcement();
+		SymmetricalTensilingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamSymmetricalReinforcement.fullSymetricalTensilingBeamReinforcement(concrete, steel, internalForces.getmEd(),
 				-internalForces.getnEd(), dimensions.getA1(), dimensions.getA2(), dimensions.getD(), dimensions.getB(),
 				dimensions.getH());
@@ -437,7 +437,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamTensilingForcesUnsymmetricalReinforcementWithDesign(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		UnsymmetricalTensilingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalTensilingBeamReinforcement();
+		UnsymmetricalTensilingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamUnsymmetricalReinforcement.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel,
 				internalForces.getmEd(), -internalForces.getnEd(), dimensions.getD(), dimensions.getA1(),
 				dimensions.getA2(), dimensions.getB(), dimensions.getH());
@@ -452,7 +452,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamBendingReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		RectangularBeam beam = new RectangularBeam();
+		RectangularBeam beam = new RectangularBeam(concrete.getLAMBDA(), concrete.getETA());
 		beam.fullRectangularBeamReinforcementAnalysis(internalForces.getmEd(), concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
 		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
@@ -462,7 +462,7 @@ public class RequiredReinforcement {
 	
 	public void rectangularColumnBeamBendingReinforcement(Concrete concrete, Steel steel, 
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, double mEd) {
-		RectangularBeam beam = new RectangularBeam();
+		RectangularBeam beam = new RectangularBeam(concrete.getLAMBDA(), concrete.getETA());
 		beam.fullRectangularBeamReinforcementAnalysis(mEd, concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getD());
 		setRequiredSymmetricalReinforcementForRectangularBeam(beam, reinforcement);
@@ -472,7 +472,7 @@ public class RequiredReinforcement {
 
 	private void traptezeBeamBendingReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		TrapezeBeam beam = new TrapezeBeam();
+		TrapezeBeam beam = new TrapezeBeam(concrete.getLAMBDA(), concrete.getETA());
 		beam.fullTrapezeBeamReinforcementAnalysis(internalForces.getmEd(), concrete, steel, dimensions.getA1(),
 				dimensions.getA2(), dimensions.getH(), dimensions.getB(), dimensions.getbEff(), dimensions.gettW(),
 				dimensions.getD());
@@ -483,7 +483,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamCompressingForcesSymmetricalReinforcement(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		SymmetricalCompressingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalCompressingBeamReinforcement();
+		SymmetricalCompressingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamSymmetricalReinforcement.fullSymmetricalCompressingBeamReinforcement(concrete, steel,
 				internalForces.getmEd(), internalForces.getnEd(), dimensions.getA1(), dimensions.getA2(),
 				dimensions.getD(), dimensions.getB(), dimensions.getH());
@@ -494,7 +494,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamCompressingForcesUnsymmetricalReinforcement(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		UnsymmetricalCompressingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalCompressingBeamReinforcement();
+		UnsymmetricalCompressingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalCompressingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamUnsymmetricalReinforcement.fullUnsymmetricalCompressingBeamReinforcement(concrete, steel,
 				internalForces.getmEd(), internalForces.getnEd(), dimensions.getB(), dimensions.getH(),
 				dimensions.getD(), dimensions.getA1(), dimensions.getA2());
@@ -511,7 +511,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamTensilingForcesSymmetricalReinforcement(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		SymmetricalTensilingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalTensilingBeamReinforcement();
+		SymmetricalTensilingBeamReinforcement beamSymmetricalReinforcement = new SymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamSymmetricalReinforcement.fullSymetricalTensilingBeamReinforcement(concrete, steel, internalForces.getmEd(),
 				-internalForces.getnEd(), dimensions.getA1(), dimensions.getA2(), dimensions.getD(), dimensions.getB(),
 				dimensions.getH());
@@ -523,7 +523,7 @@ public class RequiredReinforcement {
 
 	private void rectangularBeamTensilingForcesUnsymmetricalReinforcement(Concrete concrete, Steel steel,
 			InternalForces internalForces, DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement) {
-		UnsymmetricalTensilingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalTensilingBeamReinforcement();
+		UnsymmetricalTensilingBeamReinforcement beamUnsymmetricalReinforcement = new UnsymmetricalTensilingBeamReinforcement(concrete.getLAMBDA(), concrete.getETA());
 		beamUnsymmetricalReinforcement.fullUnsymmetricalTensilingBeamReinforcement(concrete, steel,
 				internalForces.getmEd(), -internalForces.getnEd(), dimensions.getD(), dimensions.getA1(),
 				dimensions.getA2(), dimensions.getB(), dimensions.getH());
@@ -613,14 +613,14 @@ public class RequiredReinforcement {
 	public void columnRequiredReinforcement(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
 			boolean withDesign, Cement cement, CreepCoeficent creep, CheckBox checkbox) {
-		Column column = new Column(this, withDesign);
+		Column column = new Column(this, withDesign, concrete);
 		column.countColumnReinforcement(concrete, steel, internalForces, dimensions, reinforcement, stiffness, cement, creep, checkbox);
 	}
 	
 	public void columnRequiredReinforcementDiagnosis(Concrete concrete, Steel steel, InternalForces internalForces,
 			DimensionsOfCrossSectionOfConcrete dimensions, Reinforcement reinforcement, NominalStiffness stiffness,
 			boolean withDesign, Cement cement, CreepCoeficent creep, CheckBox checkbox) {
-		Column column = new Column(this, withDesign);
+		Column column = new Column(this, withDesign, concrete);
 		column.countColumnReinforcementDiagnosis(concrete, steel, internalForces, dimensions, reinforcement, stiffness, cement, creep, checkbox);
 	}
 

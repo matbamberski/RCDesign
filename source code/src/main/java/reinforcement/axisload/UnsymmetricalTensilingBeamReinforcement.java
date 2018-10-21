@@ -7,11 +7,16 @@ import util.ResultsToPDF;
 
 public class UnsymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObciazona {
 
+	public UnsymmetricalTensilingBeamReinforcement(double lAMBDA, double ETA) {
+		super(lAMBDA, ETA);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected double mS2;
 
 	private void setXFirstCondition(Concrete concrete, double nEd, double d, double a2, double b) {
 		double licznik = 2 * (nEd * eS1 - sigmaS2 * 1000 * aS2 * (d - a2));
-		double mianownik = (concrete.getFCd() * 1000 * b);
+		double mianownik = (ETA*concrete.getFCd() * 1000 * b);
 		x = (1 / LAMBDA) * (d - Math.sqrt(d * d - licznik / mianownik));
 		System.out.println("x " + x);
 	}
@@ -28,13 +33,13 @@ public class UnsymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObci
 	}
 
 	private void setCapitalB(Concrete concrete, double nEd, double b) {
-		capitalB = 2 * (nEd * eS1 - mS2) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * b);
+		capitalB = 2 * (nEd * eS1 - mS2) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("capitalB " + capitalB);
 
 	}
 
 	private void setCapitalC(Concrete concrete, double a2, double b) {
-		capitalC = 2 * a2 * mS2 / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * b);
+		capitalC = 2 * a2 * mS2 / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("capitalC " + capitalC);
 
 	}
@@ -47,26 +52,26 @@ public class UnsymmetricalTensilingBeamReinforcement extends BeamMimosrodowoObci
 
 	private void setXSecondCondition(Concrete concrete, Steel steel, double nEd, double d, double a2, double b) {
 
-		x = (1 / LAMBDA) * (d - Math.sqrt(d * d - (2 * (nEd * eS1 + steel.getFYd() * 1000 * aS2 * (d - a2)) / (concrete.getFCd() * 1000 * b))));
+		x = (1 / LAMBDA) * (d - Math.sqrt(d * d - (2 * (nEd * eS1 + steel.getFYd() * 1000 * aS2 * (d - a2)) / (ETA*concrete.getFCd() * 1000 * b))));
 		System.out.println("x " + x);
 
 	}
 
 	private void setAS1FirstCondition(Concrete concrete, Steel steel, double b, double nEd) {
-		aS1 = (sigmaS2 * 1000 * aS2 + concrete.getFCd() * 1000 * b * LAMBDA * x + nEd) / (steel.getFYd() * 1000);
+		aS1 = (sigmaS2 * 1000 * aS2 + ETA*concrete.getFCd() * 1000 * b * LAMBDA * x + nEd) / (steel.getFYd() * 1000);
 		System.out.println("aS1 " + aS1);
 
 	}
 
 	private void setAS2WhileXIsGreaterThen0(Concrete concrete, double nEd, double b, double d, double a2) {
-		aS2 = (nEd * eS1 - concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (sigmaS2 * 1000 * (d - a2));
+		aS2 = (nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (sigmaS2 * 1000 * (d - a2));
 		System.out.println("aS2 " + aS2);
 
 	}
 
 	private void setAs1WhenAs2IsLessThenAsMin(Concrete concrete, Steel steel, double nEd, double b) {
 
-		aS1 = (sigmaS2 * 1000 * aS2 + concrete.getFCd() * 1000 * b * LAMBDA * x + nEd) / (steel.getFYd() * 1000);
+		aS1 = (sigmaS2 * 1000 * aS2 + ETA*concrete.getFCd() * 1000 * b * LAMBDA * x + nEd) / (steel.getFYd() * 1000);
 	}
 
 	private void setAS1WhileXIsLessThen0(Steel steel, double nEd, double d, double a2) {

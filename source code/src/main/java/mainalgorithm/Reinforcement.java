@@ -55,7 +55,35 @@ public class Reinforcement {
 	private double theta;
 	private double alfa;
 	
+	private double requiredAS1ManyForces;
+	private double requiredAS2ManyForces;
+	private double degreeManyForces;
 	
+	
+	
+	public double getDegreeManyForces() {
+		return degreeManyForces;
+	}
+
+	public void setDegreeManyForces(double degreeManyForces) {
+		this.degreeManyForces = degreeManyForces;
+	}
+
+	public double getRequiredAS1ManyForces() {
+		return requiredAS1ManyForces;
+	}
+
+	public void setRequiredAS1ManyForces(double requiredAS1ManyForces) {
+		this.requiredAS1ManyForces = requiredAS1ManyForces;
+	}
+
+	public double getRequiredAS2ManyForces() {
+		return requiredAS2ManyForces;
+	}
+
+	public void setRequiredAS2ManyForces(double requiredAS2ManyForces) {
+		this.requiredAS2ManyForces = requiredAS2ManyForces;
+	}
 
 	public boolean isDegreeExceeded() {
 		return degreeExceeded;

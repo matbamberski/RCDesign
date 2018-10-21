@@ -11,38 +11,38 @@ public class Concrete {
 	}
 
 	// veriables
-	public final static String[] concreteClass = { "C12/15", "C16/20", "C20/25", "C25/30", "C30/37", "C35/45", "C40/50", "C45/55", "C50/60" };
-	private final static int[] fCCube = { 15, 20, 25, 30, 37, 45, 50, 55, 60 }; // wytrzymalosc
+	public final static String[] concreteClass = { "C12/15", "C16/20", "C20/25", "C25/30", "C30/37", "C35/45", "C40/50", "C45/55", "C50/60", "C55/67", "C60/75", "C70/85", "C80/95", "C90/105" };
+	private final static int[] fCCube = { 15, 20, 25, 30, 37, 45, 50, 55, 60, 67, 75, 85, 95, 105 }; // wytrzymalosc
 																				// gwarantowana
 																				// [MPa]
-	private final static int[] fCk = { 12, 16, 20, 25, 30, 35, 40, 45, 50 }; // wytrzymalosc
+	private final static int[] fCk = { 12, 16, 20, 25, 30, 35, 40, 45, 50, 55, 60, 70, 80, 90 }; // wytrzymalosc
 																				// charakterystyczna
 																				// na
 																				// sciskanie
 																				// [MPa]
 	private final static int[] fCm = { 20, 24, 28, 33, 38, 43, 48, 53, 58, 63, 68, 78, 88, 98 };
 
-	private final static double[] fCtk = { 1.1, 1.3, 1.5, 1.8, 2, 2.2, 2.5, 2.7, 2.9 }; // wytrzymalosc
+	private final static double[] fCtk = { 1.1, 1.3, 1.5, 1.8, 2, 2.2, 2.5, 2.7, 2.9, 3.0, 3.1, 3.2, 3.4, 3.5 }; // wytrzymalosc
 																						// srednia
 																						// na
 																						// rozciaganie
 																						// [MPa]
-	private final static double[] fCtm = { 1.6, 1.9, 2.2, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1 }; // wytrzymalosc
+	private final static double[] fCtm = { 1.6, 1.9, 2.2, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.2, 4.4, 4.6, 4.8, 5.0 }; // wytrzymalosc
 																							// srednia
 																							// na
 																							// rozciaganie
 																							// [MPa]
-	private final static double[] fCd = { 8, 10.6, 14.28, 16.7, 21.43, 23.3, 26.7, 30, 33.3 }; // wytrzymalosc
+	private final static double[] fCd = { 8.57, 11.43, 14.29, 17.86, 21.43, 25, 28.57, 32.14, 35.71, 39.29, 42.86, 50, 57.14, 64.29}; // wytrzymalosc
 																								// obliczeniowa
 																								// na
 																								// sciskanie
 																								// [MPa]
-	private final static double[] fCtd = { 0.73, 0.87, 1, 1.2, 1.33, 1.47, 1.67, 1.8, 1.93 }; // wytrzymalosc
+	private final static double[] fCtd = { 0.79, 0.93, 1.07, 1.29, 1.43, 1.57, 1.76, 1.93, 2.07, 2.14, 2.2, 2.3, 2.4, 2.5}; // wytrzymalosc
 																								// obliczeniowa
 																								// na
 																								// rozciaganie
 																								// [MPa]
-	private final static int[] eCm = { 27, 29, 30, 31, 32, 34, 35, 36, 37 }; // modul
+	private final static int[] eCm = { 27, 29, 30, 31, 32, 34, 35, 36, 37, 38, 39, 41, 42, 44 }; // modul
 																				// sprezystosci
 																				// [GPa]
 	private double eCEff;
@@ -64,6 +64,31 @@ public class Concrete {
 
 	private int t0;
 	private double rH;
+	
+	private double LAMBDA = 0.8;
+	
+	public double getLAMBDA() {
+		double lambda = LAMBDA;
+		if (concreteClassNumber>8) {
+			double fck = getFCk();
+			lambda =  0.8-((fck-50)/400);
+		}
+		System.out.println("klasa: " + concreteClassNumber);
+		System.out.println("LAMBDA: " + lambda);
+		return lambda;
+	}
+	
+	private double ETA = 1.0;
+	
+	public double getETA() {
+		double eta = ETA;
+		if (concreteClassNumber>8) {
+			double fck = getFCk();
+			eta =  1.0-((fck-50)/200);
+		}
+		System.out.println("ETA: " + eta);
+		return eta;
+	}
 
 	public int getT0() {
 		return t0;

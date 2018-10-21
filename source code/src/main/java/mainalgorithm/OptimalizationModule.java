@@ -37,7 +37,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			RequiredReinforcement requiredReinforcement, Reinforcement reinforcement,
 			NominalStiffness stiffness, Cement cement, CreepCoeficent creep, 
 			CheckBox checkbox) {
-		super();
+		super(concrete.getLAMBDA(), concrete.getETA());
 		this.forces = forces;
 		this.steel = steel;
 		this.concrete = concrete;
@@ -72,12 +72,14 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);	
 				selectedCombination.getRs().setXunsym(algorithm.getX());
+				
 			} else {
 				reinforcement.setRequiredUnsymmetricalAS1(selectedCombination.getaS1req());
 				reinforcement.setRequiredUnsymmetricalAS2(selectedCombination.getaS2req());
 				requireReinforcement.designUnsymmetricalReinforcement(reinforcement);
 				reinforcement.setDegreeOfComputedUnsymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedUnsymmetricalReinforcement(dimensions);
+				
 			}
 			
 			if (!checkIfNrdIsGreaterThanNedSym()) {
@@ -91,6 +93,10 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
 				selectedCombination.getRs().setXsym(symAlgorithm.getX());
+				
+				reinforcement.setRequiredAS1ManyForces(symAlgorithm.getAS1());
+				reinforcement.setRequiredAS2ManyForces(symAlgorithm.getAS2());
+				reinforcement.setDegreeManyForces(reinforcement.getDegreeOfComputedSymmetricalReinforcement());
 			} else {
 				System.out.println("\nKoniec obliczen!\n");
 				reinforcement.setRequiredSymmetricalAS1(selectedCombination.getAsSymmetricalReq());
@@ -99,6 +105,9 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				reinforcement.setDegreeOfComputedSymmetricalReinforcementRectangular(dimensions);
 				reinforcement.setDegreeOfDesignedSymmetricalReinforcement(dimensions);
 
+				reinforcement.setRequiredAS1ManyForces(selectedCombination.getAsSymmetricalReq());
+				reinforcement.setRequiredAS2ManyForces(selectedCombination.getAsSymmetricalReq());
+				reinforcement.setDegreeManyForces(reinforcement.getDegreeOfComputedSymmetricalReinforcement());
 			}
 			eraseFilter();
 		}
@@ -106,7 +115,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 	}
 	
 	private void prepareCombinations() {
-		Column column = new Column(requireReinforcement, true);
+		Column column = new Column(requireReinforcement, true, concrete);
 		column.prepareCombinationsCountRequireReinforcement(concrete, steel, forces, 
 				dimensions, reinforcement, stiffness, cement, creep, checkbox);
 		combinations = forces.getCombinations();
@@ -115,9 +124,9 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 
 	public void decideCompressOrTensile() {
 		if(selectedCombination.getN()<0) {
-			diagnosis = new TensilingDiagnosis();
+			diagnosis = new TensilingDiagnosis(concrete.getLAMBDA(), concrete.getETA());
  		} else {
- 			diagnosis = new CompressingDiagnosis();
+ 			diagnosis = new CompressingDiagnosis(concrete.getLAMBDA(), concrete.getETA());
  		}
 	}
 
@@ -175,7 +184,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 			}
 			
 			if (fc.getN()<0) {
-				TensilingDiagnosis tensile = new TensilingDiagnosis();
+				TensilingDiagnosis tensile = new TensilingDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 				tensile.doFullTensilingReinforcementDiagnosis(concrete, steel, dimensions, 
 						fc.getM(), fc.getN(), as1, as2);
 				fc.setnRd(tensile.getnRd());
@@ -185,7 +194,7 @@ public class OptimalizationModule extends SymmetricalTensilingBeamReinforcement 
 				fc.setmRdSym(tensile.getmRd());
 				fc.setnRdSym(tensile.getnRd());
 			} else {
-				CompressingDiagnosis compression = new CompressingDiagnosis();
+				CompressingDiagnosis compression = new CompressingDiagnosis(concrete.getLAMBDA(), concrete.getETA());
 				compression.doFullCompresingReinforcementDiagnosis(concrete, steel, dimensions,
 						as1, as2, fc.getmStiff(), fc.getN());
 				fc.setnRd(compression.getnRd());

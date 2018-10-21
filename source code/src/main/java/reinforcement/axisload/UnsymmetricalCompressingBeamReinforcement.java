@@ -7,6 +7,13 @@ import util.ResultsToPDF;
 
 public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTensilingBeamReinforcement {
 
+
+
+	public UnsymmetricalCompressingBeamReinforcement(double lAMBDA, double ETA) {
+		super(lAMBDA, ETA);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected double mS1;
 	protected double f1;
 	protected double f2;
@@ -22,13 +29,13 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 	}
 
 	private void setAS2InitialValue(Concrete concrete, double nEd, double b, double d, double a2) {
-		aS2 = (nEd * eS1 - concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (sigmaS2 * 1000 * (d - a2));
+		aS2 = (nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (sigmaS2 * 1000 * (d - a2));
 		System.out.println("aS2 " + aS2);
 
 	}
 
 	private void setAS1FirstCondition(Concrete concrete, Steel steel, double b, double nEd) {
-		aS1 = (sigmaS2 * 1000 * aS2 + concrete.getFCd() * 1000 * b * LAMBDA * x - nEd) / (steel.getFYd() * 1000);
+		aS1 = (sigmaS2 * 1000 * aS2 + ETA*concrete.getFCd() * 1000 * b * LAMBDA * x - nEd) / (steel.getFYd() * 1000);
 		System.out.println("aS1 " + aS1);
 
 	}
@@ -45,13 +52,13 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 	}
 
 	private void setCapitalBFirstCondition(Concrete concrete, double nEd, double b) {
-		capitalB = 2 * (nEd * eS2 + mS1) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * b);
+		capitalB = 2 * (nEd * eS2 + mS1) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("capitalB " + capitalB);
 
 	}
 
 	private void setCapitalCFirstCondition(Concrete concrete, double d, double b) {
-		capitalC = (-2 * d * mS1) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * b);
+		capitalC = (-2 * d * mS1) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("capitalC " + capitalC);
 
 	}
@@ -69,25 +76,25 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 	}
 
 	private void setCapitalBSecondCondition(Concrete concrete, double nEd, double b, double a2) {
-		capitalB = 2 * ((nEd * eS2 + mS2) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * b) + a2 / LAMBDA * x0);
+		capitalB = 2 * ((nEd * eS2 + mS2) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * b) + a2 / LAMBDA * x0);
 		System.out.println("capitalB " + capitalB);
 
 	}
 
 	private void setCapitalCSecondCondition(Concrete concrete, double nEd, double d, double b) {
-		capitalC = (-2 * (nEd * eS2 * x0 + d * mS2)) / (LAMBDA * LAMBDA * concrete.getFCd() * 1000 * b);
+		capitalC = (-2 * (nEd * eS2 * x0 + d * mS2)) / (LAMBDA * LAMBDA * ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("capitalC " + capitalC);
 
 	}
 
 	private void setF1(Concrete concrete, double nEd, double b, double h, double a2, double d) {
-		f1 = (-nEd * eS2 - concrete.getFCd() * 1000 * b * h * (0.5 * h - a2)) * (d - x0);
+		f1 = (-nEd * eS2 - ETA*concrete.getFCd() * 1000 * b * h * (0.5 * h - a2)) * (d - x0);
 		System.out.println("f1 " + f1);
 
 	}
 
 	private void setF2(Concrete concrete, double nEd, double b, double h, double a1, double a2) {
-		f2 = (nEd * eS1 - concrete.getFCd() * 1000 * b * h * (0.5 * h - a1)) * (x0 - a2);
+		f2 = (nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * h * (0.5 * h - a1)) * (x0 - a2);
 		System.out.println("f2 " + f2);
 
 	}
@@ -100,7 +107,7 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 	}
 
 	private void setAS2WhenXIsLessOrEqualToH(Concrete concrete, Steel steel, double nEd, double b, double d, double a2) {
-		aS2 = (nEd * eS1 - concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (steel.getFYd() * 1000 * (d - a2));
+		aS2 = (nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x)) / (steel.getFYd() * 1000 * (d - a2));
 		System.out.println("aS2 " + aS2);
 
 	}
@@ -124,18 +131,18 @@ public class UnsymmetricalCompressingBeamReinforcement extends UnsymmetricalTens
 	}
 
 	private void setAS1SecondCondition(Concrete concrete, double nEd, double b, double h, double a2, double d) {
-		aS1 = (nEd * eS2 + concrete.getFCd() * 1000 * b * h * (0.5 * h - a2)) / (sigmaS1 * 1000 * (d - a2));
+		aS1 = (nEd * eS2 + ETA*concrete.getFCd() * 1000 * b * h * (0.5 * h - a2)) / (sigmaS1 * 1000 * (d - a2));
 		System.out.println("aS1 " + aS1);
 
 	}
 
 	private void setAS2SecondCondition(Concrete concrete, double nEd, double b, double h, double a1, double a2, double d) {
-		aS2 = (nEd * eS1 - concrete.getFCd() * 1000 * b * h * (0.5 * h - a1)) / (sigmaS2 * 1000 * (d - a2));
+		aS2 = (nEd * eS1 - ETA*concrete.getFCd() * 1000 * b * h * (0.5 * h - a1)) / (sigmaS2 * 1000 * (d - a2));
 		System.out.println("aS2 " + aS2);
 	}
 
 	private void setAS1ThirdCondition(Concrete concrete, Steel steel, double nEd, double b) {
-		aS1 = (sigmaS2 * 1000 * aS2 + concrete.getFCd() * 1000 * b * LAMBDA * x - nEd) / (steel.getFYd() * 1000);
+		aS1 = (sigmaS2 * 1000 * aS2 + ETA*concrete.getFCd() * 1000 * b * LAMBDA * x - nEd) / (steel.getFYd() * 1000);
 		System.out.println("aS1 " + aS1);
 	}
 

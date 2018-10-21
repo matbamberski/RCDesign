@@ -3,9 +3,19 @@ package reinforcement.bending;
 import materials.Concrete;
 import materials.Steel;
 
-abstract class ClearBendingBeam {
+public abstract class ClearBendingBeam {
 
-	private final double LAMBDA = 0.8;
+	protected double LAMBDA;
+	protected double ETA;
+	
+	
+	
+	public ClearBendingBeam(double lAMBDA, double eTA) {
+		super();
+		LAMBDA = lAMBDA;
+		ETA = eTA;
+	}
+
 	double ksiLim;
 	double dzetaLim;
 	double dzeta;
@@ -22,6 +32,8 @@ abstract class ClearBendingBeam {
 
 	protected double aSMin;
 	protected boolean isMedLessThen0;
+	
+	
 
 	protected double ifMedIsLessThenZeroReturnAbsAndSetBoolean(double mEd) {
 		isMedLessThen0 = false;
@@ -76,7 +88,7 @@ abstract class ClearBendingBeam {
 	}
 
 	protected void setA0(double mEd, Concrete concrete, double d, double b) {
-		a0 = mEd / (concrete.getFCd() * 1000 * b * d * d);
+		a0 = mEd / (ETA*concrete.getFCd() * 1000 * b * d * d);
 		System.out.println("a0= " + a0 + "\n");
 	}
 
@@ -101,7 +113,7 @@ abstract class ClearBendingBeam {
 	}
 
 	protected void setMRdLim(Concrete concrete, double b, double d) {
-		mRdLim = a0Lim * concrete.getFCd() * 1000 * b * d * d;
+		mRdLim = a0Lim * ETA*concrete.getFCd() * 1000 * b * d * d;
 		System.out.println("mRdLim " + mRdLim);
 	}
 

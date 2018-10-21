@@ -6,24 +6,30 @@ import util.ResultsToPDF;
 
 public final class TrapezeBeam extends RectangularBeam {
 
+
+	public TrapezeBeam(double lAMBDA, double eTA) {
+		super(lAMBDA, eTA);
+		// TODO Auto-generated constructor stub
+	}
+
 	private double mRdHf;
 	private double mRd1;
 	private double aS13;
 	private double mRdEff;
 
 	private void setMRdHf(Concrete concrete, double bEff, double hF, double d) {
-		mRdHf = concrete.getFCd() * 1000 * bEff * hF * (d - 0.5 * hF);
+		mRdHf = ETA*concrete.getFCd() * 1000 * bEff * hF * (d - 0.5 * hF);
 
 		System.out.println("mRdHf= " + mRdHf);
 	}
 
 	private void setMRd1(Concrete concrete, double bEff, double hF, double d, double bW) {
-		mRd1 = concrete.getFCd() * 1000 * (bEff - bW) * hF * (d - 0.5 * hF);
+		mRd1 = ETA*concrete.getFCd() * 1000 * (bEff - bW) * hF * (d - 0.5 * hF);
 		System.out.println("mRd1= " + mRd1);
 	}
 
 	protected void setAS11(Concrete concrete, Steel steel, double hF, double bW, double bEff) {
-		aS11 = (bEff - bW) * hF * concrete.getFCd() * 1000 / (steel.getFYd() * 1000);
+		aS11 = (bEff - bW) * hF * ETA*concrete.getFCd() * 1000 / (steel.getFYd() * 1000);
 		System.out.println("aS11= " + aS11);
 	}
 
@@ -56,7 +62,7 @@ public final class TrapezeBeam extends RectangularBeam {
 	}
 
 	private void setAs12(Concrete concrete, Steel steel, double d, double b) {
-		aS12 = dzetaLim * b * d * concrete.getFCd() / steel.getFYd();
+		aS12 = dzetaLim * b * d * ETA*concrete.getFCd() / steel.getFYd();
 	}
 
 	private void pushResultsToPDF(Concrete concrete, Steel steel, double mEd) {

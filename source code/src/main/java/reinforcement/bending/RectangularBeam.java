@@ -6,6 +6,13 @@ import util.ResultsToPDF;
 
 public class RectangularBeam extends ClearBendingBeam {
 
+
+
+	public RectangularBeam(double lAMBDA, double eTA) {
+		super(lAMBDA, eTA);
+		// TODO Auto-generated constructor stub
+	}
+
 	private void setAS1(double mEd, Steel steel, double d) {
 		aS1 = mEd / (dzeta * steel.getFYd() * 1000 * d);
 
@@ -41,7 +48,7 @@ public class RectangularBeam extends ClearBendingBeam {
 	}
 
 	protected void setAS11(Concrete concrete, Steel steel, double d, double b) {
-		aS11 = ksiLim * b * d * concrete.getFCd() * 1000 / (steel.getFYd() * 1000);
+		aS11 = ksiLim * b * d * ETA*concrete.getFCd() * 1000 / (steel.getFYd() * 1000);
 
 		System.out.println("aS11 " + aS11);
 	}

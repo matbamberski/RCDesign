@@ -5,18 +5,24 @@ import materials.Steel;
 
 public class RectangularDiagnosis extends BeamDiagnosis {
 
+
+	public RectangularDiagnosis(double lAMBDA, double eTA) {
+		super(lAMBDA, eTA);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected void setCapitalA(Concrete concrete, Steel steel, double aS2, double aS1, double b) {
-		capitalA = (concrete.getEpsilonCU3() * steel.getES() * 1000000 * aS2 - steel.getFYd() * 1000 * aS1) / (concrete.getFCd() * 1000 * b);
+		capitalA = (concrete.getEpsilonCU3() * steel.getES() * 1000000 * aS2 - steel.getFYd() * 1000 * aS1) / (ETA*concrete.getFCd() * 1000 * b);
 		System.out.println("aa " + capitalA);
 	}
 
 	protected void setCapitalB(Concrete concrete, Steel steel, double aS2, double a2, double b) {
-		capitalB = (4 * LAMBDA * concrete.getEpsilonCU3() * steel.getES() * 1000000 * aS2) / (concrete.getFCd() * 1000 * b) * a2;
+		capitalB = (4 * LAMBDA * concrete.getEpsilonCU3() * steel.getES() * 1000000 * aS2) / (ETA*concrete.getFCd() * 1000 * b) * a2;
 		System.out.println("bb " + capitalB);
 	}
 
 	protected void setXFirstCondition(Concrete concrete, Steel steel, double aS1, double aS2, double b) {
-		x = (1 / LAMBDA) * (steel.getFYd() * 1000 * (aS1 - aS2)) / (concrete.getFCd() * 1000 * b);
+		x = (1 / LAMBDA) * (steel.getFYd() * 1000 * (aS1 - aS2)) / (ETA*concrete.getFCd() * 1000 * b);
 		System.out.println(" x" + x);
 	}
 
@@ -26,7 +32,7 @@ public class RectangularDiagnosis extends BeamDiagnosis {
 	}
 
 	protected void setXThirdCondition(Concrete concrete, Steel steel, double aS1, double aS2, double b) {
-		x = (1 / LAMBDA) * (steel.getFYd() * 1000 * (aS1 + aS2)) / (concrete.getFCd() * 1000 * b);
+		x = (1 / LAMBDA) * (steel.getFYd() * 1000 * (aS1 + aS2)) / (ETA*concrete.getFCd() * 1000 * b);
 		System.out.println(" x " + x);
 	}
 
@@ -36,12 +42,12 @@ public class RectangularDiagnosis extends BeamDiagnosis {
 	}
 
 	protected void setSigmaS1(Concrete concrete, Steel steel, double aS2, double aS1, double b) {
-		sigmaS1 = (concrete.getFCd() * 1000 * b * x + steel.getFYd() * 1000 * aS2) / aS1;
+		sigmaS1 = (ETA*concrete.getFCd() * 1000 * b * x + steel.getFYd() * 1000 * aS2) / aS1;
 		System.out.println(" sigmaS1" + sigmaS1);
 	}
 
 	protected void setMRdRectangular(Concrete concrete, double aS2, double a2, double b, double d) {
-		mRd = concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x) + sigmaS2 * 1000 * aS2 * (d - a2 / 10);
+		mRd = ETA*concrete.getFCd() * 1000 * b * LAMBDA * x * (d - 0.5 * LAMBDA * x) + sigmaS2 * 1000 * aS2 * (d - a2 / 10);
 		System.out.println("mRd " + mRd);
 	}
 
@@ -62,7 +68,7 @@ public class RectangularDiagnosis extends BeamDiagnosis {
 	}
 
 	protected void setXFourthCondition(Concrete concrete, Steel steel, double b, double aS2, double aS1) {
-		sigmaS1 = (concrete.getFCd() * 1000 * b * LAMBDA * x + steel.getFYd() * 1000 * aS2) / aS1;
+		sigmaS1 = (ETA*concrete.getFCd() * 1000 * b * LAMBDA * x + steel.getFYd() * 1000 * aS2) / aS1;
 	}
 
 	protected void rectangularBeamReinforcementDiagnosis(Concrete concrete, Steel steel, double b, double a1, double a2, double aS2, double aS1, double d) {

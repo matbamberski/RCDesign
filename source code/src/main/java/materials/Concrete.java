@@ -171,11 +171,23 @@ public class Concrete {
 	}
 
 	public double getEpsilonCU3() {
-		return epsilonCU3;
+		double ecu3 = epsilonCU3;
+		if (concreteClassNumber>8) {
+			double fck = getFCk();
+			ecu3 =  (2.6+(35*Math.pow((0.01*(90-fck)),4)))/1000;
+		}
+		System.out.println("EpsilonCU3="+ecu3);
+		return ecu3;
 	}
 
 	public double getEpsilonC3() {
-		return epsilonC3;
+		double ec3 = epsilonC3;
+		if (concreteClassNumber>8) {
+			double fck = getFCk();
+			ec3 =  (1.75+(0.01375*(fck-50)))/1000;
+		}
+		System.out.println("EpsilonC3="+ec3);
+		return ec3;
 	}
 
 	public double getVC() {
